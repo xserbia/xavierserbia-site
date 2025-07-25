@@ -146,14 +146,25 @@
   </div>
 
   <!-- Script básico -->
-  <script>
-    function cargarSeccion(nombre) {
-      const contenedor = document.getElementById('contenido');
-      contenedor.innerHTML = `
-        <h2>Sección activa: ${nombre}</h2>
-        <p>Aquí se cargará dinámicamente el contenido de <strong>${nombre}</strong>.</p>
-      `;
-    }
+<script>
+  function cargarSeccion(nombre) {
+    const contenedor = document.getElementById('contenido');
+
+    fetch(`inputs/${nombre}.html`)
+      .then(res => {
+        if (!res.ok) throw new Error("Archivo no encontrado");
+        return res.text();
+      })
+      .then(html => {
+        contenedor.innerHTML = html;
+      })
+      .catch(error => {
+        contenedor.innerHTML = `<p style="color:red">⚠️ Error al cargar sección: ${nombre}</p>`;
+        console.error(error);
+      });
+  }
+</script>
+
   </script>
 </body>
 </html>
