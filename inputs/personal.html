@@ -1,0 +1,75 @@
+
+<div style="max-width: 600px; margin: auto;">
+  <h2>👤 Información personal</h2>
+
+  <form id="formPersonal" onsubmit="guardarPersonal(event)">
+    <label>Nombre completo:</label><br />
+    <input type="text" id="nombre" required /><br /><br />
+
+    <label>Edad:</label><br />
+    <input type="number" id="edad" min="0" required /><br /><br />
+
+    <label>Género:</label><br />
+    <select id="genero" required>
+      <option value="">Seleccione...</option>
+      <option>Femenino</option>
+      <option>Masculino</option>
+      <option>Otro</option>
+    </select><br /><br />
+
+    <label>Estado civil:</label><br />
+    <select id="estadoCivil" required>
+      <option value="">Seleccione...</option>
+      <option>Soltero/a</option>
+      <option>Casado/a</option>
+      <option>Unión libre</option>
+      <option>Divorciado/a</option>
+      <option>Viudo/a</option>
+    </select><br /><br />
+
+    <label>¿Tiene hijos?</label><br />
+    <input type="number" id="hijos" min="0" value="0" /><br /><br />
+
+    <label>País de residencia:</label><br />
+    <input type="text" id="pais" required /><br /><br />
+
+    <label>Estado / Provincia:</label><br />
+    <input type="text" id="estado" /><br /><br />
+
+    <label><input type="checkbox" id="esComunitario" /> Vivo en un estado con bienes comunitarios</label><br /><br />
+
+    <label>¿Cuál es tu objetivo principal con esta evaluación?</label><br />
+    <select id="objetivo">
+      <option value="">Seleccione...</option>
+      <option>Mejorar mis finanzas</option>
+      <option>Evaluar mi retiro</option>
+      <option>Comprar propiedad</option>
+      <option>Otro</option>
+    </select><br /><br />
+
+    <button type="submit">Guardar datos personales</button>
+  </form>
+
+  <div id="confirmacion" style="margin-top: 20px; color: green;"></div>
+</div>
+
+<script>
+  function guardarPersonal(event) {
+    event.preventDefault();
+
+    const data = {
+      nombre: document.getElementById("nombre").value.trim(),
+      edad: parseInt(document.getElementById("edad").value),
+      genero: document.getElementById("genero").value,
+      estado_civil: document.getElementById("estadoCivil").value,
+      hijos: parseInt(document.getElementById("hijos").value),
+      pais: document.getElementById("pais").value,
+      estado: document.getElementById("estado").value,
+      es_estado_bienes_comunitarios: document.getElementById("esComunitario").checked,
+      objetivo: document.getElementById("objetivo").value
+    };
+
+    localStorage.setItem("dataPersonal", JSON.stringify(data));
+    document.getElementById("confirmacion").innerText = "✅ Datos guardados correctamente.";
+  }
+</script>
