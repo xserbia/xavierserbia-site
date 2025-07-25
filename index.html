@@ -13,7 +13,7 @@
       overflow: hidden;
     }
 
-    /* Sidebar */
+    /* Sidebar (inputs) */
     .sidebar {
       width: 220px;
       background-color: #1e293b;
@@ -45,20 +45,26 @@
       background-color: #334155;
     }
 
-    /* Main content */
+    /* Main */
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    /* Topbar outputs */
+    /* Topbar (outputs + perfil) */
     .topbar {
       background-color: #f8fafc;
       padding: 12px 20px;
       display: flex;
-      gap: 16px;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #e2e8f0;
+    }
+
+    .topbar-left {
+      display: flex;
+      gap: 16px;
     }
 
     .topbar button {
@@ -73,7 +79,25 @@
       text-decoration: underline;
     }
 
-    /* Content area */
+    .topbar-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Content */
     .content {
       padding: 20px;
       overflow-y: auto;
@@ -94,32 +118,41 @@
     <button onclick="cargarSeccion('herencia')">📜 Herencia</button>
   </div>
 
-  <!-- Main -->
+  <!-- Main Content -->
   <div class="main">
-    <!-- Topbar: Outputs -->
+    <!-- Topbar: Outputs + Perfil -->
     <div class="topbar">
-      <button onclick="cargarSeccion('liquidez')">🅰️ Liquidez</button>
-      <button onclick="cargarSeccion('deuda')">🅱️ Deuda</button>
-      <button onclick="cargarSeccion('patrimonio')">🅲 Patrimonio</button>
-      <button onclick="cargarSeccion('seguridad')">🅳 Seguridad</button>
-      <button onclick="cargarSeccion('riesgo')">🅴 Riesgo</button>
-      <button onclick="cargarSeccion('futuro')">🅵 Retiro</button>
-      <button onclick="cargarSeccion('estate')">🅶 Herencia</button>
-      <button onclick="cargarSeccion('stress')">🅷 Prueba de Estrés</button>
+      <div class="topbar-left">
+        <button onclick="cargarSeccion('liquidez')">🅰️ Liquidez</button>
+        <button onclick="cargarSeccion('deuda')">🅱️ Deuda</button>
+        <button onclick="cargarSeccion('patrimonio')">🅲 Patrimonio</button>
+        <button onclick="cargarSeccion('seguridad')">🅳 Seguridad</button>
+        <button onclick="cargarSeccion('riesgo')">🅴 Riesgo</button>
+        <button onclick="cargarSeccion('futuro')">🅵 Retiro</button>
+        <button onclick="cargarSeccion('estate')">🅶 Herencia</button>
+        <button onclick="cargarSeccion('stress')">🅷 Estrés</button>
+      </div>
+      <div class="topbar-profile">
+        <span class="profile-name">Laura Martínez</span>
+        <img src="https://via.placeholder.com/32" alt="Avatar" class="avatar" />
+      </div>
     </div>
 
     <!-- Contenido dinámico -->
     <div class="content" id="contenido">
       <h2>Bienvenido a Wealth Calculator</h2>
-      <p>Selecciona una sección del menú izquierdo o superior para comenzar.</p>
+      <p>Selecciona una sección del menú izquierdo (inputs) o del menú superior (outputs) para comenzar.</p>
     </div>
   </div>
 
+  <!-- Script básico -->
   <script>
     function cargarSeccion(nombre) {
       const contenedor = document.getElementById('contenido');
-      contenedor.innerHTML = `<h2>Cargando sección: ${nombre}...</h2><p>(Aquí se cargará el contenido dinámico de <strong>${nombre}</strong>)</p>`;
-      // En el futuro, aquí podrías hacer fetch de cada HTML o usar componentes dinámicos
+      contenedor.innerHTML = `
+        <h2>Sección activa: ${nombre}</h2>
+        <p>Aquí se cargará dinámicamente el contenido de <strong>${nombre}</strong>.</p>
+      `;
     }
   </script>
 </body>
