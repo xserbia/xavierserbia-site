@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wealth Calculator - Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #1e293b;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #475569;
+      padding-bottom: 5px;
+    }
+
+    .sidebar button {
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      padding: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .sidebar button:hover {
+      background-color: #334155;
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar outputs */
+    .topbar {
+      background-color: #f8fafc;
+      padding: 12px 20px;
+      display: flex;
+      gap: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .topbar button {
+      background: none;
+      border: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .topbar button:hover {
+      text-decoration: underline;
+    }
+
+    /* Content area */
+    .content {
+      padding: 20px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar: Inputs -->
+  <div class="sidebar">
+    <h2>📝 Datos de entrada</h2>
+    <button onclick="cargarSeccion('personal')">👤 Personal</button>
+    <button onclick="cargarSeccion('ingresos')">💰 Ingresos</button>
+    <button onclick="cargarSeccion('gastos')">🧾 Gastos</button>
+    <button onclick="cargarSeccion('activos')">🏦 Activos</button>
+    <button onclick="cargarSeccion('pasivos')">💳 Pasivos</button>
+    <button onclick="cargarSeccion('seguros')">🛡️ Seguros</button>
+    <button onclick="cargarSeccion('retiro')">🎯 Retiro</button>
+    <button onclick="cargarSeccion('herencia')">📜 Herencia</button>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Topbar: Outputs -->
+    <div class="topbar">
+      <button onclick="cargarSeccion('liquidez')">🅰️ Liquidez</button>
+      <button onclick="cargarSeccion('deuda')">🅱️ Deuda</button>
+      <button onclick="cargarSeccion('patrimonio')">🅲 Patrimonio</button>
+      <button onclick="cargarSeccion('seguridad')">🅳 Seguridad</button>
+      <button onclick="cargarSeccion('riesgo')">🅴 Riesgo</button>
+      <button onclick="cargarSeccion('futuro')">🅵 Retiro</button>
+      <button onclick="cargarSeccion('estate')">🅶 Herencia</button>
+      <button onclick="cargarSeccion('stress')">🅷 Prueba de Estrés</button>
+    </div>
+
+    <!-- Contenido dinámico -->
+    <div class="content" id="contenido">
+      <h2>Bienvenido a Wealth Calculator</h2>
+      <p>Selecciona una sección del menú izquierdo o superior para comenzar.</p>
+    </div>
+  </div>
+
+  <script>
+    function cargarSeccion(nombre) {
+      const contenedor = document.getElementById('contenido');
+      contenedor.innerHTML = `<h2>Cargando sección: ${nombre}...</h2><p>(Aquí se cargará el contenido dinámico de <strong>${nombre}</strong>)</p>`;
+      // En el futuro, aquí podrías hacer fetch de cada HTML o usar componentes dinámicos
+    }
+  </script>
+</body>
+</html>
