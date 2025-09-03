@@ -1,170 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wealth Calculator - Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Sidebar (inputs) */
-    .sidebar {
-      width: 220px;
-      background-color: #1e293b;
-      color: white;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .sidebar h2 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #475569;
-      padding-bottom: 5px;
-    }
-
-    .sidebar button {
-      background: none;
-      border: none;
-      color: white;
-      text-align: left;
-      padding: 10px;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    .sidebar button:hover {
-      background-color: #334155;
-    }
-
-    /* Main */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Topbar (outputs + perfil) */
-    .topbar {
-      background-color: #f8fafc;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .topbar-left {
-      display: flex;
-      gap: 16px;
-    }
-
-    .topbar button {
-      background: none;
-      border: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    .topbar button:hover {
-      text-decoration: underline;
-    }
-
-    .topbar-profile {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .profile-name {
-      font-size: 0.9rem;
-      color: #334155;
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    /* Content */
-    .content {
-      padding: 20px;
-      overflow-y: auto;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Xavier Serbia — Sitio Oficial</title>
+  <meta name="description" content="Finanzas personales y pequeños negocios. Podcast Esquina X, Cursos, Workshop, Media." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Sidebar: Inputs -->
-  <div class="sidebar">
-    <h2>📝 Datos de entrada</h2>
-    <button onclick="cargarSeccion('personal')">👤 Personal</button>
-    <button onclick="cargarSeccion('ingresos')">💰 Ingresos</button>
-    <button onclick="cargarSeccion('gastos')">🧾 Gastos</button>
-    <button onclick="cargarSeccion('activos')">🏦 Activos</button>
-    <button onclick="cargarSeccion('pasivos')">💳 Pasivos</button>
-    <button onclick="cargarSeccion('seguros')">🛡️ Seguros</button>
-    <button onclick="cargarSeccion('retiro')">🎯 Retiro</button>
-    <button onclick="cargarSeccion('herencia')">📜 Herencia</button>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main">
-    <!-- Topbar: Outputs + Perfil -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <button onclick="cargarSeccion('liquidez')">🅰️ Liquidez</button>
-        <button onclick="cargarSeccion('deuda')">🅱️ Deuda</button>
-        <button onclick="cargarSeccion('patrimonio')">🅲 Patrimonio</button>
-        <button onclick="cargarSeccion('seguridad')">🅳 Seguridad</button>
-        <button onclick="cargarSeccion('riesgo')">🅴 Riesgo</button>
-        <button onclick="cargarSeccion('futuro')">🅵 Retiro</button>
-        <button onclick="cargarSeccion('estate')">🅶 Herencia</button>
-        <button onclick="cargarSeccion('stress')">🅷 Estrés</button>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo-placeholder" aria-label="Logo"></div>
+        <span class="brand-name">XavierSerbia.com</span>
       </div>
-      <div class="topbar-profile">
-        <span class="profile-name">Laura Martínez</span>
-        <img src="https://via.placeholder.com/32" alt="Avatar" class="avatar" />
+      <nav class="nav">
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+        <ul class="nav-list" id="navList">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#podcast">Podcast</a></li>
+          <li><a href="#emc">El Menudo Cuenta App</a></li>
+          <li><a href="#cadamenudo">Cada Menudo App</a></li>
+          <li><a href="#cursos">Cursos</a></li>
+          <li><a href="#workshop">Workshop</a></li>
+          <li><a href="#media">Media</a></li>
+          <li><a href="#sobre-xavier">Sobre Xavier</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <section id="inicio" class="section hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>Finanzas simples para transformar tu vida y tu negocio</h1>
+        <p>Hola, soy Xavier Serbia. Convierto conceptos financieros complejos en estrategias prácticas para personas y pequeños negocios.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#cursos">Explora los Cursos</a>
+          <a class="btn outline" href="#podcast">Escucha Esquina X</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="media-placeholder" aria-label="Hero media"></div>
+        <small class="muted">Espacio para imagen o video hero</small>
       </div>
     </div>
-
-    <!-- Contenido dinámico -->
-    <div class="content" id="contenido">
-      <h2>Bienvenido a Wealth Calculator</h2>
-      <p>Selecciona una sección del menú izquierdo (inputs) o del menú superior (outputs) para comenzar.</p>
-    </div>
-  </div>
-
-  <!-- Script básico -->
-<script>
-  function cargarSeccion(nombre) {
-    const contenedor = document.getElementById('contenido');
-
-    fetch(`inputs/${nombre}.html`)
-      .then(res => {
-        if (!res.ok) throw new Error("Archivo no encontrado");
-        return res.text();
-      })
-      .then(html => {
-        contenedor.innerHTML = html;
-      })
-      .catch(error => {
-        contenedor.innerHTML = `<p style="color:red">⚠️ Error al cargar sección: ${nombre}</p>`;
-        console.error(error);
-      });
-  }
-</script>
-
-  </script>
+  </section>
+  <footer class="site-footer">
+    <div class="legal">© <span id="year"></span> Xavier Serbia. Todos los derechos reservados.</div>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>

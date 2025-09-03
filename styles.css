@@ -1,0 +1,11 @@
+:root{--indigo:#3956E8;--line:#E5E7EB;}
+body{margin:0;font-family:sans-serif;background:#f8faff;}
+.section{padding:4rem 0;}
+.site-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;}
+.nav-list{display:flex;gap:1rem;list-style:none;padding:0;margin:0;}
+.btn{padding:.5rem 1rem;border-radius:8px;text-decoration:none;font-weight:600;}
+.btn.primary{background:var(--indigo);color:#fff;}
+.btn.outline{border:1px solid var(--line);color:#000;}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.media-placeholder{width:100%;aspect-ratio:16/9;background:#ddd;border-radius:12px;}
+.site-footer{background:#fff;padding:1rem;text-align:center;font-size:.9rem;color:#555;}
