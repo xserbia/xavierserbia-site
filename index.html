@@ -2,20 +2,23 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Xavier Serbia — Sitio Oficial</title>
-  <meta name="description" content="Finanzas personales y pequeños negocios. Podcast Esquina X, Cursos, Workshop, Media." />
+  <meta name="description" content="Finanzas personales y pequeños negocios. Podcast Esquina X, Cursos, Workshops, Media y más." />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.svg" type="image/svg+xml" />
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
-      <div class="brand">
-        <div class="logo-placeholder" aria-label="Logo"></div>
+      <a class="brand" href="#inicio" aria-label="Ir a Inicio">
+        <img src="logo.svg" alt="Xavier Serbia" class="logo" />
         <span class="brand-name">XavierSerbia.com</span>
-      </div>
+      </a>
+
       <nav class="nav">
-        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList" aria-label="Abrir menú">☰</button>
         <ul class="nav-list" id="navList">
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#podcast">Podcast</a></li>
@@ -29,25 +32,293 @@
       </nav>
     </div>
   </header>
+
+  <!-- Inicio / Hero -->
   <section id="inicio" class="section hero">
     <div class="container hero-grid">
       <div class="hero-copy">
         <h1>Finanzas simples para transformar tu vida y tu negocio</h1>
-        <p>Hola, soy Xavier Serbia. Convierto conceptos financieros complejos en estrategias prácticas para personas y pequeños negocios.</p>
+        <p>Hola, soy <strong>Xavier Serbia</strong>. Convierto conceptos financieros complejos en estrategias prácticas para personas y pequeños negocios.</p>
         <div class="cta-row">
           <a class="btn primary" href="#cursos">Explora los Cursos</a>
           <a class="btn outline" href="#podcast">Escucha Esquina X</a>
         </div>
+        <ul class="kv-inline">
+          <li><span>+20</span>Años de experiencia</li>
+          <li><span>10–20</span>Workshops/año</li>
+          <li><span>∞</span>Consejos accionables</li>
+        </ul>
       </div>
       <div class="hero-media">
-        <div class="media-placeholder" aria-label="Hero media"></div>
-        <small class="muted">Espacio para imagen o video hero</small>
+        <div class="media-hero" aria-label="Imagen o video principal"></div>
+        <small class="muted">Espacio para imagen o video destacado</small>
       </div>
     </div>
   </section>
+
+  <!-- Podcast -->
+  <section id="podcast" class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Podcast — Esquina X</h2>
+        <div class="row">
+          <a class="btn outline" href="#" target="_blank" rel="noopener">Spotify</a>
+          <a class="btn outline" href="#" target="_blank" rel="noopener">YouTube</a>
+          <a class="btn outline" href="#" target="_blank" rel="noopener">Apple Podcasts</a>
+        </div>
+      </div>
+
+      <div class="cards three">
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Episodio 1: Título</h3>
+          <p>Resumen breve del episodio en 2–3 líneas para invitar a escuchar.</p>
+          <div class="row">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Escuchar</a>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Ver</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Episodio 2: Título</h3>
+          <p>Resumen breve del episodio en 2–3 líneas para invitar a escuchar.</p>
+          <div class="row">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Escuchar</a>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Ver</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Episodio 3: Título</h3>
+          <p>Resumen breve del episodio en 2–3 líneas para invitar a escuchar.</p>
+          <div class="row">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Escuchar</a>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Ver</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Podcast Request -->
+      <div class="panel soft mt-lg">
+        <h3>Podcast Request</h3>
+        <form class="grid gap" onsubmit="return handleSubmit(event)">
+          <input type="text" name="nombre" placeholder="Nombre" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="text" name="invitado" placeholder="Invitado sugerido (opcional)" />
+          <textarea name="tema" rows="4" placeholder="Tema propuesto o pregunta" required></textarea>
+          <button class="btn primary" type="submit">Enviar solicitud</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- El Menudo Cuenta App -->
+  <section id="emc" class="section">
+    <div class="container grid-2">
+      <div class="media-16x9"></div>
+      <div>
+        <h2>El Menudo Cuenta App</h2>
+        <p>Descripción breve, beneficios clave y enlaces de descarga. Explica cómo ayuda a gestionar el dinero del día a día con claridad y hábitos.</p>
+        <ul class="check">
+          <li>Control de gastos con pocos clics</li>
+          <li>Recordatorios inteligentes</li>
+          <li>Reportes sencillos y accionables</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn primary" href="#" target="_blank" rel="noopener">Saber más</a>
+          <a class="btn outline" href="#" target="_blank" rel="noopener">Descargar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cada Menudo App -->
+  <section id="cadamenudo" class="section alt">
+    <div class="container grid-2">
+      <div class="media-16x9"></div>
+      <div>
+        <h2>Cada Menudo App</h2>
+        <p>Descripción breve, beneficios clave y enlaces de descarga. Ideal para ahorro cotidiano y metas específicas por periodos.</p>
+        <ul class="check">
+          <li>Metas por periodos y categorías</li>
+          <li>Notificaciones y progreso</li>
+          <li>Exportación y respaldo</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn primary" href="#" target="_blank" rel="noopener">Saber más</a>
+          <a class="btn outline" href="#" target="_blank" rel="noopener">Descargar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cursos -->
+  <section id="cursos" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Cursos</h2>
+        <a class="btn outline" href="#" target="_blank" rel="noopener">Ver todos</a>
+      </div>
+
+      <div class="cards three">
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Finanzas Personales 101</h3>
+          <p>Descripción breve del curso y beneficios.</p>
+          <a class="btn primary block" href="#" target="_blank" rel="noopener">Inscribirme</a>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Pequeños Negocios</h3>
+          <p>Descripción breve del curso y beneficios.</p>
+          <a class="btn primary block" href="#" target="_blank" rel="noopener">Inscribirme</a>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Ahorro e Inversión</h3>
+          <p>Descripción breve del curso y beneficios.</p>
+          <a class="btn primary block" href="#" target="_blank" rel="noopener">Inscribirme</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshop -->
+  <section id="workshop" class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Workshop</h2>
+        <a class="btn outline" href="#" target="_blank" rel="noopener">Próximas fechas</a>
+      </div>
+
+      <div class="cards two">
+        <article class="card">
+          <h3>Workshop 1 — Título</h3>
+          <p>Formato, duración y objetivos del taller.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Reservar</a>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Saber más</a>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Workshop 2 — Título</h3>
+          <p>Formato, duración y objetivos del taller.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="#" target="_blank" rel="noopener">Reservar</a>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Saber más</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Media (incluye Speaking) -->
+  <section id="media" class="section">
+    <div class="container">
+      <h2>Media</h2>
+
+      <div class="cards three">
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Clip / Entrevista 1</h3>
+          <p>Descripción breve del contenido.</p>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Clip / Entrevista 2</h3>
+          <p>Descripción breve del contenido.</p>
+        </article>
+        <article class="card">
+          <div class="thumb"></div>
+          <h3>Clip / Entrevista 3</h3>
+          <p>Descripción breve del contenido.</p>
+        </article>
+      </div>
+
+      <div class="panel soft mt-lg">
+        <h3>Speaking Engagement Request</h3>
+        <form class="grid gap" onsubmit="return handleSubmit(event)">
+          <input type="text" name="contacto" placeholder="Nombre de contacto" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="text" name="org" placeholder="Empresa / Organización" />
+          <input type="text" name="ubicacion" placeholder="Ciudad / País" />
+          <input type="date" name="fecha" placeholder="Fecha propuesta" />
+          <select name="tipo">
+            <option value="">Tipo de evento</option>
+            <option>Keynote</option>
+            <option>Panel</option>
+            <option>Workshop corporativo</option>
+            <option>Otro</option>
+          </select>
+          <textarea name="detalle" rows="5" placeholder="Descripción del evento, audiencia y objetivos" required></textarea>
+          <div class="row">
+            <button class="btn primary">Enviar</button>
+            <a class="btn outline" href="#" target="_blank" rel="noopener">Descargar Press Kit</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre Xavier -->
+  <section id="sobre-xavier" class="section alt">
+    <div class="container grid-about">
+      <div>
+        <h2>Sobre Xavier</h2>
+        <p>Autor, conferencista y creador de contenido enfocado en finanzas personales y pequeños negocios. Misión: democratizar herramientas financieras simples y accionables.</p>
+        <a class="btn outline" href="#" target="_blank" rel="noopener">Descargar Press Kit</a>
+      </div>
+      <aside class="panel">
+        <h3>Métricas rápidas</h3>
+        <ul class="kv">
+          <li><span>Años de experiencia</span><strong>20+</strong></li>
+          <li><span>Podcast</span><strong>Esquina X</strong></li>
+          <li><span>Workshops al año</span><strong>10–20</strong></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand-name">XavierSerbia.com</div>
+        <p class="muted">Consejos prácticos de finanzas personales y pequeños negocios.</p>
+      </div>
+      <nav>
+        <div class="footer-title">Secciones</div>
+        <ul class="footer-list">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#podcast">Podcast</a></li>
+          <li><a href="#emc">El Menudo Cuenta App</a></li>
+          <li><a href="#cadamenudo">Cada Menudo App</a></li>
+          <li><a href="#cursos">Cursos</a></li>
+          <li><a href="#workshop">Workshop</a></li>
+          <li><a href="#media">Media</a></li>
+          <li><a href="#sobre-xavier">Sobre Xavier</a></li>
+        </ul>
+      </nav>
+      <div>
+        <div class="footer-title">Sígueme</div>
+        <ul class="footer-list">
+          <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="#" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="#" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Newsletter</div>
+        <form class="row gap" onsubmit="return handleSubmit(event)">
+          <input type="email" placeholder="Tu email" required />
+          <button class="btn primary">Suscribirme</button>
+        </form>
+      </div>
+    </div>
     <div class="legal">© <span id="year"></span> Xavier Serbia. Todos los derechos reservados.</div>
   </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
