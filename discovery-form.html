@@ -590,7 +590,7 @@
           </div>
         </section>
 
-        <!-- STEP 3 (REPLACED) -->
+        <!-- STEP 3 -->
         <section class="step" data-step="3" hidden>
           <div class="panel">
             <h2>Finanzas</h2>
@@ -612,7 +612,7 @@
             <div id="finAccordionPanel" style="display:none; margin-top:12px;">
               <div class="actionsRow" style="margin-top:0;">
                 <div class="hint">
-                  Abre una categoría y añade filas. Cada fila puede tener un <b>nombre/alias</b> (ej: “Bank of America”, “Auto Toyota”…).
+                  Abre una categoría y añade filas. Cada fila puede tener un <b>nombre/alias</b> cuando aplique.
                 </div>
                 <div class="inlineBtns">
                   <button class="btn ghost" type="button" id="backToFinSelectBtn">← Volver</button>
@@ -716,24 +716,66 @@
         { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
       ]
     },
-
-    // NEW financials structure (accordion)
     financials: {
-      categoriesSelected: [], // order of selection
-      items: []              // rows across categories
+      categoriesSelected: [],
+      items: []
     },
-
     notes: ""
   };
 
-  // ---------- Step 3 (Finanzas) registry ----------
+  // ---------- Expenses & Savings taxonomy (editable) ----------
+  const DEFAULT_EXPENSES_TAX = {
+    "Alimentación": ["Supermercado", "Comidas fuera", "Pedido a domicilio"],
+    "Casa": ["Hipoteca / Alquiler", "Servicios básicos", "Mantenimiento"],
+    "Impuestos": ["Seguro social", "Propiedad", "Venta", "Estatales", "Federales", "Municipales"],
+    "Transportación": ["Gasolina", "Mantenimiento", "Transporte público / Uber"],
+    "Seguros": ["Salud", "Auto", "Vida"],
+    "Regalos y donaciones": ["Familia", "Amigos", "Instituciones"],
+    "Gastos Médicos": ["Consultas", "Medicamentos", "Procedimientos"],
+    "Cuidado Personal": ["Peluquería", "Cosméticos", "Spa / Barbería"],
+    "Dependientes": ["Cuidado de niños", "Cuidado de mayores", "Educación"],
+    "Deuda": ["Tarjetas de crédito", "Préstamos estudiantiles", "Otros préstamos"],
+    "Entretenimiento": ["Cine", "Conciertos", "Streaming"],
+    "Telecomunicaciones": ["Teléfono", "Internet", "TV"]
+  };
+
+  // Savings: base editable (puedes cambiar nombres después desde la UI)
+  const DEFAULT_SAVINGS_TAX = {
+    "Reserva de emergencia": ["Depósito", "Aporte mensual"],
+    "Metas": ["Viaje", "Casa", "Educación", "Auto", "Otro"],
+    "Retiro": ["401(k)", "IRA/Roth", "Otro"],
+    "Inversión": ["Brokerage", "ETF/Fondos", "Cripto", "Otro"],
+    "Otro": ["Otro"]
+  };
+
+  // Persist editable taxonomies in state (so JSON captures custom categories)
+  state.financials.taxonomy = {
+    expenses: structuredClone(DEFAULT_EXPENSES_TAX),
+    savings: structuredClone(DEFAULT_SAVINGS_TAX)
+  };
+
+  function getTax(catKey){
+    if(catKey === "expenses") return state.financials.taxonomy.expenses;
+    if(catKey === "savings") return state.financials.taxonomy.savings;
+    return null;
+  }
+
+  function ensureCategory(tax, catName){
+    if(!tax[catName]) tax[catName] = [];
+  }
+
+  function ensureSubcategory(tax, catName, subName){
+    ensureCategory(tax, catName);
+    if(!tax[catName].includes(subName)) tax[catName].push(subName);
+  }
+
+  // ---------- Step 3 registry ----------
   const FIN_CATS = [
     { key:"income", label:"Ingresos", hint:"Tipos de ingreso + monto anual + dueño." },
+    { key:"expenses", label:"Gastos", hint:"Categoría → subcategoría → monto mensual. Puedes añadir categorías." },
+    { key:"savings", label:"Ahorro", hint:"Categoría → subcategoría → monto mensual. Puedes añadir categorías." },
     { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo, tasa, pago mensual, balance." },
-
-    /* ✅ CAMBIO: bienes raíces solo activo; hipoteca va en pasivos */
     { key:"real_estate", label:"Bienes raíces", hint:"Propiedades, valor estimado. (La hipoteca va en Pasivos)" },
-
     { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401k/IRA, etc. valor estimado." },
     { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage/cripto, etc." },
     { key:"banking", label:"Banca / liquidez", hint:"Cuentas bancarias y efectivo." },
@@ -743,7 +785,6 @@
     { key:"other_assets", label:"Otros", hint:"Autos, activos personales, etc." }
   ];
 
-  // Dropdowns
   const INCOME_TYPES = [
     "Salario","Pago por hora","Bono","Comisión","Propina","Negocio propio",
     "Dividendos e intereses","Renta inmueble","Pensión","Seguro Social","Anualidad",
@@ -780,7 +821,7 @@
   const addPersonBtn = $("#addPersonBtn");
   const peopleJson = $("#peopleJson");
 
-  // Step 3 (Finanzas NEW)
+  // Step 3
   const categoriesGrid = $("#categoriesGrid");
   const financialsJson = $("#financialsJson");
 
@@ -807,20 +848,15 @@
   function setStep(step){
     state.step = step;
     $$(".step").forEach(sec => sec.hidden = sec.dataset.step !== String(step));
-
-    // pills
     $$(".pill").forEach(p => p.classList.toggle("active", p.dataset.pill === String(step)));
 
-    // progress
     const pct = ((step-1)/3)*100;
     progressBar.style.width = `${pct}%`;
     stepMini.textContent = `Paso ${step} de 4`;
 
-    // buttons
     backBtn.disabled = step === 1;
     nextBtn.hidden = step === 4;
 
-    // step-specific updates
     if(step === 2) renderPeople();
     if(step === 3) { renderFinSelector(); renderFinancialsJson(); resetFinPanelsForStep(); }
     if(step === 4) renderFinish();
@@ -869,7 +905,6 @@
     return { ok:true };
   }
 
-  // NEW: finance validation (light but useful)
   function validateFinancials(){
     const selected = state.financials.categoriesSelected;
     if(selected.length === 0) return { ok:false };
@@ -880,21 +915,25 @@
       if(items.length === 0) return { ok:false };
 
       for(const it of items){
-        // owner required if multi-person
         if(multi && !it.owner) return { ok:false };
 
-        // minimal required per category
         if(catKey === "income"){
           if(!it.type) return { ok:false };
           if(!(typeof it.amountAnnual === "number" && it.amountAnnual >= 0)) return { ok:false };
         }
+
         if(catKey === "liabilities"){
           if(!it.type) return { ok:false };
-          // allow blanks, but if present must be >=0
           const nums = ["interestRate","monthlyPayment","balance"];
           for(const k of nums){
             if(it[k] !== null && it[k] !== undefined && it[k] !== "" && !(typeof it[k] === "number" && it[k] >= 0)) return { ok:false };
           }
+        }
+
+        if(catKey === "expenses" || catKey === "savings"){
+          if(!it.mainCategory) return { ok:false };
+          if(!it.subCategory) return { ok:false };
+          if(!(typeof it.amountMonthly === "number" && it.amountMonthly >= 0)) return { ok:false };
         }
       }
     }
@@ -989,7 +1028,6 @@
         }
 
         renderPeopleJson();
-        // refresh owners in finance UI (if already on step 3)
         if(state.step === 3){
           renderFinSelector();
           renderAccordion();
@@ -1057,7 +1095,7 @@
   }
 
   // =========================
-  // STEP 3 - FINANCES (NEW)
+  // STEP 3 - FINANCES
   // =========================
 
   function peopleCount(){ return (state.people.members || []).length; }
@@ -1083,6 +1121,23 @@
     return html;
   }
 
+  function ownerSelectField(currentOwner){
+    if(peopleCount() <= 1){
+      return `
+        <div class="fieldCompact">
+          <label>Dueño</label>
+          <input type="text" value="Persona principal" disabled />
+        </div>
+      `;
+    }
+    return `
+      <div class="fieldCompact">
+        <label>Dueño</label>
+        <select data-k="owner">${ownerOptionsHTML(currentOwner || "")}</select>
+      </div>
+    `;
+  }
+
   function setContinueFinEnabled(){
     const ok = state.financials.categoriesSelected.length > 0;
     continueFinBtn.disabled = !ok;
@@ -1105,7 +1160,6 @@
   }
 
   function resetFinPanelsForStep(){
-    // when entering step 3, default to selector
     finSelectorPanel.style.display = "block";
     finAccordionPanel.style.display = "none";
     setContinueFinEnabled();
@@ -1130,11 +1184,8 @@
         const cb = lab.querySelector("input[type=checkbox]");
         if(e.target !== cb) cb.checked = !cb.checked;
 
-        if(cb.checked){
-          addCategorySelected(cat.key);
-        } else {
-          removeCategorySelected(cat.key);
-        }
+        if(cb.checked) addCategorySelected(cat.key);
+        else removeCategorySelected(cat.key);
 
         renderFinSelector();
         setContinueFinEnabled();
@@ -1149,15 +1200,10 @@
   }
 
   function openOnly(itemEl){
-    $$(".accItem").forEach(el => {
-      if(el !== itemEl) el.classList.remove("open");
-    });
+    $$(".accItem").forEach(el => { if(el !== itemEl) el.classList.remove("open"); });
     itemEl.classList.toggle("open");
   }
-
-  function closeAll(){
-    $$(".accItem").forEach(el => el.classList.remove("open"));
-  }
+  function closeAll(){ $$(".accItem").forEach(el => el.classList.remove("open")); }
 
   // row builders
   function makeField({label, type="text", key, value="", min=null, step=null, placeholder=""}){
@@ -1180,23 +1226,6 @@
       <div class="fieldCompact">
         <label>${escapeHtml(label)}</label>
         <select data-k="${escapeHtml(key)}">${opts}</select>
-      </div>
-    `;
-  }
-
-  function ownerSelectField(currentOwner){
-    if(peopleCount() <= 1){
-      return `
-        <div class="fieldCompact">
-          <label>Dueño</label>
-          <input type="text" value="Persona principal" disabled />
-        </div>
-      `;
-    }
-    return `
-      <div class="fieldCompact">
-        <label>Dueño</label>
-        <select data-k="owner">${ownerOptionsHTML(currentOwner || "")}</select>
       </div>
     `;
   }
@@ -1240,7 +1269,7 @@
     );
   }
 
-  /* ✅ CAMBIO: real estate solo activo (sin balance ni pago mensual) */
+  // Real estate: activo solamente
   function realEstateRowHtml(it){
     return baseRowCard(
       it,
@@ -1260,7 +1289,7 @@
       "gridRow4",
       `
         ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Seguro de auto GEICO"})}
-        ${makeSelect({label:"Tipo", key:"type", options: SIMPLE_TYPES.insurance, value: it.type || ""})}
+        ${makeSelect({label:"Tipo", key:"type", options: ["Vida","Salud","Auto","Hogar/Renta","Disability","Umbrella","LTC","Otro"], value: it.type || ""})}
         ${makeField({label:"Prima anual (USD)", type:"number", key:"premiumAnnual", value: it.premiumAnnual ?? "", min:0, step:"0.01", placeholder:"Ej: 1800"})}
         ${ownerSelectField(it.owner)}
       `
@@ -1281,21 +1310,76 @@
     );
   }
 
+  // ---------- Expenses/Savings row (with editable taxonomy) ----------
+  function mainCategoryOptions(catKey){
+    const tax = getTax(catKey);
+    const keys = Object.keys(tax || {}).sort((a,b)=>a.localeCompare(b));
+    return keys;
+  }
+
+  function subCategoryOptions(catKey, mainCat){
+    const tax = getTax(catKey);
+    const subs = (tax && mainCat && tax[mainCat]) ? tax[mainCat] : [];
+    return subs.slice().sort((a,b)=>a.localeCompare(b));
+  }
+
+  function flowRowHtml(it, catKey){
+    // catKey: "expenses" | "savings"
+    const mainOpts = mainCategoryOptions(catKey);
+    const subOpts = subCategoryOptions(catKey, it.mainCategory);
+
+    const mainSelect = `
+      <div class="fieldCompact">
+        <label>Categoría</label>
+        <select data-k="mainCategory" data-flow="main">
+          <option value="">Selecciona…</option>
+          ${mainOpts.map(o => `<option value="${escapeHtml(o)}" ${o===it.mainCategory?"selected":""}>${escapeHtml(o)}</option>`).join("")}
+          <option value="__add__">+ Agregar categoría…</option>
+        </select>
+      </div>
+    `;
+
+    const subSelect = `
+      <div class="fieldCompact">
+        <label>Subcategoría</label>
+        <select data-k="subCategory" data-flow="sub" ${it.mainCategory ? "" : "disabled"}>
+          <option value="">Selecciona…</option>
+          ${subOpts.map(o => `<option value="${escapeHtml(o)}" ${o===it.subCategory?"selected":""}>${escapeHtml(o)}</option>`).join("")}
+          ${it.mainCategory ? `<option value="__add__">+ Agregar subcategoría…</option>` : ""}
+        </select>
+      </div>
+    `;
+
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / nota (opcional)", key:"name", value: it.name || "", placeholder:"Ej: Walmart / Netflix"})}
+        ${mainSelect}
+        ${subSelect}
+        ${makeField({label:"Monto mensual (USD)", type:"number", key:"amountMonthly", value: it.amountMonthly ?? "", min:0, step:"0.01", placeholder:"Ej: 450"})}
+      `
+    );
+  }
+
   function addRow(catKey){
     const base = { id: uid(catKey), category: catKey, owner: defaultOwner(), name:"", type:"" };
     let row;
+
     if(catKey === "income"){
       row = { ...base, amountAnnual: null };
     } else if(catKey === "liabilities"){
       row = { ...base, interestRate: null, monthlyPayment: null, balance: null };
     } else if(catKey === "real_estate"){
-      /* ✅ CAMBIO: solo value */
       row = { ...base, value: null };
     } else if(catKey === "insurance"){
       row = { ...base, premiumAnnual: null };
+    } else if(catKey === "expenses" || catKey === "savings"){
+      row = { ...base, mainCategory:"", subCategory:"", amountMonthly: null };
     } else {
       row = { ...base, value: null };
     }
+
     state.financials.items.push(row);
     return row;
   }
@@ -1310,6 +1394,7 @@
       if(catKey === "liabilities") return liabilitiesRowHtml(it);
       if(catKey === "real_estate") return realEstateRowHtml(it);
       if(catKey === "insurance") return insuranceRowHtml(it);
+      if(catKey === "expenses" || catKey === "savings") return flowRowHtml(it, catKey);
       return simpleRowHtml(it, catKey);
     }).join("");
 
@@ -1318,7 +1403,7 @@
       const it = state.financials.items.find(x => x.id === id);
       if(!it) return;
 
-      // delete
+      // delete row
       card.querySelector(".xicon").addEventListener("click", (e) => {
         e.stopPropagation();
         state.financials.items = state.financials.items.filter(x => x.id !== id);
@@ -1329,7 +1414,57 @@
         updateNavValidity();
       });
 
-      // changes
+      // Handle expense/savings special selects (add category/subcategory)
+      if(catKey === "expenses" || catKey === "savings"){
+        const mainSel = card.querySelector('select[data-k="mainCategory"]');
+        const subSel = card.querySelector('select[data-k="subCategory"]');
+
+        if(mainSel){
+          mainSel.addEventListener("change", () => {
+            const v = mainSel.value;
+
+            if(v === "__add__"){
+              const name = prompt("Nueva categoría (ej: 'Mascotas'):");
+              if(name && name.trim()){
+                const tax = getTax(catKey);
+                ensureCategory(tax, name.trim());
+                it.mainCategory = name.trim();
+                it.subCategory = "";
+              }
+            } else {
+              it.mainCategory = v;
+              it.subCategory = "";
+            }
+
+            renderCategoryRows(catKey, rowsEl);
+            renderFinancialsJson();
+            updateNavValidity();
+          });
+        }
+
+        if(subSel){
+          subSel.addEventListener("change", () => {
+            const v = subSel.value;
+
+            if(v === "__add__"){
+              const name = prompt(`Nueva subcategoría para "${it.mainCategory}" (ej: 'Veterinario'):`);
+              if(name && name.trim()){
+                const tax = getTax(catKey);
+                ensureSubcategory(tax, it.mainCategory, name.trim());
+                it.subCategory = name.trim();
+              }
+            } else {
+              it.subCategory = v;
+            }
+
+            renderCategoryRows(catKey, rowsEl);
+            renderFinancialsJson();
+            updateNavValidity();
+          });
+        }
+      }
+
+      // Generic input handler
       card.addEventListener("input", (e) => {
         const t = e.target;
         if(!(t instanceof HTMLElement)) return;
@@ -1339,9 +1474,15 @@
         if(t.tagName === "INPUT" && t.getAttribute("type") === "number"){
           const n = Number(t.value);
           it[k] = Number.isFinite(n) && t.value !== "" ? n : null;
+        } else if(t.tagName === "SELECT"){
+          // selects already handled above for expenses/savings
+          if(!(catKey === "expenses" || catKey === "savings")){
+            it[k] = t.value;
+          }
         } else {
           it[k] = t.value;
         }
+
         renderFinancialsJson();
         updateNavValidity();
       });
@@ -1352,9 +1493,13 @@
         const k = t.getAttribute("data-k");
         if(!k) return;
 
-        it[k] = t.value;
-        renderFinancialsJson();
-        updateNavValidity();
+        if(t.tagName === "SELECT"){
+          if(!(catKey === "expenses" || catKey === "savings")){
+            it[k] = t.value;
+            renderFinancialsJson();
+            updateNavValidity();
+          }
+        }
       });
     });
   }
@@ -1415,7 +1560,6 @@
       accordionWrap.appendChild(itemEl);
     });
 
-    // open first by default (if none open)
     const first = accordionWrap.querySelector(".accItem");
     if(first && !accordionWrap.querySelector(".accItem.open")) first.classList.add("open");
   }
