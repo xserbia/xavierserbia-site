@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discovery · Diagnóstico Financiero (Demo con Datos)</title>
+  <title>Discovery · Diagnóstico Financiero</title>
   <style>
     :root{
       --primary:#3956E8;
@@ -36,44 +36,113 @@
     /* Header mejorado */
     header{
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 20px;
+      gap:20px;
+      margin-bottom: 28px;
     }
     .brand{
       display:flex;
       flex-direction:column;
+      align-items:center;
       gap:6px;
+      text-align:center;
     }
     .brand h1{
       margin:0;
-      font-size: 22px;
-      letter-spacing:-0.02em;
+      font-size: 28px;
+      letter-spacing:-0.03em;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size: 14px;
+      max-width: 600px;
+    }
+
+    /* Step circles */
+    .stepCircles{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+      margin-top:8px;
+    }
+    .stepCircle{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      position:relative;
+      cursor:default;
+    }
+    .stepNumber{
+      width:70px;
+      height:70px;
+      border-radius:50%;
+      border:3px solid var(--border);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      font-weight:900;
+      color:var(--muted);
+      transition: all .3s ease;
+      position:relative;
+      z-index:2;
+    }
+    .stepCircle.completed .stepNumber{
+      background: linear-gradient(135deg, var(--ok), #10b981);
+      border-color: var(--ok);
+      color:#fff;
+    }
+    .stepCircle.active .stepNumber{
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-color: var(--primary);
+      color:#fff;
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(57,86,232,.3);
+    }
+    .stepLabel{
+      font-size:13px;
+      font-weight:700;
+      color:var(--muted);
+      transition: color .3s ease;
+    }
+    .stepCircle.active .stepLabel{
+      color:var(--primary);
+    }
+    .stepCircle.completed .stepLabel{
+      color:var(--ok);
+    }
+
+    /* Connector line between circles */
+    .stepCircle:not(:last-child)::after{
+      content:'';
+      position:absolute;
+      top:35px;
+      left:calc(50% + 35px);
+      width:24px;
+      height:3px;
+      background:var(--border);
+      z-index:1;
+    }
+    .stepCircle.completed:not(:last-child)::after{
+      background:var(--ok);
+    }
+
     .progressInline{
       display:flex;
       align-items:center;
       gap:12px;
     }
     .progressDots{
-      display:flex;
-      gap:6px;
-    }
-    .dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--border);
-      transition: all .3s ease;
-    }
-    .dot.completed{
-      background:var(--ok);
-      transform: scale(1.15);
-    }
-    .dot.active{
-      background:var(--primary);
-      transform: scale(1.3);
+      display:none; /* Hidden now, using circles instead */
     }
     .progressText{
       font-size:13px;
@@ -111,42 +180,6 @@
     }
 
     /* Demo banner */
-    .demoBanner{
-      background: linear-gradient(135deg, rgba(232,194,57,.15), rgba(245,158,11,.15));
-      border:2px solid rgba(232,194,57,.3);
-      border-radius: 14px;
-      padding: 14px 18px;
-      margin-bottom: 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .demoBanner b{
-      font-size:14px;
-      color:var(--text);
-    }
-    .demoBanner .hint{
-      font-size:13px;
-      color:var(--muted);
-      margin:4px 0 0;
-    }
-    .demoBtn{
-      border:1px solid rgba(232,194,57,.4);
-      background:#fff;
-      color:var(--text);
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-weight:700;
-      font-size:13px;
-      cursor:pointer;
-      white-space:nowrap;
-    }
-    .demoBtn:hover{
-      background:rgba(232,194,57,.1);
-      border-color:rgba(232,194,57,.6);
-    }
-
     /* Panel styles */
     .panel{
       border:1px solid var(--border);
@@ -220,48 +253,6 @@
     }
 
     /* Mode selector */
-    .modeSelector{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:12px;
-      margin: 16px 0 20px;
-    }
-    .modeCard{
-      border:2px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      cursor:pointer;
-      transition: all .2s ease;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      background:#fff;
-    }
-    .modeCard:hover{
-      border-color: rgba(57,86,232,.35);
-      box-shadow: 0 8px 20px rgba(15,23,42,.08);
-    }
-    .modeCard input[type="radio"]{
-      margin-top:3px;
-    }
-    .modeCard input[type="radio"]:checked ~ div{
-      color:var(--text);
-    }
-    .modeCard input[type="radio"]:checked{
-      accent-color:var(--primary);
-    }
-    .modeCard b{
-      display:block;
-      font-size:15px;
-      margin-bottom:4px;
-    }
-    .modeCard span{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.4;
-    }
-
     /* Templates */
     .quickTemplates{
       margin: 16px 0;
@@ -366,26 +357,72 @@
       margin-top: 16px;
     }
     .catInlineCard{
-      border:2px solid var(--border);
+      border:2px solid transparent;
+      background: linear-gradient(#fff, #fff) padding-box,
+                  linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
       border-radius: 14px;
-      background:#fff;
       overflow:hidden;
       transition: all .2s ease;
+      margin-bottom: 14px;
     }
     .catInlineCard.selected{
-      border-color: var(--primary);
-      background: rgba(57,86,232,.02);
+      background: linear-gradient(rgba(57,86,232,.02), rgba(57,86,232,.02)) padding-box,
+                  linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
+    }
+    .catInlineCard.checked{
+      background: linear-gradient(rgba(57,86,232,.04), rgba(116,89,217,.04)) padding-box,
+                  linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
     }
     .catHeader{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 14px 16px;
+      padding: 16px 18px;
       cursor:pointer;
       user-select:none;
+      background: linear-gradient(135deg, rgba(57,86,232,.03), rgba(116,89,217,.03));
+      transition: all .3s ease;
     }
     .catHeader:hover{
-      background: rgba(57,86,232,.04);
+      background: linear-gradient(135deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+    }
+    .catInlineCard.checked .catHeader{
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-bottom: 2px solid transparent;
+    }
+    .catInlineCard.checked .catHeader:hover{
+      background: linear-gradient(135deg, #4a66f0, #8669e0);
+    }
+    .catInlineCard.checked .catHeader .catLabel b,
+    .catInlineCard.checked .catHeader .catLabel span{
+      background: none;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: #fff;
+      background-clip: initial;
+      color: #fff;
+    }
+    .catInlineCard.checked .catHeader .catExpand{
+      background: rgba(255,255,255,.2);
+      color: #fff;
+    }
+    .catInlineCard.open .catHeader{
+      border-bottom: 1px solid var(--border);
+    }
+    .catInlineCard.checked.open .catHeader{
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-bottom-color: transparent;
+    }
+    .catInlineCard.checked.open .catHeader .catLabel b,
+    .catInlineCard.checked.open .catHeader .catLabel span{
+      background: none;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: #fff;
+      background-clip: initial;
+      color: #fff;
+    }
+    .catInlineCard.checked.open .catHeader .catExpand{
+      background: rgba(255,255,255,.2);
+      color: #fff;
     }
     .catInfo{
       display:flex;
@@ -400,13 +437,26 @@
     }
     .catLabel b{
       display:block;
-      font-size:14px;
+      font-size:15px;
+      font-weight:700;
       margin-bottom:2px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all .3s ease;
+    }
+    .catInlineCard.open .catHeader .catLabel b{
+      background: #fff;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: #fff;
+      background-clip: initial;
     }
     .catLabel span{
       display:block;
       font-size:12px;
       color:var(--muted);
+      transition: color .3s ease;
     }
     .catExpand{
       width:32px;
@@ -418,7 +468,7 @@
       justify-content:center;
       color:var(--muted);
       font-weight:900;
-      transition: transform .2s ease;
+      transition: transform .3s ease, background .3s ease, color .3s ease;
     }
     .catInlineCard.open .catExpand{
       transform: rotate(180deg);
@@ -427,8 +477,8 @@
     .catBody{
       padding: 0 16px 16px;
       display:none;
-      border-top:1px solid var(--border);
-      padding-top:14px;
+      padding-top:16px;
+      background: #fff;
     }
     .catInlineCard.open .catBody{
       display:block;
@@ -464,10 +514,70 @@
       background: var(--secondary);
     }
 
+    /* Standard add row (type + alias + amount) */
+    .standardAddRow{
+      display:grid;
+      grid-template-columns: 1.3fr 1.3fr 1fr auto;
+      gap:8px;
+      margin-bottom: 12px;
+    }
+    .standardAddRow select,
+    .standardAddRow input{
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      font-size:13px;
+      background:#fff;
+    }
+    .standardAddRow button{
+      padding: 10px 14px;
+      border:1px solid var(--primary);
+      background: var(--primary);
+      color:#fff;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .standardAddRow button:hover{
+      background: var(--secondary);
+    }
+
+    /* Standard add row MULTI (with owner selector) */
+    .standardAddRowMulti{
+      display:grid;
+      grid-template-columns: 1.2fr 1.2fr 0.9fr 1.1fr auto;
+      gap:8px;
+      margin-bottom: 12px;
+    }
+    .standardAddRowMulti select,
+    .standardAddRowMulti input{
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      font-size:13px;
+      background:#fff;
+    }
+    .standardAddRowMulti button{
+      padding: 10px 14px;
+      border:1px solid var(--primary);
+      background: var(--primary);
+      color:#fff;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .standardAddRowMulti button:hover{
+      background: var(--secondary);
+    }
+
     /* Expense/Savings special row */
     .expenseAddRow{
       display:grid;
-      grid-template-columns: 1.2fr 1.2fr 1fr auto;
+      grid-template-columns: 2fr 1fr auto;
       gap:8px;
       margin-bottom: 12px;
     }
@@ -491,6 +601,36 @@
       white-space:nowrap;
     }
     .expenseAddRow button:hover{
+      background: var(--secondary);
+    }
+
+    /* Expense/Savings MULTI (with owner) */
+    .expenseAddRowMulti{
+      display:grid;
+      grid-template-columns: 2fr 0.9fr 1.1fr auto;
+      gap:8px;
+      margin-bottom: 12px;
+    }
+    .expenseAddRowMulti select,
+    .expenseAddRowMulti input{
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      font-size:13px;
+      background:#fff;
+    }
+    .expenseAddRowMulti button{
+      padding: 10px 14px;
+      border:1px solid var(--primary);
+      background: var(--primary);
+      color:#fff;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .expenseAddRowMulti button:hover{
       background: var(--secondary);
     }
 
@@ -819,7 +959,7 @@
     }
 
     @media (max-width: 900px){
-      .modeSelector, .templateGrid, .summaryGrid{
+      .templateGrid, .summaryGrid{
         grid-template-columns: 1fr;
       }
       .row{
@@ -828,8 +968,65 @@
       .quickAddRow{
         grid-template-columns: 1fr;
       }
+      .standardAddRow{
+        grid-template-columns: 1fr;
+      }
+      .standardAddRowMulti{
+        grid-template-columns: 1fr;
+      }
       .expenseAddRow{
         grid-template-columns: 1fr;
+      }
+      .expenseAddRowMulti{
+        grid-template-columns: 1fr;
+      }
+      
+      /* Smaller circles on mobile */
+      .stepCircles{
+        gap:16px;
+      }
+      .stepNumber{
+        width:55px;
+        height:55px;
+        font-size:22px;
+      }
+      .stepCircle.active .stepNumber{
+        transform: scale(1.05);
+      }
+      .stepCircle:not(:last-child)::after{
+        top:27px;
+        left:calc(50% + 27px);
+        width:16px;
+      }
+      .stepLabel{
+        font-size:11px;
+      }
+      .brand h1{
+        font-size:22px;
+      }
+      .brand p{
+        font-size:13px;
+      }
+    }
+
+    @media (max-width: 640px){
+      .stepCircles{
+        gap:12px;
+      }
+      .stepNumber{
+        width:50px;
+        height:50px;
+        font-size:20px;
+        border-width:2px;
+      }
+      .stepCircle:not(:last-child)::after{
+        top:25px;
+        left:calc(50% + 25px);
+        width:12px;
+        height:2px;
+      }
+      .stepLabel{
+        font-size:10px;
       }
     }
 
@@ -864,27 +1061,36 @@
     <header>
       <div class="brand">
         <h1>Discovery · Diagnóstico Financiero</h1>
-        <div class="progressInline">
-          <div class="progressDots" id="progressDots"></div>
-          <span class="progressText" id="progressText">Paso 1 de 4</span>
+        <p>Recopilación rápida para preparar tu diagnóstico. No es asesoría ni recomendación.</p>
+      </div>
+
+      <div class="stepCircles" id="stepCircles">
+        <div class="stepCircle" data-step-circle="1">
+          <div class="stepNumber">1</div>
+          <div class="stepLabel">Welcome</div>
+        </div>
+        <div class="stepCircle" data-step-circle="2">
+          <div class="stepNumber">2</div>
+          <div class="stepLabel">Personas</div>
+        </div>
+        <div class="stepCircle" data-step-circle="3">
+          <div class="stepNumber">3</div>
+          <div class="stepLabel">Finanzas</div>
+        </div>
+        <div class="stepCircle" data-step-circle="4">
+          <div class="stepNumber">4</div>
+          <div class="stepLabel">Final</div>
         </div>
       </div>
-      <div class="autoSaveIndicator" id="autoSave">Guardado ✓</div>
+
+      <div class="progressInline">
+        <span class="progressText" id="progressText">Paso 1 de 4</span>
+        <div class="autoSaveIndicator" id="autoSave">Guardado ✓</div>
+      </div>
     </header>
 
     <div class="card">
       <div class="content">
-        <!-- DEMO BANNER -->
-        <div class="demoBanner">
-          <div>
-            <b>🎯 Modo Demo</b>
-            <div class="hint">Carga datos de ejemplo para ver todo el flujo completo</div>
-          </div>
-          <button class="demoBtn" id="loadDemoBtn" type="button">
-            Cargar Ejemplo →
-          </button>
-        </div>
-
         <!-- STEP 1: Preparación -->
         <section class="step" data-step="1">
           <div class="hero">
@@ -909,26 +1115,6 @@
                 <b>Tranquilo:</b> No necesitas números exactos ahora. 
                 Podemos refinar todo en la sesión.
               </div>
-            </div>
-
-            <h3>¿Cómo prefieres llenar esto?</h3>
-            
-            <div class="modeSelector">
-              <label class="modeCard">
-                <input type="radio" name="mode" value="quick" />
-                <div>
-                  <b>⚡ Rápido (3-4 min)</b>
-                  <span>Solo lo esencial ahora, resto en la sesión</span>
-                </div>
-              </label>
-
-              <label class="modeCard">
-                <input type="radio" name="mode" value="detailed" checked />
-                <div>
-                  <b>🎯 Detallado (7-10 min)</b>
-                  <span>Completo todos los campos ahora para mejor diagnóstico</span>
-                </div>
-              </label>
             </div>
           </div>
         </section>
@@ -983,8 +1169,7 @@
           <div class="panel">
             <h2>Snapshot financiero</h2>
             <p>
-              Responde estas preguntas rápidas. Basado en tus respuestas, 
-              te pediremos detalles solo de lo que aplica.
+              Selecciona las áreas relevantes que aplican. Agrega al menos un ítem en cada una.
             </p>
 
             <div class="wizardFlow" id="wizardFlow">
@@ -1072,7 +1257,7 @@
               <!-- Wizard step 5: Insurance -->
               <div class="wizardStep" data-wizard="5">
                 <div class="wizardQ">
-                  <b>Pregunta 5 de 7</b>
+                  <b>Pregunta 5 de 10</b>
                   <h3>¿Tienes seguros activos?</h3>
                   <p class="hint">Vida, salud, auto, hogar, etc.</p>
                 </div>
@@ -1087,10 +1272,64 @@
                 </div>
               </div>
 
-              <!-- Wizard step 6: Expenses -->
+              <!-- Wizard step 6: Business/Trust -->
               <div class="wizardStep" data-wizard="6">
                 <div class="wizardQ">
-                  <b>Pregunta 6 de 7</b>
+                  <b>Pregunta 6 de 10</b>
+                  <h3>¿Tienes un negocio o trust?</h3>
+                  <p class="hint">Negocio propio, LLC, partnership, trusts, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    💼 Sí, tengo negocio/trust
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No tengo
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 7: Legal -->
+              <div class="wizardStep" data-wizard="7">
+                <div class="wizardQ">
+                  <b>Pregunta 7 de 10</b>
+                  <h3>¿Tienes documentos legales importantes?</h3>
+                  <p class="hint">Testamento, poderes, trusts, beneficiarios, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    📄 Sí, tengo documentos
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No tengo / No estoy seguro
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 8: Other Assets -->
+              <div class="wizardStep" data-wizard="8">
+                <div class="wizardQ">
+                  <b>Pregunta 8 de 10</b>
+                  <h3>¿Tienes otros activos importantes?</h3>
+                  <p class="hint">Vehículos, joyas, arte, colecciones, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    🚗 Sí, tengo otros activos
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No / Nada significativo
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 9: Expenses -->
+              <div class="wizardStep" data-wizard="9">
+                <div class="wizardQ">
+                  <b>Pregunta 9 de 10</b>
                   <h3>¿Quieres detallar tus gastos mensuales?</h3>
                   <p class="hint">Alimentación, casa, transporte, entretenimiento, etc.</p>
                 </div>
@@ -1105,10 +1344,10 @@
                 </div>
               </div>
 
-              <!-- Wizard step 7: Savings -->
-              <div class="wizardStep" data-wizard="7">
+              <!-- Wizard step 10: Savings -->
+              <div class="wizardStep" data-wizard="10">
                 <div class="wizardQ">
-                  <b>Pregunta 7 de 7</b>
+                  <b>Pregunta 10 de 10</b>
                   <h3>¿Tienes ahorro activo o metas financieras?</h3>
                   <p class="hint">Fondo de emergencia, metas específicas, ahorro para retiro</p>
                 </div>
@@ -1126,11 +1365,14 @@
 
             <!-- Categories detail (shown after wizard) -->
             <div id="categoriesDetail" style="display:none; margin-top:24px;">
-              <h3>Completa los detalles</h3>
-              <p class="hint">
-                Basado en tus respuestas, estas son las áreas relevantes. 
-                Agrega al menos un ítem en cada una.
-              </p>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <p class="hint" id="categoriesDetailHint" style="margin:0;">
+                  Agrega al menos un ítem en cada área seleccionada.
+                </p>
+                <button class="btn ghost" id="editWizardBtn" type="button" style="padding:8px 14px; font-size:13px;">
+                  ← Editar respuestas
+                </button>
+              </div>
               <div class="categoriesInline" id="categoriesInline"></div>
             </div>
           </div>
@@ -1140,32 +1382,16 @@
         <section class="step" data-step="4" hidden>
           <div class="confirmationHero">
             <div class="checkIcon">✓</div>
-            <h2>¡Listo! Tu diagnóstico está en camino</h2>
-            <p>Recibirás un email en los próximos minutos con:</p>
+            <h2>¡Listo! Tu información ha sido enviada</h2>
+            <p>Recibirás un email para coordinar tu sesión de diagnóstico</p>
           </div>
 
           <div class="deliverables">
-            <div class="deliverableCard">
-              <span class="emoji">📊</span>
-              <div>
-                <b>Resumen de tu perfil</b>
-                <p>Lo que compartiste, organizado visualmente</p>
-              </div>
-            </div>
-
-            <div class="deliverableCard">
+            <div class="deliverableCard" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
               <span class="emoji">📅</span>
               <div>
-                <b>Link para agendar</b>
-                <p>Elige tu horario preferido para la sesión</p>
-              </div>
-            </div>
-
-            <div class="deliverableCard">
-              <span class="emoji">📝</span>
-              <div>
-                <b>Checklist de preparación</b>
-                <p>Documentos opcionales que pueden ser útiles</p>
+                <b>Link para agendar tu diagnóstico</b>
+                <p>Revisa tu email y elige el horario que mejor te funcione para tu sesión personalizada con uno de nuestros asesores</p>
               </div>
             </div>
           </div>
@@ -1173,6 +1399,12 @@
           <div class="panel">
             <h3>Resumen de tu información</h3>
             <div class="summaryGrid" id="summaryGrid"></div>
+            
+            <div class="hint" style="margin-top:14px; padding:12px; background: rgba(15,23,42,.04); border-radius:10px;">
+              <b>🔧 Para desarrolladores:</b> Este payload se envía al backend, que:
+              <br>• Genera PDF + Excel para el equipo de asesores (interno)
+              <br>• Envía email al usuario con link de Calendly para agendar
+            </div>
           </div>
 
           <div class="panel">
@@ -1224,121 +1456,6 @@
       .replaceAll("'","&#039;");
   }
 
-  // ===== DUMMY DATA =====
-  const DUMMY_DATA = {
-    mode: 'detailed',
-    step: 1,
-    startTime: Date.now(),
-    
-    people: {
-      template: 'family',
-      householdRole: "shared",
-      members: [
-        { 
-          id:"p1", 
-          role:"primary", 
-          firstName:"Carlos", 
-          lastName:"García", 
-          age:42, 
-          gender:"male" 
-        },
-        { 
-          id:"p2", 
-          role:"additional", 
-          firstName:"María", 
-          lastName:"García", 
-          age:39, 
-          gender:"female",
-          relationshipToPrimary:"spouse"
-        },
-        { 
-          id:"p3", 
-          role:"additional", 
-          firstName:"Ana", 
-          lastName:"García", 
-          age:12, 
-          gender:"female",
-          relationshipToPrimary:"child"
-        },
-        { 
-          id:"p4", 
-          role:"additional", 
-          firstName:"Luis", 
-          lastName:"García", 
-          age:9, 
-          gender:"male",
-          relationshipToPrimary:"child"
-        }
-      ]
-    },
-
-    financials: {
-      incomeRange: "100-200k",
-      hasDebts: true,
-      hasInvestments: "both",
-      hasRealEstate: true,
-      hasInsurance: true,
-      hasExpenses: true,
-      hasSavings: true,
-      categoriesSelected: ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'liabilities', 'insurance'],
-      items: [
-        // Income
-        { id:"inc1", category:"income", name:"Salario Tech Company", value: 95000, owner:"p1" },
-        { id:"inc2", category:"income", name:"Salario Freelance Design", value: 38000, owner:"p2" },
-        { id:"inc3", category:"income", name:"Dividendos inversiones", value: 4200, owner:"household" },
-        
-        // Expenses
-        { id:"exp1", category:"expenses", expenseCategory:"Alimentación", subcategory:"Supermercado", name:"Alimentación - Supermercado", value: 800, owner:"household" },
-        { id:"exp2", category:"expenses", expenseCategory:"Alimentación", subcategory:"Comidas fuera", name:"Alimentación - Comidas fuera", value: 350, owner:"household" },
-        { id:"exp3", category:"expenses", expenseCategory:"Casa", subcategory:"Servicios básicos", name:"Casa - Servicios básicos", value: 280, owner:"household" },
-        { id:"exp4", category:"expenses", expenseCategory:"Casa", subcategory:"Mantenimiento", name:"Casa - Mantenimiento", value: 150, owner:"household" },
-        { id:"exp5", category:"expenses", expenseCategory:"Transportación", subcategory:"Gasolina", name:"Transportación - Gasolina", value: 320, owner:"household" },
-        { id:"exp6", category:"expenses", expenseCategory:"Transportación", subcategory:"Mantenimiento", name:"Transportación - Mantenimiento", value: 100, owner:"household" },
-        { id:"exp7", category:"expenses", expenseCategory:"Entretenimiento", subcategory:"Streaming", name:"Entretenimiento - Streaming", value: 65, owner:"household" },
-        { id:"exp8", category:"expenses", expenseCategory:"Telecomunicaciones", subcategory:"Internet", name:"Telecomunicaciones - Internet", value: 85, owner:"household" },
-        { id:"exp9", category:"expenses", expenseCategory:"Telecomunicaciones", subcategory:"Teléfono", name:"Telecomunicaciones - Teléfono", value: 120, owner:"household" },
-        { id:"exp10", category:"expenses", expenseCategory:"Dependientes", subcategory:"Educación", name:"Dependientes - Educación", value: 450, owner:"household" },
-        
-        // Savings
-        { id:"sav1", category:"savings", expenseCategory:"Reserva de emergencia", subcategory:"Aporte mensual", name:"Reserva de emergencia - Aporte mensual", value: 500, owner:"household" },
-        { id:"sav2", category:"savings", expenseCategory:"Metas", subcategory:"Educación", name:"Metas - Educación", value: 800, owner:"household" },
-        { id:"sav3", category:"savings", expenseCategory:"Metas", subcategory:"Viaje", name:"Metas - Viaje", value: 300, owner:"household" },
-        { id:"sav4", category:"savings", expenseCategory:"Retiro", subcategory:"401(k)", name:"Retiro - 401(k)", value: 1200, owner:"p1" },
-        { id:"sav5", category:"savings", expenseCategory:"Retiro", subcategory:"IRA/Roth", name:"Retiro - IRA/Roth", value: 500, owner:"p2" },
-        
-        // Banking
-        { id:"bank1", category:"banking", name:"Chase Checking", value: 8500, owner:"household" },
-        { id:"bank2", category:"banking", name:"Ally Savings (Emergencias)", value: 35000, owner:"household" },
-        { id:"bank3", category:"banking", name:"Cash en casa", value: 1200, owner:"household" },
-        
-        // Retirement
-        { id:"ret1", category:"investments_retirement", name:"401k Carlos - Fidelity", value: 185000, owner:"p1" },
-        { id:"ret2", category:"investments_retirement", name:"Roth IRA María", value: 42000, owner:"p2" },
-        
-        // Non-retirement investments
-        { id:"inv1", category:"investments_nonretirement", name:"Vanguard Brokerage", value: 68000, owner:"household" },
-        { id:"inv2", category:"investments_nonretirement", name:"Crypto (BTC, ETH)", value: 12500, owner:"p1" },
-        
-        // Real Estate
-        { id:"re1", category:"real_estate", name:"Casa principal (Miami)", value: 485000, owner:"household" },
-        
-        // Liabilities
-        { id:"debt1", category:"liabilities", name:"Hipoteca casa principal", value: 312000, owner:"household" },
-        { id:"debt2", category:"liabilities", name:"Auto Honda", value: 18500, owner:"p2" },
-        { id:"debt3", category:"liabilities", name:"Chase Sapphire CC", value: 3200, owner:"household" },
-        
-        // Insurance
-        { id:"ins1", category:"insurance", name:"Seguro vida (term 20 años)", value: 2400, owner:"p1" },
-        { id:"ins2", category:"insurance", name:"Seguro auto State Farm", value: 1800, owner:"household" },
-        { id:"ins3", category:"insurance", name:"Seguro hogar", value: 1600, owner:"household" }
-      ]
-    },
-
-    wizardStep: 1,
-    wizardComplete: true,
-    notes: "Nos gustaría enfocarnos en optimización de impuestos y estrategia de ahorro para universidad de los niños. También queremos revisar si nuestro seguro de vida es suficiente. Notamos que nuestros gastos en alimentación y entretenimiento han aumentado últimamente y queremos asegurarnos de que estamos balanceando bien ahorro vs gastos."
-  };
-
   // ===== State =====
   const state = {
     mode: 'detailed',
@@ -1346,11 +1463,9 @@
     startTime: Date.now(),
     
     people: {
-      template: null,
-      householdRole: "",
-      members: [
-        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
-      ]
+      template: '',
+      householdRole: '',
+      members: []
     },
 
     financials: {
@@ -1359,6 +1474,9 @@
       hasInvestments: null,
       hasRealEstate: null,
       hasInsurance: null,
+      hasBusiness: null,
+      hasLegal: null,
+      hasOtherAssets: null,
       hasExpenses: null,
       hasSavings: null,
       categoriesSelected: [],
@@ -1373,7 +1491,11 @@
   // Load from localStorage
   function loadDraft(){
     try{
-      const saved = localStorage.getItem('discovery_draft_v2');
+      // Clean up old versions
+      localStorage.removeItem('discovery_draft_v2');
+      localStorage.removeItem('discovery_draft');
+      
+      const saved = localStorage.getItem('discovery_draft_v3');
       if(saved){
         const data = JSON.parse(saved);
         Object.assign(state, data);
@@ -1382,21 +1504,12 @@
     } catch(e){}
   }
 
-  // Load demo data
-  const loadDemoBtn = $('#loadDemoBtn');
-  loadDemoBtn.addEventListener('click', () => {
-    Object.assign(state, JSON.parse(JSON.stringify(DUMMY_DATA)));
-    showToast('✓ Datos de ejemplo cargados');
-    setStep(1);
-    debouncedSave();
-  });
-
   // Auto-save
   let saveTimer;
   function debouncedSave(){
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
-      localStorage.setItem('discovery_draft_v2', JSON.stringify(state));
+      localStorage.setItem('discovery_draft_v3', JSON.stringify(state));
       const indicator = $('#autoSave');
       indicator.classList.add('show');
       setTimeout(() => indicator.classList.remove('show'), 1500);
@@ -1424,24 +1537,35 @@
     state.step = step;
     $$('.step').forEach(sec => sec.hidden = sec.dataset.step !== String(step));
 
-    // Progress dots
-    const dots = $('#progressDots');
-    dots.innerHTML = '';
-    for(let i=1; i<=4; i++){
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      if(i < step) dot.classList.add('completed');
-      if(i === step) dot.classList.add('active');
-      dots.appendChild(dot);
-    }
+    // Update step circles
+    $$('.stepCircle').forEach((circle, idx) => {
+      const circleStep = idx + 1;
+      circle.classList.remove('completed', 'active');
+      
+      if(circleStep < step){
+        circle.classList.add('completed');
+        // Change number to checkmark for completed
+        const numberEl = circle.querySelector('.stepNumber');
+        numberEl.textContent = '✓';
+      } else if(circleStep === step){
+        circle.classList.add('active');
+        // Show number for active
+        const numberEl = circle.querySelector('.stepNumber');
+        numberEl.textContent = circleStep;
+      } else {
+        // Show number for future steps
+        const numberEl = circle.querySelector('.stepNumber');
+        numberEl.textContent = circleStep;
+      }
+    });
 
     // Progress text
     const elapsed = Math.floor((Date.now() - state.startTime) / 60000);
-    const remaining = Math.max(1, (state.mode === 'quick' ? 4 : 10) - elapsed);
+    const remaining = Math.max(1, 10 - elapsed);
     $('#progressText').textContent = `Paso ${step} de 4 · ~${remaining} min restantes`;
 
     // Buttons
-    backBtn.disabled = step === 1;
+    backBtn.hidden = step === 1;
     nextBtn.hidden = step === 4;
 
     // Step-specific
@@ -1475,14 +1599,6 @@
   function validatePeople(){
     const m = state.people.members;
     const primary = m[0];
-    
-    if(state.mode === 'quick'){
-      return {
-        ok: primary.firstName?.trim() && 
-            Number.isInteger(primary.age) && 
-            primary.age > 0
-      };
-    }
 
     const baseOk =
       primary.firstName?.trim() &&
@@ -1497,12 +1613,10 @@
         const p = m[i];
         const okp =
           p.firstName?.trim() &&
-          Number.isInteger(p.age) && p.age > 0;
-        if(state.mode === 'detailed'){
-          if(!p.lastName?.trim() || 
-             !["male","female","prefer_not_to_say"].includes(p.gender) ||
-             !p.relationshipToPrimary) return { ok:false };
-        }
+          p.lastName?.trim() &&
+          Number.isInteger(p.age) && p.age > 0 &&
+          ["male","female","prefer_not_to_say"].includes(p.gender) &&
+          p.relationshipToPrimary;
         if(!okp) return { ok:false };
       }
     }
@@ -1520,14 +1634,6 @@
     }
     return { ok:true };
   }
-
-  // ===== STEP 1: Mode selection =====
-  $$('input[name="mode"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-      state.mode = radio.value;
-      debouncedSave();
-    });
-  });
 
   // ===== STEP 2: People =====
   const TEMPLATES = {
@@ -1595,9 +1701,7 @@
       `;
       card.appendChild(head);
 
-      const requiredFields = state.mode === 'quick' 
-        ? ['firstName', 'age']
-        : ['firstName', 'lastName', 'age', 'gender'];
+      const requiredFields = ['firstName', 'lastName', 'age', 'gender'];
 
       const row1 = document.createElement('div');
       row1.className = 'row';
@@ -1614,7 +1718,7 @@
       if(requiredFields.includes('lastName')){
         row1.innerHTML += `
           <div class="field">
-            <label>Apellido ${state.mode === 'quick' ? '<span class="optional">Opcional</span>' : '*'}</label>
+            <label>Apellido *</label>
             <input type="text" data-k="lastName" value="${escapeHtml(p.lastName||'')}" placeholder="Apellido" />
           </div>
         `;
@@ -1637,7 +1741,7 @@
       if(requiredFields.includes('gender')){
         row2.innerHTML += `
           <div class="field">
-            <label>Sexo ${state.mode === 'quick' ? '<span class="optional">Opcional</span>' : '*'}</label>
+            <label>Sexo *</label>
             <select data-k="gender">
               <option value="">Selecciona…</option>
               <option value="male" ${p.gender==='male'?'selected':''}>Masculino</option>
@@ -1651,11 +1755,10 @@
       card.appendChild(row2);
 
       if(!isPrimary){
-        const relField = state.mode === 'detailed' ? '*' : '<span class="optional">Opcional</span>';
         const rel = document.createElement('div');
         rel.className = 'field';
         rel.innerHTML = `
-          <label>Relación con persona principal ${relField}</label>
+          <label>Relación con persona principal *</label>
           <select data-k="relationshipToPrimary">
             <option value="">Selecciona…</option>
             <option value="spouse" ${p.relationshipToPrimary==='spouse'?'selected':''}>Cónyuge</option>
@@ -1739,10 +1842,10 @@
 
   // ===== STEP 3: Wizard =====
   const CATEGORY_SUGGESTIONS = {
-    '0-50k': ['income', 'expenses', 'banking', 'liabilities'],
-    '50-100k': ['income', 'expenses', 'savings', 'banking', 'liabilities', 'investments_retirement'],
-    '100-200k': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate'],
-    '200k+': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'insurance', 'legal']
+    '0-50k': ['income', 'expenses', 'banking', 'liabilities', 'other_assets'],
+    '50-100k': ['income', 'expenses', 'savings', 'banking', 'liabilities', 'investments_retirement', 'other_assets'],
+    '100-200k': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'insurance', 'other_assets'],
+    '200k+': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'insurance', 'business_trust', 'legal', 'other_assets']
   };
 
   const FIN_CATS = [
@@ -1784,6 +1887,130 @@
     "Inversión": ["Brokerage", "ETF/Fondos", "Cripto", "Otro"],
     "Otro": ["Otro"]
   };
+
+  // Income types
+  const INCOME_TYPES = [
+    "Salario",
+    "Pago por hora",
+    "Bono",
+    "Comisión",
+    "Propina",
+    "Negocio propio",
+    "Dividendos e intereses",
+    "Renta inmueble",
+    "Pensión",
+    "Seguro Social",
+    "Anualidad",
+    "Ganancia de capital",
+    "Otro"
+  ];
+
+  // Debt types
+  const DEBT_TYPES = [
+    "Tarjeta de crédito",
+    "Préstamo de auto",
+    "Préstamo estudiantil",
+    "Hipoteca",
+    "HELOC (línea de crédito)",
+    "Préstamo personal",
+    "Préstamo de negocio",
+    "Impuestos adeudados",
+    "Otro"
+  ];
+
+  // Banking types
+  const BANKING_TYPES = [
+    "Checking",
+    "Savings",
+    "Money Market",
+    "CD (Certificate of Deposit)",
+    "Efectivo",
+    "Otro"
+  ];
+
+  // Retirement investment types
+  const RETIREMENT_TYPES = [
+    "401(k)",
+    "403(b)",
+    "457",
+    "IRA Tradicional",
+    "Roth IRA",
+    "SEP IRA",
+    "Pensión",
+    "Anualidad",
+    "Otro"
+  ];
+
+  // Non-retirement investment types
+  const INVESTMENT_TYPES = [
+    "Brokerage account",
+    "Acciones individuales",
+    "ETF/Fondos mutuos",
+    "Bonos",
+    "Criptomonedas",
+    "Commodities",
+    "Otro"
+  ];
+
+  // Real estate types
+  const REAL_ESTATE_TYPES = [
+    "Casa principal",
+    "Casa vacacional",
+    "Propiedad de renta",
+    "Apartamento/Condo",
+    "Terreno",
+    "Propiedad comercial",
+    "Otro"
+  ];
+
+  // Insurance types
+  const INSURANCE_TYPES = [
+    "Vida - Term",
+    "Vida - Whole/Universal",
+    "Salud",
+    "Auto",
+    "Hogar/Renta",
+    "Disability",
+    "Long-term care",
+    "Umbrella",
+    "Otro"
+  ];
+
+  // Business/Trust types
+  const BUSINESS_TYPES = [
+    "Negocio propio (100%)",
+    "Negocio (participación)",
+    "LLC",
+    "S-Corp",
+    "C-Corp",
+    "Partnership",
+    "Trust",
+    "Otro"
+  ];
+
+  // Legal types
+  const LEGAL_TYPES = [
+    "Testamento",
+    "Living Trust",
+    "Revocable Trust",
+    "Irrevocable Trust",
+    "Power of Attorney",
+    "Healthcare Directive",
+    "Beneficiarios designados",
+    "Otro"
+  ];
+
+  // Other assets types
+  const OTHER_ASSETS_TYPES = [
+    "Vehículo",
+    "Bote/Jet ski",
+    "RV/Camper",
+    "Joyas",
+    "Arte",
+    "Coleccionables",
+    "Equipamiento profesional",
+    "Otro"
+  ];
 
   function renderWizard(){
     const wizardFlow = $('#wizardFlow');
@@ -1851,12 +2078,30 @@
           }
         }
         if(stepNum === 6){
+          state.financials.hasBusiness = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('business_trust')){
+            state.financials.categoriesSelected.push('business_trust');
+          }
+        }
+        if(stepNum === 7){
+          state.financials.hasLegal = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('legal')){
+            state.financials.categoriesSelected.push('legal');
+          }
+        }
+        if(stepNum === 8){
+          state.financials.hasOtherAssets = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('other_assets')){
+            state.financials.categoriesSelected.push('other_assets');
+          }
+        }
+        if(stepNum === 9){
           state.financials.hasExpenses = answer === 'yes';
           if(answer === 'yes' && !state.financials.categoriesSelected.includes('expenses')){
             state.financials.categoriesSelected.push('expenses');
           }
         }
-        if(stepNum === 7){
+        if(stepNum === 10){
           state.financials.hasSavings = answer === 'yes';
           if(answer === 'yes' && !state.financials.categoriesSelected.includes('savings')){
             state.financials.categoriesSelected.push('savings');
@@ -1866,7 +2111,7 @@
         debouncedSave();
 
         // Next step or finish
-        if(stepNum < 7){
+        if(stepNum < 10){
           state.wizardStep = stepNum + 1;
           renderWizard();
         } else {
@@ -1881,6 +2126,20 @@
 
   function renderCategoriesDetail(){
     const container = $('#categoriesInline');
+    const hintEl = $('#categoriesDetailHint');
+    
+    // Update hint based on household size
+    const people = state.people.members || [];
+    if(people.length > 1){
+      hintEl.innerHTML = `
+        Agrega al menos un ítem en cada área seleccionada. 
+        <b>Tip:</b> Puedes agregar el mismo tipo varias veces (ej: Checking de Carlos, Checking de María, Checking conjunta) 
+        seleccionando el dueño correspondiente.
+      `;
+    } else {
+      hintEl.textContent = 'Agrega al menos un ítem en cada área seleccionada.';
+    }
+    
     container.innerHTML = '';
 
     state.financials.categoriesSelected.forEach(catKey => {
@@ -1899,7 +2158,7 @@
       card.innerHTML = `
         <div class="catHeader">
           <div class="catInfo">
-            <input type="checkbox" ${hasItems ? 'checked' : ''} disabled />
+            <input type="checkbox" data-category-checkbox checked />
             <div class="catLabel">
               <b>${escapeHtml(meta.label)}</b>
               <span>${escapeHtml(meta.hint)}</span>
@@ -1908,10 +2167,24 @@
           <div class="catExpand">▾</div>
         </div>
         <div class="catBody">
-          ${isExpenseOrSaving ? renderExpenseSavingsForm(catKey) : renderStandardForm()}
+          ${isExpenseOrSaving ? renderExpenseSavingsForm(catKey) : renderStandardForm(catKey)}
           <div class="itemsList" data-items></div>
         </div>
       `;
+
+      // Mark card as checked since category was selected
+      card.classList.add('checked');
+
+      // Checkbox handler
+      const checkbox = card.querySelector('[data-category-checkbox]');
+      checkbox.addEventListener('change', (e) => {
+        e.stopPropagation();
+        if(checkbox.checked){
+          card.classList.add('checked');
+        } else {
+          card.classList.remove('checked');
+        }
+      });
 
       // Toggle expand
       card.querySelector('.catHeader').addEventListener('click', (e) => {
@@ -1938,64 +2211,161 @@
     });
   }
 
-  function renderStandardForm(){
+  function renderStandardForm(catKey){
+    const typeOptions = getTypeOptionsForCategory(catKey);
+    const people = state.people.members || [];
+    const showOwner = people.length > 1;
+    
+    if(!showOwner){
+      return `
+        <div class="standardAddRow">
+          <select data-type-select>
+            <option value="">Tipo...</option>
+            ${typeOptions.map(type => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('')}
+          </select>
+          <input type="text" placeholder="Alias (opcional)" data-alias-input />
+          <input type="number" min="0" step="0.01" placeholder="$ USD" data-add-amount />
+          <button type="button" data-add-btn>+</button>
+        </div>
+      `;
+    }
+    
+    // Multi-person household: show owner selector
     return `
-      <div class="quickAddRow">
-        <input type="text" placeholder="Nombre/alias (ej: Bank of America)" data-add-name />
-        <input type="number" min="0" step="0.01" placeholder="Cantidad USD" data-add-amount />
-        <button type="button" data-add-btn>+ Agregar</button>
+      <div class="standardAddRowMulti">
+        <select data-type-select>
+          <option value="">Tipo...</option>
+          ${typeOptions.map(type => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join('')}
+        </select>
+        <input type="text" placeholder="Alias (opcional)" data-alias-input />
+        <input type="number" min="0" step="0.01" placeholder="$ USD" data-add-amount />
+        <select data-owner-select>
+          ${ownerOptionsHTML('')}
+        </select>
+        <button type="button" data-add-btn>+</button>
       </div>
     `;
   }
 
+  function ownerOptionsHTML(current){
+    const people = state.people.members || [];
+    let html = `<option value="">Dueño...</option>`;
+    for(const p of people){
+      const name = ([p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase());
+      html += `<option value="${p.id}" ${current===p.id?"selected":""}>${escapeHtml(name)}</option>`;
+    }
+    html += `<option value="household" ${current==="household"?"selected":""}>Compartido</option>`;
+    return html;
+  }
+
+  function getTypeOptionsForCategory(catKey){
+    const typeMap = {
+      'income': INCOME_TYPES,
+      'liabilities': DEBT_TYPES,
+      'banking': BANKING_TYPES,
+      'investments_retirement': RETIREMENT_TYPES,
+      'investments_nonretirement': INVESTMENT_TYPES,
+      'real_estate': REAL_ESTATE_TYPES,
+      'insurance': INSURANCE_TYPES,
+      'business_trust': BUSINESS_TYPES,
+      'legal': LEGAL_TYPES,
+      'other_assets': OTHER_ASSETS_TYPES
+    };
+    
+    return typeMap[catKey] || ['Otro'];
+  }
+
   function renderExpenseSavingsForm(catKey){
     const taxonomy = catKey === 'expenses' ? EXPENSES_TAX : SAVINGS_TAX;
-    const categories = Object.keys(taxonomy);
+    const people = state.people.members || [];
+    const showOwner = people.length > 1;
+    
+    // Flatten taxonomy into single list
+    const options = [];
+    for(const [category, subcategories] of Object.entries(taxonomy)){
+      for(const subcategory of subcategories){
+        options.push({ category, subcategory, label: `${category} - ${subcategory}` });
+      }
+    }
+    
+    if(!showOwner){
+      return `
+        <div class="expenseAddRow">
+          <select data-combined-select>
+            <option value="">Selecciona categoría...</option>
+            ${options.map(opt => {
+              const value = JSON.stringify({ category: opt.category, subcategory: opt.subcategory });
+              return `<option value='${escapeHtml(value)}'>${escapeHtml(opt.label)}</option>`;
+            }).join('')}
+          </select>
+          <input type="number" min="0" step="0.01" placeholder="$/mes" data-add-amount />
+          <button type="button" data-add-btn>+</button>
+        </div>
+      `;
+    }
     
     return `
-      <div class="expenseAddRow">
-        <select data-category-select>
-          <option value="">Categoría...</option>
-          ${categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('')}
-        </select>
-        <select data-subcategory-select disabled>
-          <option value="">Subcategoría...</option>
+      <div class="expenseAddRowMulti">
+        <select data-combined-select>
+          <option value="">Selecciona categoría...</option>
+          ${options.map(opt => {
+            const value = JSON.stringify({ category: opt.category, subcategory: opt.subcategory });
+            return `<option value='${escapeHtml(value)}'>${escapeHtml(opt.label)}</option>`;
+          }).join('')}
         </select>
         <input type="number" min="0" step="0.01" placeholder="$/mes" data-add-amount />
-        <button type="button" data-add-btn>+ Agregar</button>
+        <select data-owner-select>
+          ${ownerOptionsHTML('')}
+        </select>
+        <button type="button" data-add-btn>+</button>
       </div>
     `;
   }
 
   function setupStandardHandlers(card, catKey, itemsList){
     const addBtn = card.querySelector('[data-add-btn]');
-    const nameInput = card.querySelector('[data-add-name]');
+    const typeSelect = card.querySelector('[data-type-select]');
+    const aliasInput = card.querySelector('[data-alias-input]');
     const amountInput = card.querySelector('[data-add-amount]');
+    const ownerSelect = card.querySelector('[data-owner-select]');
 
     function addItem(){
-      const name = nameInput.value.trim();
+      const type = typeSelect.value.trim();
+      const alias = aliasInput.value.trim();
       const amount = Number(amountInput.value);
 
-      if(!name || !Number.isFinite(amount) || amount < 0) return;
+      if(!type || !Number.isFinite(amount) || amount < 0) return;
+
+      // Determine owner
+      let owner;
+      if(ownerSelect){
+        owner = ownerSelect.value || 'household';
+      } else {
+        owner = state.people.members.length > 1 ? 'household' : state.people.members[0].id;
+      }
+
+      // Use alias if provided, otherwise use type
+      const displayName = alias || type;
 
       const item = {
         id: uid(catKey),
         category: catKey,
-        name,
+        type: type,
+        alias: alias || null,
+        name: displayName,
         value: amount,
-        owner: state.people.members.length > 1 ? 'household' : state.people.members[0].id
+        owner: owner
       };
 
       state.financials.items.push(item);
-      nameInput.value = '';
+      typeSelect.value = '';
+      aliasInput.value = '';
       amountInput.value = '';
+      if(ownerSelect) ownerSelect.value = '';
       
       renderItemsList(catKey, itemsList);
       updateNavValidity();
       debouncedSave();
-
-      const cb = card.querySelector('input[type="checkbox"]');
-      cb.checked = true;
     }
 
     addBtn.addEventListener('click', addItem);
@@ -2005,37 +2375,26 @@
   }
 
   function setupExpenseSavingsHandlers(card, catKey, itemsList){
-    const categorySelect = card.querySelector('[data-category-select]');
-    const subcategorySelect = card.querySelector('[data-subcategory-select]');
+    const combinedSelect = card.querySelector('[data-combined-select]');
     const amountInput = card.querySelector('[data-add-amount]');
     const addBtn = card.querySelector('[data-add-btn]');
-
-    const taxonomy = catKey === 'expenses' ? EXPENSES_TAX : SAVINGS_TAX;
-
-    // Update subcategories when category changes
-    categorySelect.addEventListener('change', () => {
-      const category = categorySelect.value;
-      subcategorySelect.disabled = !category;
-      
-      if(category){
-        const subcategories = taxonomy[category] || [];
-        subcategorySelect.innerHTML = `
-          <option value="">Subcategoría...</option>
-          ${subcategories.map(sub => `<option value="${escapeHtml(sub)}">${escapeHtml(sub)}</option>`).join('')}
-        `;
-      } else {
-        subcategorySelect.innerHTML = '<option value="">Subcategoría...</option>';
-      }
-      
-      subcategorySelect.value = '';
-    });
+    const ownerSelect = card.querySelector('[data-owner-select]');
 
     function addItem(){
-      const category = categorySelect.value;
-      const subcategory = subcategorySelect.value;
+      const selectedValue = combinedSelect.value;
       const amount = Number(amountInput.value);
 
-      if(!category || !subcategory || !Number.isFinite(amount) || amount < 0) return;
+      if(!selectedValue || !Number.isFinite(amount) || amount < 0) return;
+
+      const { category, subcategory } = JSON.parse(selectedValue);
+
+      // Determine owner
+      let owner;
+      if(ownerSelect){
+        owner = ownerSelect.value || 'household';
+      } else {
+        owner = state.people.members.length > 1 ? 'household' : state.people.members[0].id;
+      }
 
       const item = {
         id: uid(catKey),
@@ -2044,21 +2403,17 @@
         subcategory: subcategory,
         name: `${category} - ${subcategory}`,
         value: amount,
-        owner: state.people.members.length > 1 ? 'household' : state.people.members[0].id
+        owner: owner
       };
 
       state.financials.items.push(item);
-      categorySelect.value = '';
-      subcategorySelect.value = '';
-      subcategorySelect.disabled = true;
+      combinedSelect.value = '';
       amountInput.value = '';
+      if(ownerSelect) ownerSelect.value = '';
       
       renderItemsList(catKey, itemsList);
       updateNavValidity();
       debouncedSave();
-
-      const cb = card.querySelector('input[type="checkbox"]');
-      cb.checked = true;
     }
 
     addBtn.addEventListener('click', addItem);
@@ -2074,10 +2429,23 @@
       const owner = state.people.members.find(p => p.id === it.owner);
       const ownerName = owner ? `${owner.firstName || owner.id}` : 'Hogar';
       
+      // For expenses/savings show category-subcategory, for others show type
+      let displayName = it.name;
+      let typeInfo = '';
+      
+      if(it.type && it.alias){
+        // Has both type and alias
+        typeInfo = `${it.type}`;
+        displayName = it.alias;
+      } else if(it.type){
+        // Only type
+        displayName = it.type;
+      }
+      
       return `
         <div class="itemChip" data-id="${it.id}">
           <div class="chipInfo">
-            <div class="chipName">${escapeHtml(it.name)}</div>
+            <div class="chipName">${escapeHtml(displayName)}${typeInfo ? ` <span style="color:var(--muted);font-size:11px;">(${escapeHtml(typeInfo)})</span>` : ''}</div>
             <div class="chipDetails">$${it.value?.toLocaleString() || 0} · ${ownerName}</div>
           </div>
           <button class="chipRemove" type="button">×</button>
@@ -2094,14 +2462,37 @@
         renderItemsList(catKey, container);
         updateNavValidity();
         debouncedSave();
-
-        const items = state.financials.items.filter(it => it.category === catKey);
-        const card = e.target.closest('.catInlineCard');
-        const cb = card.querySelector('input[type="checkbox"]');
-        cb.checked = items.length > 0;
       });
     });
   }
+
+  // Edit wizard button
+  const editWizardBtn = $('#editWizardBtn');
+  editWizardBtn.addEventListener('click', () => {
+    // Reset wizard to beginning
+    state.wizardStep = 1;
+    state.wizardComplete = false;
+    
+    // Clear selected categories and items
+    state.financials.categoriesSelected = [];
+    state.financials.items = [];
+    
+    // Reset all wizard answers
+    state.financials.incomeRange = "";
+    state.financials.hasDebts = null;
+    state.financials.hasInvestments = null;
+    state.financials.hasRealEstate = null;
+    state.financials.hasInsurance = null;
+    state.financials.hasBusiness = null;
+    state.financials.hasLegal = null;
+    state.financials.hasOtherAssets = null;
+    state.financials.hasExpenses = null;
+    state.financials.hasSavings = null;
+    
+    renderWizard();
+    debouncedSave();
+    showToast('Wizard reiniciado - puedes editar tus respuestas');
+  });
 
   // ===== STEP 4: Confirmation =====
   const finalNotesEl = $('#finalNotes');
@@ -2129,7 +2520,7 @@
     const totalSavingsAnnual = totalSavingsMonthly * 12;
     
     const totalAssets = state.financials.items
-      .filter(it => ['banking', 'investments_retirement', 'investments_nonretirement', 'real_estate'].includes(it.category))
+      .filter(it => ['banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'business_trust', 'other_assets'].includes(it.category))
       .reduce((sum, it) => sum + (it.value || 0), 0);
     
     const totalLiabilities = state.financials.items
@@ -2203,8 +2594,12 @@
     const payload = buildFinalPayload();
     
     console.log('[Discovery Payload]', payload);
+    console.log('📧 En producción, este payload dispara:');
+    console.log('   1. Generación de PDF + Excel (para equipo de asesores - INTERNO)');
+    console.log('   2. Email al usuario con link de Calendly para agendar sesión');
+    console.log('   3. Notificación al equipo con los documentos adjuntos');
 
-    // Download JSON
+    // Download JSON (solo para demo/desarrollo)
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -2214,12 +2609,12 @@
     a.remove();
 
     // Clear localStorage
-    localStorage.removeItem('discovery_draft_v2');
+    localStorage.removeItem('discovery_draft_v3');
 
     finalSubmitBtn.textContent = '✓ Enviado';
     finalSubmitBtn.disabled = true;
     
-    showToast('✓ Discovery enviado. Revisa tu email.');
+    showToast('✓ Información enviada. Revisa tu email para agendar tu sesión.');
 
     setTimeout(() => {
       finalSubmitBtn.textContent = 'Confirmar y enviar →';
@@ -2279,9 +2674,6 @@
   loadDraft();
   
   // Set mode from state
-  const modeRadio = $(`input[name="mode"][value="${state.mode}"]`);
-  if(modeRadio) modeRadio.checked = true;
-
   setStep(state.step);
 
 })();
