@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discovery · Diagnóstico Financiero (Demo con Datos)</title>
+  <style>
+    :root{
+      --primary:#3956E8;
+      --secondary:#7459D9;
+      --accent:#E8C239;
+      --bg:#f6f7ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#dc2626;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(circle at top, rgba(57,86,232,.12) 0, rgba(245,247,255,1) 40%, rgba(245,247,255,1) 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 16px 28px;
+    }
+    
+    /* Header mejorado */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 20px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 22px;
+      letter-spacing:-0.02em;
+    }
+    .progressInline{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .progressDots{
+      display:flex;
+      gap:6px;
+    }
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--border);
+      transition: all .3s ease;
+    }
+    .dot.completed{
+      background:var(--ok);
+      transform: scale(1.15);
+    }
+    .dot.active{
+      background:var(--primary);
+      transform: scale(1.3);
+    }
+    .progressText{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* Auto-save indicator */
+    .autoSaveIndicator{
+      font-size:12px;
+      color:var(--ok);
+      opacity:0;
+      transition: opacity .3s ease;
+    }
+    .autoSaveIndicator.show{
+      opacity:1;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content{ 
+      padding: 24px 20px; 
+      min-height: 420px;
+    }
+
+    /* Demo banner */
+    .demoBanner{
+      background: linear-gradient(135deg, rgba(232,194,57,.15), rgba(245,158,11,.15));
+      border:2px solid rgba(232,194,57,.3);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .demoBanner b{
+      font-size:14px;
+      color:var(--text);
+    }
+    .demoBanner .hint{
+      font-size:13px;
+      color:var(--muted);
+      margin:4px 0 0;
+    }
+    .demoBtn{
+      border:1px solid rgba(232,194,57,.4);
+      background:#fff;
+      color:var(--text);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .demoBtn:hover{
+      background:rgba(232,194,57,.1);
+      border-color:rgba(232,194,57,.6);
+    }
+
+    /* Panel styles */
+    .panel{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      background: #fff;
+      margin-bottom: 16px;
+    }
+    .panel h2{
+      margin:0 0 8px;
+      font-size: 20px;
+      letter-spacing:-0.02em;
+    }
+    .panel h3{
+      margin:16px 0 10px;
+      font-size: 16px;
+      letter-spacing:-0.01em;
+    }
+    .panel p{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Hero section */
+    .hero{
+      text-align:center;
+      padding: 28px 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(57,86,232,.08), rgba(116,89,217,.08));
+      border:1px solid rgba(57,86,232,.2);
+      margin-bottom: 20px;
+    }
+    .hero h2{
+      margin:0 0 10px;
+      font-size: 26px;
+      letter-spacing:-0.03em;
+    }
+    .hero p{
+      margin:0;
+      font-size: 15px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .hero b{
+      color:var(--primary);
+    }
+
+    /* Checklist */
+    .checklistPrep{
+      background: rgba(22,163,74,.06);
+      border:1px solid rgba(22,163,74,.2);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+    .checklistPrep p{
+      margin:0 0 8px;
+      font-weight:600;
+      color:var(--text);
+    }
+    .checklistPrep ul{
+      margin:0;
+      padding-left:20px;
+      color:var(--text);
+    }
+    .checklistPrep li{
+      margin:6px 0;
+      font-size:14px;
+    }
+
+    /* Mode selector */
+    .modeSelector{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+      margin: 16px 0 20px;
+    }
+    .modeCard{
+      border:2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      cursor:pointer;
+      transition: all .2s ease;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      background:#fff;
+    }
+    .modeCard:hover{
+      border-color: rgba(57,86,232,.35);
+      box-shadow: 0 8px 20px rgba(15,23,42,.08);
+    }
+    .modeCard input[type="radio"]{
+      margin-top:3px;
+    }
+    .modeCard input[type="radio"]:checked ~ div{
+      color:var(--text);
+    }
+    .modeCard input[type="radio"]:checked{
+      accent-color:var(--primary);
+    }
+    .modeCard b{
+      display:block;
+      font-size:15px;
+      margin-bottom:4px;
+    }
+    .modeCard span{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+
+    /* Templates */
+    .quickTemplates{
+      margin: 16px 0;
+    }
+    .quickTemplates b{
+      display:block;
+      margin-bottom:10px;
+      font-size:14px;
+    }
+    .templateGrid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:10px;
+    }
+    .templateBtn{
+      border:2px solid var(--border);
+      background:#fff;
+      border-radius: 14px;
+      padding: 14px;
+      text-align:left;
+      cursor:pointer;
+      transition: all .2s ease;
+      font-size:14px;
+      font-weight:600;
+    }
+    .templateBtn:hover{
+      border-color: rgba(57,86,232,.35);
+      background: rgba(57,86,232,.04);
+    }
+    .templateBtn.selected{
+      border-color: var(--primary);
+      background: rgba(57,86,232,.08);
+      color:var(--primary);
+    }
+
+    /* Wizard flow */
+    .wizardFlow{
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .wizardStep{
+      display:none;
+      animation: fadeIn 0.3s ease;
+    }
+    .wizardStep.active{
+      display:block;
+    }
+    .wizardQ{
+      text-align:center;
+      margin-bottom: 24px;
+    }
+    .wizardQ b{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .wizardQ h3{
+      margin:0 0 6px;
+      font-size:22px;
+      letter-spacing:-0.02em;
+    }
+    .wizardQ p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .wizardOptions{
+      display:grid;
+      gap:10px;
+    }
+    .optionBtn{
+      border:2px solid var(--border);
+      background:#fff;
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-align:left;
+      cursor:pointer;
+      transition: all .15s ease;
+      font-size:15px;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .optionBtn:hover{
+      border-color: rgba(57,86,232,.35);
+      background: rgba(57,86,232,.04);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(15,23,42,.08);
+    }
+    .optionBtn:active{
+      transform: translateY(0);
+    }
+
+    /* Category inline cards */
+    .categoriesInline{
+      display:grid;
+      gap:12px;
+      margin-top: 16px;
+    }
+    .catInlineCard{
+      border:2px solid var(--border);
+      border-radius: 14px;
+      background:#fff;
+      overflow:hidden;
+      transition: all .2s ease;
+    }
+    .catInlineCard.selected{
+      border-color: var(--primary);
+      background: rgba(57,86,232,.02);
+    }
+    .catHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .catHeader:hover{
+      background: rgba(57,86,232,.04);
+    }
+    .catInfo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .catInfo input[type="checkbox"]{
+      width:20px;
+      height:20px;
+      cursor:pointer;
+      accent-color:var(--primary);
+    }
+    .catLabel b{
+      display:block;
+      font-size:14px;
+      margin-bottom:2px;
+    }
+    .catLabel span{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .catExpand{
+      width:32px;
+      height:32px;
+      border-radius:8px;
+      background:rgba(15,23,42,.05);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--muted);
+      font-weight:900;
+      transition: transform .2s ease;
+    }
+    .catInlineCard.open .catExpand{
+      transform: rotate(180deg);
+    }
+
+    .catBody{
+      padding: 0 16px 16px;
+      display:none;
+      border-top:1px solid var(--border);
+      padding-top:14px;
+    }
+    .catInlineCard.open .catBody{
+      display:block;
+    }
+
+    /* Quick add row */
+    .quickAddRow{
+      display:grid;
+      grid-template-columns: 1.5fr 1fr auto;
+      gap:8px;
+      margin-bottom: 12px;
+    }
+    .quickAddRow input,
+    .quickAddRow select{
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      font-size:13px;
+      background:#fff;
+    }
+    .quickAddRow button{
+      padding: 10px 16px;
+      border:1px solid var(--primary);
+      background: var(--primary);
+      color:#fff;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .quickAddRow button:hover{
+      background: var(--secondary);
+    }
+
+    /* Expense/Savings special row */
+    .expenseAddRow{
+      display:grid;
+      grid-template-columns: 1.2fr 1.2fr 1fr auto;
+      gap:8px;
+      margin-bottom: 12px;
+    }
+    .expenseAddRow select,
+    .expenseAddRow input{
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      font-size:13px;
+      background:#fff;
+    }
+    .expenseAddRow button{
+      padding: 10px 16px;
+      border:1px solid var(--primary);
+      background: var(--primary);
+      color:#fff;
+      border-radius: 10px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .expenseAddRow button:hover{
+      background: var(--secondary);
+    }
+
+    .itemsList{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .itemChip{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(15,23,42,.015);
+      font-size:13px;
+    }
+    .itemChip .chipInfo{
+      flex:1;
+      min-width:0;
+    }
+    .itemChip .chipName{
+      font-weight:600;
+      margin-bottom:2px;
+    }
+    .itemChip .chipDetails{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .itemChip .chipRemove{
+      width:24px;
+      height:24px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--muted);
+      font-weight:900;
+      font-size:12px;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+    .itemChip .chipRemove:hover{
+      background:rgba(220,38,38,.08);
+      color:#dc2626;
+      border-color:rgba(220,38,38,.35);
+    }
+
+    /* Person cards */
+    .peopleWrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top: 14px;
+    }
+    .personCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(15,23,42,.015);
+      animation: fadeIn 0.3s ease;
+    }
+    .personHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .tag{
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(57,86,232,.10);
+      border:1px solid rgba(57,86,232,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .xbtn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--muted);
+      width:32px;
+      height:32px;
+      border-radius: 10px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:16px;
+    }
+    .xbtn:hover{
+      background:rgba(220,38,38,.08);
+      color:#dc2626;
+      border-color:rgba(220,38,38,.35);
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin: 10px 0;
+    }
+    .field label{
+      font-size: 13px;
+      font-weight:600;
+      color: var(--text);
+    }
+    .field label .optional{
+      font-size:11px;
+      font-weight:700;
+      color:var(--muted);
+      background:rgba(100,116,139,.1);
+      border:1px solid rgba(100,116,139,.2);
+      padding:3px 8px;
+      border-radius:999px;
+      margin-left:6px;
+    }
+    input[type="text"], 
+    input[type="email"], 
+    input[type="tel"], 
+    input[type="number"], 
+    select, 
+    textarea{
+      width:100%;
+      padding: 11px 14px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      outline:none;
+      font-size: 14px;
+      background:#fff;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    textarea{
+      min-height: 100px; 
+      resize: vertical;
+      font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height:1.4;
+    }
+    .hint b{
+      color:var(--text);
+    }
+
+    /* Buttons */
+    .btns{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background:#fff;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--text);
+      padding: 11px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor:pointer;
+      transition: all .15s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(15,23,42,.1);
+    }
+    .btn:active{
+      transform: translateY(0);
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(57,86,232,.2);
+    }
+    .btn.primary:hover{
+      box-shadow: 0 10px 20px rgba(57,86,232,.25);
+    }
+    .btn.ghost{
+      background: transparent;
+      color: var(--muted);
+      border-color:transparent;
+    }
+    .btn.ghost:hover{
+      background:rgba(15,23,42,.04);
+      color:var(--text);
+    }
+    .btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+      transform:none;
+    }
+    .btn.large{
+      padding: 14px 24px;
+      font-size:15px;
+    }
+    .btn.full{
+      width:100%;
+      justify-content:center;
+    }
+
+    /* Confirmation */
+    .confirmationHero{
+      text-align:center;
+      padding: 32px 20px;
+    }
+    .checkIcon{
+      width:80px;
+      height:80px;
+      margin: 0 auto 16px;
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--ok), #10b981);
+      color:#fff;
+      font-size:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      animation: scaleIn 0.4s ease;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+    .confirmationHero h2{
+      margin:0 0 10px;
+      font-size:24px;
+    }
+    .confirmationHero p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .deliverables{
+      display:grid;
+      gap:12px;
+      margin: 24px 0;
+    }
+    .deliverableCard{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding: 16px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background:#fff;
+    }
+    .deliverableCard .emoji{
+      font-size:28px;
+      flex-shrink:0;
+    }
+    .deliverableCard b{
+      display:block;
+      font-size:15px;
+      margin-bottom:4px;
+    }
+    .deliverableCard p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    /* Summary section */
+    .summaryGrid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+      margin: 16px 0;
+    }
+    .summaryCard{
+      border:1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(15,23,42,.015);
+    }
+    .summaryCard .label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .summaryCard .value{
+      font-size:18px;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      bottom:24px;
+      right:24px;
+      background:var(--text);
+      color:#fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size:13px;
+      font-weight:600;
+      box-shadow: 0 10px 30px rgba(15,23,42,.3);
+      opacity:0;
+      transform: translateY(20px);
+      transition: all .3s ease;
+      z-index:1000;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px){
+      .modeSelector, .templateGrid, .summaryGrid{
+        grid-template-columns: 1fr;
+      }
+      .row{
+        grid-template-columns:1fr;
+      }
+      .quickAddRow{
+        grid-template-columns: 1fr;
+      }
+      .expenseAddRow{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Keyboard hints */
+    .keyboardHints{
+      position:fixed;
+      bottom:20px;
+      left:20px;
+      font-size:11px;
+      color:var(--muted);
+      background:rgba(255,255,255,.9);
+      padding:8px 12px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      display:none;
+    }
+    .keyboardHints.show{
+      display:block;
+    }
+    .keyboardHints kbd{
+      background:rgba(15,23,42,.08);
+      padding:2px 6px;
+      border-radius:4px;
+      font-family:monospace;
+      font-size:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Discovery · Diagnóstico Financiero</h1>
+        <div class="progressInline">
+          <div class="progressDots" id="progressDots"></div>
+          <span class="progressText" id="progressText">Paso 1 de 4</span>
+        </div>
+      </div>
+      <div class="autoSaveIndicator" id="autoSave">Guardado ✓</div>
+    </header>
+
+    <div class="card">
+      <div class="content">
+        <!-- DEMO BANNER -->
+        <div class="demoBanner">
+          <div>
+            <b>🎯 Modo Demo</b>
+            <div class="hint">Carga datos de ejemplo para ver todo el flujo completo</div>
+          </div>
+          <button class="demoBtn" id="loadDemoBtn" type="button">
+            Cargar Ejemplo →
+          </button>
+        </div>
+
+        <!-- STEP 1: Preparación -->
+        <section class="step" data-step="1">
+          <div class="hero">
+            <h2>¡Hola! Preparemos tu sesión de diagnóstico 👋</h2>
+            <p>
+              Esto tomará <b>3-10 minutos</b> dependiendo del modo que elijas. 
+              Tu progreso se guarda automáticamente, puedes volver cuando quieras.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h2>Antes de empezar</h2>
+            <div class="checklistPrep">
+              <p>💡 Ten a mano (opcional pero útil):</p>
+              <ul>
+                <li>💰 Idea aproximada de ingresos anuales</li>
+                <li>🏦 Lista mental de cuentas bancarias/inversiones</li>
+                <li>🏠 Si tienes propiedades o préstamos activos</li>
+                <li>👥 Info básica de personas con quienes compartes finanzas</li>
+              </ul>
+              <div class="hint">
+                <b>Tranquilo:</b> No necesitas números exactos ahora. 
+                Podemos refinar todo en la sesión.
+              </div>
+            </div>
+
+            <h3>¿Cómo prefieres llenar esto?</h3>
+            
+            <div class="modeSelector">
+              <label class="modeCard">
+                <input type="radio" name="mode" value="quick" />
+                <div>
+                  <b>⚡ Rápido (3-4 min)</b>
+                  <span>Solo lo esencial ahora, resto en la sesión</span>
+                </div>
+              </label>
+
+              <label class="modeCard">
+                <input type="radio" name="mode" value="detailed" checked />
+                <div>
+                  <b>🎯 Detallado (7-10 min)</b>
+                  <span>Completo todos los campos ahora para mejor diagnóstico</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2: Personas -->
+        <section class="step" data-step="2" hidden>
+          <div class="panel">
+            <h2>Estructura familiar/financiera</h2>
+            <p>
+              Esto nos ayuda a <b>personalizar las recomendaciones</b>. 
+              Por ejemplo: si tienes pareja, podemos analizar estrategias conjuntas.
+            </p>
+
+            <div class="quickTemplates">
+              <b>Plantillas rápidas:</b>
+              <div class="templateGrid">
+                <button class="templateBtn" data-template="single" type="button">
+                  👤 Solo yo
+                </button>
+                <button class="templateBtn" data-template="couple" type="button">
+                  👥 Pareja (sin hijos)
+                </button>
+                <button class="templateBtn" data-template="family" type="button">
+                  👨‍👩‍👧‍👦 Familia (pareja + hijos)
+                </button>
+                <button class="templateBtn" data-template="custom" type="button">
+                  ✏️ Personalizado
+                </button>
+              </div>
+            </div>
+
+            <div class="field" id="householdRoleField">
+              <label>¿Eres el principal proveedor económico?</label>
+              <select id="householdRole">
+                <option value="">Selecciona…</option>
+                <option value="primary_provider">Sí, principalmente yo</option>
+                <option value="shared">Compartido</option>
+                <option value="not_primary">No, principalmente otra persona</option>
+              </select>
+            </div>
+
+            <div class="peopleWrap" id="peopleWrap"></div>
+
+            <button class="btn" type="button" id="addPersonBtn">
+              ➕ Agregar otra persona
+            </button>
+          </div>
+        </section>
+
+        <!-- STEP 3: Finanzas (Wizard) -->
+        <section class="step" data-step="3" hidden>
+          <div class="panel">
+            <h2>Snapshot financiero</h2>
+            <p>
+              Responde estas preguntas rápidas. Basado en tus respuestas, 
+              te pediremos detalles solo de lo que aplica.
+            </p>
+
+            <div class="wizardFlow" id="wizardFlow">
+              <!-- Wizard step 1: Income range -->
+              <div class="wizardStep active" data-wizard="1">
+                <div class="wizardQ">
+                  <b>Pregunta 1 de 5</b>
+                  <h3>¿Cuál es tu ingreso anual aproximado (hogar)?</h3>
+                  <p class="hint">Esto nos ayuda a sugerir áreas relevantes</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="0-50k" type="button">
+                    💵 Menos de $50,000
+                  </button>
+                  <button class="optionBtn" data-answer="50-100k" type="button">
+                    💰 $50,000 - $100,000
+                  </button>
+                  <button class="optionBtn" data-answer="100-200k" type="button">
+                    💎 $100,000 - $200,000
+                  </button>
+                  <button class="optionBtn" data-answer="200k+" type="button">
+                    🏆 Más de $200,000
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 2: Debts -->
+              <div class="wizardStep" data-wizard="2">
+                <div class="wizardQ">
+                  <b>Pregunta 2 de 5</b>
+                  <h3>¿Tienes deudas activas?</h3>
+                  <p class="hint">Tarjetas, préstamos, hipoteca, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    ✓ Sí, tengo deudas
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No, sin deudas actualmente
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 3: Investments -->
+              <div class="wizardStep" data-wizard="3">
+                <div class="wizardQ">
+                  <b>Pregunta 3 de 5</b>
+                  <h3>¿Tienes inversiones o cuentas de retiro?</h3>
+                  <p class="hint">401k, IRA, acciones, crypto, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="retirement" type="button">
+                    🏦 Solo retiro (401k/IRA)
+                  </button>
+                  <button class="optionBtn" data-answer="both" type="button">
+                    📈 Retiro + otras inversiones
+                  </button>
+                  <button class="optionBtn" data-answer="none" type="button">
+                    ➖ No tengo inversiones aún
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 4: Real estate -->
+              <div class="wizardStep" data-wizard="4">
+                <div class="wizardQ">
+                  <b>Pregunta 4 de 5</b>
+                  <h3>¿Tienes propiedades (casa, terrenos, etc.)?</h3>
+                  <p class="hint">Propiedades que posees o estás pagando</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    🏠 Sí, tengo propiedad(es)
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No, rento/vivo con familia
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 5: Insurance -->
+              <div class="wizardStep" data-wizard="5">
+                <div class="wizardQ">
+                  <b>Pregunta 5 de 7</b>
+                  <h3>¿Tienes seguros activos?</h3>
+                  <p class="hint">Vida, salud, auto, hogar, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    🛡️ Sí, tengo seguro(s)
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No tengo seguros
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 6: Expenses -->
+              <div class="wizardStep" data-wizard="6">
+                <div class="wizardQ">
+                  <b>Pregunta 6 de 7</b>
+                  <h3>¿Quieres detallar tus gastos mensuales?</h3>
+                  <p class="hint">Alimentación, casa, transporte, entretenimiento, etc.</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    📝 Sí, quiero detallarlos
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ⏭️ No, saltear por ahora
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wizard step 7: Savings -->
+              <div class="wizardStep" data-wizard="7">
+                <div class="wizardQ">
+                  <b>Pregunta 7 de 7</b>
+                  <h3>¿Tienes ahorro activo o metas financieras?</h3>
+                  <p class="hint">Fondo de emergencia, metas específicas, ahorro para retiro</p>
+                </div>
+                
+                <div class="wizardOptions">
+                  <button class="optionBtn" data-answer="yes" type="button">
+                    💰 Sí, estoy ahorrando
+                  </button>
+                  <button class="optionBtn" data-answer="no" type="button">
+                    ✗ No ahorro actualmente
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Categories detail (shown after wizard) -->
+            <div id="categoriesDetail" style="display:none; margin-top:24px;">
+              <h3>Completa los detalles</h3>
+              <p class="hint">
+                Basado en tus respuestas, estas son las áreas relevantes. 
+                Agrega al menos un ítem en cada una.
+              </p>
+              <div class="categoriesInline" id="categoriesInline"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 4: Confirmación -->
+        <section class="step" data-step="4" hidden>
+          <div class="confirmationHero">
+            <div class="checkIcon">✓</div>
+            <h2>¡Listo! Tu diagnóstico está en camino</h2>
+            <p>Recibirás un email en los próximos minutos con:</p>
+          </div>
+
+          <div class="deliverables">
+            <div class="deliverableCard">
+              <span class="emoji">📊</span>
+              <div>
+                <b>Resumen de tu perfil</b>
+                <p>Lo que compartiste, organizado visualmente</p>
+              </div>
+            </div>
+
+            <div class="deliverableCard">
+              <span class="emoji">📅</span>
+              <div>
+                <b>Link para agendar</b>
+                <p>Elige tu horario preferido para la sesión</p>
+              </div>
+            </div>
+
+            <div class="deliverableCard">
+              <span class="emoji">📝</span>
+              <div>
+                <b>Checklist de preparación</b>
+                <p>Documentos opcionales que pueden ser útiles</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Resumen de tu información</h3>
+            <div class="summaryGrid" id="summaryGrid"></div>
+          </div>
+
+          <div class="panel">
+            <label for="finalNotes">
+              ¿Algo que quieras que sepamos antes de la sesión?
+              <span class="optional">Opcional</span>
+            </label>
+            <textarea id="finalNotes" 
+              placeholder="Ej: Tengo una situación especial con impuestos, me gustaría enfocarnos en eso..."></textarea>
+            <div class="hint">
+              Esto nos ayuda a preparar mejor tu diagnóstico personalizado.
+            </div>
+          </div>
+
+          <button class="btn primary large full" id="finalSubmit" type="button">
+            Confirmar y enviar →
+          </button>
+        </section>
+      </div>
+
+      <div class="btns">
+        <button class="btn ghost" type="button" id="backBtn">← Atrás</button>
+        <button class="btn primary" type="button" id="nextBtn">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="keyboardHints" id="keyboardHints">
+    <kbd>Alt</kbd> + <kbd>→</kbd> Siguiente · 
+    <kbd>Alt</kbd> + <kbd>←</kbd> Atrás · 
+    <kbd>Ctrl</kbd> + <kbd>S</kbd> Guardar
+  </div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== Helpers =====
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const uid = (prefix="id") => prefix + "_" + Math.random().toString(16).slice(2,10);
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // ===== DUMMY DATA =====
+  const DUMMY_DATA = {
+    mode: 'detailed',
+    step: 1,
+    startTime: Date.now(),
+    
+    people: {
+      template: 'family',
+      householdRole: "shared",
+      members: [
+        { 
+          id:"p1", 
+          role:"primary", 
+          firstName:"Carlos", 
+          lastName:"García", 
+          age:42, 
+          gender:"male" 
+        },
+        { 
+          id:"p2", 
+          role:"additional", 
+          firstName:"María", 
+          lastName:"García", 
+          age:39, 
+          gender:"female",
+          relationshipToPrimary:"spouse"
+        },
+        { 
+          id:"p3", 
+          role:"additional", 
+          firstName:"Ana", 
+          lastName:"García", 
+          age:12, 
+          gender:"female",
+          relationshipToPrimary:"child"
+        },
+        { 
+          id:"p4", 
+          role:"additional", 
+          firstName:"Luis", 
+          lastName:"García", 
+          age:9, 
+          gender:"male",
+          relationshipToPrimary:"child"
+        }
+      ]
+    },
+
+    financials: {
+      incomeRange: "100-200k",
+      hasDebts: true,
+      hasInvestments: "both",
+      hasRealEstate: true,
+      hasInsurance: true,
+      hasExpenses: true,
+      hasSavings: true,
+      categoriesSelected: ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'liabilities', 'insurance'],
+      items: [
+        // Income
+        { id:"inc1", category:"income", name:"Salario Tech Company", value: 95000, owner:"p1" },
+        { id:"inc2", category:"income", name:"Salario Freelance Design", value: 38000, owner:"p2" },
+        { id:"inc3", category:"income", name:"Dividendos inversiones", value: 4200, owner:"household" },
+        
+        // Expenses
+        { id:"exp1", category:"expenses", expenseCategory:"Alimentación", subcategory:"Supermercado", name:"Alimentación - Supermercado", value: 800, owner:"household" },
+        { id:"exp2", category:"expenses", expenseCategory:"Alimentación", subcategory:"Comidas fuera", name:"Alimentación - Comidas fuera", value: 350, owner:"household" },
+        { id:"exp3", category:"expenses", expenseCategory:"Casa", subcategory:"Servicios básicos", name:"Casa - Servicios básicos", value: 280, owner:"household" },
+        { id:"exp4", category:"expenses", expenseCategory:"Casa", subcategory:"Mantenimiento", name:"Casa - Mantenimiento", value: 150, owner:"household" },
+        { id:"exp5", category:"expenses", expenseCategory:"Transportación", subcategory:"Gasolina", name:"Transportación - Gasolina", value: 320, owner:"household" },
+        { id:"exp6", category:"expenses", expenseCategory:"Transportación", subcategory:"Mantenimiento", name:"Transportación - Mantenimiento", value: 100, owner:"household" },
+        { id:"exp7", category:"expenses", expenseCategory:"Entretenimiento", subcategory:"Streaming", name:"Entretenimiento - Streaming", value: 65, owner:"household" },
+        { id:"exp8", category:"expenses", expenseCategory:"Telecomunicaciones", subcategory:"Internet", name:"Telecomunicaciones - Internet", value: 85, owner:"household" },
+        { id:"exp9", category:"expenses", expenseCategory:"Telecomunicaciones", subcategory:"Teléfono", name:"Telecomunicaciones - Teléfono", value: 120, owner:"household" },
+        { id:"exp10", category:"expenses", expenseCategory:"Dependientes", subcategory:"Educación", name:"Dependientes - Educación", value: 450, owner:"household" },
+        
+        // Savings
+        { id:"sav1", category:"savings", expenseCategory:"Reserva de emergencia", subcategory:"Aporte mensual", name:"Reserva de emergencia - Aporte mensual", value: 500, owner:"household" },
+        { id:"sav2", category:"savings", expenseCategory:"Metas", subcategory:"Educación", name:"Metas - Educación", value: 800, owner:"household" },
+        { id:"sav3", category:"savings", expenseCategory:"Metas", subcategory:"Viaje", name:"Metas - Viaje", value: 300, owner:"household" },
+        { id:"sav4", category:"savings", expenseCategory:"Retiro", subcategory:"401(k)", name:"Retiro - 401(k)", value: 1200, owner:"p1" },
+        { id:"sav5", category:"savings", expenseCategory:"Retiro", subcategory:"IRA/Roth", name:"Retiro - IRA/Roth", value: 500, owner:"p2" },
+        
+        // Banking
+        { id:"bank1", category:"banking", name:"Chase Checking", value: 8500, owner:"household" },
+        { id:"bank2", category:"banking", name:"Ally Savings (Emergencias)", value: 35000, owner:"household" },
+        { id:"bank3", category:"banking", name:"Cash en casa", value: 1200, owner:"household" },
+        
+        // Retirement
+        { id:"ret1", category:"investments_retirement", name:"401k Carlos - Fidelity", value: 185000, owner:"p1" },
+        { id:"ret2", category:"investments_retirement", name:"Roth IRA María", value: 42000, owner:"p2" },
+        
+        // Non-retirement investments
+        { id:"inv1", category:"investments_nonretirement", name:"Vanguard Brokerage", value: 68000, owner:"household" },
+        { id:"inv2", category:"investments_nonretirement", name:"Crypto (BTC, ETH)", value: 12500, owner:"p1" },
+        
+        // Real Estate
+        { id:"re1", category:"real_estate", name:"Casa principal (Miami)", value: 485000, owner:"household" },
+        
+        // Liabilities
+        { id:"debt1", category:"liabilities", name:"Hipoteca casa principal", value: 312000, owner:"household" },
+        { id:"debt2", category:"liabilities", name:"Auto Honda", value: 18500, owner:"p2" },
+        { id:"debt3", category:"liabilities", name:"Chase Sapphire CC", value: 3200, owner:"household" },
+        
+        // Insurance
+        { id:"ins1", category:"insurance", name:"Seguro vida (term 20 años)", value: 2400, owner:"p1" },
+        { id:"ins2", category:"insurance", name:"Seguro auto State Farm", value: 1800, owner:"household" },
+        { id:"ins3", category:"insurance", name:"Seguro hogar", value: 1600, owner:"household" }
+      ]
+    },
+
+    wizardStep: 1,
+    wizardComplete: true,
+    notes: "Nos gustaría enfocarnos en optimización de impuestos y estrategia de ahorro para universidad de los niños. También queremos revisar si nuestro seguro de vida es suficiente. Notamos que nuestros gastos en alimentación y entretenimiento han aumentado últimamente y queremos asegurarnos de que estamos balanceando bien ahorro vs gastos."
+  };
+
+  // ===== State =====
+  const state = {
+    mode: 'detailed',
+    step: 1,
+    startTime: Date.now(),
+    
+    people: {
+      template: null,
+      householdRole: "",
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
+      ]
+    },
+
+    financials: {
+      incomeRange: "",
+      hasDebts: null,
+      hasInvestments: null,
+      hasRealEstate: null,
+      hasInsurance: null,
+      hasExpenses: null,
+      hasSavings: null,
+      categoriesSelected: [],
+      items: []
+    },
+
+    wizardStep: 1,
+    wizardComplete: false,
+    notes: ""
+  };
+
+  // Load from localStorage
+  function loadDraft(){
+    try{
+      const saved = localStorage.getItem('discovery_draft_v2');
+      if(saved){
+        const data = JSON.parse(saved);
+        Object.assign(state, data);
+        showToast('✓ Progreso recuperado');
+      }
+    } catch(e){}
+  }
+
+  // Load demo data
+  const loadDemoBtn = $('#loadDemoBtn');
+  loadDemoBtn.addEventListener('click', () => {
+    Object.assign(state, JSON.parse(JSON.stringify(DUMMY_DATA)));
+    showToast('✓ Datos de ejemplo cargados');
+    setStep(1);
+    debouncedSave();
+  });
+
+  // Auto-save
+  let saveTimer;
+  function debouncedSave(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      localStorage.setItem('discovery_draft_v2', JSON.stringify(state));
+      const indicator = $('#autoSave');
+      indicator.classList.add('show');
+      setTimeout(() => indicator.classList.remove('show'), 1500);
+    }, 2000);
+  }
+
+  // Toast
+  function showToast(msg){
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  // ===== Navigation =====
+  const backBtn = $('#backBtn');
+  const nextBtn = $('#nextBtn');
+
+  function setStep(step){
+    state.step = step;
+    $$('.step').forEach(sec => sec.hidden = sec.dataset.step !== String(step));
+
+    // Progress dots
+    const dots = $('#progressDots');
+    dots.innerHTML = '';
+    for(let i=1; i<=4; i++){
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if(i < step) dot.classList.add('completed');
+      if(i === step) dot.classList.add('active');
+      dots.appendChild(dot);
+    }
+
+    // Progress text
+    const elapsed = Math.floor((Date.now() - state.startTime) / 60000);
+    const remaining = Math.max(1, (state.mode === 'quick' ? 4 : 10) - elapsed);
+    $('#progressText').textContent = `Paso ${step} de 4 · ~${remaining} min restantes`;
+
+    // Buttons
+    backBtn.disabled = step === 1;
+    nextBtn.hidden = step === 4;
+
+    // Step-specific
+    if(step === 2) renderPeople();
+    if(step === 3) renderWizard();
+    if(step === 4) renderConfirmation();
+
+    updateNavValidity();
+    debouncedSave();
+  }
+
+  function updateNavValidity(){
+    let canNext = true;
+    if(state.step === 1) canNext = true;
+    if(state.step === 2) canNext = validatePeople().ok;
+    if(state.step === 3) canNext = validateFinancials().ok;
+    nextBtn.disabled = !canNext;
+  }
+
+  backBtn.addEventListener('click', () => {
+    if(state.step > 1) setStep(state.step - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if(state.step === 2 && !validatePeople().ok) return;
+    if(state.step === 3 && !validateFinancials().ok) return;
+    if(state.step < 4) setStep(state.step + 1);
+  });
+
+  // ===== Validation =====
+  function validatePeople(){
+    const m = state.people.members;
+    const primary = m[0];
+    
+    if(state.mode === 'quick'){
+      return {
+        ok: primary.firstName?.trim() && 
+            Number.isInteger(primary.age) && 
+            primary.age > 0
+      };
+    }
+
+    const baseOk =
+      primary.firstName?.trim() &&
+      primary.lastName?.trim() &&
+      Number.isInteger(primary.age) && primary.age > 0 &&
+      ["male","female","prefer_not_to_say"].includes(primary.gender);
+
+    if(!baseOk) return { ok:false };
+
+    if(m.length > 1){
+      for(let i=1; i<m.length; i++){
+        const p = m[i];
+        const okp =
+          p.firstName?.trim() &&
+          Number.isInteger(p.age) && p.age > 0;
+        if(state.mode === 'detailed'){
+          if(!p.lastName?.trim() || 
+             !["male","female","prefer_not_to_say"].includes(p.gender) ||
+             !p.relationshipToPrimary) return { ok:false };
+        }
+        if(!okp) return { ok:false };
+      }
+    }
+    return { ok:true };
+  }
+
+  function validateFinancials(){
+    if(!state.wizardComplete) return { ok:false };
+    const selected = state.financials.categoriesSelected;
+    if(selected.length === 0) return { ok:false };
+
+    for(const catKey of selected){
+      const items = state.financials.items.filter(it => it.category === catKey);
+      if(items.length === 0) return { ok:false };
+    }
+    return { ok:true };
+  }
+
+  // ===== STEP 1: Mode selection =====
+  $$('input[name="mode"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      state.mode = radio.value;
+      debouncedSave();
+    });
+  });
+
+  // ===== STEP 2: People =====
+  const TEMPLATES = {
+    single: {
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
+      ],
+      householdRole: "primary_provider"
+    },
+    couple: {
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" },
+        { id:"p2", role:"additional", firstName:"", lastName:"", age:null, gender:"", relationshipToPrimary:"spouse" }
+      ],
+      householdRole: "shared"
+    },
+    family: {
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" },
+        { id:"p2", role:"additional", firstName:"", lastName:"", age:null, gender:"", relationshipToPrimary:"spouse" },
+        { id:"p3", role:"additional", firstName:"", lastName:"", age:null, gender:"", relationshipToPrimary:"child" }
+      ],
+      householdRole: "shared"
+    }
+  };
+
+  $$('.templateBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const template = btn.dataset.template;
+      
+      $$('.templateBtn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      if(template !== 'custom'){
+        state.people = JSON.parse(JSON.stringify(TEMPLATES[template]));
+        state.people.template = template;
+      } else {
+        state.people.template = 'custom';
+      }
+      
+      renderPeople();
+      debouncedSave();
+    });
+  });
+
+  const householdRoleEl = $('#householdRole');
+  const peopleWrap = $('#peopleWrap');
+  const addPersonBtn = $('#addPersonBtn');
+
+  function renderPeople(){
+    peopleWrap.innerHTML = '';
+    const members = state.people.members;
+
+    members.forEach((p, idx) => {
+      const isPrimary = idx === 0;
+
+      const card = document.createElement('div');
+      card.className = 'personCard';
+
+      const head = document.createElement('div');
+      head.className = 'personHead';
+      head.innerHTML = `
+        <div class="tag">${isPrimary ? 'Persona principal' : 'Persona adicional'}</div>
+        ${!isPrimary ? `<button class="xbtn" type="button">×</button>` : '<span class="hint">Obligatorio</span>'}
+      `;
+      card.appendChild(head);
+
+      const requiredFields = state.mode === 'quick' 
+        ? ['firstName', 'age']
+        : ['firstName', 'lastName', 'age', 'gender'];
+
+      const row1 = document.createElement('div');
+      row1.className = 'row';
+      
+      if(requiredFields.includes('firstName')){
+        row1.innerHTML += `
+          <div class="field">
+            <label>Nombre *</label>
+            <input type="text" data-k="firstName" value="${escapeHtml(p.firstName||'')}" placeholder="Nombre" />
+          </div>
+        `;
+      }
+      
+      if(requiredFields.includes('lastName')){
+        row1.innerHTML += `
+          <div class="field">
+            <label>Apellido ${state.mode === 'quick' ? '<span class="optional">Opcional</span>' : '*'}</label>
+            <input type="text" data-k="lastName" value="${escapeHtml(p.lastName||'')}" placeholder="Apellido" />
+          </div>
+        `;
+      }
+      
+      card.appendChild(row1);
+
+      const row2 = document.createElement('div');
+      row2.className = 'row';
+      
+      if(requiredFields.includes('age')){
+        row2.innerHTML += `
+          <div class="field">
+            <label>Edad *</label>
+            <input type="number" min="0" step="1" data-k="age" value="${p.age ?? ''}" placeholder="35" />
+          </div>
+        `;
+      }
+      
+      if(requiredFields.includes('gender')){
+        row2.innerHTML += `
+          <div class="field">
+            <label>Sexo ${state.mode === 'quick' ? '<span class="optional">Opcional</span>' : '*'}</label>
+            <select data-k="gender">
+              <option value="">Selecciona…</option>
+              <option value="male" ${p.gender==='male'?'selected':''}>Masculino</option>
+              <option value="female" ${p.gender==='female'?'selected':''}>Femenino</option>
+              <option value="prefer_not_to_say" ${p.gender==='prefer_not_to_say'?'selected':''}>Prefiero no decir</option>
+            </select>
+          </div>
+        `;
+      }
+      
+      card.appendChild(row2);
+
+      if(!isPrimary){
+        const relField = state.mode === 'detailed' ? '*' : '<span class="optional">Opcional</span>';
+        const rel = document.createElement('div');
+        rel.className = 'field';
+        rel.innerHTML = `
+          <label>Relación con persona principal ${relField}</label>
+          <select data-k="relationshipToPrimary">
+            <option value="">Selecciona…</option>
+            <option value="spouse" ${p.relationshipToPrimary==='spouse'?'selected':''}>Cónyuge</option>
+            <option value="partner" ${p.relationshipToPrimary==='partner'?'selected':''}>Pareja</option>
+            <option value="child" ${p.relationshipToPrimary==='child'?'selected':''}>Hijo/a</option>
+            <option value="family" ${p.relationshipToPrimary==='family'?'selected':''}>Familiar</option>
+            <option value="other" ${p.relationshipToPrimary==='other'?'selected':''}>Otro</option>
+          </select>
+        `;
+        card.appendChild(rel);
+      }
+
+      // Events
+      card.addEventListener('input', (e) => {
+        const t = e.target;
+        const key = t.getAttribute('data-k');
+        if(!key) return;
+
+        const person = state.people.members.find(x => x.id === p.id);
+        if(!person) return;
+
+        if(key === 'age'){
+          const n = Number(t.value);
+          person.age = Number.isFinite(n) ? Math.trunc(n) : null;
+        } else {
+          person[key] = t.value;
+        }
+
+        updateNavValidity();
+        debouncedSave();
+      });
+
+      if(!isPrimary){
+        const xbtn = $('.xbtn', head);
+        if(xbtn){
+          xbtn.addEventListener('click', () => {
+            state.people.members = state.people.members.filter(x => x.id !== p.id);
+            renderPeople();
+            updateNavValidity();
+            debouncedSave();
+          });
+        }
+      }
+
+      peopleWrap.appendChild(card);
+    });
+
+    householdRoleEl.value = state.people.householdRole || '';
+    
+    // Select template button
+    if(state.people.template){
+      const templateBtn = $(`.templateBtn[data-template="${state.people.template}"]`);
+      if(templateBtn){
+        $$('.templateBtn').forEach(b => b.classList.remove('selected'));
+        templateBtn.classList.add('selected');
+      }
+    }
+    
+    updateNavValidity();
+  }
+
+  householdRoleEl.addEventListener('change', () => {
+    state.people.householdRole = householdRoleEl.value;
+    debouncedSave();
+  });
+
+  addPersonBtn.addEventListener('click', () => {
+    const nextIndex = state.people.members.length + 1;
+    state.people.members.push({
+      id: "p" + nextIndex,
+      role: "additional",
+      firstName:"",
+      lastName:"",
+      age:null,
+      gender:"",
+      relationshipToPrimary:""
+    });
+    renderPeople();
+    debouncedSave();
+  });
+
+  // ===== STEP 3: Wizard =====
+  const CATEGORY_SUGGESTIONS = {
+    '0-50k': ['income', 'expenses', 'banking', 'liabilities'],
+    '50-100k': ['income', 'expenses', 'savings', 'banking', 'liabilities', 'investments_retirement'],
+    '100-200k': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate'],
+    '200k+': ['income', 'expenses', 'savings', 'banking', 'investments_retirement', 'investments_nonretirement', 'real_estate', 'insurance', 'legal']
+  };
+
+  const FIN_CATS = [
+    { key:"income", label:"Ingresos", hint:"Salarios, negocios, rentas" },
+    { key:"expenses", label:"Gastos mensuales", hint:"Desglose de gastos por categoría" },
+    { key:"savings", label:"Ahorro y metas", hint:"Ahorro activo y objetivos financieros" },
+    { key:"liabilities", label:"Deudas", hint:"Tarjetas, préstamos, hipoteca" },
+    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades que posees" },
+    { key:"investments_retirement", label:"Inversiones de retiro", hint:"401k, IRA, pensión" },
+    { key:"investments_nonretirement", label:"Otras inversiones", hint:"Acciones, crypto, fondos" },
+    { key:"banking", label:"Cuentas bancarias", hint:"Checking, savings, cash" },
+    { key:"insurance", label:"Seguros", hint:"Vida, salud, auto, hogar" },
+    { key:"business_trust", label:"Negocios/Trust", hint:"Empresas, LLC, trusts" },
+    { key:"legal", label:"Legal", hint:"Testamento, poderes" },
+    { key:"other_assets", label:"Otros activos", hint:"Autos, colecciones, etc." }
+  ];
+
+  // Expenses taxonomy
+  const EXPENSES_TAX = {
+    "Alimentación": ["Supermercado", "Comidas fuera", "Pedido a domicilio"],
+    "Casa": ["Alquiler", "Servicios básicos", "Mantenimiento"],
+    "Impuestos": ["Seguro social", "Propiedad", "Venta", "Estatales", "Federales", "Municipales"],
+    "Transportación": ["Gasolina", "Mantenimiento", "Transporte público / Uber"],
+    "Seguros": ["Salud", "Auto", "Vida"],
+    "Regalos y donaciones": ["Familia", "Amigos", "Instituciones"],
+    "Gastos Médicos": ["Consultas", "Medicamentos", "Procedimientos"],
+    "Cuidado Personal": ["Peluquería", "Cosméticos", "Spa / Barbería"],
+    "Dependientes": ["Cuidado de niños", "Cuidado de mayores", "Educación"],
+    "Deuda": ["Tarjetas de crédito", "Préstamos estudiantiles", "Otros préstamos"],
+    "Entretenimiento": ["Cine", "Conciertos", "Streaming"],
+    "Telecomunicaciones": ["Teléfono", "Internet", "TV"]
+  };
+
+  // Savings taxonomy
+  const SAVINGS_TAX = {
+    "Reserva de emergencia": ["Depósito", "Aporte mensual"],
+    "Metas": ["Viaje", "Casa", "Educación", "Auto", "Otro"],
+    "Retiro": ["401(k)", "IRA/Roth", "Otro"],
+    "Inversión": ["Brokerage", "ETF/Fondos", "Cripto", "Otro"],
+    "Otro": ["Otro"]
+  };
+
+  function renderWizard(){
+    const wizardFlow = $('#wizardFlow');
+    const categoriesDetail = $('#categoriesDetail');
+
+    if(state.wizardComplete){
+      wizardFlow.style.display = 'none';
+      categoriesDetail.style.display = 'block';
+      renderCategoriesDetail();
+    } else {
+      wizardFlow.style.display = 'block';
+      categoriesDetail.style.display = 'none';
+      
+      // Show current wizard step
+      $$('.wizardStep').forEach((step, idx) => {
+        step.classList.toggle('active', idx + 1 === state.wizardStep);
+      });
+    }
+  }
+
+  // Wizard navigation
+  $$('.wizardStep').forEach((step, stepIndex) => {
+    const stepNum = stepIndex + 1;
+    
+    step.querySelectorAll('.optionBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.dataset.answer;
+        
+        // Store answer
+        if(stepNum === 1){
+          state.financials.incomeRange = answer;
+          const suggested = CATEGORY_SUGGESTIONS[answer] || [];
+          state.financials.categoriesSelected = [...suggested];
+        }
+        if(stepNum === 2){
+          state.financials.hasDebts = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('liabilities')){
+            state.financials.categoriesSelected.push('liabilities');
+          }
+        }
+        if(stepNum === 3){
+          state.financials.hasInvestments = answer;
+          if(answer === 'retirement' && !state.financials.categoriesSelected.includes('investments_retirement')){
+            state.financials.categoriesSelected.push('investments_retirement');
+          }
+          if(answer === 'both'){
+            if(!state.financials.categoriesSelected.includes('investments_retirement')){
+              state.financials.categoriesSelected.push('investments_retirement');
+            }
+            if(!state.financials.categoriesSelected.includes('investments_nonretirement')){
+              state.financials.categoriesSelected.push('investments_nonretirement');
+            }
+          }
+        }
+        if(stepNum === 4){
+          state.financials.hasRealEstate = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('real_estate')){
+            state.financials.categoriesSelected.push('real_estate');
+          }
+        }
+        if(stepNum === 5){
+          state.financials.hasInsurance = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('insurance')){
+            state.financials.categoriesSelected.push('insurance');
+          }
+        }
+        if(stepNum === 6){
+          state.financials.hasExpenses = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('expenses')){
+            state.financials.categoriesSelected.push('expenses');
+          }
+        }
+        if(stepNum === 7){
+          state.financials.hasSavings = answer === 'yes';
+          if(answer === 'yes' && !state.financials.categoriesSelected.includes('savings')){
+            state.financials.categoriesSelected.push('savings');
+          }
+        }
+
+        debouncedSave();
+
+        // Next step or finish
+        if(stepNum < 7){
+          state.wizardStep = stepNum + 1;
+          renderWizard();
+        } else {
+          state.wizardComplete = true;
+          state.wizardStep = 1;
+          renderWizard();
+          updateNavValidity();
+        }
+      });
+    });
+  });
+
+  function renderCategoriesDetail(){
+    const container = $('#categoriesInline');
+    container.innerHTML = '';
+
+    state.financials.categoriesSelected.forEach(catKey => {
+      const meta = FIN_CATS.find(c => c.key === catKey);
+      if(!meta) return;
+
+      const card = document.createElement('div');
+      card.className = 'catInlineCard';
+      card.dataset.cat = catKey;
+
+      const items = state.financials.items.filter(it => it.category === catKey);
+      const hasItems = items.length > 0;
+
+      const isExpenseOrSaving = catKey === 'expenses' || catKey === 'savings';
+
+      card.innerHTML = `
+        <div class="catHeader">
+          <div class="catInfo">
+            <input type="checkbox" ${hasItems ? 'checked' : ''} disabled />
+            <div class="catLabel">
+              <b>${escapeHtml(meta.label)}</b>
+              <span>${escapeHtml(meta.hint)}</span>
+            </div>
+          </div>
+          <div class="catExpand">▾</div>
+        </div>
+        <div class="catBody">
+          ${isExpenseOrSaving ? renderExpenseSavingsForm(catKey) : renderStandardForm()}
+          <div class="itemsList" data-items></div>
+        </div>
+      `;
+
+      // Toggle expand
+      card.querySelector('.catHeader').addEventListener('click', (e) => {
+        if(e.target.tagName === 'INPUT') return;
+        card.classList.toggle('open');
+      });
+
+      const itemsList = card.querySelector('[data-items]');
+
+      if(isExpenseOrSaving){
+        setupExpenseSavingsHandlers(card, catKey, itemsList);
+      } else {
+        setupStandardHandlers(card, catKey, itemsList);
+      }
+
+      renderItemsList(catKey, itemsList);
+
+      container.appendChild(card);
+
+      // Auto-open if no items
+      if(!hasItems){
+        card.classList.add('open');
+      }
+    });
+  }
+
+  function renderStandardForm(){
+    return `
+      <div class="quickAddRow">
+        <input type="text" placeholder="Nombre/alias (ej: Bank of America)" data-add-name />
+        <input type="number" min="0" step="0.01" placeholder="Cantidad USD" data-add-amount />
+        <button type="button" data-add-btn>+ Agregar</button>
+      </div>
+    `;
+  }
+
+  function renderExpenseSavingsForm(catKey){
+    const taxonomy = catKey === 'expenses' ? EXPENSES_TAX : SAVINGS_TAX;
+    const categories = Object.keys(taxonomy);
+    
+    return `
+      <div class="expenseAddRow">
+        <select data-category-select>
+          <option value="">Categoría...</option>
+          ${categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('')}
+        </select>
+        <select data-subcategory-select disabled>
+          <option value="">Subcategoría...</option>
+        </select>
+        <input type="number" min="0" step="0.01" placeholder="$/mes" data-add-amount />
+        <button type="button" data-add-btn>+ Agregar</button>
+      </div>
+    `;
+  }
+
+  function setupStandardHandlers(card, catKey, itemsList){
+    const addBtn = card.querySelector('[data-add-btn]');
+    const nameInput = card.querySelector('[data-add-name]');
+    const amountInput = card.querySelector('[data-add-amount]');
+
+    function addItem(){
+      const name = nameInput.value.trim();
+      const amount = Number(amountInput.value);
+
+      if(!name || !Number.isFinite(amount) || amount < 0) return;
+
+      const item = {
+        id: uid(catKey),
+        category: catKey,
+        name,
+        value: amount,
+        owner: state.people.members.length > 1 ? 'household' : state.people.members[0].id
+      };
+
+      state.financials.items.push(item);
+      nameInput.value = '';
+      amountInput.value = '';
+      
+      renderItemsList(catKey, itemsList);
+      updateNavValidity();
+      debouncedSave();
+
+      const cb = card.querySelector('input[type="checkbox"]');
+      cb.checked = true;
+    }
+
+    addBtn.addEventListener('click', addItem);
+    amountInput.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter') addItem();
+    });
+  }
+
+  function setupExpenseSavingsHandlers(card, catKey, itemsList){
+    const categorySelect = card.querySelector('[data-category-select]');
+    const subcategorySelect = card.querySelector('[data-subcategory-select]');
+    const amountInput = card.querySelector('[data-add-amount]');
+    const addBtn = card.querySelector('[data-add-btn]');
+
+    const taxonomy = catKey === 'expenses' ? EXPENSES_TAX : SAVINGS_TAX;
+
+    // Update subcategories when category changes
+    categorySelect.addEventListener('change', () => {
+      const category = categorySelect.value;
+      subcategorySelect.disabled = !category;
+      
+      if(category){
+        const subcategories = taxonomy[category] || [];
+        subcategorySelect.innerHTML = `
+          <option value="">Subcategoría...</option>
+          ${subcategories.map(sub => `<option value="${escapeHtml(sub)}">${escapeHtml(sub)}</option>`).join('')}
+        `;
+      } else {
+        subcategorySelect.innerHTML = '<option value="">Subcategoría...</option>';
+      }
+      
+      subcategorySelect.value = '';
+    });
+
+    function addItem(){
+      const category = categorySelect.value;
+      const subcategory = subcategorySelect.value;
+      const amount = Number(amountInput.value);
+
+      if(!category || !subcategory || !Number.isFinite(amount) || amount < 0) return;
+
+      const item = {
+        id: uid(catKey),
+        category: catKey,
+        expenseCategory: category,
+        subcategory: subcategory,
+        name: `${category} - ${subcategory}`,
+        value: amount,
+        owner: state.people.members.length > 1 ? 'household' : state.people.members[0].id
+      };
+
+      state.financials.items.push(item);
+      categorySelect.value = '';
+      subcategorySelect.value = '';
+      subcategorySelect.disabled = true;
+      amountInput.value = '';
+      
+      renderItemsList(catKey, itemsList);
+      updateNavValidity();
+      debouncedSave();
+
+      const cb = card.querySelector('input[type="checkbox"]');
+      cb.checked = true;
+    }
+
+    addBtn.addEventListener('click', addItem);
+    amountInput.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter') addItem();
+    });
+  }
+
+  function renderItemsList(catKey, container){
+    const items = state.financials.items.filter(it => it.category === catKey);
+    
+    container.innerHTML = items.map(it => {
+      const owner = state.people.members.find(p => p.id === it.owner);
+      const ownerName = owner ? `${owner.firstName || owner.id}` : 'Hogar';
+      
+      return `
+        <div class="itemChip" data-id="${it.id}">
+          <div class="chipInfo">
+            <div class="chipName">${escapeHtml(it.name)}</div>
+            <div class="chipDetails">$${it.value?.toLocaleString() || 0} · ${ownerName}</div>
+          </div>
+          <button class="chipRemove" type="button">×</button>
+        </div>
+      `;
+    }).join('');
+
+    // Remove handlers
+    container.querySelectorAll('.chipRemove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const chip = e.target.closest('.itemChip');
+        const id = chip.dataset.id;
+        state.financials.items = state.financials.items.filter(it => it.id !== id);
+        renderItemsList(catKey, container);
+        updateNavValidity();
+        debouncedSave();
+
+        const items = state.financials.items.filter(it => it.category === catKey);
+        const card = e.target.closest('.catInlineCard');
+        const cb = card.querySelector('input[type="checkbox"]');
+        cb.checked = items.length > 0;
+      });
+    });
+  }
+
+  // ===== STEP 4: Confirmation =====
+  const finalNotesEl = $('#finalNotes');
+  const finalSubmitBtn = $('#finalSubmit');
+  const summaryGrid = $('#summaryGrid');
+
+  function renderConfirmation(){
+    finalNotesEl.value = state.notes || '';
+    
+    // Calculate totals
+    const totalIncome = state.financials.items
+      .filter(it => it.category === 'income')
+      .reduce((sum, it) => sum + (it.value || 0), 0);
+    
+    const totalExpensesMonthly = state.financials.items
+      .filter(it => it.category === 'expenses')
+      .reduce((sum, it) => sum + (it.value || 0), 0);
+    
+    const totalSavingsMonthly = state.financials.items
+      .filter(it => it.category === 'savings')
+      .reduce((sum, it) => sum + (it.value || 0), 0);
+    
+    // Annualize monthly amounts
+    const totalExpensesAnnual = totalExpensesMonthly * 12;
+    const totalSavingsAnnual = totalSavingsMonthly * 12;
+    
+    const totalAssets = state.financials.items
+      .filter(it => ['banking', 'investments_retirement', 'investments_nonretirement', 'real_estate'].includes(it.category))
+      .reduce((sum, it) => sum + (it.value || 0), 0);
+    
+    const totalLiabilities = state.financials.items
+      .filter(it => it.category === 'liabilities')
+      .reduce((sum, it) => sum + (it.value || 0), 0);
+    
+    const netWorth = totalAssets - totalLiabilities;
+    
+    const peopleCount = state.people.members.length;
+    const categoriesCount = state.financials.categoriesSelected.length;
+    
+    let summaryHTML = `
+      <div class="summaryCard">
+        <div class="label">Personas en el hogar</div>
+        <div class="value">${peopleCount}</div>
+      </div>
+      <div class="summaryCard">
+        <div class="label">Categorías completadas</div>
+        <div class="value">${categoriesCount}</div>
+      </div>
+      <div class="summaryCard">
+        <div class="label">Ingreso anual total</div>
+        <div class="value">$${totalIncome.toLocaleString()}</div>
+      </div>
+    `;
+    
+    if(totalExpensesAnnual > 0){
+      summaryHTML += `
+        <div class="summaryCard">
+          <div class="label">Gastos anuales</div>
+          <div class="value" style="color: var(--warn)">$${totalExpensesAnnual.toLocaleString()}</div>
+        </div>
+      `;
+    }
+    
+    if(totalSavingsAnnual > 0){
+      summaryHTML += `
+        <div class="summaryCard">
+          <div class="label">Ahorro anual</div>
+          <div class="value" style="color: var(--ok)">$${totalSavingsAnnual.toLocaleString()}</div>
+        </div>
+      `;
+    }
+    
+    summaryHTML += `
+      <div class="summaryCard">
+        <div class="label">Total activos</div>
+        <div class="value">$${totalAssets.toLocaleString()}</div>
+      </div>
+      <div class="summaryCard">
+        <div class="label">Total pasivos</div>
+        <div class="value">$${totalLiabilities.toLocaleString()}</div>
+      </div>
+      <div class="summaryCard">
+        <div class="label">Net Worth estimado</div>
+        <div class="value" style="color: ${netWorth >= 0 ? 'var(--ok)' : 'var(--bad)'}">
+          $${netWorth.toLocaleString()}
+        </div>
+      </div>
+    `;
+    
+    summaryGrid.innerHTML = summaryHTML;
+  }
+
+  finalNotesEl.addEventListener('input', () => {
+    state.notes = finalNotesEl.value;
+    debouncedSave();
+  });
+
+  finalSubmitBtn.addEventListener('click', async () => {
+    const payload = buildFinalPayload();
+    
+    console.log('[Discovery Payload]', payload);
+
+    // Download JSON
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `discovery-${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    // Clear localStorage
+    localStorage.removeItem('discovery_draft_v2');
+
+    finalSubmitBtn.textContent = '✓ Enviado';
+    finalSubmitBtn.disabled = true;
+    
+    showToast('✓ Discovery enviado. Revisa tu email.');
+
+    setTimeout(() => {
+      finalSubmitBtn.textContent = 'Confirmar y enviar →';
+    }, 2000);
+  });
+
+  function buildFinalPayload(){
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get('client') || params.get('id') || null;
+
+    return {
+      meta: {
+        source: 'discovery_v2_improved',
+        mode: state.mode,
+        completionTime: Date.now() - state.startTime,
+        createdAt: new Date().toISOString(),
+        clientId
+      },
+      people: state.people,
+      financials: state.financials,
+      notes: state.notes || '',
+      flags: {
+        hasComplexSituation: state.notes.length > 100,
+        multipleIncomeSources: state.financials.items.filter(it => it.category === 'income').length > 2,
+        hasRealEstate: state.financials.categoriesSelected.includes('real_estate'),
+        hasDebts: state.financials.hasDebts,
+        hasInvestments: state.financials.hasInvestments !== 'none'
+      }
+    };
+  }
+
+  // ===== Keyboard shortcuts =====
+  document.addEventListener('keydown', (e) => {
+    if(e.altKey && e.key === 'ArrowRight' && !nextBtn.disabled && !nextBtn.hidden){
+      nextBtn.click();
+    }
+    if(e.altKey && e.key === 'ArrowLeft' && !backBtn.disabled){
+      backBtn.click();
+    }
+    if(e.ctrlKey && e.key === 's'){
+      e.preventDefault();
+      debouncedSave();
+      showToast('✓ Progreso guardado');
+    }
+  });
+
+  // Show keyboard hints on hover
+  let hintTimer;
+  document.addEventListener('mousemove', () => {
+    clearTimeout(hintTimer);
+    const hints = $('#keyboardHints');
+    hints.classList.add('show');
+    hintTimer = setTimeout(() => hints.classList.remove('show'), 3000);
+  });
+
+  // ===== Init =====
+  loadDraft();
+  
+  // Set mode from state
+  const modeRadio = $(`input[name="mode"][value="${state.mode}"]`);
+  if(modeRadio) modeRadio.checked = true;
+
+  setStep(state.step);
+
+})();
+</script>
+</body>
+</html>
