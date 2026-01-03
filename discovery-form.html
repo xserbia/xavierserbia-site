@@ -272,59 +272,6 @@
       font-weight:900;
     }
 
-    .cats{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 8px;
-    }
-    @media (max-width: 900px){
-      .cats{grid-template-columns: repeat(2, 1fr);}
-    }
-    @media (max-width: 560px){
-      .cats{grid-template-columns: 1fr;}
-    }
-    .catCard{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      background:#fff;
-      padding: 12px;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      cursor:pointer;
-      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
-      user-select:none;
-    }
-    .catCard:hover{
-      border-color: rgba(57,86,232,.35);
-      box-shadow: 0 10px 20px rgba(15,23,42,.06);
-    }
-    .catCard:active{transform: translateY(1px);}
-    .catCard input{ margin-top:3px; }
-    .catCard b{display:block;font-size: 13px;}
-    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
-
-    .subPanel{
-      margin-top: 12px;
-      border:1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px;
-      background:#fff;
-    }
-    .subPanel h3{
-      margin:0 0 6px;
-      font-size: 14px;
-      letter-spacing:-0.01em;
-    }
-    .subPanel .note{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.45;}
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 700px){ .split{grid-template-columns:1fr;} }
-
     .reviewBox{
       border:1px solid var(--border);
       border-radius: 16px;
@@ -354,8 +301,194 @@
       overflow:auto;
       max-height: 280px;
     }
+
+    /* =========================
+       STEP 3 (FINANZAS) - NEW UI
+       ========================= */
+
+    /* selector cards */
+    .cats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    @media (max-width: 900px){ .cats{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 560px){ .cats{grid-template-columns: 1fr;} }
+
+    .catCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background:#fff;
+      padding: 12px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+      user-select:none;
+    }
+    .catCard:hover{
+      border-color: rgba(57,86,232,.35);
+      box-shadow: 0 10px 20px rgba(15,23,42,.06);
+    }
+    .catCard:active{transform: translateY(1px);}
+    .catCard input{ margin-top:3px; }
+    .catCard b{display:block;font-size: 13px;}
+    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
+
+    .actionsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 10px;
+    }
+
+    /* accordion */
+    .accWrap{ display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
+    .accItem{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .accHead{
+      padding: 12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      cursor:pointer;
+      background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+      border-bottom:1px solid var(--border);
+    }
+    .accTitle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .badge{
+      font-size:11px;
+      font-weight:900;
+      color: var(--primary);
+      background: rgba(57,86,232,.10);
+      border:1px solid rgba(57,86,232,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+    .accTitle b{
+      font-size:13px;
+      letter-spacing:-0.01em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 55vw;
+    }
+    .caret{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--muted);
+      font-weight: 900;
+      user-select:none;
+    }
+    .accBody{ padding: 12px; display:none; }
+    .accItem.open .accBody{ display:block; }
+    .accItem.open .caret{ color: var(--text); }
+
+    /* compact fields inside rows */
+    .fieldCompact{ display:flex; flex-direction:column; gap:6px; margin:0; }
+    .fieldCompact label{ font-size: 11px; color: var(--muted); }
+    .fieldCompact input[type="text"],
+    .fieldCompact input[type="number"],
+    .fieldCompact select{
+      width:100%;
+      padding: 8px 10px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      outline:none;
+      font-size: 13px;
+      background:#fff;
+    }
+    .fieldCompact input:focus,
+    .fieldCompact select:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
+    }
+
+    .gridRow4{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .gridRow6{ display:grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    @media (max-width: 900px){
+      .gridRow6{ grid-template-columns: repeat(2, 1fr); }
+      .gridRow4{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px){
+      .gridRow6,.gridRow4{ grid-template-columns: 1fr; }
+    }
+
+    .rowCard{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(15,23,42,.015);
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .xicon{
+      position:absolute;
+      top:8px;
+      right:8px;
+      width:26px;height:26px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--muted);
+      font-weight:900;
+      font-size: 14px;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+    }
+    .xicon:hover{
+      background: rgba(220,38,38,.08);
+      color: #dc2626;
+      border-color: rgba(220,38,38,.35);
+    }
+
+    .rowFooter{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top: 8px;
+    }
+    .addBtn{
+      border:1px dashed rgba(57,86,232,.35);
+      background: rgba(57,86,232,.06);
+      color: var(--text);
+      padding: 9px 10px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 13px;
+      cursor:pointer;
+    }
+
+    .inlineBtns{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -457,18 +590,38 @@
           </div>
         </section>
 
-        <!-- STEP 3 -->
+        <!-- STEP 3 (REPLACED) -->
         <section class="step" data-step="3" hidden>
           <div class="panel">
             <h2>Finanzas</h2>
             <p>
-              Selecciona las categorías que aplican a tu caso. Para cada una, indica una <b>cantidad estimada</b>.
-              Si hay más de una persona, también selecciona <b>de quién es</b> (o si es compartido).
+              Primero selecciona las categorías que aplican. Luego presiona <b>Continuar →</b> para completarlas en acordeón
+              (una abierta a la vez). Puedes “Cerrar todos” cuando quieras.
             </p>
 
-            <div class="cats" id="categoriesGrid"></div>
+            <!-- Selector -->
+            <div id="finSelectorPanel">
+              <div class="cats" id="categoriesGrid"></div>
+              <div class="actionsRow">
+                <div class="hint" id="selHint">Selecciona al menos una categoría.</div>
+                <button class="btn primary" type="button" id="continueFinBtn" disabled>Continuar →</button>
+              </div>
+            </div>
 
-            <div id="categoryDetails"></div>
+            <!-- Accordion -->
+            <div id="finAccordionPanel" style="display:none; margin-top:12px;">
+              <div class="actionsRow" style="margin-top:0;">
+                <div class="hint">
+                  Abre una categoría y añade filas. Cada fila puede tener un <b>nombre/alias</b> (ej: “Bank of America”, “Auto Toyota”…).
+                </div>
+                <div class="inlineBtns">
+                  <button class="btn ghost" type="button" id="backToFinSelectBtn">← Volver</button>
+                  <button class="btn" type="button" id="closeAllBtn">Cerrar todos</button>
+                </div>
+              </div>
+
+              <div class="accWrap" id="accordionWrap"></div>
+            </div>
           </div>
 
           <div class="panel" style="margin-top:14px;">
@@ -544,6 +697,15 @@
   const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
   const uid = (prefix="id") => prefix + "_" + Math.random().toString(16).slice(2,10);
 
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
   // ---------- State ----------
   const state = {
     step: 1,
@@ -554,89 +716,48 @@
         { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
       ]
     },
+
+    // NEW financials structure (accordion)
     financials: {
-      categoriesSelected: [],
-      items: []
+      categoriesSelected: [], // order of selection
+      items: []              // rows across categories
     },
+
     notes: ""
   };
 
-  // Category registry (labels + hints)
-  const CATS = [
-    { key:"income", label:"Ingresos", hint:"Magnitud y estabilidad de ingresos." },
-    { key:"liabilities", label:"Préstamos y pasivos", hint:"Deudas, presión y atrasos." },
-    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades y si hay hipoteca." },
-    { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401(k), IRA, pensión, etc." },
-    { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage, fondos, cripto, etc." },
-    { key:"banking", label:"Banca / liquidez", hint:"Efectivo y cuentas bancarias." },
-    { key:"insurance", label:"Seguros", hint:"Coberturas y gasto estimado." },
-    { key:"business_trust", label:"Negocios / Trust", hint:"Negocio(s), participación, trust." },
+  // ---------- Step 3 (Finanzas) registry ----------
+  const FIN_CATS = [
+    { key:"income", label:"Ingresos", hint:"Tipos de ingreso + monto anual + dueño." },
+    { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo, tasa, pago mensual, balance." },
+    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades, valor estimado, hipoteca." },
+    { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401k/IRA, etc. valor estimado." },
+    { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage/cripto, etc." },
+    { key:"banking", label:"Banca / liquidez", hint:"Cuentas bancarias y efectivo." },
+    { key:"insurance", label:"Seguros", hint:"Tipo de seguro y prima." },
+    { key:"business_trust", label:"Negocios / Trust", hint:"Negocio, participación, trust." },
     { key:"legal", label:"Legal", hint:"Testamento, trust, poderes." },
-    { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
+    { key:"other_assets", label:"Otros", hint:"Autos, activos personales, etc." }
   ];
 
-  // Range keys by category (simple v1)
-  const RANGES = {
-    income: [
-      ["lt_50k","< $50k"],
-      ["50k_100k","$50k – $100k"],
-      ["100k_250k","$100k – $250k"],
-      ["250k_500k","$250k – $500k"],
-      ["gt_500k","$500k+"]
-    ],
-    liabilities: [
-      ["lt_25k","< $25k"],
-      ["25k_100k","$25k – $100k"],
-      ["100k_300k","$100k – $300k"],
-      ["gt_300k","$300k+"]
-    ],
-    real_estate: [
-      ["lt_250k","< $250k"],
-      ["250k_500k","$250k – $500k"],
-      ["500k_1m","$500k – $1M"],
-      ["gt_1m","$1M+"]
-    ],
-    investments_retirement: [
-      ["lt_50k","< $50k"],
-      ["50k_150k","$50k – $150k"],
-      ["150k_500k","$150k – $500k"],
-      ["gt_500k","$500k+"]
-    ],
-    investments_nonretirement: [
-      ["lt_25k","< $25k"],
-      ["25k_100k","$25k – $100k"],
-      ["100k_500k","$100k – $500k"],
-      ["gt_500k","$500k+"]
-    ],
-    banking: [
-      ["lt_10k","< $10k"],
-      ["10k_50k","$10k – $50k"],
-      ["50k_150k","$50k – $150k"],
-      ["gt_150k","$150k+"]
-    ],
-    insurance: [
-      ["lt_2k","< $2k/año"],
-      ["2k_6k","$2k – $6k/año"],
-      ["6k_15k","$6k – $15k/año"],
-      ["gt_15k","$15k+/año"]
-    ],
-    business_trust: [
-      ["lt_100k","< $100k"],
-      ["100k_500k","$100k – $500k"],
-      ["500k_1m","$500k – $1M"],
-      ["gt_1m","$1M+"]
-    ],
-    legal: [
-      ["lt_250k","< $250k"],
-      ["250k_1m","$250k – $1M"],
-      ["gt_1m","$1M+"]
-    ],
-    other_assets: [
-      ["lt_25k","< $25k"],
-      ["25k_100k","$25k – $100k"],
-      ["100k_300k","$100k – $300k"],
-      ["gt_300k","$300k+"]
-    ]
+  // Dropdowns
+  const INCOME_TYPES = [
+    "Salario","Pago por hora","Bono","Comisión","Propina","Negocio propio",
+    "Dividendos e intereses","Renta inmueble","Pensión","Seguro Social","Anualidad",
+    "Ganancia de capital (acciones)","Ganancia de capital (ETF/fondos)","Ganancia de capital (bonos)","Ganancia de capital (real estate)"
+  ];
+  const DEBT_TYPES = [
+    "Tarjeta de crédito","Préstamo de auto","Préstamo estudiantil","Hipoteca","Personal loan",
+    "Línea de crédito (HELOC)","Préstamo de negocio","Impuestos adeudados","Otro"
+  ];
+  const SIMPLE_TYPES = {
+    banking: ["Checking","Savings","Money market","CD","Cash"],
+    investments_retirement: ["401(k)","IRA","Roth IRA","403(b)","457","Pensión","Otro"],
+    investments_nonretirement: ["Brokerage","ETF/Fondos","Acciones","Bonos/Renta fija","Cripto","Otro"],
+    insurance: ["Vida","Salud","Auto","Hogar/Renta","Disability","Umbrella","LTC","Otro"],
+    business_trust: ["Negocio (100%)","Negocio (participación)","Trust","LLC/Partnership","Otro"],
+    legal: ["Testamento","Trust","POA (poder)","Living will/Directiva","Beneficiarios","Otro"],
+    other_assets: ["Auto","Joyas","Colección","Arte","Activos personales","Otro"]
   };
 
   // ---------- DOM ----------
@@ -656,10 +777,17 @@
   const addPersonBtn = $("#addPersonBtn");
   const peopleJson = $("#peopleJson");
 
-  // Step 3
+  // Step 3 (Finanzas NEW)
   const categoriesGrid = $("#categoriesGrid");
-  const categoryDetails = $("#categoryDetails");
   const financialsJson = $("#financialsJson");
+
+  const finSelectorPanel = $("#finSelectorPanel");
+  const finAccordionPanel = $("#finAccordionPanel");
+  const selHint = $("#selHint");
+  const continueFinBtn = $("#continueFinBtn");
+  const backToFinSelectBtn = $("#backToFinSelectBtn");
+  const closeAllBtn = $("#closeAllBtn");
+  const accordionWrap = $("#accordionWrap");
 
   // Step 4
   const notesEl = $("#notes");
@@ -688,28 +816,20 @@
     // buttons
     backBtn.disabled = step === 1;
     nextBtn.hidden = step === 4;
-    backBtn.hidden = false;
 
     // step-specific updates
     if(step === 2) renderPeople();
-    if(step === 3) { renderCategories(); renderFinancials(); }
+    if(step === 3) { renderFinSelector(); renderFinancialsJson(); resetFinPanelsForStep(); }
     if(step === 4) renderFinish();
 
     updateNavValidity();
   }
 
   function updateNavValidity(){
-    // Next enabled rules
     let canNext = true;
-    if(state.step === 1){
-      canNext = validateContact().ok;
-    }
-    if(state.step === 2){
-      canNext = validatePeople().ok;
-    }
-    if(state.step === 3){
-      canNext = validateFinancials().ok;
-    }
+    if(state.step === 1) canNext = validateContact().ok;
+    if(state.step === 2) canNext = validatePeople().ok;
+    if(state.step === 3) canNext = validateFinancials().ok;
     nextBtn.disabled = !canNext;
   }
 
@@ -731,7 +851,6 @@
 
     if(!baseOk) return { ok:false };
 
-    // if more than one person, relationshipToPrimary required for each additional
     if(m.length > 1){
       for(let i=1;i<m.length;i++){
         const p = m[i];
@@ -743,29 +862,37 @@
           !!p.relationshipToPrimary;
         if(!okp) return { ok:false };
       }
-    } else {
-      // for 1 person, allow missing relationship (doesn't exist)
-      if(!(primary.firstName && primary.lastName)) return { ok:false };
     }
-
-    // householdRole is optional (you can force it if you want)
     return { ok:true };
   }
 
+  // NEW: finance validation (light but useful)
   function validateFinancials(){
-    // must have at least 1 category selected
-    if(state.financials.categoriesSelected.length === 0) return { ok:false };
+    const selected = state.financials.categoriesSelected;
+    if(selected.length === 0) return { ok:false };
 
-    // for each selected category, we expect at least 1 item for that category
-    for(const cat of state.financials.categoriesSelected){
-      const items = state.financials.items.filter(x => x.category === cat);
+    const multi = (state.people.members || []).length > 1;
+    for(const catKey of selected){
+      const items = state.financials.items.filter(it => it.category === catKey);
       if(items.length === 0) return { ok:false };
 
-      // each item needs owner + amount range
       for(const it of items){
-        if(!it.owner) return { ok:false };
-        if(it.owner === "multiple" && (!it.ownerIds || it.ownerIds.length < 2)) return { ok:false };
-        if(!it.amountEstimate?.rangeKey) return { ok:false };
+        // owner required if multi-person
+        if(multi && !it.owner) return { ok:false };
+
+        // minimal required per category
+        if(catKey === "income"){
+          if(!it.type) return { ok:false };
+          if(!(typeof it.amountAnnual === "number" && it.amountAnnual >= 0)) return { ok:false };
+        }
+        if(catKey === "liabilities"){
+          if(!it.type) return { ok:false };
+          // allow blanks, but if present must be >=0
+          const nums = ["interestRate","monthlyPayment","balance"];
+          for(const k of nums){
+            if(it[k] !== null && it[k] !== undefined && it[k] !== "" && !(typeof it[k] === "number" && it[k] >= 0)) return { ok:false };
+          }
+        }
       }
     }
     return { ok:true };
@@ -842,7 +969,6 @@
         card.appendChild(rel);
       }
 
-      // events
       card.addEventListener("input", (e) => {
         const t = e.target;
         if(!(t instanceof HTMLElement)) return;
@@ -853,26 +979,31 @@
         if(!person) return;
 
         if(key === "age"){
-          const n = Number((t).value);
+          const n = Number(t.value);
           person.age = Number.isFinite(n) ? Math.trunc(n) : null;
         } else {
-          person[key] = (t).value;
+          person[key] = t.value;
         }
 
         renderPeopleJson();
+        // refresh owners in finance UI (if already on step 3)
+        if(state.step === 3){
+          renderFinSelector();
+          renderAccordion();
+        }
         updateNavValidity();
-        // re-render owners if people count changed later
-        renderFinancials();
       });
 
       if(!isPrimary){
         const xbtn = $(".xbtn", head);
         xbtn.addEventListener("click", () => {
           state.people.members = state.people.members.filter(x => x.id !== p.id);
-          // remove owner assignments that reference removed person
           cleanupOwners();
           renderPeople();
-          renderFinancials();
+          if(state.step === 3){
+            renderFinSelector();
+            renderAccordion();
+          }
           updateNavValidity();
         });
       }
@@ -880,7 +1011,6 @@
       peopleWrap.appendChild(card);
     });
 
-    // bind household role
     householdRoleEl.value = state.people.householdRole || "";
     householdRoleEl.onchange = () => {
       state.people.householdRole = householdRoleEl.value;
@@ -889,7 +1019,6 @@
     };
 
     renderPeopleJson();
-    updateNavValidity();
   }
 
   function renderPeopleJson(){
@@ -908,258 +1037,418 @@
       relationshipToPrimary:""
     });
     renderPeople();
-    renderFinancials();
+    if(state.step === 3){
+      renderFinSelector();
+      renderAccordion();
+    }
     updateNavValidity();
   });
 
   function cleanupOwners(){
     const ids = new Set(state.people.members.map(p => p.id));
     for(const it of state.financials.items){
-      if(it.owner && it.owner !== "household" && it.owner !== "multiple"){
-        if(!ids.has(it.owner)) it.owner = "household"; // fallback
-      }
-      if(it.owner === "multiple"){
-        it.ownerIds = (it.ownerIds || []).filter(id => ids.has(id));
-        if((it.ownerIds || []).length < 2){
-          // downgrade
-          it.owner = it.ownerIds?.[0] || "household";
-          delete it.ownerIds;
-        }
+      if(it.owner && it.owner !== "household"){
+        if(!ids.has(it.owner)) it.owner = "household";
       }
     }
   }
 
-  // ---------- Categories UI ----------
-  function renderCategories(){
-    categoriesGrid.innerHTML = "";
-    const selected = new Set(state.financials.categoriesSelected);
+  // =========================
+  // STEP 3 - FINANCES (NEW)
+  // =========================
 
-    CATS.forEach(cat => {
-      const card = document.createElement("label");
-      card.className = "catCard";
-      card.innerHTML = `
-        <input type="checkbox" ${selected.has(cat.key) ? "checked" : ""} />
+  function peopleCount(){ return (state.people.members || []).length; }
+
+  function defaultOwner(){
+    const people = state.people.members || [];
+    if(people.length <= 1) return people[0].id;
+    return "household";
+  }
+
+  function ownerOptionsHTML(current){
+    const people = state.people.members || [];
+    if(people.length <= 1){
+      const p = people[0];
+      return `<option value="${p.id}" selected>Persona principal</option>`;
+    }
+    let html = `<option value="">Selecciona…</option>`;
+    for(const p of people){
+      const name = ([p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase());
+      html += `<option value="${p.id}" ${current===p.id?"selected":""}>${escapeHtml(name)} (${p.id})</option>`;
+    }
+    html += `<option value="household" ${current==="household"?"selected":""}>Compartido (hogar)</option>`;
+    return html;
+  }
+
+  function setContinueFinEnabled(){
+    const ok = state.financials.categoriesSelected.length > 0;
+    continueFinBtn.disabled = !ok;
+    selHint.textContent = ok ? "Listo. Continúa para completar detalles." : "Selecciona al menos una categoría.";
+  }
+
+  function addCategorySelected(catKey){
+    if(!state.financials.categoriesSelected.includes(catKey)){
+      state.financials.categoriesSelected.push(catKey);
+    }
+  }
+
+  function removeCategorySelected(catKey){
+    state.financials.categoriesSelected = state.financials.categoriesSelected.filter(x => x !== catKey);
+    state.financials.items = state.financials.items.filter(it => it.category !== catKey);
+  }
+
+  function countItems(catKey){
+    return state.financials.items.filter(it => it.category === catKey).length;
+  }
+
+  function resetFinPanelsForStep(){
+    // when entering step 3, default to selector
+    finSelectorPanel.style.display = "block";
+    finAccordionPanel.style.display = "none";
+    setContinueFinEnabled();
+  }
+
+  function renderFinSelector(){
+    categoriesGrid.innerHTML = "";
+    const selectedSet = new Set(state.financials.categoriesSelected);
+
+    FIN_CATS.forEach(cat => {
+      const lab = document.createElement("label");
+      lab.className = "catCard";
+      lab.innerHTML = `
+        <input type="checkbox" ${selectedSet.has(cat.key) ? "checked" : ""} />
         <div>
           <b>${cat.label}</b>
           <span>${cat.hint}</span>
         </div>
       `;
-      card.addEventListener("click", (e) => {
-        // allow clicking anywhere
-        const cb = $("input[type=checkbox]", card);
+
+      lab.addEventListener("click", (e) => {
+        const cb = lab.querySelector("input[type=checkbox]");
         if(e.target !== cb) cb.checked = !cb.checked;
-        const isOn = cb.checked;
 
-        if(isOn) {
-          if(!selected.has(cat.key)) state.financials.categoriesSelected.push(cat.key);
-          // ensure there is at least one item record for category
-          ensureCategoryItem(cat.key);
+        if(cb.checked){
+          addCategorySelected(cat.key);
         } else {
-          state.financials.categoriesSelected = state.financials.categoriesSelected.filter(k => k !== cat.key);
-          // remove items for category
-          state.financials.items = state.financials.items.filter(it => it.category !== cat.key);
+          removeCategorySelected(cat.key);
         }
 
-        renderCategories();
-        renderFinancials();
-        updateNavValidity();
-      });
-
-      categoriesGrid.appendChild(card);
-    });
-  }
-
-  function ensureCategoryItem(categoryKey){
-    const existing = state.financials.items.some(it => it.category === categoryKey);
-    if(existing) return;
-
-    const firstOwner = state.people.members.length === 1 ? state.people.members[0].id : "household";
-    const period = (categoryKey === "income" || categoryKey === "insurance") ? "annual" : "one_time_estimate";
-
-    state.financials.items.push({
-      id: uid("fin"),
-      category: categoryKey,
-      owner: firstOwner, // if multi people, default household
-      amountEstimate: {
-        type:"range",
-        period: period,
-        currency:"USD",
-        rangeKey:""
-      },
-      details: {}
-    });
-  }
-
-  function ownerOptionsHTML(current){
-    const multi = state.people.members.length > 1;
-
-    // if one person -> no selector needed
-    if(!multi) return "";
-
-    const opts = [];
-    opts.push(`<option value="">Selecciona…</option>`);
-    for(const p of state.people.members){
-      const name = [p.firstName, p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
-      opts.push(`<option value="${p.id}" ${current===p.id?"selected":""}>${name} (${p.id})</option>`);
-    }
-    opts.push(`<option value="household" ${current==="household"?"selected":""}>Compartido (hogar)</option>`);
-    opts.push(`<option value="multiple" ${current==="multiple"?"selected":""}>De varios (seleccionar)</option>`);
-    return opts.join("");
-  }
-
-  function rangeOptionsHTML(catKey, current){
-    const ranges = RANGES[catKey] || [];
-    const opts = [`<option value="">Selecciona…</option>`];
-    for(const [k, label] of ranges){
-      opts.push(`<option value="${k}" ${current===k?"selected":""}>${label}</option>`);
-    }
-    return opts.join("");
-  }
-
-  function renderFinancials(){
-    // build details panels for each selected category
-    categoryDetails.innerHTML = "";
-    const selected = state.financials.categoriesSelected;
-
-    if(selected.length === 0){
-      categoryDetails.innerHTML = `<div class="hint" style="margin-top:10px;">Selecciona al menos una categoría para continuar.</div>`;
-      financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
-      return;
-    }
-
-    for(const catKey of selected){
-      // items for category (v1: single item per category; you can extend to multiple)
-      const it = state.financials.items.find(x => x.category === catKey);
-      if(!it) continue;
-
-      const catMeta = CATS.find(c => c.key === catKey);
-      const panel = document.createElement("div");
-      panel.className = "subPanel";
-      panel.dataset.cat = catKey;
-
-      const title = catMeta ? catMeta.label : catKey;
-      panel.innerHTML = `
-        <h3>${title}</h3>
-        <p class="note">Indica el monto aproximado. Si hay más de una persona, selecciona el dueño.</p>
-
-        <div class="split">
-          <div class="field">
-            <label>Cantidad estimada *</label>
-            <select data-k="rangeKey">
-              ${rangeOptionsHTML(catKey, it.amountEstimate.rangeKey)}
-            </select>
-          </div>
-
-          ${state.people.members.length > 1 ? `
-          <div class="field">
-            <label>¿De quién es? *</label>
-            <select data-k="owner">
-              ${ownerOptionsHTML(it.owner)}
-            </select>
-          </div>
-          ` : `
-          <div class="field">
-            <label>Dueño</label>
-            <input type="text" value="Persona principal (${state.people.members[0].id})" disabled />
-          </div>
-          `}
-        </div>
-
-        <div class="field" data-ownerids-wrap style="display:${it.owner==="multiple" ? "block" : "none"};">
-          <label>Selecciona personas (si es de varios) *</label>
-          <div class="row3" data-ownerids>
-            ${state.people.members.map(p=>{
-              const checked = (it.ownerIds || []).includes(p.id) ? "checked" : "";
-              const name = [p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
-              return `
-                <label class="checkline" style="margin:0; align-items:center;">
-                  <input type="checkbox" value="${p.id}" ${checked}/>
-                  <span>${escapeHtml(name)} (${p.id})</span>
-                </label>
-              `;
-            }).join("")}
-          </div>
-          <div class="hint">Debes seleccionar al menos 2 si eliges “De varios”.</div>
-        </div>
-
-        <div class="field">
-          <label>Notas de esta categoría (opcional)</label>
-          <input type="text" data-k="note" value="${escapeHtml(it.details.note||"")}" placeholder="Ej. tengo dos tarjetas y un auto..." />
-        </div>
-      `;
-
-      // bind events
-      panel.addEventListener("change", (e) => {
-        const t = e.target;
-        if(!(t instanceof HTMLElement)) return;
-
-        const k = t.getAttribute("data-k");
-        const item = state.financials.items.find(x => x.id === it.id);
-        if(!item) return;
-
-        if(k === "rangeKey"){
-          item.amountEstimate.rangeKey = t.value;
-        }
-        if(k === "owner"){
-          item.owner = t.value;
-          if(item.owner !== "multiple") delete item.ownerIds;
-          // toggle ownerids UI
-          const wrap = panel.querySelector('[data-ownerids-wrap]');
-          if(wrap) wrap.style.display = (item.owner === "multiple") ? "block" : "none";
-        }
-        if(k === "note"){
-          item.details.note = t.value;
-        }
-
+        renderFinSelector();
+        setContinueFinEnabled();
         renderFinancialsJson();
         updateNavValidity();
       });
 
-      // ownerIds checkboxes
-      const ownerIdsWrap = panel.querySelector('[data-ownerids]');
-      if(ownerIdsWrap){
-        ownerIdsWrap.addEventListener("change", (e) => {
-          const t = e.target;
-          if(!(t instanceof HTMLInputElement)) return;
-          if(t.type !== "checkbox") return;
+      categoriesGrid.appendChild(lab);
+    });
 
-          const item = state.financials.items.find(x => x.id === it.id);
-          if(!item) return;
-          item.ownerIds = item.ownerIds || [];
-          const val = t.value;
+    setContinueFinEnabled();
+  }
 
-          if(t.checked){
-            if(!item.ownerIds.includes(val)) item.ownerIds.push(val);
-          } else {
-            item.ownerIds = item.ownerIds.filter(x => x !== val);
-          }
+  function openOnly(itemEl){
+    $$(".accItem").forEach(el => {
+      if(el !== itemEl) el.classList.remove("open");
+    });
+    itemEl.classList.toggle("open");
+  }
 
-          renderFinancialsJson();
-          updateNavValidity();
-        });
-      }
+  function closeAll(){
+    $$(".accItem").forEach(el => el.classList.remove("open"));
+  }
 
-      categoryDetails.appendChild(panel);
+  // row builders
+  function makeField({label, type="text", key, value="", min=null, step=null, placeholder=""}){
+    const minAttr = min!==null ? `min="${min}"` : "";
+    const stepAttr = step!==null ? `step="${step}"` : "";
+    const phAttr = placeholder ? `placeholder="${escapeHtml(placeholder)}"` : "";
+    return `
+      <div class="fieldCompact">
+        <label>${escapeHtml(label)}</label>
+        <input type="${type}" data-k="${escapeHtml(key)}" value="${escapeHtml(value)}" ${minAttr} ${stepAttr} ${phAttr}/>
+      </div>
+    `;
+  }
+
+  function makeSelect({label, key, options, value=""}){
+    const opts = [`<option value="">Selecciona…</option>`].concat(
+      options.map(o => `<option value="${escapeHtml(o)}" ${o===value?"selected":""}>${escapeHtml(o)}</option>`)
+    ).join("");
+    return `
+      <div class="fieldCompact">
+        <label>${escapeHtml(label)}</label>
+        <select data-k="${escapeHtml(key)}">${opts}</select>
+      </div>
+    `;
+  }
+
+  function ownerSelectField(currentOwner){
+    if(peopleCount() <= 1){
+      return `
+        <div class="fieldCompact">
+          <label>Dueño</label>
+          <input type="text" value="Persona principal" disabled />
+        </div>
+      `;
     }
+    return `
+      <div class="fieldCompact">
+        <label>Dueño</label>
+        <select data-k="owner">${ownerOptionsHTML(currentOwner || "")}</select>
+      </div>
+    `;
+  }
 
-    renderFinancialsJson();
-    updateNavValidity();
+  function baseRowCard(it, gridClass, fieldsHtml){
+    return `
+      <div class="rowCard" data-id="${it.id}">
+        <button class="xicon" type="button" title="Eliminar">✕</button>
+        <div class="${gridClass}">
+          ${fieldsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function incomeRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Salario principal"})}
+        ${makeSelect({label:"Tipo de ingreso", key:"type", options: INCOME_TYPES, value: it.type || ""})}
+        ${makeField({label:"Cantidad anual (USD)", type:"number", key:"amountAnnual", value: it.amountAnnual ?? "", min:0, step:"0.01", placeholder:"Ej: 95000"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function liabilitiesRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow6",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Chase Freedom"})}
+        ${makeSelect({label:"Tipo de deuda", key:"type", options: DEBT_TYPES, value: it.type || ""})}
+        ${makeField({label:"Tasa de interés (%)", type:"number", key:"interestRate", value: it.interestRate ?? "", min:0, step:"0.01", placeholder:"Ej: 22.99"})}
+        ${makeField({label:"Pago mensual (USD)", type:"number", key:"monthlyPayment", value: it.monthlyPayment ?? "", min:0, step:"0.01", placeholder:"Ej: 250"})}
+        ${makeField({label:"Balance (USD)", type:"number", key:"balance", value: it.balance ?? "", min:0, step:"0.01", placeholder:"Ej: 4200"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function realEstateRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow6",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Casa principal"})}
+        ${makeSelect({label:"Tipo", key:"type", options:["Casa","Apartamento","Terreno","Propiedad renta","Otro"], value: it.type || ""})}
+        ${makeField({label:"Valor estimado (USD)", type:"number", key:"value", value: it.value ?? "", min:0, step:"0.01", placeholder:"Ej: 450000"})}
+        ${makeField({label:"Balance hipoteca (USD)", type:"number", key:"mortgageBalance", value: it.mortgageBalance ?? "", min:0, step:"0.01", placeholder:"Ej: 320000"})}
+        ${makeField({label:"Pago mensual (USD)", type:"number", key:"monthlyPayment", value: it.monthlyPayment ?? "", min:0, step:"0.01", placeholder:"Ej: 2200"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function insuranceRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Seguro de auto GEICO"})}
+        ${makeSelect({label:"Tipo", key:"type", options: SIMPLE_TYPES.insurance, value: it.type || ""})}
+        ${makeField({label:"Prima anual (USD)", type:"number", key:"premiumAnnual", value: it.premiumAnnual ?? "", min:0, step:"0.01", placeholder:"Ej: 1800"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function simpleRowHtml(it, catKey){
+    const types = SIMPLE_TYPES[catKey] || ["Otro"];
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Bank of America"})}
+        ${makeSelect({label:"Tipo", key:"type", options: types, value: it.type || ""})}
+        ${makeField({label:"Valor asociado (USD)", type:"number", key:"value", value: it.value ?? "", min:0, step:"0.01", placeholder:"Ej: 15000"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function addRow(catKey){
+    const base = { id: uid(catKey), category: catKey, owner: defaultOwner(), name:"", type:"" };
+    let row;
+    if(catKey === "income"){
+      row = { ...base, amountAnnual: null };
+    } else if(catKey === "liabilities"){
+      row = { ...base, interestRate: null, monthlyPayment: null, balance: null };
+    } else if(catKey === "real_estate"){
+      row = { ...base, value: null, mortgageBalance: null, monthlyPayment: null };
+    } else if(catKey === "insurance"){
+      row = { ...base, premiumAnnual: null };
+    } else {
+      row = { ...base, value: null };
+    }
+    state.financials.items.push(row);
+    return row;
+  }
+
+  function renderCategoryRows(catKey, rowsEl){
+    const items = state.financials.items.filter(it => it.category === catKey);
+    if(items.length === 0) addRow(catKey);
+
+    const items2 = state.financials.items.filter(it => it.category === catKey);
+    rowsEl.innerHTML = items2.map(it => {
+      if(catKey === "income") return incomeRowHtml(it);
+      if(catKey === "liabilities") return liabilitiesRowHtml(it);
+      if(catKey === "real_estate") return realEstateRowHtml(it);
+      if(catKey === "insurance") return insuranceRowHtml(it);
+      return simpleRowHtml(it, catKey);
+    }).join("");
+
+    rowsEl.querySelectorAll(".rowCard").forEach(card => {
+      const id = card.getAttribute("data-id");
+      const it = state.financials.items.find(x => x.id === id);
+      if(!it) return;
+
+      // delete
+      card.querySelector(".xicon").addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.financials.items = state.financials.items.filter(x => x.id !== id);
+        renderCategoryRows(catKey, rowsEl);
+        const accItemEl = rowsEl.closest(".accItem");
+        updateBadge(catKey, accItemEl);
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      // changes
+      card.addEventListener("input", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const k = t.getAttribute("data-k");
+        if(!k) return;
+
+        if(t.tagName === "INPUT" && t.getAttribute("type") === "number"){
+          const n = Number(t.value);
+          it[k] = Number.isFinite(n) && t.value !== "" ? n : null;
+        } else {
+          it[k] = t.value;
+        }
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      card.addEventListener("change", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const k = t.getAttribute("data-k");
+        if(!k) return;
+
+        it[k] = t.value;
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+    });
+  }
+
+  function updateBadge(catKey, accItemEl){
+    const badge = accItemEl.querySelector("[data-badge]");
+    if(badge) badge.textContent = `${countItems(catKey)} ítems`;
+  }
+
+  function renderAccordion(){
+    accordionWrap.innerHTML = "";
+    const keys = state.financials.categoriesSelected;
+
+    keys.forEach(catKey => {
+      const meta = FIN_CATS.find(c => c.key === catKey);
+      const label = meta ? meta.label : catKey;
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "accItem";
+      itemEl.dataset.cat = catKey;
+
+      itemEl.innerHTML = `
+        <div class="accHead">
+          <div class="accTitle">
+            <span class="badge" data-badge>${countItems(catKey)} ítems</span>
+            <b>${escapeHtml(label)}</b>
+          </div>
+          <div class="caret">▾</div>
+        </div>
+        <div class="accBody">
+          <div class="hint" style="margin-bottom:10px;">
+            ${escapeHtml(meta?.hint || "")}
+          </div>
+
+          <div data-rows></div>
+
+          <div class="rowFooter">
+            <button class="addBtn" type="button" data-add>+ Añadir</button>
+            <div class="hint">Agrega tantas filas como necesites.</div>
+          </div>
+        </div>
+      `;
+
+      itemEl.querySelector(".accHead").addEventListener("click", () => openOnly(itemEl));
+
+      const rowsEl = itemEl.querySelector("[data-rows]");
+      itemEl.querySelector("[data-add]").addEventListener("click", () => {
+        addRow(catKey);
+        renderCategoryRows(catKey, rowsEl);
+        updateBadge(catKey, itemEl);
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      renderCategoryRows(catKey, rowsEl);
+      updateBadge(catKey, itemEl);
+
+      accordionWrap.appendChild(itemEl);
+    });
+
+    // open first by default (if none open)
+    const first = accordionWrap.querySelector(".accItem");
+    if(first && !accordionWrap.querySelector(".accItem.open")) first.classList.add("open");
   }
 
   function renderFinancialsJson(){
     financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
   }
 
+  // selector → accordion
+  continueFinBtn.addEventListener("click", () => {
+    finSelectorPanel.style.display = "none";
+    finAccordionPanel.style.display = "block";
+    renderAccordion();
+    renderFinancialsJson();
+    updateNavValidity();
+  });
+
+  backToFinSelectBtn.addEventListener("click", () => {
+    finAccordionPanel.style.display = "none";
+    finSelectorPanel.style.display = "block";
+    renderFinSelector();
+    setContinueFinEnabled();
+    renderFinancialsJson();
+    updateNavValidity();
+  });
+
+  closeAllBtn.addEventListener("click", () => closeAll());
+
   // ---------- Finish ----------
   function renderFinish(){
-    // notes
     notesEl.value = state.notes || "";
     notesEl.oninput = () => {
       state.notes = notesEl.value;
-      renderFinish(); // refresh payload
+      renderFinish();
     };
 
-    // summary
     const peopleCount = state.people.members.length;
     const cats = state.financials.categoriesSelected.length;
 
@@ -1170,11 +1459,9 @@
       <div class="k">Categorías financieras</div><div class="v">${cats}</div>
     `;
 
-    // final payload
     const payload = buildFinalPayload();
     finalJson.textContent = JSON.stringify(payload, null, 2);
 
-    // validity
     const vContact = validateContact().ok;
     const vPeople = validatePeople().ok;
     const vFin = validateFinancials().ok;
@@ -1193,10 +1480,7 @@
 
   function buildFinalPayload(){
     return {
-      meta: {
-        source: "discovery_v1_html",
-        createdAt: new Date().toISOString()
-      },
+      meta: { source: "discovery_v1_html", createdAt: new Date().toISOString() },
       contact: {
         email: state.contact.email,
         phone: state.contact.phone || "",
@@ -1233,11 +1517,9 @@
   });
 
   nextBtn.addEventListener("click", () => {
-    // hard validation per step
     if(state.step === 1 && !validateContact().ok) return;
     if(state.step === 2 && !validatePeople().ok) return;
     if(state.step === 3 && !validateFinancials().ok) return;
-
     if(state.step < 4) setStep(state.step + 1);
   });
 
@@ -1245,7 +1527,6 @@
     const payload = buildFinalPayload();
     console.log("[Discovery payload]", payload);
 
-    // Download JSON
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -1266,336 +1547,13 @@
     return "—";
   }
 
-  function escapeHtml(str){
-    return String(str)
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
   // ---------- Init ----------
   bindContact();
-  // initial JSON previews
   renderPeopleJson();
   renderFinancialsJson();
-  // start
   setStep(1);
 
 })();
 </script>
-  <!-- ====== DISCOVERY: INCOME ENRICHMENT (monto + owner + múltiples ingresos) ====== -->
-<style>
-  .income-extra {
-    margin: 10px 0 0;
-    padding: 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #fff;
-    display: none;
-    gap: 10px;
-  }
-  .income-extra.show { display: grid; grid-template-columns: 1fr 1fr; }
-  .income-extra .field { display:flex; flex-direction:column; gap:6px; }
-  .income-extra label { font-size: 12px; color: #64748b; }
-  .income-extra select {
-    padding: 10px 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    outline: none;
-    font-size: 14px;
-    background: #fff;
-  }
-  .income-meta {
-    margin-top: 10px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #0b1220;
-    color: #e5e7eb;
-    padding: 12px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    font-size: 12px;
-    overflow:auto;
-    max-height: 260px;
-  }
-  .income-note {
-    font-size: 12px;
-    color: #64748b;
-    margin: 8px 0 0;
-  }
-</style>
-
-<div class="income-note">
-  Selecciona las subcategorías de ingreso que aplican. Para cada una, indica monto estimado y a quién pertenece.
-</div>
-
-<pre class="income-meta" id="incomeJsonPreview"></pre>
-
-<script>
-(() => {
-  // -------------------------------------------------------------
-  // 1) State base: people + financials
-  //    Si ya tienes state global, conecta aquí.
-  // -------------------------------------------------------------
-  const discoveryState = window.discoveryState || (window.discoveryState = {});
-  discoveryState.people = discoveryState.people || {
-    members: [{ id: "p1", firstName: "Persona", lastName: "Principal" }]
-  };
-  discoveryState.financials = discoveryState.financials || {
-    categoriesSelected: [],
-    items: []
-  };
-
-  // Helpers
-  const $ = (sel, root=document) => root.querySelector(sel);
-  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-  const uid = () => "fin_" + Math.random().toString(16).slice(2,10);
-
-  // Ranges (income annual)
-  const INCOME_RANGES = [
-    { key: "lt_10k",  label: "< $10k" },
-    { key: "10k_25k", label: "$10k – $25k" },
-    { key: "25k_50k", label: "$25k – $50k" },
-    { key: "50k_100k",label: "$50k – $100k" },
-    { key: "100k_250k",label:"$100k – $250k" },
-    { key: "250k_500k",label:"$250k – $500k" },
-    { key: "gt_500k", label: "$500k+" }
-  ];
-
-  // Owner options
-  function ownerOptionsHTML(selectedOwner){
-    const people = discoveryState.people.members || [];
-    if(people.length <= 1){
-      return `<option value="${people[0]?.id || "p1"}">Persona principal</option>`;
-    }
-    let html = `<option value="">Selecciona…</option>`;
-    for(const p of people){
-      const name = [p.firstName, p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
-      html += `<option value="${p.id}" ${selectedOwner===p.id?"selected":""}>${escapeHtml(name)} (${p.id})</option>`;
-    }
-    html += `<option value="household" ${selectedOwner==="household"?"selected":""}>Compartido (hogar)</option>`;
-    return html;
-  }
-
-  function rangeOptionsHTML(selectedKey){
-    let html = `<option value="">Selecciona…</option>`;
-    for(const r of INCOME_RANGES){
-      html += `<option value="${r.key}" ${selectedKey===r.key?"selected":""}>${r.label}</option>`;
-    }
-    return html;
-  }
-
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
-  // -------------------------------------------------------------
-  // 2) Detectar el bloque de Ingresos en tu HTML
-  // -------------------------------------------------------------
-  const ingresosSector = $(`.bloque-sector .encabezado .icono-ingresos`)?.closest(".bloque-sector");
-  if(!ingresosSector){
-    console.warn("No se encontró el bloque de Ingresos. Verifica la clase .icono-ingresos dentro de .bloque-sector.");
-    return;
-  }
-
-  // -------------------------------------------------------------
-  // 3) Enriquecer cada fila de subcategoría con: monto + owner
-  //    Regla: si switch ON => mostrar inputs
-  // -------------------------------------------------------------
-  const filas = $$(".bloque-sector .subcategorias .fila", ingresosSector);
-
-  filas.forEach((fila) => {
-    const span = $(".editable-span", fila);
-    const checkbox = $("input[type='checkbox']", fila); // el switch de la subcategoría
-
-    if(!span || !checkbox) return;
-
-    // Identificadores del tipo de ingreso
-    const subName = span.getAttribute("data-nombre") || span.textContent.trim();
-    const categoriaPadre = fila.closest(".bloque-categoria");
-    const mainCatName = $(".titulo-categoria span", categoriaPadre)?.textContent?.trim() || "Ingresos";
-
-    // Crear contenedor extra debajo de la fila (monto + owner)
-    const extra = document.createElement("div");
-    extra.className = "income-extra";
-    extra.innerHTML = `
-      <div class="field">
-        <label>Monto estimado (anual) *</label>
-        <select data-k="rangeKey">
-          ${rangeOptionsHTML("")}
-        </select>
-      </div>
-      <div class="field">
-        <label>¿De quién es? *</label>
-        <select data-k="owner">
-          ${ownerOptionsHTML("")}
-        </select>
-      </div>
-    `;
-
-    // Insertar justo después de la fila
-    fila.insertAdjacentElement("afterend", extra);
-
-    // Sync inicial: si el switch venía checked, mostramos
-    if(checkbox.checked){
-      extra.classList.add("show");
-      upsertIncomeItem({ mainCatName, subName, rangeKey:"", owner: defaultOwner() });
-      renderIncomePreview();
-    }
-
-    // Eventos: toggle ON/OFF
-    checkbox.addEventListener("change", () => {
-      if(checkbox.checked){
-        extra.classList.add("show");
-        const owner = defaultOwner();
-        const rangeKey = ""; // obligatorio seleccionar
-        setSelectValue(extra, "owner", owner);
-        setSelectValue(extra, "rangeKey", rangeKey);
-        upsertIncomeItem({ mainCatName, subName, rangeKey, owner });
-      } else {
-        extra.classList.remove("show");
-        removeIncomeItem(mainCatName, subName);
-      }
-      ensureIncomeCategorySelected();
-      renderIncomePreview();
-    });
-
-    // Eventos: cambios de selects
-    extra.addEventListener("change", (e) => {
-      const t = e.target;
-      if(!(t instanceof HTMLSelectElement)) return;
-
-      const rangeKey = getSelectValue(extra, "rangeKey");
-      const owner = getSelectValue(extra, "owner");
-
-      upsertIncomeItem({ mainCatName, subName, rangeKey, owner });
-      ensureIncomeCategorySelected();
-      renderIncomePreview();
-    });
-
-  });
-
-  // -------------------------------------------------------------
-  // 4) CRUD sobre financials.items para ingresos (uno por subcategoría activa)
-  // -------------------------------------------------------------
-  function ensureIncomeCategorySelected(){
-    const sel = discoveryState.financials.categoriesSelected;
-    if(!sel.includes("income")) sel.push("income");
-    // Si no queda ningún ingreso activo, lo removemos
-    const activeIncomeCount = discoveryState.financials.items.filter(it => it.category === "income").length;
-    if(activeIncomeCount === 0){
-      discoveryState.financials.categoriesSelected = sel.filter(x => x !== "income");
-    }
-  }
-
-  function defaultOwner(){
-    const people = discoveryState.people.members || [];
-    if(people.length === 1) return people[0].id;
-    return "household";
-  }
-
-  function upsertIncomeItem({ mainCatName, subName, rangeKey, owner }){
-    const items = discoveryState.financials.items;
-
-    // buscamos por category+mainCategory+subCategory
-    let it = items.find(x =>
-      x.category === "income" &&
-      x.details?.mainCategory === mainCatName &&
-      x.details?.subCategory === subName
-    );
-
-    if(!it){
-      it = {
-        id: uid(),
-        category: "income",
-        owner: owner || defaultOwner(),
-        amountEstimate: {
-          type: "range",
-          period: "annual",
-          currency: "USD",
-          rangeKey: rangeKey || ""
-        },
-        details: {
-          mainCategory: mainCatName,
-          subCategory: subName
-        }
-      };
-      items.push(it);
-    } else {
-      it.owner = owner || it.owner || defaultOwner();
-      it.amountEstimate = it.amountEstimate || { type:"range", period:"annual", currency:"USD", rangeKey:"" };
-      it.amountEstimate.period = "annual";
-      it.amountEstimate.currency = "USD";
-      it.amountEstimate.rangeKey = rangeKey || it.amountEstimate.rangeKey || "";
-      it.details = it.details || {};
-      it.details.mainCategory = mainCatName;
-      it.details.subCategory = subName;
-    }
-
-    // Si hay más de una persona, owner no puede quedar vacío
-    if((discoveryState.people.members || []).length > 1 && !it.owner){
-      it.owner = "household";
-    }
-  }
-
-  function removeIncomeItem(mainCatName, subName){
-    discoveryState.financials.items = discoveryState.financials.items.filter(x => !(
-      x.category === "income" &&
-      x.details?.mainCategory === mainCatName &&
-      x.details?.subCategory === subName
-    ));
-  }
-
-  // -------------------------------------------------------------
-  // 5) Utilidades select
-  // -------------------------------------------------------------
-  function getSelectValue(extraEl, key){
-    const el = extraEl.querySelector(`select[data-k="${key}"]`);
-    return el ? el.value : "";
-  }
-  function setSelectValue(extraEl, key, value){
-    const el = extraEl.querySelector(`select[data-k="${key}"]`);
-    if(el) el.value = value;
-  }
-
-  // -------------------------------------------------------------
-  // 6) Preview JSON (solo ingresos)
-  // -------------------------------------------------------------
-  function renderIncomePreview(){
-    const preview = $("#incomeJsonPreview");
-    const incomeItems = discoveryState.financials.items.filter(it => it.category === "income");
-    preview.textContent = JSON.stringify({
-      income: {
-        items: incomeItems,
-        validation: validateIncomeItems(incomeItems)
-      }
-    }, null, 2);
-  }
-
-  function validateIncomeItems(items){
-    // Cada income item debe tener owner (si multi-people) y rangeKey
-    const multi = (discoveryState.people.members || []).length > 1;
-    const errors = [];
-    items.forEach(it => {
-      if(!it.amountEstimate?.rangeKey) errors.push({ id: it.id, issue: "Falta monto estimado (rangeKey)" });
-      if(multi && !it.owner) errors.push({ id: it.id, issue: "Falta owner (de quién es)" });
-    });
-    return { ok: errors.length === 0, errors };
-  }
-
-  // init preview
-  ensureIncomeCategorySelected();
-  renderIncomePreview();
-
-})();
-</script>
-<!-- ====== /DISCOVERY: INCOME ENRICHMENT ====== -->
 </body>
-  
 </html>
