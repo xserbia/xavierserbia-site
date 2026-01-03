@@ -263,7 +263,7 @@
     <header>
       <div class="brand">
         <h1>Discovery · Paso 3: Finanzas</h1>
-        <p>Selecciona categorías → Continuar → Completa cada una en acordeón (una abierta a la vez).</p>
+        <p>Selecciona categorías → Continuar → Completa cada una en acordeón (puedes dejar todas cerradas).</p>
       </div>
       <div class="pill active"><b>3</b> Finanzas</div>
     </header>
@@ -294,7 +294,7 @@
           <h2>Completa cada categoría</h2>
           <p>
             Abre una categoría y añade cuentas/registros. Cada registro puede tener un <b>Nombre</b> (ej. “Bank of America”, “Visa Chase”).
-            Si hay varias personas, también selecciona <b>de quién es</b>.
+            Si hay varias personas, también selecciona <b>de quién es</b>. Puedes cerrar todas si quieres.
           </p>
 
           <div class="accordion" id="accordion"></div>
@@ -450,7 +450,7 @@
   }
 
   // ===============================
-  // CATEGORY SELECTION
+  // CATEGORY SELECTION (ORDER FIX)
   // ===============================
   const categoriesGrid = $("#categoriesGrid");
   const selectHint = $("#selectHint");
@@ -458,6 +458,13 @@
   const stepSelect = $("#stepSelect");
   const stepFill = $("#stepFill");
   const accordion = $("#accordion");
+
+  function normalizeSelectedOrder(){
+    // Garantiza que categoriesSelected esté siempre en el orden de CATS (grid)
+    const allowed = new Set(state.financials.categoriesSelected || []);
+    const ordered = CATS.map(c => c.key).filter(k => allowed.has(k));
+    state.financials.categoriesSelected = ordered;
+  }
 
   function renderCategorySelection(){
     categoriesGrid.innerHTML = "";
@@ -473,6 +480,7 @@
           <span>${escapeHtml(cat.hint)}</span>
         </div>
       `;
+
       card.addEventListener("click", (e) => {
         const cb = $("input[type=checkbox]", card);
         if(e.target !== cb) cb.checked = !cb.checked;
@@ -484,6 +492,9 @@
           state.financials.categoriesSelected = state.financials.categoriesSelected.filter(k => k !== cat.key);
           state.financials.items = (state.financials.items || []).filter(it => it.category !== cat.key);
         }
+
+        // 🔥 aquí aseguramos el orden fijo
+        normalizeSelectedOrder();
 
         renderCategorySelection();
         updateJson();
@@ -500,6 +511,7 @@
   }
 
   toFillBtn.addEventListener("click", () => {
+    normalizeSelectedOrder(); // por si acaso
     stepSelect.style.display = "none";
     stepFill.style.display = "block";
     setPillFillActive(true);
@@ -509,10 +521,29 @@
   });
 
   // ===============================
-  // ACCORDION (one open)
+  // ACCORDION (CAN CLOSE ALL)
   // ===============================
   function openAccordionItem(catKey){
+    // abre catKey y cierra el resto
     $$(".accItem", accordion).forEach(el => el.classList.toggle("open", el.dataset.cat === catKey));
+  }
+
+  function closeAllAccordion(){
+    $$(".accItem", accordion).forEach(el => el.classList.remove("open"));
+  }
+
+  function toggleAccordionItem(catKey){
+    const target = $(`.accItem[data-cat="${catKey}"]`, accordion);
+    if(!target) return;
+
+    const isOpen = target.classList.contains("open");
+    if(isOpen){
+      // ✅ si ya está abierto, lo cierro (y quedan todos cerrados)
+      closeAllAccordion();
+    } else {
+      // ✅ si está cerrado, lo abro y cierro otros
+      openAccordionItem(catKey);
+    }
   }
 
   function updateBadge(catKey){
@@ -525,9 +556,11 @@
 
   function renderAccordion(){
     accordion.innerHTML = "";
+
+    // ya viene ordenado por normalizeSelectedOrder()
     const selected = state.financials.categoriesSelected || [];
 
-    selected.forEach((catKey, idx) => {
+    selected.forEach((catKey) => {
       const meta = CATS.find(c => c.key === catKey);
       const label = meta?.label || catKey;
 
@@ -549,22 +582,22 @@
         <div class="accBody" data-body></div>
       `;
 
-      $(".accHeader", item).addEventListener("click", () => openAccordionItem(catKey));
+      $(".accHeader", item).addEventListener("click", () => toggleAccordionItem(catKey));
 
       const body = $("[data-body]", item);
       body.appendChild(renderCategoryModule(catKey));
 
       accordion.appendChild(item);
       updateBadge(catKey);
-
-      if(idx === 0) item.classList.add("open");
     });
 
-    if(selected[0]) openAccordionItem(selected[0]);
+    // ✅ por defecto: ninguno abierto al entrar (ya que quieres poder cerrarlos todos)
+    // si quieres abrir el primero automáticamente, cambia esta línea a: openAccordionItem(selected[0])
+    closeAllAccordion();
   }
 
   // ===============================
-  // MODULES (Headers only once per category)
+  // MODULES
   // ===============================
   function renderCategoryModule(catKey){
     if(catKey === "income") return incomeModule();
@@ -643,7 +676,6 @@
     const catKey = "income";
     const wrap = document.createElement("div");
 
-    // Header único (no se repite por fila)
     const mh = document.createElement("div");
     mh.className = "moduleHeader";
     mh.innerHTML = `
@@ -892,7 +924,7 @@
     return wrap;
   }
 
-  // ---------- Simple 4 (name + type + amount + owner) ----------
+  // ---------- Simple 4 ----------
   function simple4Module({ catKey, optionList, typeKey, amountLabel, amountKey, amountPlaceholder, typeLabel }){
     const wrap = document.createElement("div");
 
@@ -1115,7 +1147,7 @@
           if(k === "hasMortgage"){
             item.details.hasMortgage = t.value;
             if(t.value !== "yes") item.details.mortgageBalance = 0;
-            renderRows(); // re-render to toggle disabled
+            renderRows();
             updateBadge(catKey);
             updateJson();
             return;
@@ -1316,6 +1348,7 @@
   // ===============================
   // INIT
   // ===============================
+  normalizeSelectedOrder();
   renderCategorySelection();
   updateJson();
 
