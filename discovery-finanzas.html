@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discovery · Step 3 Finanzas (Ingresos + Pasivos)</title>
+  <title>Discovery · Step 3 Finanzas (Full Builders)</title>
 
   <style>
     :root{
@@ -25,50 +25,28 @@
       background: radial-gradient(circle at top, rgba(57,86,232,.12) 0, rgba(245,247,255,1) 40%, rgba(245,247,255,1) 100%);
       color:var(--text);
     }
-    .wrap{
-      max-width: 1100px;
-      margin: 28px auto;
-      padding: 0 16px 28px;
-    }
-    header{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom: 14px;
-    }
+    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 28px;}
+    header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;}
     .brand{display:flex;flex-direction:column;gap:4px;}
     .brand h1{margin:0;font-size:20px;letter-spacing:-0.02em;}
     .brand p{margin:0;color:var(--muted);font-size:13px;}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .content{ padding: 18px 16px 16px; }
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+    .content{padding:18px 16px 16px;}
 
-    .panel{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px;
-      background: #fff;
-    }
+    .panel{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;}
     .panel h2{margin:0 0 6px;font-size:18px;letter-spacing:-0.02em;}
     .panel p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45;}
     .hint{font-size:12px;color:var(--muted);margin-top:6px;}
 
-    /* Buttons */
     .btn{
       border:1px solid var(--border);
       background:#fff;
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 13px;
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:13px;
       cursor:pointer;
       transition: transform .05s ease, box-shadow .2s ease, border-color .2s ease;
     }
@@ -76,13 +54,12 @@
     .btn.primary{
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       border-color: transparent;
-      color: #fff;
+      color:#fff;
       box-shadow: 0 10px 20px rgba(57,86,232,.18);
     }
     .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
     .btn.ghost{background:transparent;color:var(--muted);}
 
-    /* Category cards */
     .cats{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -94,9 +71,9 @@
 
     .catCard{
       border:1px solid var(--border);
-      border-radius: 16px;
+      border-radius:16px;
       background:#fff;
-      padding: 12px;
+      padding:12px;
       display:flex;
       gap:10px;
       align-items:flex-start;
@@ -106,56 +83,39 @@
     }
     .catCard:hover{border-color: rgba(57,86,232,.35);box-shadow: 0 10px 20px rgba(15,23,42,.06);}
     .catCard:active{transform: translateY(1px);}
-    .catCard input{ margin-top:3px; }
-    .catCard b{display:block;font-size: 13px;}
-    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
+    .catCard input{margin-top:3px;}
+    .catCard b{display:block;font-size:13px;}
+    .catCard span{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px;}
 
-    /* Code preview */
     .code{
       width:100%;
       border:1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px;
+      border-radius:16px;
+      padding:12px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size: 12px;
+      font-size:12px;
       background:#0b1220;
       color:#e5e7eb;
       overflow:auto;
-      max-height: 360px;
-      margin: 0;
+      max-height:420px;
+      margin:0;
     }
 
-    /* Accordion (single-open) */
-    .accordionItem{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      background:#fff;
-      overflow:hidden;
-      margin-bottom: 10px;
-    }
+    /* Accordion single-open */
+    .accordionItem{border:1px solid var(--border);border-radius:16px;background:#fff;overflow:hidden;margin-bottom:10px;}
     .accordionHeader{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 12px 14px;
-      cursor:pointer;
-      user-select:none;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 14px;cursor:pointer;user-select:none;
       background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
       border-bottom:1px solid var(--border);
     }
-    .accordionHeader b{font-size: 13px;}
+    .accordionHeader b{font-size:13px;}
     .accordionHeader span{font-size:12px;color:var(--muted)}
-    .accordionBody{padding: 12px 14px 14px;display:none;}
+    .accordionBody{padding:12px 14px 14px;display:none;}
     .accordionItem.open .accordionBody{display:block;}
     .chev{
-      font-weight: 900;
-      color: var(--muted);
-      width: 34px;height: 34px;
-      border-radius: 12px;
-      display:flex;align-items:center;justify-content:center;
-      border:1px solid var(--border);
-      background:#fff;
+      font-weight:900;color:var(--muted);width:34px;height:34px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:#fff;
       transition: transform .15s ease;
     }
     .accordionItem.open .chev{transform: rotate(180deg);}
@@ -163,11 +123,11 @@
     /* Inputs */
     select, input[type="text"]{
       width:100%;
-      padding: 10px 12px;
+      padding:10px 12px;
       border:1px solid var(--border);
-      border-radius: 12px;
+      border-radius:12px;
       outline:none;
-      font-size: 14px;
+      font-size:14px;
       background:#fff;
     }
     select:focus, input[type="text"]:focus{
@@ -175,69 +135,52 @@
       box-shadow: 0 0 0 4px rgba(57,86,232,.10);
     }
 
-    /* Tables for modules */
-    .miniTable{
-      width:100%;
-      border:1px solid var(--border);
-      border-radius: 14px;
-      overflow:hidden;
-    }
+    /* Mini table */
+    .miniTable{width:100%;border:1px solid var(--border);border-radius:14px;overflow:hidden;}
     .miniHead, .miniRow{
-      display:grid;
-      gap: 10px;
-      padding: 10px 12px;
-      align-items:center;
-      background:#fff;
+      display:grid;gap:10px;padding:10px 12px;align-items:center;background:#fff;
     }
     .miniHead{
       background: rgba(57,86,232,.05);
       border-bottom:1px solid var(--border);
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
+      font-size:12px;color:var(--muted);font-weight:700;
     }
-    .miniRow{
-      border-bottom:1px solid rgba(229,231,235,.7);
-    }
+    .miniRow{border-bottom:1px solid rgba(229,231,235,.7);}
     .miniRow:last-child{border-bottom:none;}
-
     .iconBtn{
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border:1px solid var(--border);
-      background:#fff;
-      cursor:pointer;
-      color: var(--muted);
-      font-weight: 900;
+      width:40px;height:40px;border-radius:12px;border:1px solid var(--border);
+      background:#fff;cursor:pointer;color:var(--muted);font-weight:900;
     }
     .iconBtn:hover{border-color: rgba(57,86,232,.35);}
-    .moduleFooter{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
+    .moduleFooter{display:flex;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap;}
 
-    /* Income layout: (tipo, cantidad, owner, remove) */
-    .incomeHeadGrid, .incomeRowGrid{
-      grid-template-columns: 1.4fr 1fr 1fr 52px;
-    }
+    /* Layouts (head+row use same cols) */
+    .incomeHeadGrid, .incomeRowGrid{grid-template-columns: 1.4fr 1fr 1fr 52px;}
+    .debtHeadGrid, .debtRowGrid{grid-template-columns: 1.35fr .65fr .9fr .9fr 1fr 52px;}
 
-    /* Liabilities layout: (tipo, tasa, pago, balance, owner, remove) */
-    .debtHeadGrid, .debtRowGrid{
-      grid-template-columns: 1.35fr .65fr .9fr .9fr 1fr 52px;
-    }
+    .simple3HeadGrid, .simple3RowGrid{grid-template-columns: 1.35fr 1fr 1fr 52px;}
+    .simple4HeadGrid, .simple4RowGrid{grid-template-columns: 1.25fr 1fr 1fr 1fr 52px;}
+    .realEstateHeadGrid, .realEstateRowGrid{grid-template-columns: 1.2fr 1fr .9fr 1fr 52px;}
+    .insuranceHeadGrid, .insuranceRowGrid{grid-template-columns: 1.25fr 1fr 1fr 1fr 52px;}
+    .businessHeadGrid, .businessRowGrid{grid-template-columns: 1.25fr 1fr 1fr 1fr 52px;}
 
     @media (max-width: 980px){
       .miniHead{display:none;}
-      .incomeRowGrid, .debtRowGrid{
-        grid-template-columns: 1fr;
-        gap: 8px;
+      .incomeRowGrid, .debtRowGrid, .simple3RowGrid, .simple4RowGrid, .realEstateRowGrid, .insuranceRowGrid, .businessRowGrid{
+        grid-template-columns:1fr;
+        gap:8px;
       }
       .miniRow .iconBtn{justify-self:flex-end;}
     }
+
+    /* Toggle */
+    .toggleWrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .toggleWrap label{font-size:12px;color:var(--muted);}
+    .toggleWrap .pillToggle{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);
+      border-radius:999px;background:#fff;font-size:12px;color:var(--text);
+    }
+    .toggleWrap input[type="checkbox"]{width:18px;height:18px;}
   </style>
 </head>
 
@@ -246,7 +189,7 @@
     <header>
       <div class="brand">
         <h1>Step 3 · Finanzas</h1>
-        <p>Selección → Continuar → Acordeón (uno abierto). Ingresos + Préstamos/Pasivos listos.</p>
+        <p>Categorías → Continuar → Acordeón (uno abierto). Builders listos para llenar.</p>
       </div>
     </header>
 
@@ -257,11 +200,11 @@
           <div class="panel">
             <h2>Finanzas</h2>
             <p>
-              Primero selecciona las categorías que aplican a tu caso. Luego completarás los detalles por categoría
-              en un acordeón (solo verás lo que seleccionaste).
+              Selecciona las categorías que aplican. Luego completa detalles por categoría en un acordeón.
+              (Este archivo ya trae todos los builders con el mismo principio.)
             </p>
 
-            <!-- 3A: Selection -->
+            <!-- Selection -->
             <div id="finSelectView">
               <div class="cats" id="categoriesGrid"></div>
 
@@ -270,16 +213,13 @@
                   Continuar a detalles
                 </button>
               </div>
-
-              <div class="hint" style="margin-top:8px;">
-                Selecciona al menos 1 categoría para habilitar el botón.
-              </div>
+              <div class="hint" style="margin-top:8px;">Selecciona al menos 1 categoría.</div>
             </div>
 
-            <!-- 3B: Details Accordion -->
+            <!-- Details -->
             <div id="finDetailsView" hidden>
               <div class="hint" style="margin: 4px 0 10px;">
-                Completa montos aproximados. Si hay más de una persona, elige de quién es o “hogar”.
+                Completa montos aproximados. Si hay más de una persona, elige el owner o “hogar”.
               </div>
 
               <div id="detailsAccordion"></div>
@@ -293,7 +233,7 @@
 
           <div class="panel" style="margin-top:14px;">
             <h2>Vista previa (financials JSON)</h2>
-            <p>Se actualiza en vivo. Ingresos y pasivos crean múltiples items (uno por fila).</p>
+            <p>Se actualiza en vivo. Cada fila crea un item.</p>
             <pre class="code" id="financialsJson">{ "financials": { "categoriesSelected": [], "items": [] } }</pre>
           </div>
 
@@ -311,7 +251,7 @@
       people: {
         members: [
           { id:"p1", firstName:"Xavier", lastName:"Serbia" }
-          // { id:"p2", firstName:"Andrea", lastName:"Pérez" } // <- prueba multi-persona
+          // { id:"p2", firstName:"Andrea", lastName:"Pérez" } // prueba multi-persona
         ]
       },
       financials: { categoriesSelected: [], items: [] }
@@ -320,41 +260,63 @@
 
     // --------- Catalog ----------
     const CATS = [
-      { key:"income", label:"Ingresos", hint:"Magnitud y estabilidad de ingresos." },
-      { key:"liabilities", label:"Préstamos y pasivos", hint:"Deudas, presión y atrasos." },
-      { key:"real_estate", label:"Bienes raíces", hint:"Propiedades y si hay hipoteca." },
-      { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401(k), IRA, pensión, etc." },
-      { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage, fondos, cripto, etc." },
-      { key:"banking", label:"Banca / liquidez", hint:"Efectivo y cuentas bancarias." },
-      { key:"insurance", label:"Seguros", hint:"Coberturas y gasto estimado." },
-      { key:"business_trust", label:"Negocios / Trust", hint:"Negocio(s), participación, trust." },
-      { key:"legal", label:"Legal", hint:"Testamento, trust, poderes." },
-      { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
+      { key:"income", label:"Ingresos", hint:"Tipo + cantidad anual aproximada." },
+      { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo + APR + pago mensual + balance." },
+      { key:"real_estate", label:"Bienes raíces", hint:"Tipo propiedad + valor + hipoteca sí/no." },
+      { key:"investments_retirement", label:"Inversiones · Retiro", hint:"Cuenta retiro + balance." },
+      { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage/cripto/etc + balance." },
+      { key:"banking", label:"Banca / liquidez", hint:"Cuenta + balance aproximado." },
+      { key:"insurance", label:"Seguros", hint:"Tipo seguro + prima anual + cobertura (opcional)." },
+      { key:"business_trust", label:"Negocios / Trust", hint:"Tipo + valor estimado/participación." },
+      { key:"legal", label:"Legal", hint:"Documentos existentes (sí/no) + notas." },
+      { key:"other_assets", label:"Otros activos", hint:"Auto/activos personales + valor." }
     ];
 
-    // Ingresos: catálogo (grupo + subcategorías)
+    // Ingresos (optgroup)
     const INCOME_CATALOG = [
       { group:"Pago por trabajo", items:["Bono","Comisión","Negocio propio","Pago por hora","Propina","Salario"] },
       { group:"Ganancia de capital", items:["Acciones","Auto","Bonos o renta fija","Casa/Apartamento/Tierra","ETF, fondo mutuo, etc."] },
       { group:"Ingreso pasivo", items:["Anualidad","Dividendos e Intereses","Pensión","Renta inmueble","Seguro Social"] }
     ];
 
-    // Pasivos: catálogo tipo de deuda (simple v1)
+    // Pasivos
     const DEBT_TYPES = [
-      "Tarjeta de crédito",
-      "Préstamo de auto",
-      "Hipoteca",
-      "HELOC / Equity loan",
-      "Student loan",
-      "Préstamo personal",
-      "Préstamo negocio",
-      "Préstamo familiar",
-      "Taxes / IRS (deuda fiscal)",
-      "Colecciones",
-      "Otra"
+      "Tarjeta de crédito","Préstamo de auto","Hipoteca","HELOC / Equity loan","Student loan",
+      "Préstamo personal","Préstamo negocio","Préstamo familiar","Taxes / IRS (deuda fiscal)",
+      "Colecciones","Otra"
     ];
 
-    // --------- DOM helpers ----------
+    // Bienes raíces
+    const REAL_ESTATE_TYPES = [
+      "Casa principal","Propiedad de inversión","Terreno","Apartamento/Condo","Multi-family","Otra"
+    ];
+
+    // Inversiones
+    const RETIREMENT_TYPES = ["401(k)","403(b)","IRA tradicional","Roth IRA","Pensión","Anualidad","Otro"];
+    const NONRET_TYPES = ["Brokerage (acciones/ETF)","Fondo mutuo","Bonos/renta fija","Cripto","Cuenta administrada","Otro"];
+
+    // Banking
+    const BANKING_TYPES = ["Checking","Savings","Money Market","Cash","CD","Cuenta en otro país","Otro"];
+
+    // Insurance
+    const INS_TYPES = ["Vida","Salud","Auto","Casa","Renta (renters)","Incapacidad (disability)","Umbrella","LTC (long-term care)","Otro"];
+
+    // Business/Trust
+    const BIZ_TYPES = ["Negocio (propietario)","Participación en negocio","Trust","LLC/Corp","Real estate entity","Otro"];
+
+    // Legal checklist
+    const LEGAL_DOCS = [
+      { key:"will", label:"Testamento (Will)" },
+      { key:"trust", label:"Trust" },
+      { key:"poa", label:"Poder legal (POA)" },
+      { key:"health_proxy", label:"Directiva médica / Health proxy" },
+      { key:"beneficiaries", label:"Beneficiarios actualizados" }
+    ];
+
+    // Other assets
+    const OTHER_TYPES = ["Auto","Bote/Jet ski","Joyas","Arte/colección","Equipos/activos personales","Otro"];
+
+    // --------- DOM ----------
     const $ = (sel, root=document) => root.querySelector(sel);
     const categoriesGrid = $("#categoriesGrid");
     const finSelectView = $("#finSelectView");
@@ -378,7 +340,7 @@
 
     function ownerOptionsHTML(current){
       const members = state.people?.members || [{id:"p1"}];
-      if(members.length <= 1) return ""; // no selector
+      if(members.length <= 1) return "";
       let html = `<option value="">Selecciona…</option>`;
       for(const p of members){
         const name = [p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
@@ -388,63 +350,19 @@
       return html;
     }
 
-    // income type options with optgroup
-    function incomeTypeOptionsHTML(currentKey){
-      let html = `<option value="">Selecciona tipo…</option>`;
-      INCOME_CATALOG.forEach(g => {
-        html += `<optgroup label="${escapeHtml(g.group)}">`;
-        g.items.forEach(name => {
-          const key = incomeTypeKey(g.group, name);
-          html += `<option value="${escapeHtml(key)}" ${currentKey===key?"selected":""}>${escapeHtml(name)}</option>`;
-        });
-        html += `</optgroup>`;
-      });
-      return html;
-    }
-
-    function incomeTypeKey(group, name){
-      const clean = (s) => String(s).toLowerCase().trim().replace(/\s+/g,"_").replace(/[^\wáéíóúñü_]/gi,"");
-      return `${clean(group)}|${clean(name)}`;
-    }
-
-    function decodeIncomeTypeKey(key){
-      if(!key || !key.includes("|")) return { group:"", name:"" };
-      const [g,n] = key.split("|");
-      for(const grp of INCOME_CATALOG){
-        const gk = incomeTypeKey(grp.group, grp.items[0]).split("|")[0];
-        if(gk === g){
-          for(const itemName of grp.items){
-            const ik = incomeTypeKey(grp.group, itemName);
-            if(ik === key) return { group: grp.group, name: itemName };
-          }
-        }
-      }
-      return { group:"", name:"" };
-    }
-
-    function debtTypeOptionsHTML(current){
-      let html = `<option value="">Selecciona tipo…</option>`;
-      DEBT_TYPES.forEach(t => {
-        html += `<option value="${escapeHtml(t)}" ${current===t?"selected":""}>${escapeHtml(t)}</option>`;
-      });
-      return html;
-    }
-
     function setFinMode(mode){
       finSelectView.hidden = (mode !== "select");
       finDetailsView.hidden = (mode !== "details");
     }
-
     function updateToDetailsBtn(){
       toDetailsBtn.disabled = state.financials.categoriesSelected.length === 0;
     }
-
     function renderFinancialsJson(){
       financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
     }
 
     // ==========================================================
-    //  STEP 3A: Category selection
+    //  Selection
     // ==========================================================
     function renderCategories(){
       categoriesGrid.innerHTML = "";
@@ -460,7 +378,6 @@
             <span>${escapeHtml(cat.hint)}</span>
           </div>
         `;
-
         card.addEventListener("click", (e) => {
           const cb = card.querySelector("input[type=checkbox]");
           if(e.target !== cb) cb.checked = !cb.checked;
@@ -485,7 +402,7 @@
     }
 
     // ==========================================================
-    //  Accordion: single open
+    //  Accordion single-open
     // ==========================================================
     function openOnlyThis(itemEl){
       const all = Array.from(detailsAccordion.querySelectorAll(".accordionItem"));
@@ -493,21 +410,14 @@
     }
 
     // ==========================================================
-    //  STEP 3B: Details Accordion
+    //  Details Accordion
     // ==========================================================
     function renderDetailsAccordion(){
       detailsAccordion.innerHTML = "";
       const selected = state.financials.categoriesSelected;
 
-      if(selected.length === 0){
-        detailsAccordion.innerHTML = `<div class="hint">No hay categorías seleccionadas.</div>`;
-        renderFinancialsJson();
-        return;
-      }
-
       selected.forEach((catKey, idx) => {
         const meta = CATS.find(c => c.key === catKey);
-
         const item = document.createElement("div");
         item.className = "accordionItem" + (idx === 0 ? " open" : "");
         item.dataset.cat = catKey;
@@ -520,52 +430,109 @@
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
           </div>
-
           <div class="accordionBody">
-            ${
-              catKey === "income"
-                ? renderIncomeModuleHTML()
-                : catKey === "liabilities"
-                  ? renderDebtModuleHTML()
-                  : renderPlaceholder(catKey)
-            }
+            ${renderModuleHTML(catKey)}
           </div>
         `;
 
-        const header = item.querySelector(".accordionHeader");
-        header.addEventListener("click", () => openOnlyThis(item));
-
+        item.querySelector(".accordionHeader").addEventListener("click", () => openOnlyThis(item));
         detailsAccordion.appendChild(item);
 
-        if(catKey === "income") initIncomeModule(item.querySelector(".accordionBody"));
-        if(catKey === "liabilities") initDebtModule(item.querySelector(".accordionBody"));
+        // init each module
+        const body = item.querySelector(".accordionBody");
+        initModule(catKey, body);
       });
 
       renderFinancialsJson();
     }
 
-    // ==========================================================
-    //  Placeholders (otros)
-    // ==========================================================
-    function renderPlaceholder(catKey){
-      const map = {
-        real_estate: ["Bienes raíces", "Casa principal / inversión + valor + owner + hipoteca sí/no."],
-        investments_retirement: ["Inversiones · Retiro", "401k/IRA/Pensión + monto + owner."],
-        investments_nonretirement: ["Inversiones · No retiro", "Brokerage/fondos/cripto + monto + owner."],
-        banking: ["Banca / liquidez", "Checking/savings/cash + monto + owner."],
-        insurance: ["Seguros", "Vida/salud/auto/casa/umbrella + gasto anual + owner/hogar."],
-        business_trust: ["Negocios / Trust", "Negocio(s) + participación + monto + owner. Trust sí/no + notas."],
-        legal: ["Legal", "Testamento/POA/Trust/beneficiarios + notas."],
-        other_assets: ["Otros activos", "Autos/activos personales + monto + owner/hogar."]
-      };
-      const [title, desc] = map[catKey] || [catKey, "Placeholder pendiente."];
-      return `<div class="hint"><b>${escapeHtml(title)}:</b> ${escapeHtml(desc)}</div>`;
+    function renderModuleHTML(catKey){
+      if(catKey === "income") return incomeModuleHTML();
+      if(catKey === "liabilities") return debtModuleHTML();
+      if(catKey === "real_estate") return realEstateModuleHTML();
+      if(catKey === "investments_retirement") return simple3ModuleHTML("retire", "Tipo de cuenta", "Balance", "Owner");
+      if(catKey === "investments_nonretirement") return simple3ModuleHTML("nonret", "Tipo de inversión", "Balance", "Owner");
+      if(catKey === "banking") return simple3ModuleHTML("bank", "Tipo de cuenta", "Balance", "Owner");
+      if(catKey === "insurance") return insuranceModuleHTML();
+      if(catKey === "business_trust") return businessModuleHTML();
+      if(catKey === "legal") return legalModuleHTML();
+      if(catKey === "other_assets") return simple3ModuleHTML("other", "Tipo de activo", "Valor", "Owner");
+      return `<div class="hint">Módulo pendiente.</div>`;
+    }
+
+    function initModule(catKey, root){
+      if(catKey === "income") return initIncomeModule(root);
+      if(catKey === "liabilities") return initDebtModule(root);
+      if(catKey === "real_estate") return initRealEstateModule(root);
+      if(catKey === "investments_retirement") return initSimple3Module(root, "investments_retirement", RETIREMENT_TYPES, "retire_item", "annual_or_balance");
+      if(catKey === "investments_nonretirement") return initSimple3Module(root, "investments_nonretirement", NONRET_TYPES, "nonret_item", "annual_or_balance");
+      if(catKey === "banking") return initSimple3Module(root, "banking", BANKING_TYPES, "bank_item", "balance");
+      if(catKey === "insurance") return initInsuranceModule(root);
+      if(catKey === "business_trust") return initBusinessModule(root);
+      if(catKey === "legal") return initLegalModule(root);
+      if(catKey === "other_assets") return initSimple3Module(root, "other_assets", OTHER_TYPES, "other_item", "value");
     }
 
     // ==========================================================
-    //  INCOME MODULE (tipo + cantidad manual + owner + remove)
+    //  Helpers: money/rate + base item ops
     // ==========================================================
-    function renderIncomeModuleHTML(){
+    function parseMoney(v){
+      const digits = String(v ?? "").replace(/[^\d]/g,"");
+      if(!digits) return 0;
+      const safe = digits.slice(0, 12);
+      return Number(safe) || 0;
+    }
+    function formatMoney(n){
+      const num = Number(n) || 0;
+      return num.toLocaleString("en-US");
+    }
+    function parseRate(v){
+      const s = String(v ?? "").replace(/[^0-9.]/g,"");
+      if(!s) return 0;
+      const parts = s.split(".");
+      const clean = parts.length > 2 ? (parts[0] + "." + parts.slice(1).join("")) : s;
+      const num = Number(clean);
+      if(!Number.isFinite(num)) return 0;
+      return Math.max(0, Math.min(num, 99.99));
+    }
+    function formatRate(n){
+      const num = Number(n) || 0;
+      return Number.isInteger(num) ? String(num) : num.toFixed(2);
+    }
+
+    function ensureSelected(catKey){
+      if(!state.financials.categoriesSelected.includes(catKey)){
+        state.financials.categoriesSelected.push(catKey);
+      }
+    }
+
+    // ==========================================================
+    //  INCOME MODULE (tipo + cantidad anual + owner + remove)
+    // ==========================================================
+    function incomeTypeOptionsHTML(currentKey){
+      let html = `<option value="">Selecciona tipo…</option>`;
+      INCOME_CATALOG.forEach(g => {
+        html += `<optgroup label="${escapeHtml(g.group)}">`;
+        g.items.forEach(name => {
+          const key = incomeTypeKey(g.group, name);
+          html += `<option value="${escapeHtml(key)}" ${currentKey===key?"selected":""}>${escapeHtml(name)}</option>`;
+        });
+        html += `</optgroup>`;
+      });
+      return html;
+    }
+    function incomeTypeKey(group, name){
+      const clean = (s) => String(s).toLowerCase().trim().replace(/\s+/g,"_").replace(/[^\wáéíóúñü_]/gi,"");
+      return `${clean(group)}|${clean(name)}`;
+    }
+    function decodeIncomeTypeKey(key){
+      if(!key || !key.includes("|")) return { group:"", name:"" };
+      // reconstrucción rápida: solo guardamos label real por lookup aproximado
+      // en práctica, se usa el propio dropdown.
+      return { group:"", name:"" };
+    }
+
+    function incomeModuleHTML(){
       const multi = hasMultiPeople();
       return `
         <div id="incomeBuilder">
@@ -581,39 +548,50 @@
 
           <div class="moduleFooter">
             <button class="btn" type="button" id="addIncomeRowBtn">➕ Añadir ingreso</button>
-            <div class="hint">Añade varios si aplica (salario + comisión + renta, etc.).</div>
+            <div class="hint">Ej.: salario + comisión + renta.</div>
           </div>
         </div>
       `;
     }
 
+    function getIncomeStreams(){
+      return state.financials.items.filter(it => it.category === "income" && it.details?.type === "income_stream");
+    }
+
+    function createIncomeStream(){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "income",
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: {
+          type:"manual",
+          period:"annual",
+          currency:"USD",
+          amount: 0,
+          amountText:""
+        },
+        details: { type:"income_stream", incomeTypeKey:"", label:"" }
+      });
+    }
+
     function initIncomeModule(root){
-      const incomeRowsEl = $("#incomeRows", root);
+      ensureSelected("income");
+      const rowsEl = $("#incomeRows", root);
       const addBtn = $("#addIncomeRowBtn", root);
 
-      if(!state.financials.categoriesSelected.includes("income")) state.financials.categoriesSelected.push("income");
-
-      if(getIncomeStreams().length === 0){
-        createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
-      }
-
-      renderIncomeRows();
+      if(getIncomeStreams().length === 0) createIncomeStream();
+      renderRows();
 
       addBtn.addEventListener("click", () => {
-        createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
-        renderIncomeRows();
+        createIncomeStream();
+        renderRows();
         renderFinancialsJson();
       });
 
-      function renderIncomeRows(){
-        incomeRowsEl.innerHTML = "";
-        const rows = getIncomeStreams();
-
-        rows.forEach((it) => {
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getIncomeStreams().forEach((it) => {
           const multi = hasMultiPeople();
-          const owner = it.owner || defaultOwner();
-          const amountText = it.amountEstimate?.amountText || "";
-
           const row = document.createElement("div");
           row.className = "miniRow incomeRowGrid";
           row.dataset.id = it.id;
@@ -622,24 +600,21 @@
             <div>
               <select data-k="incomeTypeKey">${incomeTypeOptionsHTML(it.details?.incomeTypeKey || "")}</select>
             </div>
-
             <div>
-              <input type="text" inputmode="numeric" placeholder="Ej. 85000" data-k="amountText" value="${escapeHtml(amountText)}" />
+              <input type="text" inputmode="numeric" placeholder="Ej. 85000" data-k="amountText" value="${escapeHtml(it.amountEstimate?.amountText || "")}" />
               <div class="hint" style="margin-top:6px;">USD anual (aprox.).</div>
             </div>
-
             <div>
               ${
                 multi
-                  ? `<select data-k="owner">${ownerOptionsHTML(owner)}</select>`
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
                   : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
               }
             </div>
-
             <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
           `;
 
-          // select changes
+          // dropdown + owner
           row.addEventListener("change", (e) => {
             const t = e.target;
             if(!(t instanceof HTMLElement)) return;
@@ -648,12 +623,8 @@
             if(!item || !k) return;
 
             if(k === "incomeTypeKey"){
-              item.details = item.details || {};
-              item.details.type = "income_stream";
               item.details.incomeTypeKey = t.value || "";
-              const decoded = decodeIncomeTypeKey(t.value || "");
-              item.details.mainCategory = decoded.group || "";
-              item.details.subCategory = decoded.name || "";
+              item.details.label = (t.options && t.selectedIndex >= 0) ? t.options[t.selectedIndex].text : "";
             }
             if(k === "owner"){
               item.owner = t.value || "";
@@ -661,7 +632,7 @@
             renderFinancialsJson();
           });
 
-          // amount formatting
+          // amount
           const amountEl = row.querySelector('input[data-k="amountText"]');
           amountEl.addEventListener("input", () => {
             const item = state.financials.items.find(x => x.id === it.id);
@@ -672,13 +643,8 @@
             const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
             amountEl.value = formatted;
 
-            item.amountEstimate = {
-              type: "manual",
-              period: "annual",
-              currency: "USD",
-              amount: parsed,
-              amountText: formatted
-            };
+            item.amountEstimate.amount = parsed;
+            item.amountEstimate.amountText = formatted;
 
             renderFinancialsJson();
           });
@@ -686,48 +652,26 @@
           // remove
           row.querySelector('[data-k="remove"]').addEventListener("click", () => {
             state.financials.items = state.financials.items.filter(x => x.id !== it.id);
-            if(getIncomeStreams().length === 0){
-              createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
-            }
-            renderIncomeRows();
+            if(getIncomeStreams().length === 0) createIncomeStream();
+            renderRows();
             renderFinancialsJson();
           });
 
-          incomeRowsEl.appendChild(row);
+          rowsEl.appendChild(row);
         });
       }
     }
 
-    function getIncomeStreams(){
-      return state.financials.items.filter(it => it.category === "income" && it.details?.type === "income_stream");
+    // ==========================================================
+    //  DEBT MODULE (tipo + tasa + pago mensual + balance + owner)
+    // ==========================================================
+    function debtTypeOptionsHTML(current){
+      let html = `<option value="">Selecciona tipo…</option>`;
+      DEBT_TYPES.forEach(t => html += `<option value="${escapeHtml(t)}" ${current===t?"selected":""}>${escapeHtml(t)}</option>`);
+      return html;
     }
 
-    function createIncomeStream({ incomeTypeKey, amountText, owner }){
-      const decoded = decodeIncomeTypeKey(incomeTypeKey);
-      state.financials.items.push({
-        id: uid("fin"),
-        category: "income",
-        owner: hasMultiPeople() ? (owner || "") : defaultOwner(),
-        amountEstimate: {
-          type: "manual",
-          period: "annual",
-          currency: "USD",
-          amount: parseMoney(amountText || ""),
-          amountText: (amountText || "") ? formatMoney(parseMoney(amountText)) : ""
-        },
-        details: {
-          type: "income_stream",
-          incomeTypeKey: incomeTypeKey || "",
-          mainCategory: decoded.group || "",
-          subCategory: decoded.name || ""
-        }
-      });
-    }
-
-    // ==========================================================
-    //  DEBT MODULE (tipo + tasa + pago mensual + balance + owner + remove)
-    // ==========================================================
-    function renderDebtModuleHTML(){
+    function debtModuleHTML(){
       const multi = hasMultiPeople();
       return `
         <div id="debtBuilder">
@@ -745,70 +689,76 @@
 
           <div class="moduleFooter">
             <button class="btn" type="button" id="addDebtRowBtn">➕ Añadir deuda</button>
-            <div class="hint">Ej.: tarjeta + auto + student loan + hipoteca, etc.</div>
+            <div class="hint">Ej.: tarjeta + auto + student loan + hipoteca.</div>
           </div>
         </div>
       `;
     }
 
+    function getDebtItems(){
+      return state.financials.items.filter(it => it.category === "liabilities" && it.details?.type === "debt_item");
+    }
+
+    function createDebtItem(){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "liabilities",
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: { type:"n/a" },
+        details: {
+          type:"debt_item",
+          debtType:"",
+          rateApr:0, rateAprText:"",
+          monthlyPayment:0, monthlyPaymentText:"",
+          balance:0, balanceText:""
+        }
+      });
+    }
+
     function initDebtModule(root){
-      const debtRowsEl = $("#debtRows", root);
+      ensureSelected("liabilities");
+      const rowsEl = $("#debtRows", root);
       const addBtn = $("#addDebtRowBtn", root);
 
-      if(!state.financials.categoriesSelected.includes("liabilities")) state.financials.categoriesSelected.push("liabilities");
-
-      if(getDebtItems().length === 0){
-        createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
-      }
-
-      renderDebtRows();
+      if(getDebtItems().length === 0) createDebtItem();
+      renderRows();
 
       addBtn.addEventListener("click", () => {
-        createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
-        renderDebtRows();
+        createDebtItem();
+        renderRows();
         renderFinancialsJson();
       });
 
-      function renderDebtRows(){
-        debtRowsEl.innerHTML = "";
-        const rows = getDebtItems();
-
-        rows.forEach((it) => {
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getDebtItems().forEach((it) => {
           const multi = hasMultiPeople();
-          const owner = it.owner || defaultOwner();
-
-          const rateText = it.details?.rateAprText || "";
-          const paymentText = it.details?.monthlyPaymentText || "";
-          const balanceText = it.details?.balanceText || "";
-
           const row = document.createElement("div");
           row.className = "miniRow debtRowGrid";
           row.dataset.id = it.id;
 
           row.innerHTML = `
-            <div>
-              <select data-k="debtType">${debtTypeOptionsHTML(it.details?.debtType || "")}</select>
-            </div>
+            <div><select data-k="debtType">${debtTypeOptionsHTML(it.details.debtType || "")}</select></div>
 
             <div>
-              <input type="text" inputmode="decimal" placeholder="Ej. 19.99" data-k="rateText" value="${escapeHtml(rateText)}" />
+              <input type="text" inputmode="decimal" placeholder="Ej. 19.99" data-k="rateText" value="${escapeHtml(it.details.rateAprText || "")}" />
               <div class="hint" style="margin-top:6px;">APR (aprox.).</div>
             </div>
 
             <div>
-              <input type="text" inputmode="numeric" placeholder="Ej. 450" data-k="paymentText" value="${escapeHtml(paymentText)}" />
+              <input type="text" inputmode="numeric" placeholder="Ej. 450" data-k="paymentText" value="${escapeHtml(it.details.monthlyPaymentText || "")}" />
               <div class="hint" style="margin-top:6px;">USD/mes.</div>
             </div>
 
             <div>
-              <input type="text" inputmode="numeric" placeholder="Ej. 12000" data-k="balanceText" value="${escapeHtml(balanceText)}" />
+              <input type="text" inputmode="numeric" placeholder="Ej. 12000" data-k="balanceText" value="${escapeHtml(it.details.balanceText || "")}" />
               <div class="hint" style="margin-top:6px;">USD (aprox.).</div>
             </div>
 
             <div>
               ${
                 multi
-                  ? `<select data-k="owner">${ownerOptionsHTML(owner)}</select>`
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
                   : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
               }
             </div>
@@ -816,7 +766,6 @@
             <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
           `;
 
-          // changes: selects
           row.addEventListener("change", (e) => {
             const t = e.target;
             if(!(t instanceof HTMLElement)) return;
@@ -824,10 +773,161 @@
             const item = state.financials.items.find(x => x.id === it.id);
             if(!item || !k) return;
 
-            if(k === "debtType"){
-              item.details = item.details || {};
-              item.details.type = "debt_item";
-              item.details.debtType = t.value || "";
+            if(k === "debtType") item.details.debtType = t.value || "";
+            if(k === "owner") item.owner = t.value || "";
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="rateText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseRate(raw);
+            const cleaned = (raw.trim() === "") ? "" : formatRate(parsed);
+            el.value = cleaned;
+            item.details.rateApr = parsed;
+            item.details.rateAprText = cleaned;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="paymentText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+            item.details.monthlyPayment = parsed;
+            item.details.monthlyPaymentText = formatted;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="balanceText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+            item.details.balance = parsed;
+            item.details.balanceText = formatted;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getDebtItems().length === 0) createDebtItem();
+            renderRows();
+            renderFinancialsJson();
+          });
+
+          rowsEl.appendChild(row);
+        });
+      }
+    }
+
+    // ==========================================================
+    //  SIMPLE 3-COLUMN MODULE (type dropdown + amount manual + owner)
+    //  Used for: banking, investments retirement, investments non-retirement, other assets
+    // ==========================================================
+    function simple3ModuleHTML(ns, col1, col2, col3){
+      const multi = hasMultiPeople();
+      return `
+        <div data-simple3="${ns}">
+          <div class="miniTable">
+            <div class="miniHead simple3HeadGrid">
+              <div>${escapeHtml(col1)}</div>
+              <div>${escapeHtml(col2)}</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div data-rows></div>
+          </div>
+          <div class="moduleFooter">
+            <button class="btn" type="button" data-add>➕ Añadir</button>
+            <div class="hint">Añade varias filas si aplica.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function optionsHTML(list, current){
+      let html = `<option value="">Selecciona…</option>`;
+      list.forEach(v => html += `<option value="${escapeHtml(v)}" ${current===v?"selected":""}>${escapeHtml(v)}</option>`);
+      return html;
+    }
+
+    function getSimple3Items(category, typeKey){
+      return state.financials.items.filter(it => it.category === category && it.details?.type === typeKey);
+    }
+
+    function createSimple3Item(category, typeKey){
+      state.financials.items.push({
+        id: uid("fin"),
+        category,
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: { type:"manual", period:"one_time_estimate", currency:"USD", amount:0, amountText:"" },
+        details: { type: typeKey, itemType:"", label:"" }
+      });
+    }
+
+    function initSimple3Module(root, category, optionList, typeKey, amountLabel){
+      ensureSelected(category);
+      const host = root.querySelector('[data-simple3]');
+      const rowsEl = host.querySelector('[data-rows]');
+      const addBtn = host.querySelector('[data-add]');
+
+      if(getSimple3Items(category, typeKey).length === 0) createSimple3Item(category, typeKey);
+      renderRows();
+
+      addBtn.addEventListener("click", () => {
+        createSimple3Item(category, typeKey);
+        renderRows();
+        renderFinancialsJson();
+      });
+
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getSimple3Items(category, typeKey).forEach((it) => {
+          const multi = hasMultiPeople();
+          const row = document.createElement("div");
+          row.className = "miniRow simple3RowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="itemType">${optionsHTML(optionList, it.details.itemType || "")}</select>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 25000" data-k="amountText" value="${escapeHtml(it.amountEstimate.amountText || "")}" />
+              <div class="hint" style="margin-top:6px;">USD (aprox.).</div>
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            if(!(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !k) return;
+
+            if(k === "itemType"){
+              item.details.itemType = t.value || "";
+              item.details.label = (t.options && t.selectedIndex >= 0) ? t.options[t.selectedIndex].text : "";
             }
             if(k === "owner"){
               item.owner = t.value || "";
@@ -835,129 +935,573 @@
             renderFinancialsJson();
           });
 
-          // rate input (decimal, keep as text + numeric)
-          row.querySelector('input[data-k="rateText"]').addEventListener("input", (ev) => {
-            const el = ev.target;
+          const amountEl = row.querySelector('input[data-k="amountText"]');
+          amountEl.addEventListener("input", () => {
             const item = state.financials.items.find(x => x.id === it.id);
             if(!item) return;
-
-            const raw = String(el.value || "");
-            const parsed = parseRate(raw); // number
-            const cleaned = (raw.trim() === "") ? "" : formatRate(parsed);
-            el.value = cleaned;
-
-            item.details = item.details || {};
-            item.details.type = "debt_item";
-            item.details.rateApr = parsed;
-            item.details.rateAprText = cleaned;
-
-            renderFinancialsJson();
-          });
-
-          // payment input (money)
-          row.querySelector('input[data-k="paymentText"]').addEventListener("input", (ev) => {
-            const el = ev.target;
-            const item = state.financials.items.find(x => x.id === it.id);
-            if(!item) return;
-
-            const raw = String(el.value || "");
+            const raw = amountEl.value;
             const parsed = parseMoney(raw);
             const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
-            el.value = formatted;
-
-            item.details = item.details || {};
-            item.details.type = "debt_item";
-            item.details.monthlyPayment = parsed;
-            item.details.monthlyPaymentText = formatted;
-
+            amountEl.value = formatted;
+            item.amountEstimate.amount = parsed;
+            item.amountEstimate.amountText = formatted;
             renderFinancialsJson();
           });
 
-          // balance input (money)
-          row.querySelector('input[data-k="balanceText"]').addEventListener("input", (ev) => {
-            const el = ev.target;
-            const item = state.financials.items.find(x => x.id === it.id);
-            if(!item) return;
-
-            const raw = String(el.value || "");
-            const parsed = parseMoney(raw);
-            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
-            el.value = formatted;
-
-            item.details = item.details || {};
-            item.details.type = "debt_item";
-            item.details.balance = parsed;
-            item.details.balanceText = formatted;
-
-            renderFinancialsJson();
-          });
-
-          // remove
           row.querySelector('[data-k="remove"]').addEventListener("click", () => {
             state.financials.items = state.financials.items.filter(x => x.id !== it.id);
-            if(getDebtItems().length === 0){
-              createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
-            }
-            renderDebtRows();
+            if(getSimple3Items(category, typeKey).length === 0) createSimple3Item(category, typeKey);
+            renderRows();
             renderFinancialsJson();
           });
 
-          debtRowsEl.appendChild(row);
+          rowsEl.appendChild(row);
         });
       }
     }
 
-    function getDebtItems(){
-      return state.financials.items.filter(it => it.category === "liabilities" && it.details?.type === "debt_item");
+    // ==========================================================
+    //  REAL ESTATE MODULE (tipo + valor + hipoteca? + owner)
+    // ==========================================================
+    function realEstateModuleHTML(){
+      const multi = hasMultiPeople();
+      return `
+        <div id="reBuilder">
+          <div class="miniTable">
+            <div class="miniHead realEstateHeadGrid">
+              <div>Tipo propiedad</div>
+              <div>Valor (aprox.)</div>
+              <div>¿Hipoteca?</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div id="reRows"></div>
+          </div>
+
+          <div class="moduleFooter">
+            <button class="btn" type="button" id="addReRowBtn">➕ Añadir propiedad</button>
+            <div class="hint">Puedes añadir varias propiedades.</div>
+          </div>
+        </div>
+      `;
     }
 
-    function createDebtItem({ debtType, rateText, paymentText, balanceText, owner }){
+    function getReItems(){
+      return state.financials.items.filter(it => it.category === "real_estate" && it.details?.type === "re_item");
+    }
+    function createReItem(){
       state.financials.items.push({
         id: uid("fin"),
-        category: "liabilities",
-        owner: hasMultiPeople() ? (owner || "") : defaultOwner(),
-        amountEstimate: { type: "n/a" }, // no usamos range aquí; usamos fields en details
-        details: {
-          type: "debt_item",
-          debtType: debtType || "",
-          rateApr: parseRate(rateText || ""),
-          rateAprText: (rateText || "") ? formatRate(parseRate(rateText)) : "",
-          monthlyPayment: parseMoney(paymentText || ""),
-          monthlyPaymentText: (paymentText || "") ? formatMoney(parseMoney(paymentText)) : "",
-          balance: parseMoney(balanceText || ""),
-          balanceText: (balanceText || "") ? formatMoney(parseMoney(balanceText)) : ""
-        }
+        category: "real_estate",
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: { type:"manual", period:"one_time_estimate", currency:"USD", amount:0, amountText:"" },
+        details: { type:"re_item", propertyType:"", hasMortgage:false }
       });
     }
 
+    function initRealEstateModule(root){
+      ensureSelected("real_estate");
+      const rowsEl = $("#reRows", root);
+      const addBtn = $("#addReRowBtn", root);
+
+      if(getReItems().length === 0) createReItem();
+      renderRows();
+
+      addBtn.addEventListener("click", () => {
+        createReItem();
+        renderRows();
+        renderFinancialsJson();
+      });
+
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getReItems().forEach((it) => {
+          const multi = hasMultiPeople();
+          const row = document.createElement("div");
+          row.className = "miniRow realEstateRowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="propertyType">${optionsHTML(REAL_ESTATE_TYPES, it.details.propertyType || "")}</select>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 350000" data-k="amountText" value="${escapeHtml(it.amountEstimate.amountText || "")}" />
+              <div class="hint" style="margin-top:6px;">USD (aprox.).</div>
+            </div>
+
+            <div class="toggleWrap">
+              <span class="pillToggle">
+                <input type="checkbox" data-k="hasMortgage" ${it.details.hasMortgage ? "checked" : ""} />
+                <label>Hipoteca</label>
+              </span>
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            if(!k) return;
+
+            if(k === "propertyType") item.details.propertyType = t.value || "";
+            if(k === "owner") item.owner = t.value || "";
+            if(k === "hasMortgage") item.details.hasMortgage = !!t.checked;
+
+            renderFinancialsJson();
+          });
+
+          const amountEl = row.querySelector('input[data-k="amountText"]');
+          amountEl.addEventListener("input", () => {
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = amountEl.value;
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            amountEl.value = formatted;
+            item.amountEstimate.amount = parsed;
+            item.amountEstimate.amountText = formatted;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getReItems().length === 0) createReItem();
+            renderRows();
+            renderFinancialsJson();
+          });
+
+          rowsEl.appendChild(row);
+        });
+      }
+    }
+
     // ==========================================================
-    //  Money / Rate helpers
+    //  INSURANCE MODULE (tipo + prima anual + cobertura opcional + owner)
     // ==========================================================
-    function parseMoney(v){
-      const digits = String(v ?? "").replace(/[^\d]/g,"");
-      if(!digits) return 0;
-      const safe = digits.slice(0, 12);
-      return Number(safe) || 0;
+    function insuranceModuleHTML(){
+      const multi = hasMultiPeople();
+      return `
+        <div id="insBuilder">
+          <div class="miniTable">
+            <div class="miniHead insuranceHeadGrid">
+              <div>Tipo seguro</div>
+              <div>Prima anual</div>
+              <div>Cobertura (opcional)</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div id="insRows"></div>
+          </div>
+
+          <div class="moduleFooter">
+            <button class="btn" type="button" id="addInsRowBtn">➕ Añadir seguro</button>
+            <div class="hint">Ej.: vida + auto + casa + umbrella.</div>
+          </div>
+        </div>
+      `;
     }
-    function formatMoney(n){
-      const num = Number(n) || 0;
-      return num.toLocaleString("en-US"); // 12,345
+
+    function getInsItems(){
+      return state.financials.items.filter(it => it.category === "insurance" && it.details?.type === "ins_item");
     }
-    function parseRate(v){
-      // permite "19.99", "7", "7.5"
-      const s = String(v ?? "").replace(/[^0-9.]/g,"");
-      if(!s) return 0;
-      const parts = s.split(".");
-      const clean = parts.length > 2 ? (parts[0] + "." + parts.slice(1).join("")) : s;
-      const num = Number(clean);
-      if(!Number.isFinite(num)) return 0;
-      // clamp razonable
-      return Math.max(0, Math.min(num, 99.99));
+    function createInsItem(){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "insurance",
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: { type:"manual", period:"annual", currency:"USD", amount:0, amountText:"" }, // prima anual
+        details: { type:"ins_item", insType:"", coverage:0, coverageText:"" }
+      });
     }
-    function formatRate(n){
-      const num = Number(n) || 0;
-      // si es entero, sin decimales; si no, 2 decimales
-      return Number.isInteger(num) ? String(num) : num.toFixed(2);
+    function initInsuranceModule(root){
+      ensureSelected("insurance");
+      const rowsEl = $("#insRows", root);
+      const addBtn = $("#addInsRowBtn", root);
+
+      if(getInsItems().length === 0) createInsItem();
+      renderRows();
+
+      addBtn.addEventListener("click", () => {
+        createInsItem();
+        renderRows();
+        renderFinancialsJson();
+      });
+
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getInsItems().forEach((it) => {
+          const multi = hasMultiPeople();
+          const row = document.createElement("div");
+          row.className = "miniRow insuranceRowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="insType">${optionsHTML(INS_TYPES, it.details.insType || "")}</select>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 1800" data-k="premiumText" value="${escapeHtml(it.amountEstimate.amountText || "")}" />
+              <div class="hint" style="margin-top:6px;">USD/año (aprox.).</div>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 250000" data-k="coverageText" value="${escapeHtml(it.details.coverageText || "")}" />
+              <div class="hint" style="margin-top:6px;">USD (si aplica).</div>
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            if(!k) return;
+
+            if(k === "insType") item.details.insType = t.value || "";
+            if(k === "owner") item.owner = t.value || "";
+            renderFinancialsJson();
+          });
+
+          // premium
+          row.querySelector('input[data-k="premiumText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+            item.amountEstimate.amount = parsed;
+            item.amountEstimate.amountText = formatted;
+            item.amountEstimate.period = "annual";
+            renderFinancialsJson();
+          });
+
+          // coverage
+          row.querySelector('input[data-k="coverageText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+            item.details.coverage = parsed;
+            item.details.coverageText = formatted;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getInsItems().length === 0) createInsItem();
+            renderRows();
+            renderFinancialsJson();
+          });
+
+          rowsEl.appendChild(row);
+        });
+      }
+    }
+
+    // ==========================================================
+    //  BUSINESS/TRUST MODULE (tipo + valor/participación + ingreso anual opcional + owner)
+    // ==========================================================
+    function businessModuleHTML(){
+      const multi = hasMultiPeople();
+      return `
+        <div id="bizBuilder">
+          <div class="miniTable">
+            <div class="miniHead businessHeadGrid">
+              <div>Tipo</div>
+              <div>Valor estimado</div>
+              <div>% participación (opcional)</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div id="bizRows"></div>
+          </div>
+
+          <div class="moduleFooter">
+            <button class="btn" type="button" id="addBizRowBtn">➕ Añadir</button>
+            <div class="hint">Negocio(s), participación o trust.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getBizItems(){
+      return state.financials.items.filter(it => it.category === "business_trust" && it.details?.type === "biz_item");
+    }
+    function createBizItem(){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "business_trust",
+        owner: hasMultiPeople() ? defaultOwner() : defaultOwner(),
+        amountEstimate: { type:"manual", period:"one_time_estimate", currency:"USD", amount:0, amountText:"" },
+        details: { type:"biz_item", bizType:"", ownershipPct:0, ownershipPctText:"" }
+      });
+    }
+    function initBusinessModule(root){
+      ensureSelected("business_trust");
+      const rowsEl = $("#bizRows", root);
+      const addBtn = $("#addBizRowBtn", root);
+
+      if(getBizItems().length === 0) createBizItem();
+      renderRows();
+
+      addBtn.addEventListener("click", () => {
+        createBizItem();
+        renderRows();
+        renderFinancialsJson();
+      });
+
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getBizItems().forEach((it) => {
+          const multi = hasMultiPeople();
+          const row = document.createElement("div");
+          row.className = "miniRow businessRowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="bizType">${optionsHTML(BIZ_TYPES, it.details.bizType || "")}</select>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 200000" data-k="amountText" value="${escapeHtml(it.amountEstimate.amountText || "")}" />
+              <div class="hint" style="margin-top:6px;">USD (aprox.).</div>
+            </div>
+
+            <div>
+              <input type="text" inputmode="decimal" placeholder="Ej. 50" data-k="pctText" value="${escapeHtml(it.details.ownershipPctText || "")}" />
+              <div class="hint" style="margin-top:6px;">0–100.</div>
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "")}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            if(!k) return;
+
+            if(k === "bizType") item.details.bizType = t.value || "";
+            if(k === "owner") item.owner = t.value || "";
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="amountText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+            item.amountEstimate.amount = parsed;
+            item.amountEstimate.amountText = formatted;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="pctText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            const raw = String(el.value || "").replace(/[^0-9.]/g,"");
+            const num = Math.max(0, Math.min(Number(raw || 0), 100));
+            const out = (String(el.value || "").trim()==="") ? "" : (Number.isInteger(num) ? String(num) : num.toFixed(2));
+            el.value = out;
+            item.details.ownershipPct = num;
+            item.details.ownershipPctText = out;
+            renderFinancialsJson();
+          });
+
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getBizItems().length === 0) createBizItem();
+            renderRows();
+            renderFinancialsJson();
+          });
+
+          rowsEl.appendChild(row);
+        });
+      }
+    }
+
+    // ==========================================================
+    //  LEGAL MODULE (checkboxes + notes; owner becomes household by default)
+    // ==========================================================
+    function legalModuleHTML(){
+      return `
+        <div id="legalBuilder">
+          <div class="hint" style="margin:0 0 10px;">
+            Marca lo que ya existe. (Aquí no pedimos montos.)
+          </div>
+
+          <div class="miniTable">
+            <div class="miniHead simple4HeadGrid">
+              <div>Documento</div>
+              <div>¿Existe?</div>
+              <div>Notas (opcional)</div>
+              <div>Owner</div>
+              <div></div>
+            </div>
+            <div id="legalRows"></div>
+          </div>
+
+          <div class="moduleFooter">
+            <button class="btn" type="button" id="addLegalRowBtn">➕ Añadir item legal</button>
+            <div class="hint">Útil si quieres agregar algo fuera de la lista.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getLegalItems(){
+      return state.financials.items.filter(it => it.category === "legal" && it.details?.type === "legal_item");
+    }
+
+    function createLegalItem({ docKey="", docLabel="Otro", exists=false, note="" } = {}){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "legal",
+        owner: hasMultiPeople() ? "household" : defaultOwner(),
+        amountEstimate: { type:"n/a" },
+        details: { type:"legal_item", docKey, docLabel, exists, note }
+      });
+    }
+
+    function initLegalModule(root){
+      ensureSelected("legal");
+      const rowsEl = $("#legalRows", root);
+      const addBtn = $("#addLegalRowBtn", root);
+
+      if(getLegalItems().length === 0){
+        LEGAL_DOCS.forEach(d => createLegalItem({ docKey:d.key, docLabel:d.label, exists:false, note:"" }));
+      }
+      renderRows();
+
+      addBtn.addEventListener("click", () => {
+        createLegalItem({ docKey:"custom", docLabel:"Otro", exists:false, note:"" });
+        renderRows();
+        renderFinancialsJson();
+      });
+
+      function docOptionsHTML(currentKey){
+        let html = `<option value="">Selecciona…</option>`;
+        LEGAL_DOCS.forEach(d => html += `<option value="${escapeHtml(d.key)}" ${currentKey===d.key?"selected":""}>${escapeHtml(d.label)}</option>`);
+        html += `<option value="custom" ${currentKey==="custom"?"selected":""}>Otro</option>`;
+        return html;
+      }
+
+      function renderRows(){
+        rowsEl.innerHTML = "";
+        getLegalItems().forEach((it) => {
+          const multi = hasMultiPeople();
+          const row = document.createElement("div");
+          row.className = "miniRow simple4RowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="docKey">${docOptionsHTML(it.details.docKey || "")}</select>
+            </div>
+
+            <div class="toggleWrap">
+              <span class="pillToggle">
+                <input type="checkbox" data-k="exists" ${it.details.exists ? "checked" : ""} />
+                <label>Sí</label>
+              </span>
+            </div>
+
+            <div>
+              <input type="text" placeholder="Nota..." data-k="note" value="${escapeHtml(it.details.note || "")}" />
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(it.owner || "household")}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            if(!k) return;
+
+            if(k === "docKey"){
+              item.details.docKey = t.value || "";
+              const match = LEGAL_DOCS.find(d => d.key === item.details.docKey);
+              item.details.docLabel = match ? match.label : "Otro";
+            }
+            if(k === "owner") item.owner = t.value || "";
+            if(k === "exists") item.details.exists = !!t.checked;
+
+            renderFinancialsJson();
+          });
+
+          row.querySelector('input[data-k="note"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+            item.details.note = String(el.value || "");
+            renderFinancialsJson();
+          });
+
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getLegalItems().length === 0){
+              LEGAL_DOCS.forEach(d => createLegalItem({ docKey:d.key, docLabel:d.label }));
+            }
+            renderRows();
+            renderFinancialsJson();
+          });
+
+          rowsEl.appendChild(row);
+        });
+      }
     }
 
     // ==========================================================
@@ -970,12 +1514,10 @@
       const first = detailsAccordion.querySelector(".accordionItem");
       if(first) openOnlyThis(first);
     });
-
     backToSelectBtn.addEventListener("click", () => setFinMode("select"));
-
     finishFinBtn.addEventListener("click", () => {
       renderFinancialsJson();
-      alert("Listo (demo): JSON actualizado. Próximo: implementamos la siguiente categoría.");
+      alert("Listo (demo): JSON actualizado.");
     });
 
     // ==========================================================
