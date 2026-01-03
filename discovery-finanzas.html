@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discovery · Step 3 Finanzas (Base + Ingresos)</title>
+  <title>Discovery · Step 3 Finanzas (Base + Ingresos limpio)</title>
 
   <style>
     :root{
@@ -18,6 +18,8 @@
       --shadow:0 10px 30px rgba(15,23,42,.08);
       --radius:18px;
       --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#dc2626;
     }
     *{box-sizing:border-box}
     body{
@@ -81,6 +83,7 @@
       box-shadow: 0 10px 20px rgba(57,86,232,.18);
     }
     .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+    .btn.ghost{background:transparent;color:var(--muted);}
 
     /* Category cards */
     .cats{
@@ -176,14 +179,8 @@
       border-color: rgba(57,86,232,.45);
       box-shadow: 0 0 0 4px rgba(57,86,232,.10);
     }
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 700px){ .split{grid-template-columns:1fr;} }
 
-    /* ===== Ingresos module ===== */
+    /* ===== Income (clean) ===== */
     .incomeIntro{
       border:1px dashed rgba(100,116,139,.35);
       background: rgba(15,23,42,.02);
@@ -194,75 +191,59 @@
     .incomeIntro h4{margin:0 0 6px;font-size: 13px;}
     .incomeIntro p{margin:0;color:var(--muted);font-size:12px;line-height:1.45;}
 
-    .incomeCat{
+    .incomeTable{
+      width:100%;
       border:1px solid var(--border);
       border-radius: 14px;
       overflow:hidden;
-      margin-bottom: 10px;
     }
-    .incomeCatHead{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 10px 12px;
-      background: rgba(57,86,232,.05);
-      cursor:pointer;
-      user-select:none;
-    }
-    .incomeCatHead b{font-size:13px;}
-    .incomeCatBody{padding: 10px 12px; display:none;}
-    .incomeCat.open .incomeCatBody{display:block;}
-
-    .incomeRow{
+    .incomeHead, .incomeRow{
       display:grid;
-      grid-template-columns: 1fr auto;
       gap: 10px;
+      padding: 10px 12px;
       align-items:center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(229,231,235,.7);
+      grid-template-columns: 1.4fr 1fr 1fr 52px;
+    }
+    .incomeHead{
+      background: rgba(57,86,232,.05);
+      border-bottom:1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .incomeRow{
+      border-bottom:1px solid rgba(229,231,235,.7);
+      background:#fff;
     }
     .incomeRow:last-child{border-bottom:none;}
-    .incomeName{font-size:13px;}
-    .incomeControls{
-      margin-top: 8px;
-      border:1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      background:#fff;
-      display:none;
-    }
-    .incomeControls.show{display:block;}
 
-    /* Switch */
-    .switch{
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
+    .iconBtn{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      cursor:pointer;
+      color: var(--muted);
+      font-weight: 900;
     }
-    .switch input{opacity:0;width:0;height:0;}
-    .slider{
-      position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
-      background:#e5e7eb;border-radius:999px;transition:.2s;
+    .iconBtn:hover{border-color: rgba(57,86,232,.35);}
+    .incomeFooter{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
     }
-    .slider:before{
-      position:absolute;content:"";height:18px;width:18px;left:3px;top:3px;
-      background:white;border-radius:999px;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,.12);
+
+    @media (max-width: 860px){
+      .incomeHead{display:none;}
+      .incomeRow{
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .incomeRow .iconBtn{justify-self:flex-end;}
     }
-    .switch input:checked + .slider{background: rgba(22,163,74,.25); border: 1px solid rgba(22,163,74,.35);}
-    .switch input:checked + .slider:before{transform: translateX(20px); background: #fff;}
-    .badgeOn{
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--ok);
-      background: rgba(22,163,74,.10);
-      border:1px solid rgba(22,163,74,.20);
-      padding: 4px 8px;
-      border-radius: 999px;
-      margin-left: 8px;
-      display:none;
-    }
-    .badgeOn.show{display:inline-block;}
   </style>
 </head>
 
@@ -270,8 +251,8 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <h1>Step 3 · Finanzas (Base + Ingresos)</h1>
-        <p>Selección → acordeón (uno abierto a la vez) → ingresos por subcategoría con monto + owner.</p>
+        <h1>Step 3 · Finanzas (Base + Ingresos limpio)</h1>
+        <p>Selección → Continuar → Acordeón (uno abierto) → Ingresos con filas simples.</p>
       </div>
     </header>
 
@@ -318,7 +299,7 @@
 
           <div class="panel" style="margin-top:14px;">
             <h2>Vista previa (financials JSON)</h2>
-            <p>Se actualiza en vivo. Ingresos crea múltiples items (uno por subcategoría activa).</p>
+            <p>Se actualiza en vivo. Ingresos crea múltiples items (uno por fila).</p>
             <pre class="code" id="financialsJson">{ "financials": { "categoriesSelected": [], "items": [] } }</pre>
           </div>
 
@@ -331,7 +312,6 @@
   (() => {
     // ==========================================================
     //  STATE (Standalone demo)
-    //  En tu discovery real, este state vendrá del wizard.
     // ==========================================================
     const state = window.discoveryState || {
       people: {
@@ -358,23 +338,14 @@
       { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
     ];
 
-    // Ingresos: catálogo EXACTO del HTML que pasaste
+    // Ingresos: catálogo (grupo + subcategorías)
     const INCOME_CATALOG = [
-      {
-        main: "Pago por trabajo",
-        subs: ["Bono","Comisión","Negocio propio","Pago por hora","Propina","Salario"]
-      },
-      {
-        main: "Ganancia de capital",
-        subs: ["Acciones","Auto","Bonos o renta fija","Casa/Apartamento/Tierra","ETF, fondo mutuo, etc."]
-      },
-      {
-        main: "Ingreso pasivo",
-        subs: ["Anualidad","Dividendos e Intereses","Pensión","Renta inmueble","Seguro Social"]
-      }
+      { group:"Pago por trabajo", items:["Bono","Comisión","Negocio propio","Pago por hora","Propina","Salario"] },
+      { group:"Ganancia de capital", items:["Acciones","Auto","Bonos o renta fija","Casa/Apartamento/Tierra","ETF, fondo mutuo, etc."] },
+      { group:"Ingreso pasivo", items:["Anualidad","Dividendos e Intereses","Pensión","Renta inmueble","Seguro Social"] }
     ];
 
-    // Rango (anual) para ingresos (puedes cambiar luego)
+    // Rangos (anual)
     const INCOME_RANGES = [
       ["lt_10k","< $10k"],
       ["10k_25k","$10k – $25k"],
@@ -409,7 +380,7 @@
 
     function ownerOptionsHTML(current){
       const members = state.people?.members || [{id:"p1"}];
-      if(members.length <= 1) return "";
+      if(members.length <= 1) return ""; // no selector
 
       let html = `<option value="">Selecciona…</option>`;
       for(const p of members){
@@ -426,6 +397,43 @@
         html += `<option value="${k}" ${current===k?"selected":""}>${label}</option>`;
       }
       return html;
+    }
+
+    // income type options with optgroup
+    function incomeTypeOptionsHTML(currentKey){
+      let html = `<option value="">Selecciona tipo…</option>`;
+      INCOME_CATALOG.forEach(g => {
+        html += `<optgroup label="${escapeHtml(g.group)}">`;
+        g.items.forEach(name => {
+          const key = incomeTypeKey(g.group, name);
+          html += `<option value="${escapeHtml(key)}" ${currentKey===key?"selected":""}>${escapeHtml(name)}</option>`;
+        });
+        html += `</optgroup>`;
+      });
+      return html;
+    }
+
+    function incomeTypeKey(group, name){
+      // key estable: group|name (sin espacios raros)
+      const clean = (s) => String(s).toLowerCase().trim().replace(/\s+/g,"_").replace(/[^\wáéíóúñü_]/gi,"");
+      return `${clean(group)}|${clean(name)}`;
+    }
+
+    function decodeIncomeTypeKey(key){
+      if(!key || !key.includes("|")) return { group:"", name:"" };
+      const [g,n] = key.split("|");
+      // buscamos labels reales en el catálogo
+      for(const grp of INCOME_CATALOG){
+        const gk = incomeTypeKey(grp.group, grp.items[0]).split("|")[0];
+        if(gk === g){
+          // buscar item match
+          for(const itemName of grp.items){
+            const ik = incomeTypeKey(grp.group, itemName);
+            if(ik === key) return { group: grp.group, name: itemName };
+          }
+        }
+      }
+      return { group:"", name:"" };
     }
 
     function setFinMode(mode){
@@ -467,7 +475,6 @@
             if(!selected.has(cat.key)) state.financials.categoriesSelected.push(cat.key);
           } else {
             state.financials.categoriesSelected = state.financials.categoriesSelected.filter(k => k !== cat.key);
-            // eliminar items de esa categoría
             state.financials.items = state.financials.items.filter(it => it.category !== cat.key);
           }
 
@@ -484,18 +491,15 @@
     }
 
     // ==========================================================
-    //  Accordion: single open (abre uno, cierra otros)
+    //  Accordion: single open
     // ==========================================================
     function openOnlyThis(itemEl){
       const all = Array.from(detailsAccordion.querySelectorAll(".accordionItem"));
-      all.forEach(el => {
-        if(el === itemEl) el.classList.add("open");
-        else el.classList.remove("open");
-      });
+      all.forEach(el => el === itemEl ? el.classList.add("open") : el.classList.remove("open"));
     }
 
     // ==========================================================
-    //  STEP 3B: Details accordion (selected only)
+    //  STEP 3B: Details Accordion
     // ==========================================================
     function renderDetailsAccordion(){
       detailsAccordion.innerHTML = "";
@@ -515,7 +519,7 @@
         item.dataset.cat = catKey;
 
         item.innerHTML = `
-          <div class="accordionHeader" role="button" aria-expanded="${idx === 0 ? "true" : "false"}">
+          <div class="accordionHeader" role="button">
             <div>
               <b>${escapeHtml(meta?.label || catKey)}</b>
               <div><span>${escapeHtml(meta?.hint || "")}</span></div>
@@ -533,7 +537,6 @@
 
         detailsAccordion.appendChild(item);
 
-        // Si es income, activar lógica
         if(catKey === "income"){
           initIncomeModule(item.querySelector(".accordionBody"));
         }
@@ -543,7 +546,7 @@
     }
 
     // ==========================================================
-    //  Placeholders (pendiente)
+    //  Placeholders
     // ==========================================================
     function renderPlaceholder(catKey){
       const map = {
@@ -557,7 +560,7 @@
         legal: ["Legal", "Testamento/POA/Trust/beneficiarios + notas."],
         other_assets: ["Otros activos", "Autos/activos personales + monto estimado + owner/hogar."]
       };
-      const [title, desc] = map[catKey] || [catKey, "Placeholder pendiente de implementar."];
+      const [title, desc] = map[catKey] || [catKey, "Placeholder pendiente."];
 
       return `
         <div class="incomeIntro">
@@ -568,289 +571,201 @@
     }
 
     // ==========================================================
-    //  INCOME MODULE (as agreed)
-    //  - subcategory ON => create item in financials.items
-    //  - item identified by mainCategory + subCategory
+    //  INCOME MODULE (clean rows)
     // ==========================================================
     function renderIncomeModuleHTML(){
       const multi = hasMultiPeople();
-      const ownerLabel = multi ? "¿De quién es? *" : "Dueño";
-
       return `
         <div id="incomeBuilder">
           <div class="incomeIntro">
             <h4>Ingresos</h4>
             <p>
-              Activa las subcategorías que aplican y elige el monto estimado (anual).
+              Añade cada tipo de ingreso que aplique y elige una cantidad estimada (anual).
               ${multi ? "También selecciona de quién es." : "Como solo hay una persona, el dueño se asigna automáticamente."}
             </p>
           </div>
 
-          <div class="hint" style="margin-bottom:10px;">
-            Cada subcategoría activa crea un registro en <b>financials.items[]</b>.
+          <div class="incomeTable">
+            <div class="incomeHead">
+              <div>Tipo de ingreso</div>
+              <div>Cantidad (anual)</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div id="incomeRows"></div>
           </div>
 
-          <div id="incomeCats"></div>
+          <div class="incomeFooter">
+            <button class="btn" type="button" id="addIncomeRowBtn">➕ Añadir ingreso</button>
+            <div class="hint">Tip: puedes añadir varios (salario + comisión + renta, etc.).</div>
+          </div>
 
           <div class="field" style="margin-top:12px;">
             <label>Nota general de ingresos (opcional)</label>
             <input type="text" id="incomeGeneralNote" placeholder="Ej. ingreso variable, estacional, etc." />
-          </div>
-
-          <div class="hint">
-            * Monto y dueño se validarán luego. Por ahora se guardan en el JSON.
           </div>
         </div>
       `;
     }
 
     function initIncomeModule(root){
-      const incomeCatsEl = $("#incomeCats", root);
+      const incomeRowsEl = $("#incomeRows", root);
+      const addBtn = $("#addIncomeRowBtn", root);
       const generalNoteEl = $("#incomeGeneralNote", root);
 
-      // Preload general note if exists (optional)
-      const existingGeneral = state.financials.items.find(it => it.category === "income" && it.details?.type === "income_general_note");
-      if(existingGeneral){
-        generalNoteEl.value = existingGeneral.details.note || "";
-      }
+      // asegurar que "income" esté seleccionado (ya lo está si estás dentro del acordeón, pero por si acaso)
+      if(!state.financials.categoriesSelected.includes("income")) state.financials.categoriesSelected.push("income");
 
+      // cargar nota general (opcional)
+      const existingGeneral = state.financials.items.find(it => it.category === "income" && it.details?.type === "income_general_note");
+      if(existingGeneral) generalNoteEl.value = existingGeneral.details.note || "";
       generalNoteEl.addEventListener("input", () => {
         upsertIncomeGeneralNote(generalNoteEl.value.trim());
         renderFinancialsJson();
       });
 
-      // Build UI
-      incomeCatsEl.innerHTML = "";
+      // si no hay filas, crea 1 fila vacía para empezar (menos fricción)
+      const existingStreams = getIncomeStreams();
+      if(existingStreams.length === 0){
+        createIncomeStream({ incomeTypeKey:"", rangeKey:"", owner: defaultOwner() });
+      }
 
-      INCOME_CATALOG.forEach((catObj, idx) => {
-        const wrap = document.createElement("div");
-        wrap.className = "incomeCat" + (idx === 0 ? " open" : "");
-        wrap.innerHTML = `
-          <div class="incomeCatHead">
-            <b>${escapeHtml(catObj.main)}</b>
-            <span style="color:var(--muted);font-size:12px;">Abrir/Cerrar</span>
-          </div>
-          <div class="incomeCatBody"></div>
-        `;
+      renderIncomeRows();
 
-        const head = $(".incomeCatHead", wrap);
-        const body = $(".incomeCatBody", wrap);
+      addBtn.addEventListener("click", () => {
+        createIncomeStream({ incomeTypeKey:"", rangeKey:"", owner: defaultOwner() });
+        renderIncomeRows();
+        renderFinancialsJson();
+      });
 
-        head.addEventListener("click", () => {
-          wrap.classList.toggle("open");
-        });
+      function renderIncomeRows(){
+        incomeRowsEl.innerHTML = "";
 
-        catObj.subs.forEach(subName => {
+        const rows = getIncomeStreams();
+        rows.forEach((it) => {
+          const multi = hasMultiPeople();
+          const owner = it.owner || defaultOwner();
+
           const row = document.createElement("div");
           row.className = "incomeRow";
-
-          const key = incomeKey(catObj.main, subName);
-          const existingItem = findIncomeItem(catObj.main, subName);
-
-          const isOn = !!existingItem;
-          const badge = isOn ? "show" : "";
-          const checked = isOn ? "checked" : "";
-          const rangeKey = existingItem?.amountEstimate?.rangeKey || "";
-          const owner = existingItem?.owner || defaultOwner();
-          const note = existingItem?.details?.note || "";
+          row.dataset.id = it.id;
 
           row.innerHTML = `
             <div>
-              <div class="incomeName">
-                ${escapeHtml(subName)}
-                <span class="badgeOn ${badge}" data-badge>Activo</span>
-              </div>
-
-              <div class="incomeControls ${isOn ? "show" : ""}" data-controls>
-                <div class="split">
-                  <div class="field">
-                    <label>Monto estimado (anual) *</label>
-                    <select data-k="rangeKey">
-                      ${rangeOptionsHTML(rangeKey)}
-                    </select>
-                  </div>
-
-                  ${
-                    hasMultiPeople()
-                    ? `
-                    <div class="field">
-                      <label>¿De quién es? *</label>
-                      <select data-k="owner">
-                        ${ownerOptionsHTML(owner)}
-                      </select>
-                    </div>
-                    `
-                    : `
-                    <div class="field">
-                      <label>Dueño</label>
-                      <input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />
-                    </div>
-                    `
-                  }
-                </div>
-
-                <div class="field" style="margin:8px 0 0;">
-                  <label>Nota (opcional)</label>
-                  <input type="text" data-k="note" value="${escapeHtml(note)}" placeholder="Ej. ingreso variable..." />
-                </div>
-              </div>
+              <label style="display:none">Tipo</label>
+              <select data-k="incomeTypeKey">
+                ${incomeTypeOptionsHTML(it.details?.incomeTypeKey || "")}
+              </select>
             </div>
 
-            <div style="display:flex; align-items:center; gap:10px;">
-              <label class="switch" title="Activar/Desactivar">
-                <input type="checkbox" data-k="toggle" ${checked} />
-                <span class="slider"></span>
-              </label>
+            <div>
+              <label style="display:none">Cantidad</label>
+              <select data-k="rangeKey">
+                ${rangeOptionsHTML(it.amountEstimate?.rangeKey || "")}
+              </select>
             </div>
+
+            <div>
+              ${
+                multi
+                ? `
+                  <label style="display:none">Owner</label>
+                  <select data-k="owner">
+                    ${ownerOptionsHTML(owner)}
+                  </select>
+                `
+                : `
+                  <input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />
+                `
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
           `;
 
-          // Events
-          const toggle = row.querySelector('input[data-k="toggle"]');
-          const controls = row.querySelector('[data-controls]');
-          const badgeEl = row.querySelector('[data-badge]');
-
-          toggle.addEventListener("change", () => {
-            if(toggle.checked){
-              controls.classList.add("show");
-              badgeEl.classList.add("show");
-              // create item with defaults
-              upsertIncomeItem({
-                mainCategory: catObj.main,
-                subCategory: subName,
-                rangeKey: controls.querySelector('select[data-k="rangeKey"]').value || "",
-                owner: hasMultiPeople() ? (controls.querySelector('select[data-k="owner"]').value || "") : defaultOwner(),
-                note: controls.querySelector('input[data-k="note"]').value || ""
-              });
-            } else {
-              controls.classList.remove("show");
-              badgeEl.classList.remove("show");
-              removeIncomeItem(catObj.main, subName);
-            }
-            // Ensure income category selected if any income items exist
-            syncIncomeCategorySelection();
-            renderFinancialsJson();
-          });
-
-          controls.addEventListener("change", (e) => {
+          // bind changes
+          row.addEventListener("change", (e) => {
             const t = e.target;
             if(!(t instanceof HTMLElement)) return;
 
-            if(!toggle.checked) return;
+            const k = t.getAttribute("data-k");
+            if(!k) return;
 
-            const range = controls.querySelector('select[data-k="rangeKey"]').value || "";
-            const own = hasMultiPeople() ? (controls.querySelector('select[data-k="owner"]').value || "") : defaultOwner();
-            const n = controls.querySelector('input[data-k="note"]').value || "";
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
 
-            upsertIncomeItem({
-              mainCategory: catObj.main,
-              subCategory: subName,
-              rangeKey: range,
-              owner: own,
-              note: n
-            });
+            if(k === "incomeTypeKey"){
+              item.details = item.details || {};
+              item.details.type = "income_stream";
+              item.details.incomeTypeKey = t.value || "";
+              // opcional: decodificar display info (grupo/nombre) para reporting
+              const decoded = decodeIncomeTypeKey(t.value || "");
+              item.details.mainCategory = decoded.group || "";
+              item.details.subCategory = decoded.name || "";
+            }
+
+            if(k === "rangeKey"){
+              item.amountEstimate = item.amountEstimate || { type:"range", period:"annual", currency:"USD", rangeKey:"" };
+              item.amountEstimate.type = "range";
+              item.amountEstimate.period = "annual";
+              item.amountEstimate.currency = "USD";
+              item.amountEstimate.rangeKey = t.value || "";
+            }
+
+            if(k === "owner"){
+              item.owner = t.value || "";
+            }
 
             renderFinancialsJson();
           });
 
-          controls.addEventListener("input", (e) => {
-            const t = e.target;
-            if(!(t instanceof HTMLElement)) return;
-            if(!toggle.checked) return;
-
-            if(t.matches('input[data-k="note"]')){
-              const range = controls.querySelector('select[data-k="rangeKey"]').value || "";
-              const own = hasMultiPeople() ? (controls.querySelector('select[data-k="owner"]').value || "") : defaultOwner();
-              const n = controls.querySelector('input[data-k="note"]').value || "";
-
-              upsertIncomeItem({
-                mainCategory: catObj.main,
-                subCategory: subName,
-                rangeKey: range,
-                owner: own,
-                note: n
-              });
-              renderFinancialsJson();
+          // remove
+          const removeBtn = row.querySelector('[data-k="remove"]');
+          removeBtn.addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            // si se quedó sin streams, crea 1 vacía para no dejar el usuario en blanco
+            if(getIncomeStreams().length === 0){
+              createIncomeStream({ incomeTypeKey:"", rangeKey:"", owner: defaultOwner() });
             }
+            renderIncomeRows();
+            renderFinancialsJson();
           });
 
-          body.appendChild(row);
+          incomeRowsEl.appendChild(row);
         });
-
-        incomeCatsEl.appendChild(wrap);
-      });
-
-      // Ensure categoriesSelected includes income if there are already income items
-      syncIncomeCategorySelection();
-      renderFinancialsJson();
-    }
-
-    function incomeKey(mainCategory, subCategory){
-      return `${mainCategory}::${subCategory}`;
-    }
-
-    function findIncomeItem(mainCategory, subCategory){
-      return state.financials.items.find(it =>
-        it.category === "income" &&
-        it.details?.type === "income_stream" &&
-        it.details?.mainCategory === mainCategory &&
-        it.details?.subCategory === subCategory
-      );
-    }
-
-    function upsertIncomeItem({ mainCategory, subCategory, rangeKey, owner, note }){
-      let it = findIncomeItem(mainCategory, subCategory);
-
-      if(!it){
-        it = {
-          id: uid("fin"),
-          category: "income",
-          owner: owner || defaultOwner(),
-          amountEstimate: {
-            type: "range",
-            period: "annual",
-            currency: "USD",
-            rangeKey: rangeKey || ""
-          },
-          details: {
-            type: "income_stream",
-            mainCategory,
-            subCategory,
-            note: note || ""
-          }
-        };
-        state.financials.items.push(it);
-      } else {
-        it.owner = owner || it.owner || defaultOwner();
-        it.amountEstimate = it.amountEstimate || { type:"range", period:"annual", currency:"USD", rangeKey:"" };
-        it.amountEstimate.period = "annual";
-        it.amountEstimate.currency = "USD";
-        it.amountEstimate.rangeKey = rangeKey || it.amountEstimate.rangeKey || "";
-        it.details = it.details || {};
-        it.details.type = "income_stream";
-        it.details.mainCategory = mainCategory;
-        it.details.subCategory = subCategory;
-        it.details.note = note || "";
       }
-
-      // si multi-persona, no dejes owner vacío (fallback)
-      if(hasMultiPeople() && !it.owner) it.owner = "household";
     }
 
-    function removeIncomeItem(mainCategory, subCategory){
-      state.financials.items = state.financials.items.filter(it => !(
-        it.category === "income" &&
-        it.details?.type === "income_stream" &&
-        it.details?.mainCategory === mainCategory &&
-        it.details?.subCategory === subCategory
-      ));
+    function getIncomeStreams(){
+      return state.financials.items.filter(it => it.category === "income" && it.details?.type === "income_stream");
+    }
+
+    function createIncomeStream({ incomeTypeKey, rangeKey, owner }){
+      const decoded = decodeIncomeTypeKey(incomeTypeKey);
+
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "income",
+        owner: hasMultiPeople() ? (owner || "") : defaultOwner(),
+        amountEstimate: {
+          type: "range",
+          period: "annual",
+          currency: "USD",
+          rangeKey: rangeKey || ""
+        },
+        details: {
+          type: "income_stream",
+          incomeTypeKey: incomeTypeKey || "",
+          mainCategory: decoded.group || "",
+          subCategory: decoded.name || ""
+        }
+      });
     }
 
     function upsertIncomeGeneralNote(note){
-      // Guardamos una nota general como item especial (opcional)
       const existing = state.financials.items.find(it => it.category === "income" && it.details?.type === "income_general_note");
 
       if(!note){
-        // si está vacío, elimina
         state.financials.items = state.financials.items.filter(it => !(it.category === "income" && it.details?.type === "income_general_note"));
         return;
       }
@@ -868,19 +783,6 @@
       }
     }
 
-    function syncIncomeCategorySelection(){
-      const hasIncomeStreams = state.financials.items.some(it => it.category === "income" && it.details?.type === "income_stream");
-      const selected = state.financials.categoriesSelected;
-
-      if(hasIncomeStreams){
-        if(!selected.includes("income")) selected.push("income");
-      } else {
-        // si el usuario seleccionó income pero no tiene streams, lo dejamos seleccionado porque lo eligió
-        // (si quieres auto-removerlo, descomenta abajo)
-        // state.financials.categoriesSelected = selected.filter(x => x !== "income");
-      }
-    }
-
     // ==========================================================
     //  Events: switching views
     // ==========================================================
@@ -889,14 +791,11 @@
       renderDetailsAccordion();
       setFinMode("details");
 
-      // abrir el primer acordeón y cerrar los demás (single-open)
       const first = detailsAccordion.querySelector(".accordionItem");
       if(first) openOnlyThis(first);
     });
 
-    backToSelectBtn.addEventListener("click", () => {
-      setFinMode("select");
-    });
+    backToSelectBtn.addEventListener("click", () => setFinMode("select"));
 
     finishFinBtn.addEventListener("click", () => {
       renderFinancialsJson();
