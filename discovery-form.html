@@ -1285,5 +1285,317 @@
 
 })();
 </script>
+  <!-- ====== DISCOVERY: INCOME ENRICHMENT (monto + owner + múltiples ingresos) ====== -->
+<style>
+  .income-extra {
+    margin: 10px 0 0;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    display: none;
+    gap: 10px;
+  }
+  .income-extra.show { display: grid; grid-template-columns: 1fr 1fr; }
+  .income-extra .field { display:flex; flex-direction:column; gap:6px; }
+  .income-extra label { font-size: 12px; color: #64748b; }
+  .income-extra select {
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    background: #fff;
+  }
+  .income-meta {
+    margin-top: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #0b1220;
+    color: #e5e7eb;
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    font-size: 12px;
+    overflow:auto;
+    max-height: 260px;
+  }
+  .income-note {
+    font-size: 12px;
+    color: #64748b;
+    margin: 8px 0 0;
+  }
+</style>
+
+<div class="income-note">
+  Selecciona las subcategorías de ingreso que aplican. Para cada una, indica monto estimado y a quién pertenece.
+</div>
+
+<pre class="income-meta" id="incomeJsonPreview"></pre>
+
+<script>
+(() => {
+  // -------------------------------------------------------------
+  // 1) State base: people + financials
+  //    Si ya tienes state global, conecta aquí.
+  // -------------------------------------------------------------
+  const discoveryState = window.discoveryState || (window.discoveryState = {});
+  discoveryState.people = discoveryState.people || {
+    members: [{ id: "p1", firstName: "Persona", lastName: "Principal" }]
+  };
+  discoveryState.financials = discoveryState.financials || {
+    categoriesSelected: [],
+    items: []
+  };
+
+  // Helpers
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const uid = () => "fin_" + Math.random().toString(16).slice(2,10);
+
+  // Ranges (income annual)
+  const INCOME_RANGES = [
+    { key: "lt_10k",  label: "< $10k" },
+    { key: "10k_25k", label: "$10k – $25k" },
+    { key: "25k_50k", label: "$25k – $50k" },
+    { key: "50k_100k",label: "$50k – $100k" },
+    { key: "100k_250k",label:"$100k – $250k" },
+    { key: "250k_500k",label:"$250k – $500k" },
+    { key: "gt_500k", label: "$500k+" }
+  ];
+
+  // Owner options
+  function ownerOptionsHTML(selectedOwner){
+    const people = discoveryState.people.members || [];
+    if(people.length <= 1){
+      return `<option value="${people[0]?.id || "p1"}">Persona principal</option>`;
+    }
+    let html = `<option value="">Selecciona…</option>`;
+    for(const p of people){
+      const name = [p.firstName, p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
+      html += `<option value="${p.id}" ${selectedOwner===p.id?"selected":""}>${escapeHtml(name)} (${p.id})</option>`;
+    }
+    html += `<option value="household" ${selectedOwner==="household"?"selected":""}>Compartido (hogar)</option>`;
+    return html;
+  }
+
+  function rangeOptionsHTML(selectedKey){
+    let html = `<option value="">Selecciona…</option>`;
+    for(const r of INCOME_RANGES){
+      html += `<option value="${r.key}" ${selectedKey===r.key?"selected":""}>${r.label}</option>`;
+    }
+    return html;
+  }
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // -------------------------------------------------------------
+  // 2) Detectar el bloque de Ingresos en tu HTML
+  // -------------------------------------------------------------
+  const ingresosSector = $(`.bloque-sector .encabezado .icono-ingresos`)?.closest(".bloque-sector");
+  if(!ingresosSector){
+    console.warn("No se encontró el bloque de Ingresos. Verifica la clase .icono-ingresos dentro de .bloque-sector.");
+    return;
+  }
+
+  // -------------------------------------------------------------
+  // 3) Enriquecer cada fila de subcategoría con: monto + owner
+  //    Regla: si switch ON => mostrar inputs
+  // -------------------------------------------------------------
+  const filas = $$(".bloque-sector .subcategorias .fila", ingresosSector);
+
+  filas.forEach((fila) => {
+    const span = $(".editable-span", fila);
+    const checkbox = $("input[type='checkbox']", fila); // el switch de la subcategoría
+
+    if(!span || !checkbox) return;
+
+    // Identificadores del tipo de ingreso
+    const subName = span.getAttribute("data-nombre") || span.textContent.trim();
+    const categoriaPadre = fila.closest(".bloque-categoria");
+    const mainCatName = $(".titulo-categoria span", categoriaPadre)?.textContent?.trim() || "Ingresos";
+
+    // Crear contenedor extra debajo de la fila (monto + owner)
+    const extra = document.createElement("div");
+    extra.className = "income-extra";
+    extra.innerHTML = `
+      <div class="field">
+        <label>Monto estimado (anual) *</label>
+        <select data-k="rangeKey">
+          ${rangeOptionsHTML("")}
+        </select>
+      </div>
+      <div class="field">
+        <label>¿De quién es? *</label>
+        <select data-k="owner">
+          ${ownerOptionsHTML("")}
+        </select>
+      </div>
+    `;
+
+    // Insertar justo después de la fila
+    fila.insertAdjacentElement("afterend", extra);
+
+    // Sync inicial: si el switch venía checked, mostramos
+    if(checkbox.checked){
+      extra.classList.add("show");
+      upsertIncomeItem({ mainCatName, subName, rangeKey:"", owner: defaultOwner() });
+      renderIncomePreview();
+    }
+
+    // Eventos: toggle ON/OFF
+    checkbox.addEventListener("change", () => {
+      if(checkbox.checked){
+        extra.classList.add("show");
+        const owner = defaultOwner();
+        const rangeKey = ""; // obligatorio seleccionar
+        setSelectValue(extra, "owner", owner);
+        setSelectValue(extra, "rangeKey", rangeKey);
+        upsertIncomeItem({ mainCatName, subName, rangeKey, owner });
+      } else {
+        extra.classList.remove("show");
+        removeIncomeItem(mainCatName, subName);
+      }
+      ensureIncomeCategorySelected();
+      renderIncomePreview();
+    });
+
+    // Eventos: cambios de selects
+    extra.addEventListener("change", (e) => {
+      const t = e.target;
+      if(!(t instanceof HTMLSelectElement)) return;
+
+      const rangeKey = getSelectValue(extra, "rangeKey");
+      const owner = getSelectValue(extra, "owner");
+
+      upsertIncomeItem({ mainCatName, subName, rangeKey, owner });
+      ensureIncomeCategorySelected();
+      renderIncomePreview();
+    });
+
+  });
+
+  // -------------------------------------------------------------
+  // 4) CRUD sobre financials.items para ingresos (uno por subcategoría activa)
+  // -------------------------------------------------------------
+  function ensureIncomeCategorySelected(){
+    const sel = discoveryState.financials.categoriesSelected;
+    if(!sel.includes("income")) sel.push("income");
+    // Si no queda ningún ingreso activo, lo removemos
+    const activeIncomeCount = discoveryState.financials.items.filter(it => it.category === "income").length;
+    if(activeIncomeCount === 0){
+      discoveryState.financials.categoriesSelected = sel.filter(x => x !== "income");
+    }
+  }
+
+  function defaultOwner(){
+    const people = discoveryState.people.members || [];
+    if(people.length === 1) return people[0].id;
+    return "household";
+  }
+
+  function upsertIncomeItem({ mainCatName, subName, rangeKey, owner }){
+    const items = discoveryState.financials.items;
+
+    // buscamos por category+mainCategory+subCategory
+    let it = items.find(x =>
+      x.category === "income" &&
+      x.details?.mainCategory === mainCatName &&
+      x.details?.subCategory === subName
+    );
+
+    if(!it){
+      it = {
+        id: uid(),
+        category: "income",
+        owner: owner || defaultOwner(),
+        amountEstimate: {
+          type: "range",
+          period: "annual",
+          currency: "USD",
+          rangeKey: rangeKey || ""
+        },
+        details: {
+          mainCategory: mainCatName,
+          subCategory: subName
+        }
+      };
+      items.push(it);
+    } else {
+      it.owner = owner || it.owner || defaultOwner();
+      it.amountEstimate = it.amountEstimate || { type:"range", period:"annual", currency:"USD", rangeKey:"" };
+      it.amountEstimate.period = "annual";
+      it.amountEstimate.currency = "USD";
+      it.amountEstimate.rangeKey = rangeKey || it.amountEstimate.rangeKey || "";
+      it.details = it.details || {};
+      it.details.mainCategory = mainCatName;
+      it.details.subCategory = subName;
+    }
+
+    // Si hay más de una persona, owner no puede quedar vacío
+    if((discoveryState.people.members || []).length > 1 && !it.owner){
+      it.owner = "household";
+    }
+  }
+
+  function removeIncomeItem(mainCatName, subName){
+    discoveryState.financials.items = discoveryState.financials.items.filter(x => !(
+      x.category === "income" &&
+      x.details?.mainCategory === mainCatName &&
+      x.details?.subCategory === subName
+    ));
+  }
+
+  // -------------------------------------------------------------
+  // 5) Utilidades select
+  // -------------------------------------------------------------
+  function getSelectValue(extraEl, key){
+    const el = extraEl.querySelector(`select[data-k="${key}"]`);
+    return el ? el.value : "";
+  }
+  function setSelectValue(extraEl, key, value){
+    const el = extraEl.querySelector(`select[data-k="${key}"]`);
+    if(el) el.value = value;
+  }
+
+  // -------------------------------------------------------------
+  // 6) Preview JSON (solo ingresos)
+  // -------------------------------------------------------------
+  function renderIncomePreview(){
+    const preview = $("#incomeJsonPreview");
+    const incomeItems = discoveryState.financials.items.filter(it => it.category === "income");
+    preview.textContent = JSON.stringify({
+      income: {
+        items: incomeItems,
+        validation: validateIncomeItems(incomeItems)
+      }
+    }, null, 2);
+  }
+
+  function validateIncomeItems(items){
+    // Cada income item debe tener owner (si multi-people) y rangeKey
+    const multi = (discoveryState.people.members || []).length > 1;
+    const errors = [];
+    items.forEach(it => {
+      if(!it.amountEstimate?.rangeKey) errors.push({ id: it.id, issue: "Falta monto estimado (rangeKey)" });
+      if(multi && !it.owner) errors.push({ id: it.id, issue: "Falta owner (de quién es)" });
+    });
+    return { ok: errors.length === 0, errors };
+  }
+
+  // init preview
+  ensureIncomeCategorySelected();
+  renderIncomePreview();
+
+})();
+</script>
+<!-- ====== /DISCOVERY: INCOME ENRICHMENT ====== -->
 </body>
+  
 </html>
