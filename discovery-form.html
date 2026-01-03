@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discovery · Diagnóstico Financiero</title>
+  <style>
+    :root{
+      --primary:#3956E8;
+      --secondary:#7459D9;
+      --accent:#E8C239;
+      --bg:#f6f7ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#dc2626;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(circle at top, rgba(57,86,232,.12) 0, rgba(245,247,255,1) 40%, rgba(245,247,255,1) 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 16px 28px;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:-0.02em;
+    }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size: 13px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 16px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+    }
+    .steps{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background:#fff;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .pill b{color:var(--text)}
+    .pill.active{
+      border-color: rgba(57,86,232,.35);
+      background: rgba(57,86,232,.08);
+      color: var(--text);
+    }
+    .progress{
+      flex:1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.06);
+      overflow:hidden;
+      min-width: 180px;
+      max-width: 360px;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 999px;
+      transition: width .2s ease;
+    }
+
+    .content{ padding: 18px 16px 16px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .progress{max-width:none}
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .panel h2{
+      margin:0 0 6px;
+      font-size: 18px;
+      letter-spacing:-0.02em;
+    }
+    .panel p{
+      margin:0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin: 10px 0;
+    }
+    .field label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea{
+      width:100%;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      outline:none;
+      font-size: 14px;
+      background:#fff;
+    }
+    textarea{min-height: 90px; resize: vertical;}
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .row3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 640px){
+      .row, .row3{grid-template-columns:1fr}
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .checkline{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .checkline input{ margin-top:2px; }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background:#fff;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .05s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn:active{transform: translateY(1px);}
+    .btn.primary{
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(57,86,232,.18);
+    }
+    .btn.ghost{
+      background: transparent;
+      color: var(--muted);
+    }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .mini{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .peopleWrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .personCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(15,23,42,.015);
+    }
+    .personHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .tag{
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(57,86,232,.10);
+      border:1px solid rgba(57,86,232,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .xbtn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--muted);
+      width:34px;height:34px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .cats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    @media (max-width: 900px){
+      .cats{grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (max-width: 560px){
+      .cats{grid-template-columns: 1fr;}
+    }
+    .catCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background:#fff;
+      padding: 12px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+      user-select:none;
+    }
+    .catCard:hover{
+      border-color: rgba(57,86,232,.35);
+      box-shadow: 0 10px 20px rgba(15,23,42,.06);
+    }
+    .catCard:active{transform: translateY(1px);}
+    .catCard input{ margin-top:3px; }
+    .catCard b{display:block;font-size: 13px;}
+    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
+
+    .subPanel{
+      margin-top: 12px;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background:#fff;
+    }
+    .subPanel h3{
+      margin:0 0 6px;
+      font-size: 14px;
+      letter-spacing:-0.01em;
+    }
+    .subPanel .note{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.45;}
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 700px){ .split{grid-template-columns:1fr;} }
+
+    .reviewBox{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background:#fff;
+      margin-top: 10px;
+    }
+    .reviewBox h3{margin:0 0 10px;font-size: 14px;}
+    .kv{
+      display:grid;
+      grid-template-columns: 180px 1fr;
+      gap: 8px 12px;
+      font-size: 13px;
+    }
+    @media (max-width: 560px){ .kv{grid-template-columns:1fr;} }
+    .k{color:var(--muted)}
+    .v{color:var(--text); font-weight: 650;}
+    .code{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 12px;
+      background:#0b1220;
+      color:#e5e7eb;
+      overflow:auto;
+      max-height: 280px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Discovery · Diagnóstico Financiero</h1>
+        <p>Recopilación rápida para preparar tu diagnóstico (7–10 min). No es asesoría ni recomendación.</p>
+      </div>
+      <div class="mini" id="stepMini"></div>
+    </header>
+
+    <div class="card">
+      <div class="topbar">
+        <div class="steps" aria-label="Pasos">
+          <div class="pill" data-pill="1"><b>1</b> Welcome</div>
+          <div class="pill" data-pill="2"><b>2</b> Personas</div>
+          <div class="pill" data-pill="3"><b>3</b> Finanzas</div>
+          <div class="pill" data-pill="4"><b>4</b> Finish</div>
+        </div>
+        <div class="progress" aria-label="Progreso"><div id="progressBar"></div></div>
+      </div>
+
+      <div class="content">
+        <!-- STEP 1 -->
+        <section class="step" data-step="1">
+          <div class="grid">
+            <div class="panel">
+              <h2>Antes de diagnosticar, entendamos tu situación</h2>
+              <p>
+                Este discovery nos ayuda a llegar al diagnóstico con contexto real: estructura familiar, áreas financieras relevantes
+                y cantidades aproximadas por categoría.
+              </p>
+              <div class="reviewBox">
+                <h3>Qué esperar</h3>
+                <div class="kv">
+                  <div class="k">Tiempo</div><div class="v">7–10 minutos</div>
+                  <div class="k">Enfoque</div><div class="v">Estructura + magnitud (aproximada)</div>
+                  <div class="k">No es</div><div class="v">Una venta / asesoría / recomendación</div>
+                  <div class="k">Sí es</div><div class="v">Preparación para tu diagnóstico</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Datos de contacto</h2>
+              <p>Usaremos esto para enviarte un resumen y coordinar el diagnóstico si lo deseas.</p>
+
+              <div class="field">
+                <label for="email">Email *</label>
+                <input id="email" type="email" placeholder="tu@email.com" autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="phone">Teléfono (opcional)</label>
+                <input id="phone" type="tel" placeholder="+1 ..." autocomplete="tel" />
+              </div>
+              <div class="checkline">
+                <input id="consent" type="checkbox" />
+                <label for="consent">
+                  Acepto que usen esta información <b>solo</b> para preparar mi diagnóstico. *
+                </label>
+              </div>
+              <div class="hint">* Campos obligatorios para continuar.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="step" data-step="2" hidden>
+          <div class="grid">
+            <div class="panel">
+              <h2>Personas involucradas</h2>
+              <p>
+                Empecemos identificando a las personas que impactan (o se ven impactadas) por las decisiones financieras.
+                Si agregas a alguien más, te preguntaremos la relación.
+              </p>
+
+              <div class="field">
+                <label for="householdRole">¿Eres el principal proveedor económico?</label>
+                <select id="householdRole">
+                  <option value="">Selecciona…</option>
+                  <option value="primary_provider">Sí, principalmente yo</option>
+                  <option value="shared">Compartido</option>
+                  <option value="not_primary">No, principalmente otra persona</option>
+                </select>
+              </div>
+
+              <div class="peopleWrap" id="peopleWrap"></div>
+
+              <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                <button class="btn" type="button" id="addPersonBtn">➕ Agregar otra persona (opcional)</button>
+                <div class="mini">Tip: agrega pareja/hijos/socio solo si aplica.</div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Vista previa (personas)</h2>
+              <p>Esto es lo que quedará guardado en el JSON de la sección personas.</p>
+              <pre class="code" id="peopleJson"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="step" data-step="3" hidden>
+          <div class="panel">
+            <h2>Finanzas</h2>
+            <p>
+              Selecciona las categorías que aplican a tu caso. Para cada una, indica una <b>cantidad estimada</b>.
+              Si hay más de una persona, también selecciona <b>de quién es</b> (o si es compartido).
+            </p>
+
+            <div class="cats" id="categoriesGrid"></div>
+
+            <div id="categoryDetails"></div>
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <h2>Vista previa (financials JSON)</h2>
+            <p>Este JSON ya queda identificado por persona o por hogar.</p>
+            <pre class="code" id="financialsJson"></pre>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="step" data-step="4" hidden>
+          <div class="grid">
+            <div class="panel">
+              <h2>Finish & Submit</h2>
+              <p>
+                Revisa tu información. Al enviar, generaremos el payload final (contact + people + financials).
+                Aquí no hay recomendaciones: solo un resumen para preparar el diagnóstico.
+              </p>
+
+              <div class="reviewBox">
+                <h3>Resumen rápido</h3>
+                <div class="kv" id="summaryKV"></div>
+              </div>
+
+              <div class="field">
+                <label for="notes">Notas adicionales (opcional)</label>
+                <textarea id="notes" placeholder="Algo que quieras que sepamos antes del diagnóstico…"></textarea>
+              </div>
+
+              <div class="reviewBox">
+                <h3>Payload final (para guardar/enviar)</h3>
+                <pre class="code" id="finalJson"></pre>
+                <div class="hint">
+                  Si estás integrando con Wix/CRM, este objeto es el que mandarías por webhook o guardarías como registro.
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Acciones</h2>
+              <p>Para esta demo en HTML, “Enviar” solo descarga el JSON en tu navegador y lo imprime en consola.</p>
+
+              <button class="btn primary" type="button" id="submitBtn" disabled>Enviar</button>
+              <div class="hint" id="submitHint" style="margin-top:8px;">
+                Completa los pasos obligatorios para habilitar el envío.
+              </div>
+
+              <div class="reviewBox" style="margin-top:12px;">
+                <h3>Estado</h3>
+                <div class="kv">
+                  <div class="k">Validación</div><div class="v" id="validState">—</div>
+                  <div class="k">Contacto</div><div class="v" id="contactState">—</div>
+                  <div class="k">Personas</div><div class="v" id="peopleState">—</div>
+                  <div class="k">Finanzas</div><div class="v" id="finState">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="btns">
+        <button class="btn ghost" type="button" id="backBtn">Atrás</button>
+        <button class="btn primary" type="button" id="nextBtn">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // ---------- Helpers ----------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const uid = (prefix="id") => prefix + "_" + Math.random().toString(16).slice(2,10);
+
+  // ---------- State ----------
+  const state = {
+    step: 1,
+    contact: { email:"", phone:"", consent:false },
+    people: {
+      householdRole: "",
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
+      ]
+    },
+    financials: {
+      categoriesSelected: [],
+      items: []
+    },
+    notes: ""
+  };
+
+  // Category registry (labels + hints)
+  const CATS = [
+    { key:"income", label:"Ingresos", hint:"Magnitud y estabilidad de ingresos." },
+    { key:"liabilities", label:"Préstamos y pasivos", hint:"Deudas, presión y atrasos." },
+    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades y si hay hipoteca." },
+    { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401(k), IRA, pensión, etc." },
+    { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage, fondos, cripto, etc." },
+    { key:"banking", label:"Banca / liquidez", hint:"Efectivo y cuentas bancarias." },
+    { key:"insurance", label:"Seguros", hint:"Coberturas y gasto estimado." },
+    { key:"business_trust", label:"Negocios / Trust", hint:"Negocio(s), participación, trust." },
+    { key:"legal", label:"Legal", hint:"Testamento, trust, poderes." },
+    { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
+  ];
+
+  // Range keys by category (simple v1)
+  const RANGES = {
+    income: [
+      ["lt_50k","< $50k"],
+      ["50k_100k","$50k – $100k"],
+      ["100k_250k","$100k – $250k"],
+      ["250k_500k","$250k – $500k"],
+      ["gt_500k","$500k+"]
+    ],
+    liabilities: [
+      ["lt_25k","< $25k"],
+      ["25k_100k","$25k – $100k"],
+      ["100k_300k","$100k – $300k"],
+      ["gt_300k","$300k+"]
+    ],
+    real_estate: [
+      ["lt_250k","< $250k"],
+      ["250k_500k","$250k – $500k"],
+      ["500k_1m","$500k – $1M"],
+      ["gt_1m","$1M+"]
+    ],
+    investments_retirement: [
+      ["lt_50k","< $50k"],
+      ["50k_150k","$50k – $150k"],
+      ["150k_500k","$150k – $500k"],
+      ["gt_500k","$500k+"]
+    ],
+    investments_nonretirement: [
+      ["lt_25k","< $25k"],
+      ["25k_100k","$25k – $100k"],
+      ["100k_500k","$100k – $500k"],
+      ["gt_500k","$500k+"]
+    ],
+    banking: [
+      ["lt_10k","< $10k"],
+      ["10k_50k","$10k – $50k"],
+      ["50k_150k","$50k – $150k"],
+      ["gt_150k","$150k+"]
+    ],
+    insurance: [
+      ["lt_2k","< $2k/año"],
+      ["2k_6k","$2k – $6k/año"],
+      ["6k_15k","$6k – $15k/año"],
+      ["gt_15k","$15k+/año"]
+    ],
+    business_trust: [
+      ["lt_100k","< $100k"],
+      ["100k_500k","$100k – $500k"],
+      ["500k_1m","$500k – $1M"],
+      ["gt_1m","$1M+"]
+    ],
+    legal: [
+      ["lt_250k","< $250k"],
+      ["250k_1m","$250k – $1M"],
+      ["gt_1m","$1M+"]
+    ],
+    other_assets: [
+      ["lt_25k","< $25k"],
+      ["25k_100k","$25k – $100k"],
+      ["100k_300k","$100k – $300k"],
+      ["gt_300k","$300k+"]
+    ]
+  };
+
+  // ---------- DOM ----------
+  const progressBar = $("#progressBar");
+  const stepMini = $("#stepMini");
+  const backBtn = $("#backBtn");
+  const nextBtn = $("#nextBtn");
+
+  // Step 1 inputs
+  const emailEl = $("#email");
+  const phoneEl = $("#phone");
+  const consentEl = $("#consent");
+
+  // Step 2
+  const householdRoleEl = $("#householdRole");
+  const peopleWrap = $("#peopleWrap");
+  const addPersonBtn = $("#addPersonBtn");
+  const peopleJson = $("#peopleJson");
+
+  // Step 3
+  const categoriesGrid = $("#categoriesGrid");
+  const categoryDetails = $("#categoryDetails");
+  const financialsJson = $("#financialsJson");
+
+  // Step 4
+  const notesEl = $("#notes");
+  const summaryKV = $("#summaryKV");
+  const finalJson = $("#finalJson");
+  const submitBtn = $("#submitBtn");
+  const submitHint = $("#submitHint");
+  const validStateEl = $("#validState");
+  const contactStateEl = $("#contactState");
+  const peopleStateEl = $("#peopleState");
+  const finStateEl = $("#finState");
+
+  // ---------- Step Rendering ----------
+  function setStep(step){
+    state.step = step;
+    $$(".step").forEach(sec => sec.hidden = sec.dataset.step !== String(step));
+
+    // pills
+    $$(".pill").forEach(p => p.classList.toggle("active", p.dataset.pill === String(step)));
+
+    // progress
+    const pct = ((step-1)/3)*100;
+    progressBar.style.width = `${pct}%`;
+    stepMini.textContent = `Paso ${step} de 4`;
+
+    // buttons
+    backBtn.disabled = step === 1;
+    nextBtn.hidden = step === 4;
+    backBtn.hidden = false;
+
+    // step-specific updates
+    if(step === 2) renderPeople();
+    if(step === 3) { renderCategories(); renderFinancials(); }
+    if(step === 4) renderFinish();
+
+    updateNavValidity();
+  }
+
+  function updateNavValidity(){
+    // Next enabled rules
+    let canNext = true;
+    if(state.step === 1){
+      canNext = validateContact().ok;
+    }
+    if(state.step === 2){
+      canNext = validatePeople().ok;
+    }
+    if(state.step === 3){
+      canNext = validateFinancials().ok;
+    }
+    nextBtn.disabled = !canNext;
+  }
+
+  // ---------- Validation ----------
+  function validateContact(){
+    const email = (state.contact.email || "").trim();
+    const ok = email.length > 3 && email.includes("@") && state.contact.consent === true;
+    return { ok };
+  }
+
+  function validatePeople(){
+    const m = state.people.members;
+    const primary = m[0];
+    const baseOk =
+      primary.firstName?.trim() &&
+      primary.lastName?.trim() &&
+      Number.isInteger(primary.age) && primary.age > 0 &&
+      ["male","female","prefer_not_to_say"].includes(primary.gender);
+
+    if(!baseOk) return { ok:false };
+
+    // if more than one person, relationshipToPrimary required for each additional
+    if(m.length > 1){
+      for(let i=1;i<m.length;i++){
+        const p = m[i];
+        const okp =
+          p.firstName?.trim() &&
+          p.lastName?.trim() &&
+          Number.isInteger(p.age) && p.age > 0 &&
+          ["male","female","prefer_not_to_say"].includes(p.gender) &&
+          !!p.relationshipToPrimary;
+        if(!okp) return { ok:false };
+      }
+    } else {
+      // for 1 person, allow missing relationship (doesn't exist)
+      if(!(primary.firstName && primary.lastName)) return { ok:false };
+    }
+
+    // householdRole is optional (you can force it if you want)
+    return { ok:true };
+  }
+
+  function validateFinancials(){
+    // must have at least 1 category selected
+    if(state.financials.categoriesSelected.length === 0) return { ok:false };
+
+    // for each selected category, we expect at least 1 item for that category
+    for(const cat of state.financials.categoriesSelected){
+      const items = state.financials.items.filter(x => x.category === cat);
+      if(items.length === 0) return { ok:false };
+
+      // each item needs owner + amount range
+      for(const it of items){
+        if(!it.owner) return { ok:false };
+        if(it.owner === "multiple" && (!it.ownerIds || it.ownerIds.length < 2)) return { ok:false };
+        if(!it.amountEstimate?.rangeKey) return { ok:false };
+      }
+    }
+    return { ok:true };
+  }
+
+  // ---------- People UI ----------
+  function renderPeople(){
+    peopleWrap.innerHTML = "";
+    const members = state.people.members;
+
+    members.forEach((p, idx) => {
+      const isPrimary = idx === 0;
+
+      const card = document.createElement("div");
+      card.className = "personCard";
+      card.dataset.personId = p.id;
+
+      const head = document.createElement("div");
+      head.className = "personHead";
+      head.innerHTML = `
+        <div class="tag">${isPrimary ? "Persona principal" : "Persona adicional"}</div>
+        ${isPrimary ? `<span class="mini">Obligatorio</span>` : `<button class="xbtn" type="button" title="Eliminar">×</button>`}
+      `;
+      card.appendChild(head);
+
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <div class="field">
+          <label>Nombre *</label>
+          <input type="text" data-k="firstName" value="${escapeHtml(p.firstName||"")}" placeholder="Nombre" />
+        </div>
+        <div class="field">
+          <label>Apellido *</label>
+          <input type="text" data-k="lastName" value="${escapeHtml(p.lastName||"")}" placeholder="Apellido" />
+        </div>
+      `;
+      card.appendChild(row);
+
+      const row2 = document.createElement("div");
+      row2.className = "row";
+      row2.innerHTML = `
+        <div class="field">
+          <label>Edad *</label>
+          <input type="number" min="0" step="1" data-k="age" value="${p.age ?? ""}" placeholder="Ej. 35" />
+        </div>
+        <div class="field">
+          <label>Sexo *</label>
+          <select data-k="gender">
+            <option value="">Selecciona…</option>
+            <option value="male" ${p.gender==="male"?"selected":""}>Masculino</option>
+            <option value="female" ${p.gender==="female"?"selected":""}>Femenino</option>
+            <option value="prefer_not_to_say" ${p.gender==="prefer_not_to_say"?"selected":""}>Prefiero no decir</option>
+          </select>
+        </div>
+      `;
+      card.appendChild(row2);
+
+      if(!isPrimary){
+        const rel = document.createElement("div");
+        rel.className = "field";
+        rel.innerHTML = `
+          <label>Relación con la persona principal *</label>
+          <select data-k="relationshipToPrimary">
+            <option value="">Selecciona…</option>
+            <option value="partner" ${p.relationshipToPrimary==="partner"?"selected":""}>Pareja</option>
+            <option value="spouse" ${p.relationshipToPrimary==="spouse"?"selected":""}>Cónyuge</option>
+            <option value="child" ${p.relationshipToPrimary==="child"?"selected":""}>Hijo/a</option>
+            <option value="family" ${p.relationshipToPrimary==="family"?"selected":""}>Familiar</option>
+            <option value="business_partner" ${p.relationshipToPrimary==="business_partner"?"selected":""}>Socio/a</option>
+            <option value="other" ${p.relationshipToPrimary==="other"?"selected":""}>Otro</option>
+          </select>
+        `;
+        card.appendChild(rel);
+      }
+
+      // events
+      card.addEventListener("input", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const key = t.getAttribute("data-k");
+        if(!key) return;
+
+        const person = state.people.members.find(x => x.id === p.id);
+        if(!person) return;
+
+        if(key === "age"){
+          const n = Number((t).value);
+          person.age = Number.isFinite(n) ? Math.trunc(n) : null;
+        } else {
+          person[key] = (t).value;
+        }
+
+        renderPeopleJson();
+        updateNavValidity();
+        // re-render owners if people count changed later
+        renderFinancials();
+      });
+
+      if(!isPrimary){
+        const xbtn = $(".xbtn", head);
+        xbtn.addEventListener("click", () => {
+          state.people.members = state.people.members.filter(x => x.id !== p.id);
+          // remove owner assignments that reference removed person
+          cleanupOwners();
+          renderPeople();
+          renderFinancials();
+          updateNavValidity();
+        });
+      }
+
+      peopleWrap.appendChild(card);
+    });
+
+    // bind household role
+    householdRoleEl.value = state.people.householdRole || "";
+    householdRoleEl.onchange = () => {
+      state.people.householdRole = householdRoleEl.value;
+      renderPeopleJson();
+      updateNavValidity();
+    };
+
+    renderPeopleJson();
+    updateNavValidity();
+  }
+
+  function renderPeopleJson(){
+    peopleJson.textContent = JSON.stringify({ people: state.people }, null, 2);
+  }
+
+  addPersonBtn.addEventListener("click", () => {
+    const nextIndex = state.people.members.length + 1;
+    state.people.members.push({
+      id: "p" + nextIndex,
+      role: "additional",
+      firstName:"",
+      lastName:"",
+      age:null,
+      gender:"",
+      relationshipToPrimary:""
+    });
+    renderPeople();
+    renderFinancials();
+    updateNavValidity();
+  });
+
+  function cleanupOwners(){
+    const ids = new Set(state.people.members.map(p => p.id));
+    for(const it of state.financials.items){
+      if(it.owner && it.owner !== "household" && it.owner !== "multiple"){
+        if(!ids.has(it.owner)) it.owner = "household"; // fallback
+      }
+      if(it.owner === "multiple"){
+        it.ownerIds = (it.ownerIds || []).filter(id => ids.has(id));
+        if((it.ownerIds || []).length < 2){
+          // downgrade
+          it.owner = it.ownerIds?.[0] || "household";
+          delete it.ownerIds;
+        }
+      }
+    }
+  }
+
+  // ---------- Categories UI ----------
+  function renderCategories(){
+    categoriesGrid.innerHTML = "";
+    const selected = new Set(state.financials.categoriesSelected);
+
+    CATS.forEach(cat => {
+      const card = document.createElement("label");
+      card.className = "catCard";
+      card.innerHTML = `
+        <input type="checkbox" ${selected.has(cat.key) ? "checked" : ""} />
+        <div>
+          <b>${cat.label}</b>
+          <span>${cat.hint}</span>
+        </div>
+      `;
+      card.addEventListener("click", (e) => {
+        // allow clicking anywhere
+        const cb = $("input[type=checkbox]", card);
+        if(e.target !== cb) cb.checked = !cb.checked;
+        const isOn = cb.checked;
+
+        if(isOn) {
+          if(!selected.has(cat.key)) state.financials.categoriesSelected.push(cat.key);
+          // ensure there is at least one item record for category
+          ensureCategoryItem(cat.key);
+        } else {
+          state.financials.categoriesSelected = state.financials.categoriesSelected.filter(k => k !== cat.key);
+          // remove items for category
+          state.financials.items = state.financials.items.filter(it => it.category !== cat.key);
+        }
+
+        renderCategories();
+        renderFinancials();
+        updateNavValidity();
+      });
+
+      categoriesGrid.appendChild(card);
+    });
+  }
+
+  function ensureCategoryItem(categoryKey){
+    const existing = state.financials.items.some(it => it.category === categoryKey);
+    if(existing) return;
+
+    const firstOwner = state.people.members.length === 1 ? state.people.members[0].id : "household";
+    const period = (categoryKey === "income" || categoryKey === "insurance") ? "annual" : "one_time_estimate";
+
+    state.financials.items.push({
+      id: uid("fin"),
+      category: categoryKey,
+      owner: firstOwner, // if multi people, default household
+      amountEstimate: {
+        type:"range",
+        period: period,
+        currency:"USD",
+        rangeKey:""
+      },
+      details: {}
+    });
+  }
+
+  function ownerOptionsHTML(current){
+    const multi = state.people.members.length > 1;
+
+    // if one person -> no selector needed
+    if(!multi) return "";
+
+    const opts = [];
+    opts.push(`<option value="">Selecciona…</option>`);
+    for(const p of state.people.members){
+      const name = [p.firstName, p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
+      opts.push(`<option value="${p.id}" ${current===p.id?"selected":""}>${name} (${p.id})</option>`);
+    }
+    opts.push(`<option value="household" ${current==="household"?"selected":""}>Compartido (hogar)</option>`);
+    opts.push(`<option value="multiple" ${current==="multiple"?"selected":""}>De varios (seleccionar)</option>`);
+    return opts.join("");
+  }
+
+  function rangeOptionsHTML(catKey, current){
+    const ranges = RANGES[catKey] || [];
+    const opts = [`<option value="">Selecciona…</option>`];
+    for(const [k, label] of ranges){
+      opts.push(`<option value="${k}" ${current===k?"selected":""}>${label}</option>`);
+    }
+    return opts.join("");
+  }
+
+  function renderFinancials(){
+    // build details panels for each selected category
+    categoryDetails.innerHTML = "";
+    const selected = state.financials.categoriesSelected;
+
+    if(selected.length === 0){
+      categoryDetails.innerHTML = `<div class="hint" style="margin-top:10px;">Selecciona al menos una categoría para continuar.</div>`;
+      financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
+      return;
+    }
+
+    for(const catKey of selected){
+      // items for category (v1: single item per category; you can extend to multiple)
+      const it = state.financials.items.find(x => x.category === catKey);
+      if(!it) continue;
+
+      const catMeta = CATS.find(c => c.key === catKey);
+      const panel = document.createElement("div");
+      panel.className = "subPanel";
+      panel.dataset.cat = catKey;
+
+      const title = catMeta ? catMeta.label : catKey;
+      panel.innerHTML = `
+        <h3>${title}</h3>
+        <p class="note">Indica el monto aproximado. Si hay más de una persona, selecciona el dueño.</p>
+
+        <div class="split">
+          <div class="field">
+            <label>Cantidad estimada *</label>
+            <select data-k="rangeKey">
+              ${rangeOptionsHTML(catKey, it.amountEstimate.rangeKey)}
+            </select>
+          </div>
+
+          ${state.people.members.length > 1 ? `
+          <div class="field">
+            <label>¿De quién es? *</label>
+            <select data-k="owner">
+              ${ownerOptionsHTML(it.owner)}
+            </select>
+          </div>
+          ` : `
+          <div class="field">
+            <label>Dueño</label>
+            <input type="text" value="Persona principal (${state.people.members[0].id})" disabled />
+          </div>
+          `}
+        </div>
+
+        <div class="field" data-ownerids-wrap style="display:${it.owner==="multiple" ? "block" : "none"};">
+          <label>Selecciona personas (si es de varios) *</label>
+          <div class="row3" data-ownerids>
+            ${state.people.members.map(p=>{
+              const checked = (it.ownerIds || []).includes(p.id) ? "checked" : "";
+              const name = [p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
+              return `
+                <label class="checkline" style="margin:0; align-items:center;">
+                  <input type="checkbox" value="${p.id}" ${checked}/>
+                  <span>${escapeHtml(name)} (${p.id})</span>
+                </label>
+              `;
+            }).join("")}
+          </div>
+          <div class="hint">Debes seleccionar al menos 2 si eliges “De varios”.</div>
+        </div>
+
+        <div class="field">
+          <label>Notas de esta categoría (opcional)</label>
+          <input type="text" data-k="note" value="${escapeHtml(it.details.note||"")}" placeholder="Ej. tengo dos tarjetas y un auto..." />
+        </div>
+      `;
+
+      // bind events
+      panel.addEventListener("change", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+
+        const k = t.getAttribute("data-k");
+        const item = state.financials.items.find(x => x.id === it.id);
+        if(!item) return;
+
+        if(k === "rangeKey"){
+          item.amountEstimate.rangeKey = t.value;
+        }
+        if(k === "owner"){
+          item.owner = t.value;
+          if(item.owner !== "multiple") delete item.ownerIds;
+          // toggle ownerids UI
+          const wrap = panel.querySelector('[data-ownerids-wrap]');
+          if(wrap) wrap.style.display = (item.owner === "multiple") ? "block" : "none";
+        }
+        if(k === "note"){
+          item.details.note = t.value;
+        }
+
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      // ownerIds checkboxes
+      const ownerIdsWrap = panel.querySelector('[data-ownerids]');
+      if(ownerIdsWrap){
+        ownerIdsWrap.addEventListener("change", (e) => {
+          const t = e.target;
+          if(!(t instanceof HTMLInputElement)) return;
+          if(t.type !== "checkbox") return;
+
+          const item = state.financials.items.find(x => x.id === it.id);
+          if(!item) return;
+          item.ownerIds = item.ownerIds || [];
+          const val = t.value;
+
+          if(t.checked){
+            if(!item.ownerIds.includes(val)) item.ownerIds.push(val);
+          } else {
+            item.ownerIds = item.ownerIds.filter(x => x !== val);
+          }
+
+          renderFinancialsJson();
+          updateNavValidity();
+        });
+      }
+
+      categoryDetails.appendChild(panel);
+    }
+
+    renderFinancialsJson();
+    updateNavValidity();
+  }
+
+  function renderFinancialsJson(){
+    financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
+  }
+
+  // ---------- Finish ----------
+  function renderFinish(){
+    // notes
+    notesEl.value = state.notes || "";
+    notesEl.oninput = () => {
+      state.notes = notesEl.value;
+      renderFinish(); // refresh payload
+    };
+
+    // summary
+    const peopleCount = state.people.members.length;
+    const cats = state.financials.categoriesSelected.length;
+
+    summaryKV.innerHTML = `
+      <div class="k">Email</div><div class="v">${escapeHtml(state.contact.email || "—")}</div>
+      <div class="k">Personas</div><div class="v">${peopleCount}</div>
+      <div class="k">Proveedor económico</div><div class="v">${formatHouseholdRole(state.people.householdRole)}</div>
+      <div class="k">Categorías financieras</div><div class="v">${cats}</div>
+    `;
+
+    // final payload
+    const payload = buildFinalPayload();
+    finalJson.textContent = JSON.stringify(payload, null, 2);
+
+    // validity
+    const vContact = validateContact().ok;
+    const vPeople = validatePeople().ok;
+    const vFin = validateFinancials().ok;
+    const allOk = vContact && vPeople && vFin;
+
+    validStateEl.textContent = allOk ? "✅ Listo para enviar" : "⚠️ Falta completar campos";
+    contactStateEl.textContent = vContact ? "✅" : "⚠️";
+    peopleStateEl.textContent = vPeople ? "✅" : "⚠️";
+    finStateEl.textContent = vFin ? "✅" : "⚠️";
+
+    submitBtn.disabled = !allOk;
+    submitHint.textContent = allOk
+      ? "Puedes enviar. (Demo: imprime en consola y descarga JSON)"
+      : "Completa los pasos obligatorios para habilitar el envío.";
+  }
+
+  function buildFinalPayload(){
+    return {
+      meta: {
+        source: "discovery_v1_html",
+        createdAt: new Date().toISOString()
+      },
+      contact: {
+        email: state.contact.email,
+        phone: state.contact.phone || "",
+        consent: state.contact.consent
+      },
+      people: state.people,
+      financials: state.financials,
+      notes: state.notes || ""
+    };
+  }
+
+  // ---------- Events: Step 1 binding ----------
+  function bindContact(){
+    emailEl.value = state.contact.email;
+    phoneEl.value = state.contact.phone;
+    consentEl.checked = state.contact.consent;
+
+    emailEl.addEventListener("input", () => {
+      state.contact.email = emailEl.value.trim();
+      updateNavValidity();
+    });
+    phoneEl.addEventListener("input", () => {
+      state.contact.phone = phoneEl.value.trim();
+    });
+    consentEl.addEventListener("change", () => {
+      state.contact.consent = consentEl.checked;
+      updateNavValidity();
+    });
+  }
+
+  // ---------- Navigation ----------
+  backBtn.addEventListener("click", () => {
+    if(state.step > 1) setStep(state.step - 1);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    // hard validation per step
+    if(state.step === 1 && !validateContact().ok) return;
+    if(state.step === 2 && !validatePeople().ok) return;
+    if(state.step === 3 && !validateFinancials().ok) return;
+
+    if(state.step < 4) setStep(state.step + 1);
+  });
+
+  submitBtn.addEventListener("click", () => {
+    const payload = buildFinalPayload();
+    console.log("[Discovery payload]", payload);
+
+    // Download JSON
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "discovery-payload.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    submitBtn.textContent = "Enviado ✓";
+    setTimeout(() => (submitBtn.textContent = "Enviar"), 1600);
+  });
+
+  // ---------- Utilities ----------
+  function formatHouseholdRole(v){
+    if(v === "primary_provider") return "Principalmente yo";
+    if(v === "shared") return "Compartido";
+    if(v === "not_primary") return "No soy el principal";
+    return "—";
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // ---------- Init ----------
+  bindContact();
+  // initial JSON previews
+  renderPeopleJson();
+  renderFinancialsJson();
+  // start
+  setStep(1);
+
+})();
+</script>
+</body>
+</html>
