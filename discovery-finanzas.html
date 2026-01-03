@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Discovery · Step 3 Finanzas (Base + Ingresos manual)</title>
+  <title>Discovery · Step 3 Finanzas (Ingresos + Pasivos)</title>
 
   <style>
     :root{
@@ -160,7 +160,7 @@
     }
     .accordionItem.open .chev{transform: rotate(180deg);}
 
-    /* Fields */
+    /* Inputs */
     select, input[type="text"]{
       width:100%;
       padding: 10px 12px;
@@ -175,32 +175,31 @@
       box-shadow: 0 0 0 4px rgba(57,86,232,.10);
     }
 
-    /* ===== Income rows (clean) ===== */
-    .incomeTable{
+    /* Tables for modules */
+    .miniTable{
       width:100%;
       border:1px solid var(--border);
       border-radius: 14px;
       overflow:hidden;
     }
-    .incomeHead, .incomeRow{
+    .miniHead, .miniRow{
       display:grid;
       gap: 10px;
       padding: 10px 12px;
       align-items:center;
-      grid-template-columns: 1.4fr 1fr 1fr 52px;
+      background:#fff;
     }
-    .incomeHead{
+    .miniHead{
       background: rgba(57,86,232,.05);
       border-bottom:1px solid var(--border);
       font-size: 12px;
       color: var(--muted);
       font-weight: 700;
     }
-    .incomeRow{
+    .miniRow{
       border-bottom:1px solid rgba(229,231,235,.7);
-      background:#fff;
     }
-    .incomeRow:last-child{border-bottom:none;}
+    .miniRow:last-child{border-bottom:none;}
 
     .iconBtn{
       width: 40px;
@@ -213,7 +212,7 @@
       font-weight: 900;
     }
     .iconBtn:hover{border-color: rgba(57,86,232,.35);}
-    .incomeFooter{
+    .moduleFooter{
       display:flex;
       justify-content:space-between;
       gap:10px;
@@ -221,13 +220,23 @@
       flex-wrap:wrap;
     }
 
-    @media (max-width: 860px){
-      .incomeHead{display:none;}
-      .incomeRow{
+    /* Income layout: (tipo, cantidad, owner, remove) */
+    .incomeHeadGrid, .incomeRowGrid{
+      grid-template-columns: 1.4fr 1fr 1fr 52px;
+    }
+
+    /* Liabilities layout: (tipo, tasa, pago, balance, owner, remove) */
+    .debtHeadGrid, .debtRowGrid{
+      grid-template-columns: 1.35fr .65fr .9fr .9fr 1fr 52px;
+    }
+
+    @media (max-width: 980px){
+      .miniHead{display:none;}
+      .incomeRowGrid, .debtRowGrid{
         grid-template-columns: 1fr;
         gap: 8px;
       }
-      .incomeRow .iconBtn{justify-self:flex-end;}
+      .miniRow .iconBtn{justify-self:flex-end;}
     }
   </style>
 </head>
@@ -236,8 +245,8 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <h1>Step 3 · Finanzas (Base + Ingresos manual)</h1>
-        <p>Selección → Continuar → Acordeón (uno abierto) → Ingresos con cantidad manual.</p>
+        <h1>Step 3 · Finanzas</h1>
+        <p>Selección → Continuar → Acordeón (uno abierto). Ingresos + Préstamos/Pasivos listos.</p>
       </div>
     </header>
 
@@ -284,7 +293,7 @@
 
           <div class="panel" style="margin-top:14px;">
             <h2>Vista previa (financials JSON)</h2>
-            <p>Se actualiza en vivo. Ingresos crea múltiples items (uno por fila).</p>
+            <p>Se actualiza en vivo. Ingresos y pasivos crean múltiples items (uno por fila).</p>
             <pre class="code" id="financialsJson">{ "financials": { "categoriesSelected": [], "items": [] } }</pre>
           </div>
 
@@ -302,7 +311,7 @@
       people: {
         members: [
           { id:"p1", firstName:"Xavier", lastName:"Serbia" }
-          // { id:"p2", firstName:"Andrea", lastName:"Pérez" } // <- descomenta para probar multi-persona
+          // { id:"p2", firstName:"Andrea", lastName:"Pérez" } // <- prueba multi-persona
         ]
       },
       financials: { categoriesSelected: [], items: [] }
@@ -330,6 +339,21 @@
       { group:"Ingreso pasivo", items:["Anualidad","Dividendos e Intereses","Pensión","Renta inmueble","Seguro Social"] }
     ];
 
+    // Pasivos: catálogo tipo de deuda (simple v1)
+    const DEBT_TYPES = [
+      "Tarjeta de crédito",
+      "Préstamo de auto",
+      "Hipoteca",
+      "HELOC / Equity loan",
+      "Student loan",
+      "Préstamo personal",
+      "Préstamo negocio",
+      "Préstamo familiar",
+      "Taxes / IRS (deuda fiscal)",
+      "Colecciones",
+      "Otra"
+    ];
+
     // --------- DOM helpers ----------
     const $ = (sel, root=document) => root.querySelector(sel);
     const categoriesGrid = $("#categoriesGrid");
@@ -355,7 +379,6 @@
     function ownerOptionsHTML(current){
       const members = state.people?.members || [{id:"p1"}];
       if(members.length <= 1) return ""; // no selector
-
       let html = `<option value="">Selecciona…</option>`;
       for(const p of members){
         const name = [p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase();
@@ -397,6 +420,14 @@
         }
       }
       return { group:"", name:"" };
+    }
+
+    function debtTypeOptionsHTML(current){
+      let html = `<option value="">Selecciona tipo…</option>`;
+      DEBT_TYPES.forEach(t => {
+        html += `<option value="${escapeHtml(t)}" ${current===t?"selected":""}>${escapeHtml(t)}</option>`;
+      });
+      return html;
     }
 
     function setFinMode(mode){
@@ -491,7 +522,13 @@
           </div>
 
           <div class="accordionBody">
-            ${catKey === "income" ? renderIncomeModuleHTML() : renderPlaceholder(catKey)}
+            ${
+              catKey === "income"
+                ? renderIncomeModuleHTML()
+                : catKey === "liabilities"
+                  ? renderDebtModuleHTML()
+                  : renderPlaceholder(catKey)
+            }
           </div>
         `;
 
@@ -500,20 +537,18 @@
 
         detailsAccordion.appendChild(item);
 
-        if(catKey === "income"){
-          initIncomeModule(item.querySelector(".accordionBody"));
-        }
+        if(catKey === "income") initIncomeModule(item.querySelector(".accordionBody"));
+        if(catKey === "liabilities") initDebtModule(item.querySelector(".accordionBody"));
       });
 
       renderFinancialsJson();
     }
 
     // ==========================================================
-    //  Placeholders
+    //  Placeholders (otros)
     // ==========================================================
     function renderPlaceholder(catKey){
       const map = {
-        liabilities: ["Pasivos", "Tarjetas, auto, hipoteca, student loans, etc. + monto + owner."],
         real_estate: ["Bienes raíces", "Casa principal / inversión + valor + owner + hipoteca sí/no."],
         investments_retirement: ["Inversiones · Retiro", "401k/IRA/Pensión + monto + owner."],
         investments_nonretirement: ["Inversiones · No retiro", "Brokerage/fondos/cripto + monto + owner."],
@@ -524,24 +559,18 @@
         other_assets: ["Otros activos", "Autos/activos personales + monto + owner/hogar."]
       };
       const [title, desc] = map[catKey] || [catKey, "Placeholder pendiente."];
-
-      return `
-        <div class="hint" style="margin-top:2px;">
-          <b>${escapeHtml(title)}:</b> ${escapeHtml(desc)}
-        </div>
-      `;
+      return `<div class="hint"><b>${escapeHtml(title)}:</b> ${escapeHtml(desc)}</div>`;
     }
 
     // ==========================================================
-    //  INCOME MODULE (clean rows, MANUAL amount)
+    //  INCOME MODULE (tipo + cantidad manual + owner + remove)
     // ==========================================================
     function renderIncomeModuleHTML(){
       const multi = hasMultiPeople();
       return `
         <div id="incomeBuilder">
-
-          <div class="incomeTable">
-            <div class="incomeHead">
+          <div class="miniTable">
+            <div class="miniHead incomeHeadGrid">
               <div>Tipo de ingreso</div>
               <div>Cantidad (anual)</div>
               <div>${multi ? "¿De quién es?" : "Dueño"}</div>
@@ -550,11 +579,10 @@
             <div id="incomeRows"></div>
           </div>
 
-          <div class="incomeFooter">
+          <div class="moduleFooter">
             <button class="btn" type="button" id="addIncomeRowBtn">➕ Añadir ingreso</button>
             <div class="hint">Añade varios si aplica (salario + comisión + renta, etc.).</div>
           </div>
-
         </div>
       `;
     }
@@ -563,41 +591,36 @@
       const incomeRowsEl = $("#incomeRows", root);
       const addBtn = $("#addIncomeRowBtn", root);
 
-      // asegurar que "income" esté seleccionado
       if(!state.financials.categoriesSelected.includes("income")) state.financials.categoriesSelected.push("income");
 
-      // si no hay filas, crea 1 fila vacía para empezar
-      const existingStreams = getIncomeStreams();
-      if(existingStreams.length === 0){
-        createIncomeStream({ incomeTypeKey:"", amount:"", owner: defaultOwner() });
+      if(getIncomeStreams().length === 0){
+        createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
       }
 
       renderIncomeRows();
 
       addBtn.addEventListener("click", () => {
-        createIncomeStream({ incomeTypeKey:"", amount:"", owner: defaultOwner() });
+        createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
         renderIncomeRows();
         renderFinancialsJson();
       });
 
       function renderIncomeRows(){
         incomeRowsEl.innerHTML = "";
-
         const rows = getIncomeStreams();
+
         rows.forEach((it) => {
           const multi = hasMultiPeople();
           const owner = it.owner || defaultOwner();
           const amountText = it.amountEstimate?.amountText || "";
 
           const row = document.createElement("div");
-          row.className = "incomeRow";
+          row.className = "miniRow incomeRowGrid";
           row.dataset.id = it.id;
 
           row.innerHTML = `
             <div>
-              <select data-k="incomeTypeKey">
-                ${incomeTypeOptionsHTML(it.details?.incomeTypeKey || "")}
-              </select>
+              <select data-k="incomeTypeKey">${incomeTypeOptionsHTML(it.details?.incomeTypeKey || "")}</select>
             </div>
 
             <div>
@@ -608,30 +631,21 @@
             <div>
               ${
                 multi
-                ? `
-                  <select data-k="owner">
-                    ${ownerOptionsHTML(owner)}
-                  </select>
-                `
-                : `
-                  <input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />
-                `
+                  ? `<select data-k="owner">${ownerOptionsHTML(owner)}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
               }
             </div>
 
             <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
           `;
 
-          // bind changes
+          // select changes
           row.addEventListener("change", (e) => {
             const t = e.target;
             if(!(t instanceof HTMLElement)) return;
-
             const k = t.getAttribute("data-k");
-            if(!k) return;
-
             const item = state.financials.items.find(x => x.id === it.id);
-            if(!item) return;
+            if(!item || !k) return;
 
             if(k === "incomeTypeKey"){
               item.details = item.details || {};
@@ -641,15 +655,13 @@
               item.details.mainCategory = decoded.group || "";
               item.details.subCategory = decoded.name || "";
             }
-
             if(k === "owner"){
               item.owner = t.value || "";
             }
-
             renderFinancialsJson();
           });
 
-          // amount input formatting (keyup/input)
+          // amount formatting
           const amountEl = row.querySelector('input[data-k="amountText"]');
           amountEl.addEventListener("input", () => {
             const item = state.financials.items.find(x => x.id === it.id);
@@ -657,26 +669,25 @@
 
             const raw = amountEl.value;
             const parsed = parseMoney(raw);
-            // mantener lo que escribe, pero lo formateamos suave
             const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
             amountEl.value = formatted;
 
-            item.amountEstimate = item.amountEstimate || {};
-            item.amountEstimate.type = "manual";
-            item.amountEstimate.period = "annual";
-            item.amountEstimate.currency = "USD";
-            item.amountEstimate.amount = parsed;         // number
-            item.amountEstimate.amountText = formatted;  // string visible
+            item.amountEstimate = {
+              type: "manual",
+              period: "annual",
+              currency: "USD",
+              amount: parsed,
+              amountText: formatted
+            };
 
             renderFinancialsJson();
           });
 
           // remove
-          const removeBtn = row.querySelector('[data-k="remove"]');
-          removeBtn.addEventListener("click", () => {
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
             state.financials.items = state.financials.items.filter(x => x.id !== it.id);
             if(getIncomeStreams().length === 0){
-              createIncomeStream({ incomeTypeKey:"", amount:"", owner: defaultOwner() });
+              createIncomeStream({ incomeTypeKey:"", amountText:"", owner: defaultOwner() });
             }
             renderIncomeRows();
             renderFinancialsJson();
@@ -691,9 +702,8 @@
       return state.financials.items.filter(it => it.category === "income" && it.details?.type === "income_stream");
     }
 
-    function createIncomeStream({ incomeTypeKey, amount, owner }){
+    function createIncomeStream({ incomeTypeKey, amountText, owner }){
       const decoded = decodeIncomeTypeKey(incomeTypeKey);
-
       state.financials.items.push({
         id: uid("fin"),
         category: "income",
@@ -702,8 +712,8 @@
           type: "manual",
           period: "annual",
           currency: "USD",
-          amount: parseMoney(amount || ""),
-          amountText: (amount || "") ? formatMoney(parseMoney(amount)) : ""
+          amount: parseMoney(amountText || ""),
+          amountText: (amountText || "") ? formatMoney(parseMoney(amountText)) : ""
         },
         details: {
           type: "income_stream",
@@ -715,19 +725,239 @@
     }
 
     // ==========================================================
-    //  Money helpers
+    //  DEBT MODULE (tipo + tasa + pago mensual + balance + owner + remove)
+    // ==========================================================
+    function renderDebtModuleHTML(){
+      const multi = hasMultiPeople();
+      return `
+        <div id="debtBuilder">
+          <div class="miniTable">
+            <div class="miniHead debtHeadGrid">
+              <div>Tipo de deuda</div>
+              <div>Tasa %</div>
+              <div>Pago mensual</div>
+              <div>Balance</div>
+              <div>${multi ? "¿De quién es?" : "Dueño"}</div>
+              <div></div>
+            </div>
+            <div id="debtRows"></div>
+          </div>
+
+          <div class="moduleFooter">
+            <button class="btn" type="button" id="addDebtRowBtn">➕ Añadir deuda</button>
+            <div class="hint">Ej.: tarjeta + auto + student loan + hipoteca, etc.</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function initDebtModule(root){
+      const debtRowsEl = $("#debtRows", root);
+      const addBtn = $("#addDebtRowBtn", root);
+
+      if(!state.financials.categoriesSelected.includes("liabilities")) state.financials.categoriesSelected.push("liabilities");
+
+      if(getDebtItems().length === 0){
+        createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
+      }
+
+      renderDebtRows();
+
+      addBtn.addEventListener("click", () => {
+        createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
+        renderDebtRows();
+        renderFinancialsJson();
+      });
+
+      function renderDebtRows(){
+        debtRowsEl.innerHTML = "";
+        const rows = getDebtItems();
+
+        rows.forEach((it) => {
+          const multi = hasMultiPeople();
+          const owner = it.owner || defaultOwner();
+
+          const rateText = it.details?.rateAprText || "";
+          const paymentText = it.details?.monthlyPaymentText || "";
+          const balanceText = it.details?.balanceText || "";
+
+          const row = document.createElement("div");
+          row.className = "miniRow debtRowGrid";
+          row.dataset.id = it.id;
+
+          row.innerHTML = `
+            <div>
+              <select data-k="debtType">${debtTypeOptionsHTML(it.details?.debtType || "")}</select>
+            </div>
+
+            <div>
+              <input type="text" inputmode="decimal" placeholder="Ej. 19.99" data-k="rateText" value="${escapeHtml(rateText)}" />
+              <div class="hint" style="margin-top:6px;">APR (aprox.).</div>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 450" data-k="paymentText" value="${escapeHtml(paymentText)}" />
+              <div class="hint" style="margin-top:6px;">USD/mes.</div>
+            </div>
+
+            <div>
+              <input type="text" inputmode="numeric" placeholder="Ej. 12000" data-k="balanceText" value="${escapeHtml(balanceText)}" />
+              <div class="hint" style="margin-top:6px;">USD (aprox.).</div>
+            </div>
+
+            <div>
+              ${
+                multi
+                  ? `<select data-k="owner">${ownerOptionsHTML(owner)}</select>`
+                  : `<input type="text" value="Persona principal (${escapeHtml(defaultOwner())})" disabled />`
+              }
+            </div>
+
+            <button class="iconBtn" type="button" title="Eliminar" data-k="remove">×</button>
+          `;
+
+          // changes: selects
+          row.addEventListener("change", (e) => {
+            const t = e.target;
+            if(!(t instanceof HTMLElement)) return;
+            const k = t.getAttribute("data-k");
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item || !k) return;
+
+            if(k === "debtType"){
+              item.details = item.details || {};
+              item.details.type = "debt_item";
+              item.details.debtType = t.value || "";
+            }
+            if(k === "owner"){
+              item.owner = t.value || "";
+            }
+            renderFinancialsJson();
+          });
+
+          // rate input (decimal, keep as text + numeric)
+          row.querySelector('input[data-k="rateText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+
+            const raw = String(el.value || "");
+            const parsed = parseRate(raw); // number
+            const cleaned = (raw.trim() === "") ? "" : formatRate(parsed);
+            el.value = cleaned;
+
+            item.details = item.details || {};
+            item.details.type = "debt_item";
+            item.details.rateApr = parsed;
+            item.details.rateAprText = cleaned;
+
+            renderFinancialsJson();
+          });
+
+          // payment input (money)
+          row.querySelector('input[data-k="paymentText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+
+            item.details = item.details || {};
+            item.details.type = "debt_item";
+            item.details.monthlyPayment = parsed;
+            item.details.monthlyPaymentText = formatted;
+
+            renderFinancialsJson();
+          });
+
+          // balance input (money)
+          row.querySelector('input[data-k="balanceText"]').addEventListener("input", (ev) => {
+            const el = ev.target;
+            const item = state.financials.items.find(x => x.id === it.id);
+            if(!item) return;
+
+            const raw = String(el.value || "");
+            const parsed = parseMoney(raw);
+            const formatted = (raw.trim() === "") ? "" : formatMoney(parsed);
+            el.value = formatted;
+
+            item.details = item.details || {};
+            item.details.type = "debt_item";
+            item.details.balance = parsed;
+            item.details.balanceText = formatted;
+
+            renderFinancialsJson();
+          });
+
+          // remove
+          row.querySelector('[data-k="remove"]').addEventListener("click", () => {
+            state.financials.items = state.financials.items.filter(x => x.id !== it.id);
+            if(getDebtItems().length === 0){
+              createDebtItem({ debtType:"", rateText:"", paymentText:"", balanceText:"", owner: defaultOwner() });
+            }
+            renderDebtRows();
+            renderFinancialsJson();
+          });
+
+          debtRowsEl.appendChild(row);
+        });
+      }
+    }
+
+    function getDebtItems(){
+      return state.financials.items.filter(it => it.category === "liabilities" && it.details?.type === "debt_item");
+    }
+
+    function createDebtItem({ debtType, rateText, paymentText, balanceText, owner }){
+      state.financials.items.push({
+        id: uid("fin"),
+        category: "liabilities",
+        owner: hasMultiPeople() ? (owner || "") : defaultOwner(),
+        amountEstimate: { type: "n/a" }, // no usamos range aquí; usamos fields en details
+        details: {
+          type: "debt_item",
+          debtType: debtType || "",
+          rateApr: parseRate(rateText || ""),
+          rateAprText: (rateText || "") ? formatRate(parseRate(rateText)) : "",
+          monthlyPayment: parseMoney(paymentText || ""),
+          monthlyPaymentText: (paymentText || "") ? formatMoney(parseMoney(paymentText)) : "",
+          balance: parseMoney(balanceText || ""),
+          balanceText: (balanceText || "") ? formatMoney(parseMoney(balanceText)) : ""
+        }
+      });
+    }
+
+    // ==========================================================
+    //  Money / Rate helpers
     // ==========================================================
     function parseMoney(v){
-      // deja solo dígitos
       const digits = String(v ?? "").replace(/[^\d]/g,"");
       if(!digits) return 0;
-      // evita overflow raro, limita longitud
       const safe = digits.slice(0, 12);
       return Number(safe) || 0;
     }
     function formatMoney(n){
       const num = Number(n) || 0;
-      return num.toLocaleString("en-US"); // solo comas, sin $
+      return num.toLocaleString("en-US"); // 12,345
+    }
+    function parseRate(v){
+      // permite "19.99", "7", "7.5"
+      const s = String(v ?? "").replace(/[^0-9.]/g,"");
+      if(!s) return 0;
+      const parts = s.split(".");
+      const clean = parts.length > 2 ? (parts[0] + "." + parts.slice(1).join("")) : s;
+      const num = Number(clean);
+      if(!Number.isFinite(num)) return 0;
+      // clamp razonable
+      return Math.max(0, Math.min(num, 99.99));
+    }
+    function formatRate(n){
+      const num = Number(n) || 0;
+      // si es entero, sin decimales; si no, 2 decimales
+      return Number.isInteger(num) ? String(num) : num.toFixed(2);
     }
 
     // ==========================================================
