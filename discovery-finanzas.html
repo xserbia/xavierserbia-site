@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discovery · Step 3 Finanzas (Base)</title>
+
+  <style>
+    :root{
+      --primary:#3956E8;
+      --secondary:#7459D9;
+      --accent:#E8C239;
+      --bg:#f6f7ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(circle at top, rgba(57,86,232,.12) 0, rgba(245,247,255,1) 40%, rgba(245,247,255,1) 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 16px 28px;
+    }
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:-0.02em;
+    }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size: 13px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .content{ padding: 18px 16px 16px; }
+
+    .panel{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
+    }
+    .panel h2{
+      margin:0 0 6px;
+      font-size: 18px;
+      letter-spacing:-0.02em;
+    }
+    .panel p{
+      margin:0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* Buttons */
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .05s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .btn:active{transform: translateY(1px);}
+    .btn.primary{
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(57,86,232,.18);
+    }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    /* Category cards */
+    .cats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    @media (max-width: 900px){
+      .cats{grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (max-width: 560px){
+      .cats{grid-template-columns: 1fr;}
+    }
+    .catCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background:#fff;
+      padding: 12px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+      user-select:none;
+    }
+    .catCard:hover{
+      border-color: rgba(57,86,232,.35);
+      box-shadow: 0 10px 20px rgba(15,23,42,.06);
+    }
+    .catCard:active{transform: translateY(1px);}
+    .catCard input{ margin-top:3px; }
+    .catCard b{display:block;font-size: 13px;}
+    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
+
+    /* Code preview */
+    .code{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 12px;
+      background:#0b1220;
+      color:#e5e7eb;
+      overflow:auto;
+      max-height: 320px;
+      margin: 0;
+    }
+
+    /* Accordion */
+    .accordionItem{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      background:#fff;
+      overflow:hidden;
+      margin-bottom: 10px;
+    }
+    .accordionHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 14px;
+      cursor:pointer;
+      user-select:none;
+      background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+      border-bottom:1px solid var(--border);
+    }
+    .accordionHeader b{font-size: 13px;}
+    .accordionHeader span{font-size:12px;color:var(--muted)}
+    .accordionBody{
+      padding: 12px 14px 14px;
+      display:none;
+    }
+    .accordionItem.open .accordionBody{display:block;}
+    .chev{
+      font-weight: 900;
+      color: var(--muted);
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--border);
+      background:#fff;
+    }
+
+    /* Placeholder blocks */
+    .placeholderBox{
+      border:1px dashed rgba(100,116,139,.35);
+      background: rgba(15,23,42,.02);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .placeholderBox h4{
+      margin:0 0 6px;
+      font-size: 13px;
+    }
+    .placeholderBox p{
+      margin:0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    /* Small fields (for later) */
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin: 10px 0;
+    }
+    .field label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    select, input[type="text"]{
+      width:100%;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      outline:none;
+      font-size: 14px;
+      background:#fff;
+    }
+    select:focus, input[type="text"]:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 700px){ .split{grid-template-columns:1fr;} }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Step 3 · Finanzas (Base)</h1>
+        <p>Arquitectura completa para selección → acordeón. Luego llenamos Ingresos primero.</p>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="content">
+
+        <!-- =========================
+             STEP 3 · FINANZAS
+             ========================= -->
+        <section class="step" data-step="3">
+
+          <div class="panel">
+            <h2>Finanzas</h2>
+            <p>
+              Primero selecciona las categorías que aplican a tu caso. Luego pasarás a completar los detalles por categoría
+              en un acordeón (solo verás lo que seleccionaste).
+            </p>
+
+            <!-- 3A: Selection -->
+            <div id="finSelectView">
+              <div class="cats" id="categoriesGrid"></div>
+
+              <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+                <button class="btn primary" type="button" id="toDetailsBtn" disabled>
+                  Continuar a detalles
+                </button>
+              </div>
+
+              <div class="hint" style="margin-top:8px;">
+                Selecciona al menos 1 categoría para habilitar el botón.
+              </div>
+            </div>
+
+            <!-- 3B: Details Accordion -->
+            <div id="finDetailsView" hidden>
+              <div class="hint" style="margin: 4px 0 10px;">
+                Completa montos aproximados. Si hay más de una persona, elige de quién es o “hogar”.
+              </div>
+
+              <div id="detailsAccordion"></div>
+
+              <div style="display:flex; justify-content:space-between; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                <button class="btn" type="button" id="backToSelectBtn">← Cambiar categorías</button>
+                <button class="btn primary" type="button" id="finishFinBtn">Listo</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <h2>Vista previa (financials JSON)</h2>
+            <p>Este JSON se llenará progresivamente a medida que implementemos cada categoría.</p>
+            <pre class="code" id="financialsJson">{ "financials": { "categoriesSelected": [], "items": [] } }</pre>
+          </div>
+
+        </section>
+        <!-- =========================
+             /STEP 3 · FINANZAS
+             ========================= -->
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    // ==========================================================
+    //  STATE (Standalone demo)
+    //  En tu discovery real, este state vendrá del wizard.
+    //  Mantén 1 sola fuente de verdad: window.discoveryState = state;
+    // ==========================================================
+    const state = window.discoveryState || {
+      // Simula people (cambia a 2 miembros para probar owner selector luego)
+      people: {
+        members: [
+          { id:"p1", firstName:"Xavier", lastName:"Serbia" }
+          // { id:"p2", firstName:"Andrea", lastName:"Pérez" }
+        ]
+      },
+      financials: {
+        categoriesSelected: [],
+        items: []
+      }
+    };
+    window.discoveryState = state;
+
+    // --------- Catalog ----------
+    const CATS = [
+      { key:"income", label:"Ingresos", hint:"Magnitud y estabilidad de ingresos." },
+      { key:"liabilities", label:"Préstamos y pasivos", hint:"Deudas, presión y atrasos." },
+      { key:"real_estate", label:"Bienes raíces", hint:"Propiedades y si hay hipoteca." },
+      { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401(k), IRA, pensión, etc." },
+      { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage, fondos, cripto, etc." },
+      { key:"banking", label:"Banca / liquidez", hint:"Efectivo y cuentas bancarias." },
+      { key:"insurance", label:"Seguros", hint:"Coberturas y gasto estimado." },
+      { key:"business_trust", label:"Negocios / Trust", hint:"Negocio(s), participación, trust." },
+      { key:"legal", label:"Legal", hint:"Testamento, trust, poderes." },
+      { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
+    ];
+
+    // --------- DOM helpers ----------
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const categoriesGrid = $("#categoriesGrid");
+    const finSelectView = $("#finSelectView");
+    const finDetailsView = $("#finDetailsView");
+    const toDetailsBtn = $("#toDetailsBtn");
+    const backToSelectBtn = $("#backToSelectBtn");
+    const finishFinBtn = $("#finishFinBtn");
+    const detailsAccordion = $("#detailsAccordion");
+    const financialsJson = $("#financialsJson");
+
+    const uid = (prefix="fin") => prefix + "_" + Math.random().toString(16).slice(2,10);
+    const escapeHtml = (str) => String(str ?? "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+
+    const hasMultiPeople = () => (state.people?.members?.length || 1) > 1;
+    const defaultOwner = () => {
+      const members = state.people?.members || [{id:"p1"}];
+      return (members.length === 1) ? members[0].id : "household";
+    };
+
+    function setFinMode(mode){
+      finSelectView.hidden = (mode !== "select");
+      finDetailsView.hidden = (mode !== "details");
+    }
+
+    function updateToDetailsBtn(){
+      toDetailsBtn.disabled = state.financials.categoriesSelected.length === 0;
+    }
+
+    function ensureCategoryItem(catKey){
+      const exists = state.financials.items.some(it => it.category === catKey);
+      if(exists) return;
+
+      state.financials.items.push({
+        id: uid("fin"),
+        category: catKey,
+        owner: defaultOwner(),
+        amountEstimate: {
+          type: "range",
+          period: (catKey === "income" || catKey === "insurance") ? "annual" : "one_time_estimate",
+          currency: "USD",
+          rangeKey: "" // lo llenaremos por categoría cuando implementemos
+        },
+        details: {}
+      });
+    }
+
+    function removeCategoryItems(catKey){
+      state.financials.items = state.financials.items.filter(it => it.category !== catKey);
+    }
+
+    function renderFinancialsJson(){
+      financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
+    }
+
+    // --------- Render selection ----------
+    function renderCategories(){
+      categoriesGrid.innerHTML = "";
+      const selected = new Set(state.financials.categoriesSelected);
+
+      CATS.forEach(cat => {
+        const card = document.createElement("label");
+        card.className = "catCard";
+        card.innerHTML = `
+          <input type="checkbox" ${selected.has(cat.key) ? "checked" : ""} />
+          <div>
+            <b>${escapeHtml(cat.label)}</b>
+            <span>${escapeHtml(cat.hint)}</span>
+          </div>
+        `;
+
+        card.addEventListener("click", (e) => {
+          const cb = card.querySelector("input[type=checkbox]");
+          if(e.target !== cb) cb.checked = !cb.checked;
+
+          if(cb.checked){
+            if(!selected.has(cat.key)) state.financials.categoriesSelected.push(cat.key);
+          } else {
+            state.financials.categoriesSelected = state.financials.categoriesSelected.filter(k => k !== cat.key);
+            removeCategoryItems(cat.key);
+          }
+
+          renderCategories();
+          updateToDetailsBtn();
+          renderFinancialsJson();
+        });
+
+        categoriesGrid.appendChild(card);
+      });
+
+      updateToDetailsBtn();
+      renderFinancialsJson();
+    }
+
+    // --------- Accordion render (selected only) ----------
+    function renderDetailsAccordion(){
+      detailsAccordion.innerHTML = "";
+
+      const selected = state.financials.categoriesSelected;
+      if(selected.length === 0){
+        detailsAccordion.innerHTML = `<div class="hint">No hay categorías seleccionadas.</div>`;
+        renderFinancialsJson();
+        return;
+      }
+
+      selected.forEach((catKey, idx) => {
+        ensureCategoryItem(catKey);
+
+        const meta = CATS.find(c => c.key === catKey);
+        const item = document.createElement("div");
+        item.className = "accordionItem" + (idx === 0 ? " open" : "");
+        item.dataset.cat = catKey;
+
+        item.innerHTML = `
+          <div class="accordionHeader" role="button" aria-expanded="${idx === 0 ? "true" : "false"}">
+            <div>
+              <b>${escapeHtml(meta?.label || catKey)}</b>
+              <div><span>${escapeHtml(meta?.hint || "")}</span></div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </div>
+
+          <div class="accordionBody">
+            ${renderCategoryPlaceholder(catKey)}
+          </div>
+        `;
+
+        // Toggle
+        const header = item.querySelector(".accordionHeader");
+        header.addEventListener("click", () => item.classList.toggle("open"));
+
+        detailsAccordion.appendChild(item);
+      });
+
+      renderFinancialsJson();
+    }
+
+    // --------- Placeholders per category ----------
+    function renderCategoryPlaceholder(catKey){
+      if(catKey === "income"){
+        return `
+          <div id="incomeBuilder" class="placeholderBox">
+            <h4>Ingresos (primer módulo a implementar)</h4>
+            <p>
+              Aquí construiremos el UI por categoría + subcategoría (Salario, Comisión, etc.),
+              con monto estimado y dueño.
+              Cada subcategoría activa creará un item en <code>financials.items[]</code>.
+            </p>
+          </div>
+        `;
+      }
+
+      const map = {
+        liabilities: ["Pasivos", "Tarjetas, auto, hipoteca, student loans, etc. + monto estimado + owner."],
+        real_estate: ["Bienes raíces", "Casa principal / inversión + valor estimado + owner + hipoteca sí/no."],
+        investments_retirement: ["Inversiones · Retiro", "401k/IRA/Pensión + monto estimado + owner."],
+        investments_nonretirement: ["Inversiones · No retiro", "Brokerage/fondos/cripto + monto estimado + owner."],
+        banking: ["Banca / liquidez", "Checking/savings/cash + monto estimado + owner."],
+        insurance: ["Seguros", "Vida/salud/auto/casa/umbrella + gasto anual estimado + owner/hogar."],
+        business_trust: ["Negocios / Trust", "Negocio(s) + participación + rango + owner. Trust sí/no + notas."],
+        legal: ["Legal", "Testamento/POA/Trust/beneficiarios + notas."],
+        other_assets: ["Otros activos", "Autos/activos personales + monto estimado + owner/hogar."]
+      };
+
+      const [title, desc] = map[catKey] || [catKey, "Placeholder pendiente de implementar."];
+      return `
+        <div class="placeholderBox">
+          <h4>${escapeHtml(title)} (pendiente)</h4>
+          <p>${escapeHtml(desc)}</p>
+        </div>
+      `;
+    }
+
+    // --------- Events ----------
+    toDetailsBtn.addEventListener("click", () => {
+      if(state.financials.categoriesSelected.length === 0) return;
+      renderDetailsAccordion();
+      setFinMode("details");
+    });
+
+    backToSelectBtn.addEventListener("click", () => {
+      setFinMode("select");
+    });
+
+    finishFinBtn.addEventListener("click", () => {
+      // Por ahora "Listo" solo refresca el JSON.
+      // Luego lo conectamos a validación real por categoría.
+      renderFinancialsJson();
+      alert("Listo (demo): JSON actualizado. Próximo paso: implementar Ingresos dentro de #incomeBuilder.");
+    });
+
+    // --------- Init ----------
+    renderCategories();
+    setFinMode("select");
+    renderFinancialsJson();
+
+  })();
+  </script>
+</body>
+</html>
