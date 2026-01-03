@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sección Finanzas · Discovery</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discovery · Diagnóstico Financiero</title>
   <style>
     :root{
       --primary:#3956E8;
@@ -15,931 +15,1543 @@
       --muted:#64748b;
       --border:#e5e7eb;
       --shadow:0 10px 30px rgba(15,23,42,.08);
-      --radius:18px;
       --ok:#16a34a;
       --warn:#f59e0b;
       --bad:#dc2626;
+      --radius:18px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       background: radial-gradient(circle at top, rgba(57,86,232,.12) 0, rgba(245,247,255,1) 40%, rgba(245,247,255,1) 100%);
       color:var(--text);
     }
-    .wrap{max-width:1100px;margin:28px auto;padding:0 16px 28px;}
+    .wrap{
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 16px 28px;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 20px;
+      letter-spacing:-0.02em;
+    }
+    .brand p{
+      margin:0;
+      color:var(--muted);
+      font-size: 13px;
+    }
     .card{
       background:var(--card);
       border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       overflow:hidden;
     }
-    header{
-      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-      margin-bottom:14px;
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 14px 16px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
     }
-    header h1{margin:0;font-size:20px;letter-spacing:-0.02em;}
-    header p{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.45;}
-    .content{padding:16px;}
+    .steps{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background:#fff;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .pill b{color:var(--text)}
+    .pill.active{
+      border-color: rgba(57,86,232,.35);
+      background: rgba(57,86,232,.08);
+      color: var(--text);
+    }
+    .progress{
+      flex:1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.06);
+      overflow:hidden;
+      min-width: 180px;
+      max-width: 360px;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 999px;
+      transition: width .2s ease;
+    }
+
+    .content{ padding: 18px 16px 16px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .progress{max-width:none}
+    }
+
     .panel{
       border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
-      padding:14px;
+      border-radius: 16px;
+      padding: 14px;
+      background: #fff;
     }
-    .panel + .panel{margin-top:14px;}
-    .panel h2{margin:0 0 6px;font-size:18px;letter-spacing:-0.02em;}
-    .panel p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.45;}
-    .hint{font-size:12px;color:var(--muted);margin-top:6px;}
+    .panel h2{
+      margin:0 0 6px;
+      font-size: 18px;
+      letter-spacing:-0.02em;
+    }
+    .panel p{
+      margin:0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
 
-    .btnRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
-    .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin: 10px 0;
+    }
+    .field label{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea{
+      width:100%;
+      padding: 10px 12px;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      outline:none;
+      font-size: 14px;
+      background:#fff;
+    }
+    textarea{min-height: 90px; resize: vertical;}
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .row3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 640px){
+      .row, .row3{grid-template-columns:1fr}
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .checkline{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .checkline input{ margin-top:2px; }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background:#fff;
+    }
     .btn{
       border:1px solid var(--border);
       background:#fff;
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:13px;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
       cursor:pointer;
-      transition:transform .05s ease, box-shadow .2s ease, border-color .2s ease;
+      transition: transform .05s ease, box-shadow .2s ease, border-color .2s ease;
     }
-    .btn:active{transform:translateY(1px)}
+    .btn:active{transform: translateY(1px);}
     .btn.primary{
-      border-color:transparent;
-      color:#fff;
-      background:linear-gradient(90deg,var(--primary),var(--secondary));
-      box-shadow:0 10px 20px rgba(57,86,232,.18);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(57,86,232,.18);
     }
-    .btn.ghost{background:transparent;color:var(--muted)}
-    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+    .btn.ghost{
+      background: transparent;
+      color: var(--muted);
+    }
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
 
-    /* --- Category selector --- */
+    .mini{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .peopleWrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top: 10px;
+    }
+    .personCard{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(15,23,42,.015);
+    }
+    .personHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .tag{
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(57,86,232,.10);
+      border:1px solid rgba(57,86,232,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .xbtn{
+      border:1px solid var(--border);
+      background:#fff;
+      color: var(--muted);
+      width:34px;height:34px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .reviewBox{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background:#fff;
+      margin-top: 10px;
+    }
+    .reviewBox h3{margin:0 0 10px;font-size: 14px;}
+    .kv{
+      display:grid;
+      grid-template-columns: 180px 1fr;
+      gap: 8px 12px;
+      font-size: 13px;
+    }
+    @media (max-width: 560px){ .kv{grid-template-columns:1fr;} }
+    .k{color:var(--muted)}
+    .v{color:var(--text); font-weight: 650;}
+    .code{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 12px;
+      background:#0b1220;
+      color:#e5e7eb;
+      overflow:auto;
+      max-height: 280px;
+    }
+
+    /* =========================
+       STEP 3 (FINANZAS) - NEW UI
+       ========================= */
+
+    /* selector cards */
     .cats{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
     }
-    @media (max-width:900px){.cats{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:560px){.cats{grid-template-columns:1fr}}
+    @media (max-width: 900px){ .cats{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 560px){ .cats{grid-template-columns: 1fr;} }
+
     .catCard{
       border:1px solid var(--border);
-      border-radius:16px;
+      border-radius: 16px;
       background:#fff;
-      padding:12px;
+      padding: 12px;
       display:flex;
       gap:10px;
       align-items:flex-start;
       cursor:pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
       user-select:none;
-      transition:border-color .15s ease, box-shadow .15s ease, transform .05s ease;
     }
     .catCard:hover{
-      border-color:rgba(57,86,232,.35);
-      box-shadow:0 10px 20px rgba(15,23,42,.06);
+      border-color: rgba(57,86,232,.35);
+      box-shadow: 0 10px 20px rgba(15,23,42,.06);
     }
-    .catCard:active{transform:translateY(1px)}
-    .catCard input{margin-top:3px}
-    .catCard b{display:block;font-size:13px}
-    .catCard span{display:block;color:var(--muted);font-size:12px;line-height:1.35;margin-top:2px}
+    .catCard:active{transform: translateY(1px);}
+    .catCard input{ margin-top:3px; }
+    .catCard b{display:block;font-size: 13px;}
+    .catCard span{display:block;color: var(--muted);font-size: 12px;line-height:1.35;margin-top:2px;}
 
-    /* --- Accordion --- */
-    .accControls{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-      margin-top:10px;
-      padding:10px;
-      border:1px dashed rgba(100,116,139,.35);
-      border-radius:14px;
-      background:rgba(15,23,42,.015);
+    .actionsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 10px;
     }
-    .accWrap{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+
+    /* accordion */
+    .accWrap{ display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
     .accItem{
       border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
+      border-radius: 16px;
       overflow:hidden;
+      background:#fff;
     }
     .accHead{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:12px 12px;
-      background:linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+      padding: 12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
       cursor:pointer;
-      user-select:none;
+      background: linear-gradient(90deg, rgba(57,86,232,.06), rgba(116,89,217,.06));
+      border-bottom:1px solid var(--border);
     }
     .accTitle{
-      display:flex;flex-direction:column;gap:2px;
-      min-width:0;
-    }
-    .accTitle b{font-size:14px;letter-spacing:-0.01em}
-    .accTitle small{color:var(--muted);font-size:12px;line-height:1.2}
-    .accChevron{
-      font-weight:900;color:var(--muted);
-      width:34px;height:34px;border-radius:12px;
-      display:grid;place-items:center;
-      border:1px solid var(--border);
-      background:#fff;
-      flex:0 0 auto;
-    }
-    .accBody{display:none;padding:12px;border-top:1px solid var(--border);background:#fff;}
-    .accItem.open .accBody{display:block}
-
-    /* --- Rows (small blocks) --- */
-    .rows{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
-    .rowHead{
-      display:grid;
-      gap:8px;
-      align-items:end;
-      margin-top:6px;
-    }
-    .rowGrid{
-      display:grid;
-      gap:8px;
+      display:flex;
       align-items:center;
-    }
-
-    /* small inputs */
-    .f{
-      display:flex;flex-direction:column;gap:6px;
+      gap:10px;
       min-width:0;
     }
-    .f label{font-size:11px;color:var(--muted)}
-    input[type="text"], input[type="number"], select, textarea{
-      width:100%;
-      padding:9px 10px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      outline:none;
+    .badge{
+      font-size:11px;
+      font-weight:900;
+      color: var(--primary);
+      background: rgba(57,86,232,.10);
+      border:1px solid rgba(57,86,232,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+    .accTitle b{
       font-size:13px;
+      letter-spacing:-0.01em;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 55vw;
+    }
+    .caret{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--muted);
+      font-weight: 900;
+      user-select:none;
+    }
+    .accBody{ padding: 12px; display:none; }
+    .accItem.open .accBody{ display:block; }
+    .accItem.open .caret{ color: var(--text); }
+
+    /* compact fields inside rows */
+    .fieldCompact{ display:flex; flex-direction:column; gap:6px; margin:0; }
+    .fieldCompact label{ font-size: 11px; color: var(--muted); }
+    .fieldCompact input[type="text"],
+    .fieldCompact input[type="number"],
+    .fieldCompact select{
+      width:100%;
+      padding: 8px 10px;
+      border:1px solid var(--border);
+      border-radius: 10px;
+      outline:none;
+      font-size: 13px;
       background:#fff;
     }
-    textarea{min-height:86px;resize:vertical}
-    input:focus, select:focus, textarea:focus{
-      border-color:rgba(57,86,232,.45);
-      box-shadow:0 0 0 4px rgba(57,86,232,.10);
+    .fieldCompact input:focus,
+    .fieldCompact select:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow: 0 0 0 4px rgba(57,86,232,.10);
     }
 
-    .xMini{
-      width:32px;height:32px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:#fff;
-      color:var(--muted);
-      cursor:pointer;
-      font-weight:900;
-      display:grid;place-items:center;
-      flex:0 0 auto;
+    .gridRow4{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .gridRow6{ display:grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    @media (max-width: 900px){
+      .gridRow6{ grid-template-columns: repeat(2, 1fr); }
+      .gridRow4{ grid-template-columns: repeat(2, 1fr); }
     }
+    @media (max-width: 560px){
+      .gridRow6,.gridRow4{ grid-template-columns: 1fr; }
+    }
+
     .rowCard{
       border:1px solid var(--border);
-      border-radius:14px;
-      padding:10px;
-      background:rgba(15,23,42,.012);
+      border-radius: 14px;
+      background: rgba(15,23,42,.015);
+      padding: 10px;
+      margin-bottom: 10px;
+      position: relative;
     }
 
-    .inlineNote{
-      margin-top:10px;
-      border-top:1px dashed rgba(100,116,139,.35);
-      padding-top:10px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.45;
-    }
-
-    /* JSON preview */
-    .code{
-      width:100%;
+    .xicon{
+      position:absolute;
+      top:8px;
+      right:8px;
+      width:26px;height:26px;
+      border-radius:999px;
       border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size:12px;
-      background:#0b1220;
-      color:#e5e7eb;
-      overflow:auto;
-      max-height:280px;
+      background:#fff;
+      color: var(--muted);
+      font-weight:900;
+      font-size: 14px;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
     }
+    .xicon:hover{
+      background: rgba(220,38,38,.08);
+      color: #dc2626;
+      border-color: rgba(220,38,38,.35);
+    }
+
+    .rowFooter{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top: 8px;
+    }
+    .addBtn{
+      border:1px dashed rgba(57,86,232,.35);
+      background: rgba(57,86,232,.06);
+      color: var(--text);
+      padding: 9px 10px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 13px;
+      cursor:pointer;
+    }
+
+    .inlineBtns{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <h1>Finanzas · Selección + Acordeón</h1>
-        <p>Elige categorías aplicables. Luego completa detalles por categoría en orden. (Bienes raíces = solo activo, la deuda va en Pasivos.)</p>
+      <div class="brand">
+        <h1>Discovery · Diagnóstico Financiero</h1>
+        <p>Recopilación rápida para preparar tu diagnóstico (7–10 min). No es asesoría ni recomendación.</p>
       </div>
-      <div style="color:var(--muted);font-size:12px;font-weight:700;">v3</div>
+      <div class="mini" id="stepMini"></div>
     </header>
 
     <div class="card">
+      <div class="topbar">
+        <div class="steps" aria-label="Pasos">
+          <div class="pill" data-pill="1"><b>1</b> Welcome</div>
+          <div class="pill" data-pill="2"><b>2</b> Personas</div>
+          <div class="pill" data-pill="3"><b>3</b> Finanzas</div>
+          <div class="pill" data-pill="4"><b>4</b> Finish</div>
+        </div>
+        <div class="progress" aria-label="Progreso"><div id="progressBar"></div></div>
+      </div>
+
       <div class="content">
+        <!-- STEP 1 -->
+        <section class="step" data-step="1">
+          <div class="grid">
+            <div class="panel">
+              <h2>Antes de diagnosticar, entendamos tu situación</h2>
+              <p>
+                Este discovery nos ayuda a llegar al diagnóstico con contexto real: estructura familiar, áreas financieras relevantes
+                y cantidades aproximadas por categoría.
+              </p>
+              <div class="reviewBox">
+                <h3>Qué esperar</h3>
+                <div class="kv">
+                  <div class="k">Tiempo</div><div class="v">7–10 minutos</div>
+                  <div class="k">Enfoque</div><div class="v">Estructura + magnitud (aproximada)</div>
+                  <div class="k">No es</div><div class="v">Una venta / asesoría / recomendación</div>
+                  <div class="k">Sí es</div><div class="v">Preparación para tu diagnóstico</div>
+                </div>
+              </div>
+            </div>
 
-        <!-- PASO A: Selección -->
-        <div class="panel" id="selectorPanel">
-          <h2>1) Selecciona las categorías que aplican</h2>
-          <p>Las categorías seleccionadas aparecerán en el mismo orden en el acordeón.</p>
+            <div class="panel">
+              <h2>Datos de contacto</h2>
+              <p>Usaremos esto para enviarte un resumen y coordinar el diagnóstico si lo deseas.</p>
 
-          <div class="cats" id="catsGrid"></div>
-
-          <div class="btnRow" style="margin-top:12px;">
-            <div class="hint" id="selHint">Selecciona al menos 1 categoría.</div>
-            <div class="btns">
-              <button class="btn primary" id="continueBtn" type="button" disabled>Continuar</button>
+              <div class="field">
+                <label for="email">Email *</label>
+                <input id="email" type="email" placeholder="tu@email.com" autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="phone">Teléfono (opcional)</label>
+                <input id="phone" type="tel" placeholder="+1 ..." autocomplete="tel" />
+              </div>
+              <div class="checkline">
+                <input id="consent" type="checkbox" />
+                <label for="consent">
+                  Acepto que usen esta información <b>solo</b> para preparar mi diagnóstico. *
+                </label>
+              </div>
+              <div class="hint">* Campos obligatorios para continuar.</div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- PASO B: Acordeón -->
-        <div class="panel" id="accordionPanel" style="display:none;">
-          <div class="btnRow">
-            <div>
-              <h2 style="margin:0;">2) Completa detalles por categoría</h2>
-              <p style="margin:4px 0 0;color:var(--muted);font-size:13px;">Abre una categoría, añade filas y completa. Solo un acordeón abierto a la vez.</p>
+        <!-- STEP 2 -->
+        <section class="step" data-step="2" hidden>
+          <div class="grid">
+            <div class="panel">
+              <h2>Personas involucradas</h2>
+              <p>
+                Empecemos identificando a las personas que impactan (o se ven impactadas) por las decisiones financieras.
+                Si agregas a alguien más, te preguntaremos la relación.
+              </p>
+
+              <div class="field">
+                <label for="householdRole">¿Eres el principal proveedor económico?</label>
+                <select id="householdRole">
+                  <option value="">Selecciona…</option>
+                  <option value="primary_provider">Sí, principalmente yo</option>
+                  <option value="shared">Compartido</option>
+                  <option value="not_primary">No, principalmente otra persona</option>
+                </select>
+              </div>
+
+              <div class="peopleWrap" id="peopleWrap"></div>
+
+              <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                <button class="btn" type="button" id="addPersonBtn">➕ Agregar otra persona (opcional)</button>
+                <div class="mini">Tip: agrega pareja/hijos/socio solo si aplica.</div>
+              </div>
             </div>
-            <div class="btns">
-              <button class="btn ghost" id="backToSelect" type="button">← Volver</button>
-              <button class="btn" id="closeAllBtn" type="button">Cerrar todo</button>
+
+            <div class="panel">
+              <h2>Vista previa (personas)</h2>
+              <p>Esto es lo que quedará guardado en el JSON de la sección personas.</p>
+              <pre class="code" id="peopleJson"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3 (REPLACED) -->
+        <section class="step" data-step="3" hidden>
+          <div class="panel">
+            <h2>Finanzas</h2>
+            <p>
+              Primero selecciona las categorías que aplican. Luego presiona <b>Continuar →</b> para completarlas en acordeón
+              (una abierta a la vez). Puedes “Cerrar todos” cuando quieras.
+            </p>
+
+            <!-- Selector -->
+            <div id="finSelectorPanel">
+              <div class="cats" id="categoriesGrid"></div>
+              <div class="actionsRow">
+                <div class="hint" id="selHint">Selecciona al menos una categoría.</div>
+                <button class="btn primary" type="button" id="continueFinBtn" disabled>Continuar →</button>
+              </div>
+            </div>
+
+            <!-- Accordion -->
+            <div id="finAccordionPanel" style="display:none; margin-top:12px;">
+              <div class="actionsRow" style="margin-top:0;">
+                <div class="hint">
+                  Abre una categoría y añade filas. Cada fila puede tener un <b>nombre/alias</b> (ej: “Bank of America”, “Auto Toyota”…).
+                </div>
+                <div class="inlineBtns">
+                  <button class="btn ghost" type="button" id="backToFinSelectBtn">← Volver</button>
+                  <button class="btn" type="button" id="closeAllBtn">Cerrar todos</button>
+                </div>
+              </div>
+
+              <div class="accWrap" id="accordionWrap"></div>
             </div>
           </div>
 
-          <div class="accControls">
-            <div class="hint" id="accHint">Tip: usa “+ Añadir” dentro de cada categoría.</div>
-            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-              <span style="font-size:12px;color:var(--muted);font-weight:700;">Vista previa JSON</span>
-              <button class="btn" id="copyJsonBtn" type="button">Copiar JSON</button>
+          <div class="panel" style="margin-top:14px;">
+            <h2>Vista previa (financials JSON)</h2>
+            <p>Este JSON ya queda identificado por persona o por hogar.</p>
+            <pre class="code" id="financialsJson"></pre>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="step" data-step="4" hidden>
+          <div class="grid">
+            <div class="panel">
+              <h2>Finish & Submit</h2>
+              <p>
+                Revisa tu información. Al enviar, generaremos el payload final (contact + people + financials).
+                Aquí no hay recomendaciones: solo un resumen para preparar el diagnóstico.
+              </p>
+
+              <div class="reviewBox">
+                <h3>Resumen rápido</h3>
+                <div class="kv" id="summaryKV"></div>
+              </div>
+
+              <div class="field">
+                <label for="notes">Notas adicionales (opcional)</label>
+                <textarea id="notes" placeholder="Algo que quieras que sepamos antes del diagnóstico…"></textarea>
+              </div>
+
+              <div class="reviewBox">
+                <h3>Payload final (para guardar/enviar)</h3>
+                <pre class="code" id="finalJson"></pre>
+                <div class="hint">
+                  Si estás integrando con Wix/CRM, este objeto es el que mandarías por webhook o guardarías como registro.
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Acciones</h2>
+              <p>Para esta demo en HTML, “Enviar” solo descarga el JSON en tu navegador y lo imprime en consola.</p>
+
+              <button class="btn primary" type="button" id="submitBtn" disabled>Enviar</button>
+              <div class="hint" id="submitHint" style="margin-top:8px;">
+                Completa los pasos obligatorios para habilitar el envío.
+              </div>
+
+              <div class="reviewBox" style="margin-top:12px;">
+                <h3>Estado</h3>
+                <div class="kv">
+                  <div class="k">Validación</div><div class="v" id="validState">—</div>
+                  <div class="k">Contacto</div><div class="v" id="contactState">—</div>
+                  <div class="k">Personas</div><div class="v" id="peopleState">—</div>
+                  <div class="k">Finanzas</div><div class="v" id="finState">—</div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
+      </div>
 
-          <div class="accWrap" id="accWrap"></div>
-
-          <div style="margin-top:12px;">
-            <pre class="code" id="jsonPreview"></pre>
-          </div>
-        </div>
-
+      <div class="btns">
+        <button class="btn ghost" type="button" id="backBtn">Atrás</button>
+        <button class="btn primary" type="button" id="nextBtn">Continuar</button>
       </div>
     </div>
-
   </div>
 
 <script>
-(() => {
-  // =========================
-  // State
-  // =========================
+(function(){
+  // ---------- Helpers ----------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+  const uid = (prefix="id") => prefix + "_" + Math.random().toString(16).slice(2,10);
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // ---------- State ----------
   const state = {
-    // Simula people; si luego conectas con tu "personas", reemplazas esto.
+    step: 1,
+    contact: { email:"", phone:"", consent:false },
     people: {
-      members: [{ id:"p1", firstName:"", lastName:"" }] // 1 persona = dueño automático
+      householdRole: "",
+      members: [
+        { id:"p1", role:"primary", firstName:"", lastName:"", age:null, gender:"" }
+      ]
     },
-    finance: {
-      selected: [],   // ordered
-      items: []       // rows
-    }
+
+    // NEW financials structure (accordion)
+    financials: {
+      categoriesSelected: [], // order of selection
+      items: []              // rows across categories
+    },
+
+    notes: ""
   };
 
-  // =========================
-  // Categories (ordered)
-  // =========================
-  const CATS = [
-    { key:"income", label:"Ingresos", hint:"Tipo + monto + dueño." },
-    { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo de deuda, tasa, pago mensual, balance." },
-    { key:"real_estate", label:"Bienes raíces", hint:"Activo: tipo + valor (sin hipoteca aquí)." },
-    { key:"banking", label:"Banca / liquidez", hint:"Cuentas y efectivo." },
-    { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401(k), IRA, pensión, etc." },
-    { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage, fondos, cripto, etc." },
-    { key:"insurance", label:"Seguros", hint:"Tipo + prima." },
+  // ---------- Step 3 (Finanzas) registry ----------
+  const FIN_CATS = [
+    { key:"income", label:"Ingresos", hint:"Tipos de ingreso + monto anual + dueño." },
+    { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo, tasa, pago mensual, balance." },
+    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades, valor estimado, hipoteca." },
+    { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401k/IRA, etc. valor estimado." },
+    { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage/cripto, etc." },
+    { key:"banking", label:"Banca / liquidez", hint:"Cuentas bancarias y efectivo." },
+    { key:"insurance", label:"Seguros", hint:"Tipo de seguro y prima." },
     { key:"business_trust", label:"Negocios / Trust", hint:"Negocio, participación, trust." },
-    { key:"legal", label:"Legal", hint:"Documentos base (sin montos)." },
-    { key:"other_assets", label:"Otros activos", hint:"Autos, activos personales, etc." }
+    { key:"legal", label:"Legal", hint:"Testamento, trust, poderes." },
+    { key:"other_assets", label:"Otros", hint:"Autos, activos personales, etc." }
   ];
 
-  // =========================
-  // Field schemas per category
-  // - REAL ESTATE updated: NO debt fields
-  // =========================
-  const SCHEMA = {
-    income: {
-      cols: [
-        { k:"alias",  label:"Nombre / alias", type:"text", ph:"Ej. Salario Xavier" },
-        { k:"type",   label:"Tipo", type:"select", options:[
-          ["salary","Salario"],["business","Negocio"],["rental","Renta"],["commission","Comisión"],
-          ["bonus","Bonos"],["pension","Pensión"],["other","Otro"]
-        ]},
-        { k:"amount", label:"Monto", type:"number", ph:"Ej. 85000" },
-        { k:"owner",  label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    liabilities: {
-      cols: [
-        { k:"alias",  label:"Nombre / alias", type:"text", ph:"Ej. Chase Card" },
-        { k:"type",   label:"Tipo", type:"select", options:[
-          ["credit_card","Tarjeta de crédito"],["auto_loan","Préstamo de auto"],["mortgage","Hipoteca"],
-          ["student_loan","Préstamo estudiantil"],["personal_loan","Préstamo personal"],["other","Otro"]
-        ]},
-        { k:"interest", label:"Tasa %", type:"number", ph:"Ej. 19.9", step:"0.01" },
-        { k:"payment",  label:"Pago mensual", type:"number", ph:"Ej. 250" },
-        { k:"balance",  label:"Balance", type:"number", ph:"Ej. 12000" },
-        { k:"owner",    label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    // ✅ UPDATED: only asset fields, NO debt/payment
-    real_estate: {
-      cols: [
-        { k:"alias",  label:"Nombre / alias", type:"text", ph:"Ej. Casa principal" },
-        { k:"type",   label:"Tipo", type:"select", options:[
-          ["primary_home","Casa principal"],["second_home","Segunda propiedad"],["investment","Inversión"],["land","Terreno"],["other","Otro"]
-        ]},
-        { k:"value",  label:"Valor estimado", type:"number", ph:"Ej. 450000" },
-        { k:"owner",  label:"Dueño", type:"owner" }
-      ],
-      note:true,
-      helper: "Nota: la hipoteca (balance/pago/tasa) se registra en “Préstamos y pasivos”."
-    },
-    banking: {
-      cols: [
-        { k:"alias",  label:"Nombre / alias", type:"text", ph:"Ej. Bank of America Checking" },
-        { k:"type",   label:"Tipo", type:"select", options:[
-          ["checking","Checking"],["savings","Savings"],["cash","Efectivo"],["money_market","Money Market"],["other","Otro"]
-        ]},
-        { k:"value",  label:"Balance", type:"number", ph:"Ej. 12000" },
-        { k:"owner",  label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    investments_retirement: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. 401(k) Fidelity" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["401k","401(k)"],["ira","IRA"],["roth_ira","Roth IRA"],["pension","Pensión"],["other","Otro"]
-        ]},
-        { k:"value", label:"Valor", type:"number", ph:"Ej. 85000" },
-        { k:"owner", label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    investments_nonretirement: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. Brokerage Schwab" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["brokerage","Brokerage"],["funds","Fondos"],["crypto","Cripto"],["stock","Acciones"],["other","Otro"]
-        ]},
-        { k:"value", label:"Valor", type:"number", ph:"Ej. 25000" },
-        { k:"owner", label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    insurance: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. Auto GEICO" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["health","Salud"],["life","Vida"],["auto","Auto"],["home","Hogar"],["renters","Renta"],["disability","Incapacidad"],["other","Otro"]
-        ]},
-        { k:"premium", label:"Prima (anual)", type:"number", ph:"Ej. 1800" },
-        { k:"owner",   label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    business_trust: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. Mi negocio LLC" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["business","Negocio"],["equity","Participación"],["trust","Trust"],["partnership","Sociedad"],["other","Otro"]
-        ]},
-        { k:"value", label:"Valor estimado", type:"number", ph:"Ej. 200000" },
-        { k:"owner", label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    legal: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. Testamento" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["will","Testamento"],["trust","Trust"],["poa","Power of Attorney"],["health_proxy","Health Proxy"],["other","Otro"]
-        ]},
-        { k:"status", label:"Estatus", type:"select", options:[
-          ["done","Listo"],["in_progress","En proceso"],["not_started","No iniciado"]
-        ]},
-        { k:"owner", label:"Dueño", type:"owner" }
-      ],
-      note:true
-    },
-    other_assets: {
-      cols: [
-        { k:"alias", label:"Nombre / alias", type:"text", ph:"Ej. Auto Toyota" },
-        { k:"type",  label:"Tipo", type:"select", options:[
-          ["vehicle","Vehículo"],["jewelry","Joyas"],["art","Arte"],["equipment","Equipo"],["other","Otro"]
-        ]},
-        { k:"value", label:"Valor estimado", type:"number", ph:"Ej. 15000" },
-        { k:"owner", label:"Dueño", type:"owner" }
-      ],
-      note:true
-    }
+  // Dropdowns
+  const INCOME_TYPES = [
+    "Salario","Pago por hora","Bono","Comisión","Propina","Negocio propio",
+    "Dividendos e intereses","Renta inmueble","Pensión","Seguro Social","Anualidad",
+    "Ganancia de capital (acciones)","Ganancia de capital (ETF/fondos)","Ganancia de capital (bonos)","Ganancia de capital (real estate)"
+  ];
+  const DEBT_TYPES = [
+    "Tarjeta de crédito","Préstamo de auto","Préstamo estudiantil","Hipoteca","Personal loan",
+    "Línea de crédito (HELOC)","Préstamo de negocio","Impuestos adeudados","Otro"
+  ];
+  const SIMPLE_TYPES = {
+    banking: ["Checking","Savings","Money market","CD","Cash"],
+    investments_retirement: ["401(k)","IRA","Roth IRA","403(b)","457","Pensión","Otro"],
+    investments_nonretirement: ["Brokerage","ETF/Fondos","Acciones","Bonos/Renta fija","Cripto","Otro"],
+    insurance: ["Vida","Salud","Auto","Hogar/Renta","Disability","Umbrella","LTC","Otro"],
+    business_trust: ["Negocio (100%)","Negocio (participación)","Trust","LLC/Partnership","Otro"],
+    legal: ["Testamento","Trust","POA (poder)","Living will/Directiva","Beneficiarios","Otro"],
+    other_assets: ["Auto","Joyas","Colección","Arte","Activos personales","Otro"]
   };
 
-  // =========================
-  // DOM
-  // =========================
-  const catsGrid = document.getElementById("catsGrid");
-  const continueBtn = document.getElementById("continueBtn");
-  const selHint = document.getElementById("selHint");
+  // ---------- DOM ----------
+  const progressBar = $("#progressBar");
+  const stepMini = $("#stepMini");
+  const backBtn = $("#backBtn");
+  const nextBtn = $("#nextBtn");
 
-  const selectorPanel = document.getElementById("selectorPanel");
-  const accordionPanel = document.getElementById("accordionPanel");
-  const accWrap = document.getElementById("accWrap");
-  const closeAllBtn = document.getElementById("closeAllBtn");
-  const backToSelect = document.getElementById("backToSelect");
-  const jsonPreview = document.getElementById("jsonPreview");
-  const copyJsonBtn = document.getElementById("copyJsonBtn");
+  // Step 1 inputs
+  const emailEl = $("#email");
+  const phoneEl = $("#phone");
+  const consentEl = $("#consent");
 
-  // =========================
-  // Helpers
-  // =========================
-  const escapeHtml = (s) => String(s ?? "")
-    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  // Step 2
+  const householdRoleEl = $("#householdRole");
+  const peopleWrap = $("#peopleWrap");
+  const addPersonBtn = $("#addPersonBtn");
+  const peopleJson = $("#peopleJson");
 
-  const uid = (p="row") => p + "_" + Math.random().toString(16).slice(2,10);
+  // Step 3 (Finanzas NEW)
+  const categoriesGrid = $("#categoriesGrid");
+  const financialsJson = $("#financialsJson");
 
-  function hasMultiplePeople(){
-    return (state.people?.members || []).length > 1;
+  const finSelectorPanel = $("#finSelectorPanel");
+  const finAccordionPanel = $("#finAccordionPanel");
+  const selHint = $("#selHint");
+  const continueFinBtn = $("#continueFinBtn");
+  const backToFinSelectBtn = $("#backToFinSelectBtn");
+  const closeAllBtn = $("#closeAllBtn");
+  const accordionWrap = $("#accordionWrap");
+
+  // Step 4
+  const notesEl = $("#notes");
+  const summaryKV = $("#summaryKV");
+  const finalJson = $("#finalJson");
+  const submitBtn = $("#submitBtn");
+  const submitHint = $("#submitHint");
+  const validStateEl = $("#validState");
+  const contactStateEl = $("#contactState");
+  const peopleStateEl = $("#peopleState");
+  const finStateEl = $("#finState");
+
+  // ---------- Step Rendering ----------
+  function setStep(step){
+    state.step = step;
+    $$(".step").forEach(sec => sec.hidden = sec.dataset.step !== String(step));
+
+    // pills
+    $$(".pill").forEach(p => p.classList.toggle("active", p.dataset.pill === String(step)));
+
+    // progress
+    const pct = ((step-1)/3)*100;
+    progressBar.style.width = `${pct}%`;
+    stepMini.textContent = `Paso ${step} de 4`;
+
+    // buttons
+    backBtn.disabled = step === 1;
+    nextBtn.hidden = step === 4;
+
+    // step-specific updates
+    if(step === 2) renderPeople();
+    if(step === 3) { renderFinSelector(); renderFinancialsJson(); resetFinPanelsForStep(); }
+    if(step === 4) renderFinish();
+
+    updateNavValidity();
   }
 
-  function ownerCellHTML(current){
-    const members = state.people.members || [];
-    if(members.length === 1){
-      const p = members[0];
-      return `<input type="text" value="Persona principal (${p.id})" disabled />`;
+  function updateNavValidity(){
+    let canNext = true;
+    if(state.step === 1) canNext = validateContact().ok;
+    if(state.step === 2) canNext = validatePeople().ok;
+    if(state.step === 3) canNext = validateFinancials().ok;
+    nextBtn.disabled = !canNext;
+  }
+
+  // ---------- Validation ----------
+  function validateContact(){
+    const email = (state.contact.email || "").trim();
+    const ok = email.length > 3 && email.includes("@") && state.contact.consent === true;
+    return { ok };
+  }
+
+  function validatePeople(){
+    const m = state.people.members;
+    const primary = m[0];
+    const baseOk =
+      primary.firstName?.trim() &&
+      primary.lastName?.trim() &&
+      Number.isInteger(primary.age) && primary.age > 0 &&
+      ["male","female","prefer_not_to_say"].includes(primary.gender);
+
+    if(!baseOk) return { ok:false };
+
+    if(m.length > 1){
+      for(let i=1;i<m.length;i++){
+        const p = m[i];
+        const okp =
+          p.firstName?.trim() &&
+          p.lastName?.trim() &&
+          Number.isInteger(p.age) && p.age > 0 &&
+          ["male","female","prefer_not_to_say"].includes(p.gender) &&
+          !!p.relationshipToPrimary;
+        if(!okp) return { ok:false };
+      }
     }
-    // multi people
-    const opts = [
-      `<option value="">Selecciona…</option>`,
-      ...members.map(p=>{
-        const name = ([p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase());
-        return `<option value="${p.id}" ${current===p.id?"selected":""}>${escapeHtml(name)} (${p.id})</option>`;
-      }),
-      `<option value="household" ${current==="household"?"selected":""}>Compartido (hogar)</option>`
-    ];
-    return `<select data-k="owner">${opts.join("")}</select>`;
+    return { ok:true };
   }
+
+  // NEW: finance validation (light but useful)
+  function validateFinancials(){
+    const selected = state.financials.categoriesSelected;
+    if(selected.length === 0) return { ok:false };
+
+    const multi = (state.people.members || []).length > 1;
+    for(const catKey of selected){
+      const items = state.financials.items.filter(it => it.category === catKey);
+      if(items.length === 0) return { ok:false };
+
+      for(const it of items){
+        // owner required if multi-person
+        if(multi && !it.owner) return { ok:false };
+
+        // minimal required per category
+        if(catKey === "income"){
+          if(!it.type) return { ok:false };
+          if(!(typeof it.amountAnnual === "number" && it.amountAnnual >= 0)) return { ok:false };
+        }
+        if(catKey === "liabilities"){
+          if(!it.type) return { ok:false };
+          // allow blanks, but if present must be >=0
+          const nums = ["interestRate","monthlyPayment","balance"];
+          for(const k of nums){
+            if(it[k] !== null && it[k] !== undefined && it[k] !== "" && !(typeof it[k] === "number" && it[k] >= 0)) return { ok:false };
+          }
+        }
+      }
+    }
+    return { ok:true };
+  }
+
+  // ---------- People UI ----------
+  function renderPeople(){
+    peopleWrap.innerHTML = "";
+    const members = state.people.members;
+
+    members.forEach((p, idx) => {
+      const isPrimary = idx === 0;
+
+      const card = document.createElement("div");
+      card.className = "personCard";
+      card.dataset.personId = p.id;
+
+      const head = document.createElement("div");
+      head.className = "personHead";
+      head.innerHTML = `
+        <div class="tag">${isPrimary ? "Persona principal" : "Persona adicional"}</div>
+        ${isPrimary ? `<span class="mini">Obligatorio</span>` : `<button class="xbtn" type="button" title="Eliminar">×</button>`}
+      `;
+      card.appendChild(head);
+
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <div class="field">
+          <label>Nombre *</label>
+          <input type="text" data-k="firstName" value="${escapeHtml(p.firstName||"")}" placeholder="Nombre" />
+        </div>
+        <div class="field">
+          <label>Apellido *</label>
+          <input type="text" data-k="lastName" value="${escapeHtml(p.lastName||"")}" placeholder="Apellido" />
+        </div>
+      `;
+      card.appendChild(row);
+
+      const row2 = document.createElement("div");
+      row2.className = "row";
+      row2.innerHTML = `
+        <div class="field">
+          <label>Edad *</label>
+          <input type="number" min="0" step="1" data-k="age" value="${p.age ?? ""}" placeholder="Ej. 35" />
+        </div>
+        <div class="field">
+          <label>Sexo *</label>
+          <select data-k="gender">
+            <option value="">Selecciona…</option>
+            <option value="male" ${p.gender==="male"?"selected":""}>Masculino</option>
+            <option value="female" ${p.gender==="female"?"selected":""}>Femenino</option>
+            <option value="prefer_not_to_say" ${p.gender==="prefer_not_to_say"?"selected":""}>Prefiero no decir</option>
+          </select>
+        </div>
+      `;
+      card.appendChild(row2);
+
+      if(!isPrimary){
+        const rel = document.createElement("div");
+        rel.className = "field";
+        rel.innerHTML = `
+          <label>Relación con la persona principal *</label>
+          <select data-k="relationshipToPrimary">
+            <option value="">Selecciona…</option>
+            <option value="partner" ${p.relationshipToPrimary==="partner"?"selected":""}>Pareja</option>
+            <option value="spouse" ${p.relationshipToPrimary==="spouse"?"selected":""}>Cónyuge</option>
+            <option value="child" ${p.relationshipToPrimary==="child"?"selected":""}>Hijo/a</option>
+            <option value="family" ${p.relationshipToPrimary==="family"?"selected":""}>Familiar</option>
+            <option value="business_partner" ${p.relationshipToPrimary==="business_partner"?"selected":""}>Socio/a</option>
+            <option value="other" ${p.relationshipToPrimary==="other"?"selected":""}>Otro</option>
+          </select>
+        `;
+        card.appendChild(rel);
+      }
+
+      card.addEventListener("input", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const key = t.getAttribute("data-k");
+        if(!key) return;
+
+        const person = state.people.members.find(x => x.id === p.id);
+        if(!person) return;
+
+        if(key === "age"){
+          const n = Number(t.value);
+          person.age = Number.isFinite(n) ? Math.trunc(n) : null;
+        } else {
+          person[key] = t.value;
+        }
+
+        renderPeopleJson();
+        // refresh owners in finance UI (if already on step 3)
+        if(state.step === 3){
+          renderFinSelector();
+          renderAccordion();
+        }
+        updateNavValidity();
+      });
+
+      if(!isPrimary){
+        const xbtn = $(".xbtn", head);
+        xbtn.addEventListener("click", () => {
+          state.people.members = state.people.members.filter(x => x.id !== p.id);
+          cleanupOwners();
+          renderPeople();
+          if(state.step === 3){
+            renderFinSelector();
+            renderAccordion();
+          }
+          updateNavValidity();
+        });
+      }
+
+      peopleWrap.appendChild(card);
+    });
+
+    householdRoleEl.value = state.people.householdRole || "";
+    householdRoleEl.onchange = () => {
+      state.people.householdRole = householdRoleEl.value;
+      renderPeopleJson();
+      updateNavValidity();
+    };
+
+    renderPeopleJson();
+  }
+
+  function renderPeopleJson(){
+    peopleJson.textContent = JSON.stringify({ people: state.people }, null, 2);
+  }
+
+  addPersonBtn.addEventListener("click", () => {
+    const nextIndex = state.people.members.length + 1;
+    state.people.members.push({
+      id: "p" + nextIndex,
+      role: "additional",
+      firstName:"",
+      lastName:"",
+      age:null,
+      gender:"",
+      relationshipToPrimary:""
+    });
+    renderPeople();
+    if(state.step === 3){
+      renderFinSelector();
+      renderAccordion();
+    }
+    updateNavValidity();
+  });
+
+  function cleanupOwners(){
+    const ids = new Set(state.people.members.map(p => p.id));
+    for(const it of state.financials.items){
+      if(it.owner && it.owner !== "household"){
+        if(!ids.has(it.owner)) it.owner = "household";
+      }
+    }
+  }
+
+  // =========================
+  // STEP 3 - FINANCES (NEW)
+  // =========================
+
+  function peopleCount(){ return (state.people.members || []).length; }
 
   function defaultOwner(){
-    const members = state.people.members || [];
-    if(members.length === 1) return members[0].id;
+    const people = state.people.members || [];
+    if(people.length <= 1) return people[0].id;
     return "household";
   }
 
-  function normalizeNumber(v){
-    if(v === "" || v === null || v === undefined) return null;
-    const n = Number(v);
-    return Number.isFinite(n) ? n : null;
+  function ownerOptionsHTML(current){
+    const people = state.people.members || [];
+    if(people.length <= 1){
+      const p = people[0];
+      return `<option value="${p.id}" selected>Persona principal</option>`;
+    }
+    let html = `<option value="">Selecciona…</option>`;
+    for(const p of people){
+      const name = ([p.firstName,p.lastName].filter(Boolean).join(" ").trim() || p.id.toUpperCase());
+      html += `<option value="${p.id}" ${current===p.id?"selected":""}>${escapeHtml(name)} (${p.id})</option>`;
+    }
+    html += `<option value="household" ${current==="household"?"selected":""}>Compartido (hogar)</option>`;
+    return html;
   }
 
-  function upsertRow(row){
-    const idx = state.finance.items.findIndex(x => x.id === row.id);
-    if(idx === -1) state.finance.items.push(row);
-    else state.finance.items[idx] = row;
+  function setContinueFinEnabled(){
+    const ok = state.financials.categoriesSelected.length > 0;
+    continueFinBtn.disabled = !ok;
+    selHint.textContent = ok ? "Listo. Continúa para completar detalles." : "Selecciona al menos una categoría.";
   }
 
-  function getRowsByCat(catKey){
-    return state.finance.items.filter(x => x.category === catKey);
+  function addCategorySelected(catKey){
+    if(!state.financials.categoriesSelected.includes(catKey)){
+      state.financials.categoriesSelected.push(catKey);
+    }
   }
 
-  // =========================
-  // Selection UI
-  // =========================
-  function renderSelector(){
-    catsGrid.innerHTML = "";
-    const selectedSet = new Set(state.finance.selected);
+  function removeCategorySelected(catKey){
+    state.financials.categoriesSelected = state.financials.categoriesSelected.filter(x => x !== catKey);
+    state.financials.items = state.financials.items.filter(it => it.category !== catKey);
+  }
 
-    CATS.forEach(cat => {
-      const card = document.createElement("label");
-      card.className = "catCard";
-      card.innerHTML = `
-        <input type="checkbox" ${selectedSet.has(cat.key) ? "checked":""} />
+  function countItems(catKey){
+    return state.financials.items.filter(it => it.category === catKey).length;
+  }
+
+  function resetFinPanelsForStep(){
+    // when entering step 3, default to selector
+    finSelectorPanel.style.display = "block";
+    finAccordionPanel.style.display = "none";
+    setContinueFinEnabled();
+  }
+
+  function renderFinSelector(){
+    categoriesGrid.innerHTML = "";
+    const selectedSet = new Set(state.financials.categoriesSelected);
+
+    FIN_CATS.forEach(cat => {
+      const lab = document.createElement("label");
+      lab.className = "catCard";
+      lab.innerHTML = `
+        <input type="checkbox" ${selectedSet.has(cat.key) ? "checked" : ""} />
         <div>
           <b>${cat.label}</b>
           <span>${cat.hint}</span>
         </div>
       `;
-      card.addEventListener("click", (e) => {
-        const cb = card.querySelector("input[type=checkbox]");
+
+      lab.addEventListener("click", (e) => {
+        const cb = lab.querySelector("input[type=checkbox]");
         if(e.target !== cb) cb.checked = !cb.checked;
 
         if(cb.checked){
-          // push preserving order as displayed
-          if(!selectedSet.has(cat.key)){
-            state.finance.selected.push(cat.key);
-          }
-        }else{
-          state.finance.selected = state.finance.selected.filter(k => k !== cat.key);
-          // remove all rows for category
-          state.finance.items = state.finance.items.filter(r => r.category !== cat.key);
-        }
-
-        renderSelector();
-        updateContinue();
-      });
-
-      catsGrid.appendChild(card);
-    });
-
-    updateContinue();
-  }
-
-  function updateContinue(){
-    const ok = state.finance.selected.length > 0;
-    continueBtn.disabled = !ok;
-    selHint.textContent = ok
-      ? `Seleccionadas: ${state.finance.selected.length}`
-      : "Selecciona al menos 1 categoría.";
-  }
-
-  // =========================
-  // Accordion UI
-  // =========================
-  function renderAccordion(){
-    accWrap.innerHTML = "";
-
-    state.finance.selected.forEach((catKey) => {
-      const meta = CATS.find(c => c.key === catKey);
-      const schema = SCHEMA[catKey];
-      if(!schema){
-        // placeholder category (in case you add new keys)
-        return;
-      }
-
-      const acc = document.createElement("div");
-      acc.className = "accItem";
-      acc.dataset.cat = catKey;
-
-      const head = document.createElement("div");
-      head.className = "accHead";
-      head.innerHTML = `
-        <div class="accTitle">
-          <b>${meta?.label || catKey}</b>
-          <small>${meta?.hint || ""}</small>
-        </div>
-        <div class="accChevron" aria-hidden="true">⌄</div>
-      `;
-
-      const body = document.createElement("div");
-      body.className = "accBody";
-
-      const rows = getRowsByCat(catKey);
-
-      // Header labels appear ONCE per category (not repeated per row)
-      const headGrid = document.createElement("div");
-      headGrid.className = "rowHead";
-      headGrid.style.gridTemplateColumns = gridTemplateForCat(catKey);
-      headGrid.innerHTML = schema.cols.map(c => `<div class="f"><label>${escapeHtml(c.label)}</label></div>`).join("")
-        + `<div class="f"><label>Eliminar</label></div>`;
-
-      const rowsWrap = document.createElement("div");
-      rowsWrap.className = "rows";
-
-      // add button
-      const addBtn = document.createElement("button");
-      addBtn.className = "btn";
-      addBtn.type = "button";
-      addBtn.textContent = "➕ Añadir";
-      addBtn.addEventListener("click", () => {
-        const newRow = makeBlankRow(catKey);
-        upsertRow(newRow);
-        renderAccordion();
-        openOnly(catKey);
-        renderJSON();
-      });
-
-      // helper note
-      const helper = schema.helper
-        ? `<div class="hint" style="margin-top:8px;">${escapeHtml(schema.helper)}</div>`
-        : "";
-
-      body.innerHTML = `
-        <div class="btnRow" style="margin-bottom:8px;">
-          <div class="hint">Añade una o más filas. Campos requeridos: los principales de la fila.</div>
-          <div class="btns"></div>
-        </div>
-        ${helper}
-      `;
-      body.querySelector(".btns").appendChild(addBtn);
-
-      // if no rows yet, create one default
-      if(rows.length === 0){
-        const defaultRow = makeBlankRow(catKey);
-        upsertRow(defaultRow);
-      }
-
-      // Render rows
-      const finalRows = getRowsByCat(catKey);
-
-      finalRows.forEach((r, idx) => {
-        const rowCard = document.createElement("div");
-        rowCard.className = "rowCard";
-
-        const rowGrid = document.createElement("div");
-        rowGrid.className = "rowGrid";
-        rowGrid.style.gridTemplateColumns = gridTemplateForCat(catKey);
-
-        // build inputs by schema
-        schema.cols.forEach(col => {
-          const cell = document.createElement("div");
-          cell.className = "f";
-
-          if(col.type === "text"){
-            cell.innerHTML = `<input type="text" data-k="${col.k}" value="${escapeHtml(r[col.k] ?? "")}" placeholder="${escapeHtml(col.ph || "")}"/>`;
-          } else if(col.type === "number"){
-            const step = col.step ? `step="${col.step}"` : `step="any"`;
-            cell.innerHTML = `<input type="number" ${step} data-k="${col.k}" value="${r[col.k] ?? ""}" placeholder="${escapeHtml(col.ph || "")}"/>`;
-          } else if(col.type === "select"){
-            const opts = [`<option value="">Selecciona…</option>`]
-              .concat((col.options||[]).map(([v,l]) => `<option value="${v}" ${r[col.k]===v?"selected":""}>${escapeHtml(l)}</option>`));
-            cell.innerHTML = `<select data-k="${col.k}">${opts.join("")}</select>`;
-          } else if(col.type === "owner"){
-            // owner cell
-            cell.innerHTML = ownerCellHTML(r.owner || defaultOwner());
-          } else {
-            cell.innerHTML = `<input type="text" data-k="${col.k}" value="${escapeHtml(r[col.k] ?? "")}"/>`;
-          }
-
-          rowGrid.appendChild(cell);
-        });
-
-        // delete (x)
-        const delCell = document.createElement("div");
-        delCell.className = "f";
-        delCell.innerHTML = `<button class="xMini" type="button" title="Eliminar fila">×</button>`;
-        delCell.querySelector("button").addEventListener("click", () => {
-          state.finance.items = state.finance.items.filter(x => x.id !== r.id);
-          renderAccordion();
-          renderJSON();
-        });
-        rowGrid.appendChild(delCell);
-
-        // row events
-        rowCard.addEventListener("input", (e) => {
-          const t = e.target;
-          if(!(t instanceof HTMLElement)) return;
-          const k = t.getAttribute("data-k");
-          if(!k) return;
-
-          const current = state.finance.items.find(x => x.id === r.id);
-          if(!current) return;
-
-          const schemaCol = schema.cols.find(c => c.k === k);
-          if(schemaCol?.type === "number"){
-            current[k] = (t.value === "") ? null : normalizeNumber(t.value);
-          } else {
-            current[k] = t.value;
-          }
-          upsertRow(current);
-          renderJSON();
-        });
-
-        rowCard.addEventListener("change", (e) => {
-          const t = e.target;
-          if(!(t instanceof HTMLElement)) return;
-          const k = t.getAttribute("data-k");
-          if(!k) return;
-
-          const current = state.finance.items.find(x => x.id === r.id);
-          if(!current) return;
-
-          if(k === "owner"){
-            current.owner = t.value || "";
-          } else {
-            const schemaCol = schema.cols.find(c => c.k === k);
-            if(schemaCol?.type === "number"){
-              current[k] = (t.value === "") ? null : normalizeNumber(t.value);
-            } else {
-              current[k] = t.value;
-            }
-          }
-          upsertRow(current);
-          renderJSON();
-        });
-
-        // notes per category (optional): only once per category
-        rowCard.appendChild(rowGrid);
-
-        rowsWrap.appendChild(rowCard);
-      });
-
-      // notes field (category-level)
-      const catNoteKey = `note__${catKey}`;
-      const currentCatNote = getCategoryNote(catKey);
-      const noteBlock = document.createElement("div");
-      noteBlock.className = "inlineNote";
-      noteBlock.innerHTML = `
-        <div class="f">
-          <label>Nota general (opcional)</label>
-          <input type="text" data-catnote="${catKey}" value="${escapeHtml(currentCatNote)}" placeholder="Algún detalle importante de esta categoría..." />
-        </div>
-      `;
-      noteBlock.addEventListener("input", (e) => {
-        const t = e.target;
-        if(!(t instanceof HTMLInputElement)) return;
-        setCategoryNote(catKey, t.value);
-        renderJSON();
-      });
-
-      // assemble
-      body.appendChild(headGrid);
-      body.appendChild(rowsWrap);
-      body.appendChild(noteBlock);
-
-      acc.appendChild(head);
-      acc.appendChild(body);
-
-      head.addEventListener("click", () => {
-        const isOpen = acc.classList.contains("open");
-        if(isOpen){
-          acc.classList.remove("open");
+          addCategorySelected(cat.key);
         } else {
-          openOnly(catKey);
+          removeCategorySelected(cat.key);
         }
+
+        renderFinSelector();
+        setContinueFinEnabled();
+        renderFinancialsJson();
+        updateNavValidity();
       });
 
-      accWrap.appendChild(acc);
+      categoriesGrid.appendChild(lab);
     });
 
-    // open first accordion by default (if none open)
-    if(!accWrap.querySelector(".accItem.open")){
-      const first = accWrap.querySelector(".accItem");
-      if(first) first.classList.add("open");
-    }
-
-    renderJSON();
+    setContinueFinEnabled();
   }
 
-  function openOnly(catKey){
-    [...accWrap.querySelectorAll(".accItem")].forEach(el => {
-      el.classList.toggle("open", el.dataset.cat === catKey);
+  function openOnly(itemEl){
+    $$(".accItem").forEach(el => {
+      if(el !== itemEl) el.classList.remove("open");
     });
+    itemEl.classList.toggle("open");
   }
 
   function closeAll(){
-    [...accWrap.querySelectorAll(".accItem")].forEach(el => el.classList.remove("open"));
+    $$(".accItem").forEach(el => el.classList.remove("open"));
   }
 
-  function gridTemplateForCat(catKey){
-    // We want compact blocks; use repeat-ish widths
-    // plus last column for delete button
-    // return template matching schema cols count + delete
-    const cols = SCHEMA[catKey]?.cols || [];
-    const base = cols.map(c => {
-      if(c.type === "owner") return "160px";
-      if(c.type === "select") return "180px";
-      if(c.type === "number") return "140px";
-      return "220px"; // text
-    });
-    base.push("64px"); // delete
-    // responsive: stack on small screens
-    if(window.innerWidth <= 720){
-      return "1fr";
+  // row builders
+  function makeField({label, type="text", key, value="", min=null, step=null, placeholder=""}){
+    const minAttr = min!==null ? `min="${min}"` : "";
+    const stepAttr = step!==null ? `step="${step}"` : "";
+    const phAttr = placeholder ? `placeholder="${escapeHtml(placeholder)}"` : "";
+    return `
+      <div class="fieldCompact">
+        <label>${escapeHtml(label)}</label>
+        <input type="${type}" data-k="${escapeHtml(key)}" value="${escapeHtml(value)}" ${minAttr} ${stepAttr} ${phAttr}/>
+      </div>
+    `;
+  }
+
+  function makeSelect({label, key, options, value=""}){
+    const opts = [`<option value="">Selecciona…</option>`].concat(
+      options.map(o => `<option value="${escapeHtml(o)}" ${o===value?"selected":""}>${escapeHtml(o)}</option>`)
+    ).join("");
+    return `
+      <div class="fieldCompact">
+        <label>${escapeHtml(label)}</label>
+        <select data-k="${escapeHtml(key)}">${opts}</select>
+      </div>
+    `;
+  }
+
+  function ownerSelectField(currentOwner){
+    if(peopleCount() <= 1){
+      return `
+        <div class="fieldCompact">
+          <label>Dueño</label>
+          <input type="text" value="Persona principal" disabled />
+        </div>
+      `;
     }
-    return base.join(" ");
+    return `
+      <div class="fieldCompact">
+        <label>Dueño</label>
+        <select data-k="owner">${ownerOptionsHTML(currentOwner || "")}</select>
+      </div>
+    `;
   }
 
-  window.addEventListener("resize", () => {
-    // re-render to adjust grid columns responsive
-    if(accordionPanel.style.display !== "none"){
-      renderAccordion();
+  function baseRowCard(it, gridClass, fieldsHtml){
+    return `
+      <div class="rowCard" data-id="${it.id}">
+        <button class="xicon" type="button" title="Eliminar">✕</button>
+        <div class="${gridClass}">
+          ${fieldsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function incomeRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Salario principal"})}
+        ${makeSelect({label:"Tipo de ingreso", key:"type", options: INCOME_TYPES, value: it.type || ""})}
+        ${makeField({label:"Cantidad anual (USD)", type:"number", key:"amountAnnual", value: it.amountAnnual ?? "", min:0, step:"0.01", placeholder:"Ej: 95000"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function liabilitiesRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow6",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Chase Freedom"})}
+        ${makeSelect({label:"Tipo de deuda", key:"type", options: DEBT_TYPES, value: it.type || ""})}
+        ${makeField({label:"Tasa de interés (%)", type:"number", key:"interestRate", value: it.interestRate ?? "", min:0, step:"0.01", placeholder:"Ej: 22.99"})}
+        ${makeField({label:"Pago mensual (USD)", type:"number", key:"monthlyPayment", value: it.monthlyPayment ?? "", min:0, step:"0.01", placeholder:"Ej: 250"})}
+        ${makeField({label:"Balance (USD)", type:"number", key:"balance", value: it.balance ?? "", min:0, step:"0.01", placeholder:"Ej: 4200"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function realEstateRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow6",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Casa principal"})}
+        ${makeSelect({label:"Tipo", key:"type", options:["Casa","Apartamento","Terreno","Propiedad renta","Otro"], value: it.type || ""})}
+        ${makeField({label:"Valor estimado (USD)", type:"number", key:"value", value: it.value ?? "", min:0, step:"0.01", placeholder:"Ej: 450000"})}
+        ${makeField({label:"Balance hipoteca (USD)", type:"number", key:"mortgageBalance", value: it.mortgageBalance ?? "", min:0, step:"0.01", placeholder:"Ej: 320000"})}
+        ${makeField({label:"Pago mensual (USD)", type:"number", key:"monthlyPayment", value: it.monthlyPayment ?? "", min:0, step:"0.01", placeholder:"Ej: 2200"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function insuranceRowHtml(it){
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Seguro de auto GEICO"})}
+        ${makeSelect({label:"Tipo", key:"type", options: SIMPLE_TYPES.insurance, value: it.type || ""})}
+        ${makeField({label:"Prima anual (USD)", type:"number", key:"premiumAnnual", value: it.premiumAnnual ?? "", min:0, step:"0.01", placeholder:"Ej: 1800"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function simpleRowHtml(it, catKey){
+    const types = SIMPLE_TYPES[catKey] || ["Otro"];
+    return baseRowCard(
+      it,
+      "gridRow4",
+      `
+        ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Bank of America"})}
+        ${makeSelect({label:"Tipo", key:"type", options: types, value: it.type || ""})}
+        ${makeField({label:"Valor asociado (USD)", type:"number", key:"value", value: it.value ?? "", min:0, step:"0.01", placeholder:"Ej: 15000"})}
+        ${ownerSelectField(it.owner)}
+      `
+    );
+  }
+
+  function addRow(catKey){
+    const base = { id: uid(catKey), category: catKey, owner: defaultOwner(), name:"", type:"" };
+    let row;
+    if(catKey === "income"){
+      row = { ...base, amountAnnual: null };
+    } else if(catKey === "liabilities"){
+      row = { ...base, interestRate: null, monthlyPayment: null, balance: null };
+    } else if(catKey === "real_estate"){
+      row = { ...base, value: null, mortgageBalance: null, monthlyPayment: null };
+    } else if(catKey === "insurance"){
+      row = { ...base, premiumAnnual: null };
+    } else {
+      row = { ...base, value: null };
     }
-  });
-
-  // =========================
-  // Notes per category (stored as special rows)
-  // (so you keep everything in one state.finance.items)
-  // =========================
-  function getCategoryNote(catKey){
-    const noteRow = state.finance.items.find(x => x.category === catKey && x.__type === "cat_note");
-    return noteRow?.note || "";
-  }
-  function setCategoryNote(catKey, note){
-    let noteRow = state.finance.items.find(x => x.category === catKey && x.__type === "cat_note");
-    if(!noteRow){
-      noteRow = { id: uid("note"), category: catKey, __type:"cat_note", note: "" };
-      state.finance.items.push(noteRow);
-    }
-    noteRow.note = note || "";
-  }
-
-  // =========================
-  // Row factory
-  // =========================
-  function makeBlankRow(catKey){
-    const schema = SCHEMA[catKey];
-    const row = { id: uid("fin"), category: catKey };
-
-    // defaults
-    schema.cols.forEach(c => {
-      if(c.type === "owner"){
-        row.owner = defaultOwner();
-      } else {
-        row[c.k] = null;
-      }
-    });
-
-    // enforce empty strings for text/select, null for numbers
-    schema.cols.forEach(c => {
-      if(c.type === "text" || c.type === "select") row[c.k] = "";
-      if(c.type === "number") row[c.k] = null;
-    });
-
+    state.financials.items.push(row);
     return row;
   }
 
-  // =========================
-  // JSON preview
-  // =========================
-  function renderJSON(){
-    const payload = buildFinancePayload();
-    jsonPreview.textContent = JSON.stringify(payload, null, 2);
-  }
+  function renderCategoryRows(catKey, rowsEl){
+    const items = state.financials.items.filter(it => it.category === catKey);
+    if(items.length === 0) addRow(catKey);
 
-  function buildFinancePayload(){
-    // Build structured object: by category, include rows, plus category note
-    const out = {
-      selectedCategories: [...state.finance.selected],
-      categories: {}
-    };
+    const items2 = state.financials.items.filter(it => it.category === catKey);
+    rowsEl.innerHTML = items2.map(it => {
+      if(catKey === "income") return incomeRowHtml(it);
+      if(catKey === "liabilities") return liabilitiesRowHtml(it);
+      if(catKey === "real_estate") return realEstateRowHtml(it);
+      if(catKey === "insurance") return insuranceRowHtml(it);
+      return simpleRowHtml(it, catKey);
+    }).join("");
 
-    for(const catKey of state.finance.selected){
-      const rows = state.finance.items
-        .filter(x => x.category === catKey && x.__type !== "cat_note")
-        .map(x => ({ ...x }));
+    rowsEl.querySelectorAll(".rowCard").forEach(card => {
+      const id = card.getAttribute("data-id");
+      const it = state.financials.items.find(x => x.id === id);
+      if(!it) return;
 
-      const note = getCategoryNote(catKey);
-
-      // Validation light (required main fields per schema)
-      const schema = SCHEMA[catKey];
-      const requiredKeys = schema.cols.map(c => c.type === "owner" ? "owner" : c.k);
-      const errors = [];
-
-      rows.forEach(r => {
-        requiredKeys.forEach(k => {
-          if(k === "owner"){
-            if(hasMultiplePeople() && !r.owner) errors.push({ rowId:r.id, field:"owner", issue:"Falta dueño" });
-          } else {
-            const val = r[k];
-            if(val === "" || val === null || val === undefined){
-              // allow some categories to have optional fields? (for now: require all row fields)
-              errors.push({ rowId:r.id, field:k, issue:"Falta valor" });
-            }
-          }
-        });
+      // delete
+      card.querySelector(".xicon").addEventListener("click", (e) => {
+        e.stopPropagation();
+        state.financials.items = state.financials.items.filter(x => x.id !== id);
+        renderCategoryRows(catKey, rowsEl);
+        const accItemEl = rowsEl.closest(".accItem");
+        updateBadge(catKey, accItemEl);
+        renderFinancialsJson();
+        updateNavValidity();
       });
 
-      out.categories[catKey] = {
-        items: rows,
-        note,
-        validation: { ok: errors.length === 0, errors }
-      };
-    }
-    return out;
+      // changes
+      card.addEventListener("input", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const k = t.getAttribute("data-k");
+        if(!k) return;
+
+        if(t.tagName === "INPUT" && t.getAttribute("type") === "number"){
+          const n = Number(t.value);
+          it[k] = Number.isFinite(n) && t.value !== "" ? n : null;
+        } else {
+          it[k] = t.value;
+        }
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      card.addEventListener("change", (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const k = t.getAttribute("data-k");
+        if(!k) return;
+
+        it[k] = t.value;
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+    });
   }
 
-  // =========================
-  // Flow buttons
-  // =========================
-  continueBtn.addEventListener("click", () => {
-    selectorPanel.style.display = "none";
-    accordionPanel.style.display = "block";
+  function updateBadge(catKey, accItemEl){
+    const badge = accItemEl.querySelector("[data-badge]");
+    if(badge) badge.textContent = `${countItems(catKey)} ítems`;
+  }
+
+  function renderAccordion(){
+    accordionWrap.innerHTML = "";
+    const keys = state.financials.categoriesSelected;
+
+    keys.forEach(catKey => {
+      const meta = FIN_CATS.find(c => c.key === catKey);
+      const label = meta ? meta.label : catKey;
+
+      const itemEl = document.createElement("div");
+      itemEl.className = "accItem";
+      itemEl.dataset.cat = catKey;
+
+      itemEl.innerHTML = `
+        <div class="accHead">
+          <div class="accTitle">
+            <span class="badge" data-badge>${countItems(catKey)} ítems</span>
+            <b>${escapeHtml(label)}</b>
+          </div>
+          <div class="caret">▾</div>
+        </div>
+        <div class="accBody">
+          <div class="hint" style="margin-bottom:10px;">
+            ${escapeHtml(meta?.hint || "")}
+          </div>
+
+          <div data-rows></div>
+
+          <div class="rowFooter">
+            <button class="addBtn" type="button" data-add>+ Añadir</button>
+            <div class="hint">Agrega tantas filas como necesites.</div>
+          </div>
+        </div>
+      `;
+
+      itemEl.querySelector(".accHead").addEventListener("click", () => openOnly(itemEl));
+
+      const rowsEl = itemEl.querySelector("[data-rows]");
+      itemEl.querySelector("[data-add]").addEventListener("click", () => {
+        addRow(catKey);
+        renderCategoryRows(catKey, rowsEl);
+        updateBadge(catKey, itemEl);
+        renderFinancialsJson();
+        updateNavValidity();
+      });
+
+      renderCategoryRows(catKey, rowsEl);
+      updateBadge(catKey, itemEl);
+
+      accordionWrap.appendChild(itemEl);
+    });
+
+    // open first by default (if none open)
+    const first = accordionWrap.querySelector(".accItem");
+    if(first && !accordionWrap.querySelector(".accItem.open")) first.classList.add("open");
+  }
+
+  function renderFinancialsJson(){
+    financialsJson.textContent = JSON.stringify({ financials: state.financials }, null, 2);
+  }
+
+  // selector → accordion
+  continueFinBtn.addEventListener("click", () => {
+    finSelectorPanel.style.display = "none";
+    finAccordionPanel.style.display = "block";
     renderAccordion();
+    renderFinancialsJson();
+    updateNavValidity();
   });
 
-  backToSelect.addEventListener("click", () => {
-    accordionPanel.style.display = "none";
-    selectorPanel.style.display = "block";
-    renderSelector();
+  backToFinSelectBtn.addEventListener("click", () => {
+    finAccordionPanel.style.display = "none";
+    finSelectorPanel.style.display = "block";
+    renderFinSelector();
+    setContinueFinEnabled();
+    renderFinancialsJson();
+    updateNavValidity();
   });
 
-  closeAllBtn.addEventListener("click", () => {
-    closeAll();
+  closeAllBtn.addEventListener("click", () => closeAll());
+
+  // ---------- Finish ----------
+  function renderFinish(){
+    notesEl.value = state.notes || "";
+    notesEl.oninput = () => {
+      state.notes = notesEl.value;
+      renderFinish();
+    };
+
+    const peopleCount = state.people.members.length;
+    const cats = state.financials.categoriesSelected.length;
+
+    summaryKV.innerHTML = `
+      <div class="k">Email</div><div class="v">${escapeHtml(state.contact.email || "—")}</div>
+      <div class="k">Personas</div><div class="v">${peopleCount}</div>
+      <div class="k">Proveedor económico</div><div class="v">${formatHouseholdRole(state.people.householdRole)}</div>
+      <div class="k">Categorías financieras</div><div class="v">${cats}</div>
+    `;
+
+    const payload = buildFinalPayload();
+    finalJson.textContent = JSON.stringify(payload, null, 2);
+
+    const vContact = validateContact().ok;
+    const vPeople = validatePeople().ok;
+    const vFin = validateFinancials().ok;
+    const allOk = vContact && vPeople && vFin;
+
+    validStateEl.textContent = allOk ? "✅ Listo para enviar" : "⚠️ Falta completar campos";
+    contactStateEl.textContent = vContact ? "✅" : "⚠️";
+    peopleStateEl.textContent = vPeople ? "✅" : "⚠️";
+    finStateEl.textContent = vFin ? "✅" : "⚠️";
+
+    submitBtn.disabled = !allOk;
+    submitHint.textContent = allOk
+      ? "Puedes enviar. (Demo: imprime en consola y descarga JSON)"
+      : "Completa los pasos obligatorios para habilitar el envío.";
+  }
+
+  function buildFinalPayload(){
+    return {
+      meta: { source: "discovery_v1_html", createdAt: new Date().toISOString() },
+      contact: {
+        email: state.contact.email,
+        phone: state.contact.phone || "",
+        consent: state.contact.consent
+      },
+      people: state.people,
+      financials: state.financials,
+      notes: state.notes || ""
+    };
+  }
+
+  // ---------- Events: Step 1 binding ----------
+  function bindContact(){
+    emailEl.value = state.contact.email;
+    phoneEl.value = state.contact.phone;
+    consentEl.checked = state.contact.consent;
+
+    emailEl.addEventListener("input", () => {
+      state.contact.email = emailEl.value.trim();
+      updateNavValidity();
+    });
+    phoneEl.addEventListener("input", () => {
+      state.contact.phone = phoneEl.value.trim();
+    });
+    consentEl.addEventListener("change", () => {
+      state.contact.consent = consentEl.checked;
+      updateNavValidity();
+    });
+  }
+
+  // ---------- Navigation ----------
+  backBtn.addEventListener("click", () => {
+    if(state.step > 1) setStep(state.step - 1);
   });
 
-  copyJsonBtn.addEventListener("click", async () => {
-    try{
-      const text = jsonPreview.textContent || "";
-      await navigator.clipboard.writeText(text);
-      copyJsonBtn.textContent = "Copiado ✓";
-      setTimeout(()=>copyJsonBtn.textContent="Copiar JSON", 1200);
-    }catch(err){
-      alert("No se pudo copiar. Selecciona el texto manualmente.");
-    }
+  nextBtn.addEventListener("click", () => {
+    if(state.step === 1 && !validateContact().ok) return;
+    if(state.step === 2 && !validatePeople().ok) return;
+    if(state.step === 3 && !validateFinancials().ok) return;
+    if(state.step < 4) setStep(state.step + 1);
   });
 
-  // =========================
-  // Init
-  // =========================
-  renderSelector();
+  submitBtn.addEventListener("click", () => {
+    const payload = buildFinalPayload();
+    console.log("[Discovery payload]", payload);
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "discovery-payload.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    submitBtn.textContent = "Enviado ✓";
+    setTimeout(() => (submitBtn.textContent = "Enviar"), 1600);
+  });
+
+  // ---------- Utilities ----------
+  function formatHouseholdRole(v){
+    if(v === "primary_provider") return "Principalmente yo";
+    if(v === "shared") return "Compartido";
+    if(v === "not_primary") return "No soy el principal";
+    return "—";
+  }
+
+  // ---------- Init ----------
+  bindContact();
+  renderPeopleJson();
+  renderFinancialsJson();
+  setStep(1);
 
 })();
 </script>
