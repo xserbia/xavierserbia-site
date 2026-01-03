@@ -730,7 +730,10 @@
   const FIN_CATS = [
     { key:"income", label:"Ingresos", hint:"Tipos de ingreso + monto anual + dueño." },
     { key:"liabilities", label:"Préstamos y pasivos", hint:"Tipo, tasa, pago mensual, balance." },
-    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades, valor estimado, hipoteca." },
+
+    /* ✅ CAMBIO: bienes raíces solo activo; hipoteca va en pasivos */
+    { key:"real_estate", label:"Bienes raíces", hint:"Propiedades, valor estimado. (La hipoteca va en Pasivos)" },
+
     { key:"investments_retirement", label:"Inversiones · Retiro", hint:"401k/IRA, etc. valor estimado." },
     { key:"investments_nonretirement", label:"Inversiones · No retiro", hint:"Brokerage/cripto, etc." },
     { key:"banking", label:"Banca / liquidez", hint:"Cuentas bancarias y efectivo." },
@@ -1237,16 +1240,15 @@
     );
   }
 
+  /* ✅ CAMBIO: real estate solo activo (sin balance ni pago mensual) */
   function realEstateRowHtml(it){
     return baseRowCard(
       it,
-      "gridRow6",
+      "gridRow4",
       `
         ${makeField({label:"Nombre / alias", key:"name", value: it.name || "", placeholder:"Ej: Casa principal"})}
         ${makeSelect({label:"Tipo", key:"type", options:["Casa","Apartamento","Terreno","Propiedad renta","Otro"], value: it.type || ""})}
         ${makeField({label:"Valor estimado (USD)", type:"number", key:"value", value: it.value ?? "", min:0, step:"0.01", placeholder:"Ej: 450000"})}
-        ${makeField({label:"Balance hipoteca (USD)", type:"number", key:"mortgageBalance", value: it.mortgageBalance ?? "", min:0, step:"0.01", placeholder:"Ej: 320000"})}
-        ${makeField({label:"Pago mensual (USD)", type:"number", key:"monthlyPayment", value: it.monthlyPayment ?? "", min:0, step:"0.01", placeholder:"Ej: 2200"})}
         ${ownerSelectField(it.owner)}
       `
     );
@@ -1287,7 +1289,8 @@
     } else if(catKey === "liabilities"){
       row = { ...base, interestRate: null, monthlyPayment: null, balance: null };
     } else if(catKey === "real_estate"){
-      row = { ...base, value: null, mortgageBalance: null, monthlyPayment: null };
+      /* ✅ CAMBIO: solo value */
+      row = { ...base, value: null };
     } else if(catKey === "insurance"){
       row = { ...base, premiumAnnual: null };
     } else {
