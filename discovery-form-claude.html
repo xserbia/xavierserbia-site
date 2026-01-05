@@ -257,6 +257,54 @@
     .quickTemplates{
       margin: 16px 0;
     }
+
+    /* Goal cards */
+    .goalsGrid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap:12px;
+      margin: 20px 0;
+    }
+    .goalCard{
+      border:2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      text-align:center;
+      cursor:pointer;
+      transition: all .2s ease;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .goalCard:hover{
+      border-color: rgba(57,86,232,.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(15,23,42,.1);
+    }
+    .goalCard.selected{
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(57,86,232,.08), rgba(116,89,217,.08));
+      box-shadow: 0 4px 12px rgba(57,86,232,.2);
+    }
+    .goalCard .goalIcon{
+      font-size:48px;
+      line-height:1;
+    }
+    .goalCard .goalLabel{
+      font-size:13px;
+      font-weight:700;
+      color:var(--text);
+    }
+    .goalCard.selected .goalLabel{
+      color:var(--primary);
+    }
+
+    /* Templates */
+    .quickTemplates{
+      margin: 16px 0;
+    }
     .quickTemplates b{
       display:block;
       margin-bottom:10px;
@@ -962,6 +1010,9 @@
       .templateGrid, .summaryGrid{
         grid-template-columns: 1fr;
       }
+      .goalsGrid{
+        grid-template-columns: repeat(2, 1fr);
+      }
       .row{
         grid-template-columns:1fr;
       }
@@ -1011,22 +1062,37 @@
 
     @media (max-width: 640px){
       .stepCircles{
-        gap:12px;
+        gap:8px;
       }
       .stepNumber{
-        width:50px;
-        height:50px;
-        font-size:20px;
+        width:45px;
+        height:45px;
+        font-size:18px;
         border-width:2px;
       }
       .stepCircle:not(:last-child)::after{
-        top:25px;
-        left:calc(50% + 25px);
-        width:12px;
+        top:22px;
+        left:calc(50% + 22px);
+        width:8px;
         height:2px;
       }
       .stepLabel{
-        font-size:10px;
+        font-size:9px;
+      }
+    }
+
+    @media (max-width: 480px){
+      .goalsGrid{
+        gap:8px;
+      }
+      .goalCard{
+        padding:12px 8px;
+      }
+      .goalCard .goalIcon{
+        font-size:36px;
+      }
+      .goalCard .goalLabel{
+        font-size:11px;
       }
     }
 
@@ -1075,16 +1141,20 @@
         </div>
         <div class="stepCircle" data-step-circle="3">
           <div class="stepNumber">3</div>
-          <div class="stepLabel">Finanzas</div>
+          <div class="stepLabel">Metas</div>
         </div>
         <div class="stepCircle" data-step-circle="4">
           <div class="stepNumber">4</div>
+          <div class="stepLabel">Finanzas</div>
+        </div>
+        <div class="stepCircle" data-step-circle="5">
+          <div class="stepNumber">5</div>
           <div class="stepLabel">Final</div>
         </div>
       </div>
 
       <div class="progressInline">
-        <span class="progressText" id="progressText">Paso 1 de 4</span>
+        <span class="progressText" id="progressText">Paso 1 de 5</span>
         <div class="autoSaveIndicator" id="autoSave">Guardado ✓</div>
       </div>
     </header>
@@ -1164,8 +1234,74 @@
           </div>
         </section>
 
-        <!-- STEP 3: Finanzas (Wizard) -->
+        <!-- STEP 3: Metas -->
         <section class="step" data-step="3" hidden>
+          <div class="panel">
+            <h2>¿Cuáles son tus metas financieras?</h2>
+            <p>
+              Selecciona todas las metas que sean importantes para ti. 
+              Esto nos ayuda a <b>priorizar recomendaciones</b> en tu diagnóstico.
+            </p>
+
+            <div class="goalsGrid" id="goalsGrid">
+              <div class="goalCard" data-goal="casa">
+                <div class="goalIcon">🏠</div>
+                <div class="goalLabel">Comprar casa</div>
+              </div>
+              <div class="goalCard" data-goal="retiro">
+                <div class="goalIcon">🏖️</div>
+                <div class="goalLabel">Retiro cómodo</div>
+              </div>
+              <div class="goalCard" data-goal="emergencia">
+                <div class="goalIcon">🛡️</div>
+                <div class="goalLabel">Fondo emergencia</div>
+              </div>
+              <div class="goalCard" data-goal="educacion">
+                <div class="goalIcon">🎓</div>
+                <div class="goalLabel">Educación hijos</div>
+              </div>
+              <div class="goalCard" data-goal="viaje">
+                <div class="goalIcon">✈️</div>
+                <div class="goalLabel">Viaje/Vacaciones</div>
+              </div>
+              <div class="goalCard" data-goal="deudas">
+                <div class="goalIcon">💳</div>
+                <div class="goalLabel">Pagar deudas</div>
+              </div>
+              <div class="goalCard" data-goal="negocio">
+                <div class="goalIcon">💼</div>
+                <div class="goalLabel">Iniciar negocio</div>
+              </div>
+              <div class="goalCard" data-goal="auto">
+                <div class="goalIcon">🚗</div>
+                <div class="goalLabel">Comprar auto</div>
+              </div>
+              <div class="goalCard" data-goal="inversiones">
+                <div class="goalIcon">📈</div>
+                <div class="goalLabel">Hacer crecer dinero</div>
+              </div>
+              <div class="goalCard" data-goal="independencia">
+                <div class="goalIcon">🦅</div>
+                <div class="goalLabel">Independencia financiera</div>
+              </div>
+              <div class="goalCard" data-goal="herencia">
+                <div class="goalIcon">🎁</div>
+                <div class="goalLabel">Dejar herencia</div>
+              </div>
+              <div class="goalCard" data-goal="otro">
+                <div class="goalIcon">🎯</div>
+                <div class="goalLabel">Otra meta</div>
+              </div>
+            </div>
+
+            <div class="hint" style="margin-top:14px;">
+              💡 <b>Tip:</b> No hay límite - selecciona todas las que apliquen. Puedes no seleccionar ninguna si prefieres.
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 4: Finanzas (Wizard) -->
+        <section class="step" data-step="4" hidden>
           <div class="panel">
             <h2>Snapshot financiero</h2>
             <p>
@@ -1378,8 +1514,8 @@
           </div>
         </section>
 
-        <!-- STEP 4: Confirmación -->
-        <section class="step" data-step="4" hidden>
+        <!-- STEP 5: Confirmación -->
+        <section class="step" data-step="5" hidden>
           <div class="confirmationHero">
             <div class="checkIcon">✓</div>
             <h2>¡Listo! Tu información ha sido enviada</h2>
@@ -1467,6 +1603,8 @@
       householdRole: '',
       members: []
     },
+
+    goals: [],
 
     financials: {
       incomeRange: "",
@@ -1562,16 +1700,17 @@
     // Progress text
     const elapsed = Math.floor((Date.now() - state.startTime) / 60000);
     const remaining = Math.max(1, 10 - elapsed);
-    $('#progressText').textContent = `Paso ${step} de 4 · ~${remaining} min restantes`;
+    $('#progressText').textContent = `Paso ${step} de 5 · ~${remaining} min restantes`;
 
     // Buttons
     backBtn.hidden = step === 1;
-    nextBtn.hidden = step === 4;
+    nextBtn.hidden = step === 5;
 
     // Step-specific
     if(step === 2) renderPeople();
-    if(step === 3) renderWizard();
-    if(step === 4) renderConfirmation();
+    if(step === 3) renderGoals();
+    if(step === 4) renderWizard();
+    if(step === 5) renderConfirmation();
 
     updateNavValidity();
     debouncedSave();
@@ -1581,7 +1720,8 @@
     let canNext = true;
     if(state.step === 1) canNext = true;
     if(state.step === 2) canNext = validatePeople().ok;
-    if(state.step === 3) canNext = validateFinancials().ok;
+    if(state.step === 3) canNext = true; // Goals - optional
+    if(state.step === 4) canNext = validateFinancials().ok;
     nextBtn.disabled = !canNext;
   }
 
@@ -1591,8 +1731,8 @@
 
   nextBtn.addEventListener('click', () => {
     if(state.step === 2 && !validatePeople().ok) return;
-    if(state.step === 3 && !validateFinancials().ok) return;
-    if(state.step < 4) setStep(state.step + 1);
+    if(state.step === 4 && !validateFinancials().ok) return;
+    if(state.step < 5) setStep(state.step + 1);
   });
 
   // ===== Validation =====
@@ -1840,7 +1980,45 @@
     debouncedSave();
   });
 
-  // ===== STEP 3: Wizard =====
+  // ===== STEP 3: Goals =====
+  function renderGoals(){
+    const goalCards = $$('.goalCard');
+    
+    // Restore selected state
+    goalCards.forEach(card => {
+      const goal = card.dataset.goal;
+      if(state.goals.includes(goal)){
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+  }
+  
+  // Handle goal selection (only add listeners once)
+  $$('.goalCard').forEach(card => {
+    // Remove old listeners by cloning
+    const newCard = card.cloneNode(true);
+    card.parentNode.replaceChild(newCard, card);
+    
+    newCard.addEventListener('click', () => {
+      const goal = newCard.dataset.goal;
+      
+      if(newCard.classList.contains('selected')){
+        // Deselect
+        newCard.classList.remove('selected');
+        state.goals = state.goals.filter(g => g !== goal);
+      } else {
+        // Select
+        newCard.classList.add('selected');
+        state.goals.push(goal);
+      }
+      
+      debouncedSave();
+    });
+  });
+
+  // ===== STEP 4: Wizard =====
   const CATEGORY_SUGGESTIONS = {
     '0-50k': ['income', 'expenses', 'banking', 'liabilities', 'other_assets'],
     '50-100k': ['income', 'expenses', 'savings', 'banking', 'liabilities', 'investments_retirement', 'other_assets'],
@@ -2494,7 +2672,7 @@
     showToast('Wizard reiniciado - puedes editar tus respuestas');
   });
 
-  // ===== STEP 4: Confirmation =====
+  // ===== STEP 5: Confirmation =====
   const finalNotesEl = $('#finalNotes');
   const finalSubmitBtn = $('#finalSubmit');
   const summaryGrid = $('#summaryGrid');
@@ -2531,11 +2709,16 @@
     
     const peopleCount = state.people.members.length;
     const categoriesCount = state.financials.categoriesSelected.length;
+    const goalsCount = state.goals.length;
     
     let summaryHTML = `
       <div class="summaryCard">
         <div class="label">Personas en el hogar</div>
         <div class="value">${peopleCount}</div>
+      </div>
+      <div class="summaryCard">
+        <div class="label">Metas seleccionadas</div>
+        <div class="value">${goalsCount}</div>
       </div>
       <div class="summaryCard">
         <div class="label">Categorías completadas</div>
@@ -2634,6 +2817,7 @@
         clientId
       },
       people: state.people,
+      goals: state.goals,
       financials: state.financials,
       notes: state.notes || '',
       flags: {
