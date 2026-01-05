@@ -1393,7 +1393,7 @@
               <!-- Wizard step 5: Insurance -->
               <div class="wizardStep" data-wizard="5">
                 <div class="wizardQ">
-                  <b>Pregunta 5 de 10</b>
+                  <b>Pregunta 5 de 9</b>
                   <h3>¿Tienes seguros activos?</h3>
                   <p class="hint">Vida, salud, auto, hogar, etc.</p>
                 </div>
@@ -1411,7 +1411,7 @@
               <!-- Wizard step 6: Business/Trust -->
               <div class="wizardStep" data-wizard="6">
                 <div class="wizardQ">
-                  <b>Pregunta 6 de 10</b>
+                  <b>Pregunta 6 de 9</b>
                   <h3>¿Tienes un negocio o trust?</h3>
                   <p class="hint">Negocio propio, LLC, partnership, trusts, etc.</p>
                 </div>
@@ -1429,7 +1429,7 @@
               <!-- Wizard step 7: Legal -->
               <div class="wizardStep" data-wizard="7">
                 <div class="wizardQ">
-                  <b>Pregunta 7 de 10</b>
+                  <b>Pregunta 7 de 9</b>
                   <h3>¿Tienes documentos legales importantes?</h3>
                   <p class="hint">Testamento, poderes, trusts, beneficiarios, etc.</p>
                 </div>
@@ -1447,7 +1447,7 @@
               <!-- Wizard step 8: Other Assets -->
               <div class="wizardStep" data-wizard="8">
                 <div class="wizardQ">
-                  <b>Pregunta 8 de 10</b>
+                  <b>Pregunta 8 de 9</b>
                   <h3>¿Tienes otros activos importantes?</h3>
                   <p class="hint">Vehículos, joyas, arte, colecciones, etc.</p>
                 </div>
@@ -1462,30 +1462,12 @@
                 </div>
               </div>
 
-              <!-- Wizard step 9: Expenses -->
+              <!-- Wizard step 9: Savings -->
               <div class="wizardStep" data-wizard="9">
                 <div class="wizardQ">
-                  <b>Pregunta 9 de 10</b>
-                  <h3>¿Quieres detallar tus gastos mensuales?</h3>
-                  <p class="hint">Alimentación, casa, transporte, entretenimiento, etc.</p>
-                </div>
-                
-                <div class="wizardOptions">
-                  <button class="optionBtn" data-answer="yes" type="button">
-                    📝 Sí, quiero detallarlos
-                  </button>
-                  <button class="optionBtn" data-answer="no" type="button">
-                    ⏭️ No, saltear por ahora
-                  </button>
-                </div>
-              </div>
-
-              <!-- Wizard step 10: Savings -->
-              <div class="wizardStep" data-wizard="10">
-                <div class="wizardQ">
-                  <b>Pregunta 10 de 10</b>
-                  <h3>¿Tienes ahorro activo o metas financieras?</h3>
-                  <p class="hint">Fondo de emergencia, metas específicas, ahorro para retiro</p>
+                  <b>Pregunta 9 de 9</b>
+                  <h3>¿Tienes ahorro activo?</h3>
+                  <p class="hint">Fondo de emergencia, ahorros para retiro, inversiones</p>
                 </div>
                 
                 <div class="wizardOptions">
@@ -1615,7 +1597,6 @@
       hasBusiness: null,
       hasLegal: null,
       hasOtherAssets: null,
-      hasExpenses: null,
       hasSavings: null,
       categoriesSelected: [],
       items: []
@@ -2029,7 +2010,7 @@
   const FIN_CATS = [
     { key:"income", label:"Ingresos", hint:"Salarios, negocios, rentas" },
     { key:"expenses", label:"Gastos mensuales", hint:"Desglose de gastos por categoría" },
-    { key:"savings", label:"Ahorro y metas", hint:"Ahorro activo y objetivos financieros" },
+    { key:"savings", label:"Ahorro", hint:"Ahorro activo mensual" },
     { key:"liabilities", label:"Deudas", hint:"Tarjetas, préstamos, hipoteca" },
     { key:"real_estate", label:"Bienes raíces", hint:"Propiedades que posees" },
     { key:"investments_retirement", label:"Inversiones de retiro", hint:"401k, IRA, pensión" },
@@ -2060,7 +2041,6 @@
   // Savings taxonomy
   const SAVINGS_TAX = {
     "Reserva de emergencia": ["Depósito", "Aporte mensual"],
-    "Metas": ["Viaje", "Casa", "Educación", "Auto", "Otro"],
     "Retiro": ["401(k)", "IRA/Roth", "Otro"],
     "Inversión": ["Brokerage", "ETF/Fondos", "Cripto", "Otro"],
     "Otro": ["Otro"]
@@ -2274,12 +2254,6 @@
           }
         }
         if(stepNum === 9){
-          state.financials.hasExpenses = answer === 'yes';
-          if(answer === 'yes' && !state.financials.categoriesSelected.includes('expenses')){
-            state.financials.categoriesSelected.push('expenses');
-          }
-        }
-        if(stepNum === 10){
           state.financials.hasSavings = answer === 'yes';
           if(answer === 'yes' && !state.financials.categoriesSelected.includes('savings')){
             state.financials.categoriesSelected.push('savings');
@@ -2289,7 +2263,7 @@
         debouncedSave();
 
         // Next step or finish
-        if(stepNum < 10){
+        if(stepNum < 9){
           state.wizardStep = stepNum + 1;
           renderWizard();
         } else {
@@ -2664,7 +2638,6 @@
     state.financials.hasBusiness = null;
     state.financials.hasLegal = null;
     state.financials.hasOtherAssets = null;
-    state.financials.hasExpenses = null;
     state.financials.hasSavings = null;
     
     renderWizard();
