@@ -283,6 +283,112 @@
                 <p class="text-emerald-100 text-lg">maria.gonzalez@email.com • +34 612 345 678</p>
             </div>
 
+            <!-- TIMELINE DE PROGRESO -->
+            <div class="bg-white rounded-2xl p-8 mb-6 shadow-lg">
+                <h3 class="text-xl font-bold text-slate-900 mb-6 pb-3 border-b-2 border-emerald-200">
+                    📊 Progreso del Cliente
+                </h3>
+                
+                <!-- Timeline -->
+                <div class="relative">
+                    <!-- Línea de conexión -->
+                    <div class="absolute top-6 left-0 right-0 h-1 bg-slate-200" style="z-index: 0;"></div>
+                    <div class="absolute top-6 left-0 h-1 bg-emerald-500 transition-all duration-500" style="width: 66.66%; z-index: 0;"></div>
+                    
+                    <!-- Etapas -->
+                    <div class="grid grid-cols-6 gap-2 relative" style="z-index: 1;">
+                        
+                        <!-- 1. Registro -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer" onclick="updateStage(1)">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-emerald-700 text-sm">Registro</div>
+                                <div class="text-xs text-slate-500 mt-1">✓ Completado</div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Pago -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer" onclick="updateStage(2)">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-emerald-700 text-sm">Pago</div>
+                                <div class="text-xs text-slate-500 mt-1">✓ 05 Ene</div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Contrato -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer" onclick="updateStage(3)">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-emerald-700 text-sm">Contrato</div>
+                                <div class="text-xs text-slate-500 mt-1">✓ Firmado</div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Discovery -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer" onclick="updateStage(4)">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-emerald-700 text-sm">Discovery</div>
+                                <div class="text-xs text-slate-500 mt-1">✓ Recibido</div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Video Call - ACTUAL -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-amber-500 text-white shadow-xl border-4 border-amber-200 animate-pulse cursor-pointer" onclick="updateStage(5)">
+                                <span class="text-xl">🎥</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-amber-700 text-sm">Video Call</div>
+                                <div class="text-xs text-amber-600 mt-1 font-semibold">← En curso</div>
+                            </div>
+                        </div>
+
+                        <!-- 6. Caso Cerrado -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all" onclick="updateStage(6)">
+                                <span class="text-xl">📋</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-slate-500 text-sm">Cerrado</div>
+                                <div class="text-xs text-slate-400 mt-1">Pendiente</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Info de etapa actual -->
+                <div class="mt-6 p-4 bg-amber-50 border-2 border-amber-200 rounded-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">🎥</div>
+                        <div>
+                            <div class="font-bold text-amber-900">Etapa Actual: Video Call Programada</div>
+                            <div class="text-sm text-amber-700 mt-1">
+                                Sesión agendada para el <strong>Domingo, 12 Enero 2026 - 15:00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Left Column -->
                 <div class="lg:col-span-2 space-y-6">
@@ -546,6 +652,9 @@
             '2026-01-15': [{name: 'Laura Fernández', time: '16:30', hasVideo: false}]
         };
 
+        // Variable para el progreso del cliente (1-6)
+        let clientStage = 4; // María está en etapa 4 (Discovery completado, próximo: Video Call)
+
         function renderCalendar() {
             const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -624,6 +733,17 @@
             currentMonth = today.getMonth();
             currentYear = today.getFullYear();
             renderCalendar();
+        }
+
+        function updateStage(stage) {
+            clientStage = stage;
+            alert(`Etapa actualizada a: ${getStageNameh(stage)}`);
+            // Aquí podrías actualizar visualmente el timeline
+        }
+
+        function getStageName(stage) {
+            const stages = ['', 'Registro', 'Pago', 'Contrato', 'Discovery', 'Video Call', 'Cerrado'];
+            return stages[stage];
         }
 
         // Funciones de videollamada
