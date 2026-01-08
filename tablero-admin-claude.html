@@ -1421,12 +1421,59 @@ El equipo de Money Map 💰`
             document.getElementById('new-note-form').classList.add('hidden');
         }
 
+        // Funciones de videollamada
+function startVideoCall() {
+    const link = document.getElementById('saved-video-link').textContent.trim();
+    if (link && link.startsWith('http')) {
+        window.open(link, '_blank');
+    } else {
+        alert('Por favor, configura primero el link de videollamada');
+    }
+}
+
+function copyVideoLink() {
+    const link = document.getElementById('saved-video-link').textContent.trim();
+    navigator.clipboard.writeText(link).then(() => {
+        alert('✅ Link copiado al portapapeles!');
+    });
+}
+
+function editVideoLink() {
+    document.getElementById('video-link-display').classList.add('hidden');
+    document.getElementById('video-link-form').classList.remove('hidden');
+}
+
+function saveVideoLink() {
+    const input = document.getElementById('video-link-input');
+    const link = input.value.trim();
+    
+    if (!link) {
+        alert('Por favor ingresa un link válido');
+        return;
+    }
+    
+    if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        alert('El link debe comenzar con http:// o https://');
+        return;
+    }
+    
+    document.getElementById('saved-video-link').textContent = link;
+    document.getElementById('video-link-display').classList.remove('hidden');
+    document.getElementById('video-link-form').classList.add('hidden');
+    alert('✅ Link de videollamada guardado!');
+}
+
+function cancelEditVideoLink() {
+    document.getElementById('video-link-display').classList.remove('hidden');
+    document.getElementById('video-link-form').classList.add('hidden');
+}
         // Inicializar
         window.addEventListener('load', function() {
             renderCalendar();
             updateStageCounts();
             renderClientsList();
         });
+        
     </script>
 </body>
 </html>
