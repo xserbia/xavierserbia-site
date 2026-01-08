@@ -242,9 +242,6 @@
                         <button onclick="showSettingsTab('templates')" id="settings-tab-templates" class="w-full px-4 py-3 bg-emerald-100 text-emerald-700 rounded-lg font-semibold text-left transition-all">
                             📧 Plantillas de Email
                         </button>
-                        <button onclick="showSettingsTab('plans')" id="settings-tab-plans" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
-                            💰 Planes y Paquetes
-                        </button>
                         <button onclick="showSettingsTab('profile')" id="settings-tab-profile" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
                             👤 Perfil
                         </button>
@@ -285,38 +282,6 @@
                                 <div class="text-4xl mb-2">📧</div>
                                 <div class="font-semibold">No hay plantillas</div>
                                 <div class="text-sm mt-1">Crea tu primera plantilla de email</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PLANS -->
-                    <div id="settings-content-plans" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
-                            <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-2xl font-bold text-slate-900">💰 Planes y Paquetes</h2>
-                                <button onclick="showPlanEditor()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
-                                    ➕ Nuevo Plan
-                                </button>
-                            </div>
-
-                            <!-- Search Plans -->
-                            <input 
-                                type="text" 
-                                id="plan-search"
-                                placeholder="Buscar plan..." 
-                                oninput="searchPlans()"
-                                class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
-                            >
-
-                            <!-- Plans List -->
-                            <div id="plans-list" class="space-y-4">
-                                <!-- Se llena con JavaScript -->
-                            </div>
-
-                            <div id="no-plans" class="hidden text-center py-12 text-slate-500">
-                                <div class="text-4xl mb-2">💰</div>
-                                <div class="font-semibold">No hay planes configurados</div>
-                                <div class="text-sm mt-1">Crea tu primer plan o paquete</div>
                             </div>
                         </div>
                     </div>
@@ -873,109 +838,6 @@
         </div>
     </div>
     
-    <!-- MODAL CREAR/EDITAR PLAN -->
-    <div id="plan-editor-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-2xl my-8">
-            <div class="flex justify-between items-center mb-6 pb-4 border-b-2">
-                <h2 class="text-2xl font-bold text-slate-900" id="plan-modal-title">Nuevo Plan</h2>
-                <button onclick="hidePlanEditor()" class="text-slate-400 hover:text-slate-700 text-2xl">✕</button>
-            </div>
-            
-            <form id="plan-form" class="space-y-4">
-                <!-- Nombre del Plan -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Nombre del Plan *</label>
-                    <input type="text" id="plan-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="Ej: Plan Review Básico">
-                </div>
-
-                <!-- Descripción -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Descripción Breve</label>
-                    <textarea id="plan-description" rows="2" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none resize-none" placeholder="Descripción corta del plan"></textarea>
-                </div>
-
-                <!-- Precio -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-2 text-sm">Precio *</label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-semibold">€</span>
-                            <input type="number" id="plan-price" required min="0" step="0.01" class="w-full pl-8 pr-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="99.00">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-2 text-sm">Moneda</label>
-                        <select id="plan-currency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-                            <option value="EUR">EUR (€)</option>
-                            <option value="USD">USD ($)</option>
-                            <option value="GBP">GBP (£)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Tipo de Pago -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Tipo de Pago *</label>
-                    <select id="plan-payment-type" onchange="togglePaymentFrequency()" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-                        <option value="one-time">Pago Único</option>
-                        <option value="recurring">Suscripción</option>
-                    </select>
-                </div>
-
-                <!-- Frecuencia (solo si es suscripción) -->
-                <div id="payment-frequency-container" class="hidden">
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Frecuencia de Pago *</label>
-                    <select id="plan-frequency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-                        <option value="monthly">Mensual</option>
-                        <option value="annual">Anual</option>
-                        <option value="quarterly">Trimestral</option>
-                        <option value="biannual">Semestral</option>
-                    </select>
-                </div>
-
-                <!-- Características/Especificaciones -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Características del Plan</label>
-                    <div id="features-list" class="space-y-2 mb-3">
-                        <!-- Se llena dinámicamente -->
-                    </div>
-                    <div class="flex gap-2">
-                        <input type="text" id="new-feature-input" class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 outline-none" placeholder="Ej: 1 sesión de 90 minutos">
-                        <button type="button" onclick="addFeature()" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-                            ➕ Agregar
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Estado -->
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Estado del Plan</label>
-                    <div class="flex gap-4">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" id="plan-status-active" name="plan-status" value="active" checked class="w-4 h-4 text-emerald-600">
-                            <span class="text-sm font-medium">Activo</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" id="plan-status-inactive" name="plan-status" value="inactive" class="w-4 h-4 text-slate-600">
-                            <span class="text-sm font-medium">Inactivo</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Botones -->
-                <div class="flex gap-3 pt-4">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
-                        💾 Guardar Plan
-                    </button>
-                    <button type="button" onclick="hidePlanEditor()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
-                        Cancelar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- MODAL EDITOR DE PLANTILLAS -->
     <div id="template-editor-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl p-8 max-w-6xl w-full shadow-2xl my-8">
@@ -1096,8 +958,6 @@
         let editingTemplateId = null;
         let templateImages = [];
         let templateVideos = [];
-        let editingPlanId = null;
-        let currentPlanFeatures = [];
         
         let sessions = {
             '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true, clientId: 'maria'}]
@@ -1453,387 +1313,6 @@ El equipo de Money Map 💰`,
                 createdAt: '2026-01-01'
             }
         ];
-
-        // Base de datos de planes
-        let plans = [
-            {
-                id: 'plan_basic',
-                name: 'Plan Review Básico',
-                description: 'Análisis financiero completo y plan personalizado',
-                price: 299.00,
-                currency: 'EUR',
-                paymentType: 'one-time',
-                frequency: null,
-                features: [
-                    'Sesión de 90 minutos',
-                    'Análisis completo de finanzas',
-                    'Plan personalizado',
-                    'Soporte por email 30 días'
-                ],
-                status: 'active',
-                createdAt: '2026-01-01'
-            },
-            {
-                id: 'plan_premium',
-                name: 'Plan Review Premium',
-                description: 'Incluye seguimiento mensual y asesoría continua',
-                price: 99.00,
-                currency: 'EUR',
-                paymentType: 'recurring',
-                frequency: 'monthly',
-                features: [
-                    'Sesión inicial de 90 minutos',
-                    'Seguimiento mensual',
-                    'Acceso a comunidad privada',
-                    'Soporte prioritario',
-                    'Actualizaciones del plan'
-                ],
-                status: 'active',
-                createdAt: '2026-01-01'
-            },
-            {
-                id: 'plan_annual',
-                name: 'Plan Anual Completo',
-                description: 'Acompañamiento durante todo el año',
-                price: 999.00,
-                currency: 'EUR',
-                paymentType: 'recurring',
-                frequency: 'annual',
-                features: [
-                    'Sesiones trimestrales',
-                    '12 meses de seguimiento',
-                    'Revisión de objetivos',
-                    'Soporte ilimitado',
-                    'Acceso a todos los recursos'
-                ],
-                status: 'active',
-                createdAt: '2026-01-01'
-            }
-        ];
-
-        // ========== FUNCIONES DE PLANES ==========
-        
-        function showPlanEditor(planId = null) {
-            editingPlanId = planId;
-            currentPlanFeatures = [];
-            
-            if (planId) {
-                const plan = plans.find(p => p.id === planId);
-                if (plan) {
-                    document.getElementById('plan-modal-title').textContent = 'Editar Plan';
-                    document.getElementById('plan-name').value = plan.name;
-                    document.getElementById('plan-description').value = plan.description;
-                    document.getElementById('plan-price').value = plan.price;
-                    document.getElementById('plan-currency').value = plan.currency;
-                    document.getElementById('plan-payment-type').value = plan.paymentType;
-                    
-                    if (plan.paymentType === 'recurring') {
-                        document.getElementById('payment-frequency-container').classList.remove('hidden');
-                        document.getElementById('plan-frequency').value = plan.frequency;
-                    }
-                    
-                    currentPlanFeatures = [...plan.features];
-                    
-                    if (plan.status === 'active') {
-                        document.getElementById('plan-status-active').checked = true;
-                    } else {
-                        document.getElementById('plan-status-inactive').checked = true;
-                    }
-                }
-            } else {
-                document.getElementById('plan-modal-title').textContent = 'Nuevo Plan';
-                document.getElementById('plan-form').reset();
-                document.getElementById('payment-frequency-container').classList.add('hidden');
-                document.getElementById('plan-status-active').checked = true;
-            }
-            
-            renderFeaturesList();
-            document.getElementById('plan-editor-modal').classList.remove('hidden');
-        }
-
-        function hidePlanEditor() {
-            document.getElementById('plan-editor-modal').classList.add('hidden');
-            document.getElementById('plan-form').reset();
-            currentPlanFeatures = [];
-        }
-
-        function togglePaymentFrequency() {
-            const paymentType = document.getElementById('plan-payment-type').value;
-            const frequencyContainer = document.getElementById('payment-frequency-container');
-            
-            if (paymentType === 'recurring') {
-                frequencyContainer.classList.remove('hidden');
-            } else {
-                frequencyContainer.classList.add('hidden');
-            }
-        }
-
-        function addFeature() {
-            const input = document.getElementById('new-feature-input');
-            const feature = input.value.trim();
-            
-            if (!feature) {
-                alert('Por favor escribe una característica');
-                return;
-            }
-            
-            currentPlanFeatures.push(feature);
-            input.value = '';
-            renderFeaturesList();
-        }
-
-        function removeFeature(index) {
-            currentPlanFeatures.splice(index, 1);
-            renderFeaturesList();
-        }
-
-        function renderFeaturesList() {
-            const container = document.getElementById('features-list');
-            
-            if (currentPlanFeatures.length === 0) {
-                container.innerHTML = '<div class="text-sm text-slate-500 italic">No hay características agregadas</div>';
-                return;
-            }
-            
-            container.innerHTML = currentPlanFeatures.map((feature, index) => `
-                <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-                    <div class="flex items-center gap-2">
-                        <span class="text-emerald-600">✓</span>
-                        <span class="text-sm text-slate-700">${feature}</span>
-                    </div>
-                    <button type="button" onclick="removeFeature(${index})" class="text-red-500 hover:text-red-700 text-sm font-semibold">
-                        ✕
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        // Manejar creación/edición de plan
-        document.getElementById('plan-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('plan-name').value.trim();
-            const description = document.getElementById('plan-description').value.trim();
-            const price = parseFloat(document.getElementById('plan-price').value);
-            const currency = document.getElementById('plan-currency').value;
-            const paymentType = document.getElementById('plan-payment-type').value;
-            const frequency = paymentType === 'recurring' ? document.getElementById('plan-frequency').value : null;
-            const status = document.querySelector('input[name="plan-status"]:checked').value;
-            
-            if (currentPlanFeatures.length === 0) {
-                alert('Por favor agrega al menos una característica');
-                return;
-            }
-            
-            const plan = {
-                id: editingPlanId || 'plan_' + Date.now(),
-                name,
-                description,
-                price,
-                currency,
-                paymentType,
-                frequency,
-                features: [...currentPlanFeatures],
-                status,
-                createdAt: new Date().toISOString()
-            };
-            
-            if (editingPlanId) {
-                const index = plans.findIndex(p => p.id === editingPlanId);
-                plans[index] = plan;
-                alert('✅ Plan actualizado exitosamente!');
-            } else {
-                plans.push(plan);
-                alert('✅ Plan creado exitosamente!');
-            }
-            
-            renderPlansList();
-            hidePlanEditor();
-        });
-
-        function renderPlansList() {
-            const container = document.getElementById('plans-list');
-            const noPlans = document.getElementById('no-plans');
-            
-            if (plans.length === 0) {
-                container.innerHTML = '';
-                noPlans.classList.remove('hidden');
-                return;
-            }
-            
-            noPlans.classList.add('hidden');
-            
-            const currencySymbols = {
-                'EUR': '€',
-                'USD': '$',
-                'GBP': '£'
-            };
-            
-            const frequencyLabels = {
-                'monthly': 'mes',
-                'annual': 'año',
-                'quarterly': 'trimestre',
-                'biannual': 'semestre'
-            };
-            
-            container.innerHTML = plans.map(plan => {
-                const currencySymbol = currencySymbols[plan.currency] || plan.currency;
-                const priceText = plan.paymentType === 'one-time' 
-                    ? `${currencySymbol}${plan.price.toFixed(2)} (Pago único)`
-                    : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
-                
-                const statusBadge = plan.status === 'active'
-                    ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
-                    : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
-                
-                return `
-                    <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <h3 class="text-xl font-bold text-slate-900">${plan.name}</h3>
-                                    ${statusBadge}
-                                </div>
-                                <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
-                                <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
-                                
-                                <div class="space-y-2">
-                                    <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
-                                    ${plan.features.map(feature => `
-                                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                                            <span class="text-emerald-600">✓</span>
-                                            <span>${feature}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                            
-                            <div class="flex gap-2 ml-4">
-                                <button onclick="showPlanEditor('${plan.id}')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold hover:bg-blue-200 transition-colors">
-                                    ✏️ Editar
-                                </button>
-                                <button onclick="duplicatePlan('${plan.id}')" class="px-3 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors">
-                                    📋
-                                </button>
-                                <button onclick="deletePlan('${plan.id}')" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition-colors">
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function duplicatePlan(planId) {
-            const plan = plans.find(p => p.id === planId);
-            if (!plan) return;
-            
-            const newPlan = {
-                ...plan,
-                id: 'plan_' + Date.now(),
-                name: plan.name + ' (Copia)',
-                createdAt: new Date().toISOString()
-            };
-            
-            plans.push(newPlan);
-            renderPlansList();
-            alert('✅ Plan duplicado exitosamente!');
-        }
-
-        function deletePlan(planId) {
-            if (!confirm('¿Estás seguro de eliminar este plan?')) return;
-            
-            const index = plans.findIndex(p => p.id === planId);
-            if (index > -1) {
-                plans.splice(index, 1);
-                renderPlansList();
-                alert('✅ Plan eliminado');
-            }
-        }
-
-        function searchPlans() {
-            const searchTerm = document.getElementById('plan-search').value.toLowerCase();
-            const filtered = plans.filter(plan => {
-                return plan.name.toLowerCase().includes(searchTerm) ||
-                       plan.description.toLowerCase().includes(searchTerm) ||
-                       plan.features.some(f => f.toLowerCase().includes(searchTerm));
-            });
-            
-            const container = document.getElementById('plans-list');
-            const noPlans = document.getElementById('no-plans');
-            
-            if (filtered.length === 0) {
-                container.innerHTML = '';
-                noPlans.classList.remove('hidden');
-                return;
-            }
-            
-            noPlans.classList.add('hidden');
-            
-            const currencySymbols = {
-                'EUR': '€',
-                'USD': '$',
-                'GBP': '£'
-            };
-            
-            const frequencyLabels = {
-                'monthly': 'mes',
-                'annual': 'año',
-                'quarterly': 'trimestre',
-                'biannual': 'semestre'
-            };
-            
-            container.innerHTML = filtered.map(plan => {
-                const currencySymbol = currencySymbols[plan.currency] || plan.currency;
-                const priceText = plan.paymentType === 'one-time' 
-                    ? `${currencySymbol}${plan.price.toFixed(2)} (Pago único)`
-                    : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
-                
-                const statusBadge = plan.status === 'active'
-                    ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
-                    : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
-                
-                return `
-                    <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <h3 class="text-xl font-bold text-slate-900">${plan.name}</h3>
-                                    ${statusBadge}
-                                </div>
-                                <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
-                                <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
-                                
-                                <div class="space-y-2">
-                                    <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
-                                    ${plan.features.map(feature => `
-                                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                                            <span class="text-emerald-600">✓</span>
-                                            <span>${feature}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                            
-                            <div class="flex gap-2 ml-4">
-                                <button onclick="showPlanEditor('${plan.id}')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold hover:bg-blue-200 transition-colors">
-                                    ✏️ Editar
-                                </button>
-                                <button onclick="duplicatePlan('${plan.id}')" class="px-3 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors">
-                                    📋
-                                </button>
-                                <button onclick="deletePlan('${plan.id}')" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition-colors">
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // ========== FIN FUNCIONES DE PLANES ==========
 
         // FUNCIONES DE SESIONES
         function showNewSessionModal() {
@@ -2798,7 +2277,6 @@ El equipo de Money Map 💰`,
                 filterByStage('all');
             } else if(viewName === 'settings') {
                 renderTemplatesList();
-                renderPlansList();
                 populateEmailTemplateSelect();
             }
         }
@@ -2841,4 +2319,17 @@ El equipo de Money Map 💰`,
         }
 
         function hideNewNoteForm() {
-            document.getElementById('new-note-form').classList
+            document.getElementById('new-note-form').classList.add('hidden');
+        }
+
+        // Inicializar
+        window.addEventListener('load', function() {
+            renderCalendar();
+            updateStageCounts();
+            renderClientsList();
+            renderTemplatesList();
+            populateEmailTemplateSelect();
+        });
+    </script>
+</body>
+</html>
