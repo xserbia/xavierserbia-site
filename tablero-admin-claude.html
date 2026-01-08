@@ -170,14 +170,42 @@
                         ➕ Nuevo Cliente
                     </button>
                 </div>
-                
+
+                <!-- Buscador -->
                 <input 
                     type="text" 
                     id="search-input"
                     placeholder="Buscar cliente por nombre, email o teléfono..." 
                     oninput="searchClients()"
-                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-4 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
                 >
+
+                <!-- Filtros por Estadio -->
+                <div class="mb-6 overflow-x-auto">
+                    <div class="flex gap-2 min-w-max">
+                        <button onclick="filterByStage('all')" id="stage-all" class="px-4 py-2 rounded-lg font-semibold text-sm bg-emerald-100 text-emerald-700 whitespace-nowrap transition-all">
+                            Todos (<span id="count-all">5</span>)
+                        </button>
+                        <button onclick="filterByStage('new')" id="stage-new" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            🆕 Nuevos (<span id="count-new">0</span>)
+                        </button>
+                        <button onclick="filterByStage('payment')" id="stage-payment" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            💳 Pago (<span id="count-payment">0</span>)
+                        </button>
+                        <button onclick="filterByStage('contract')" id="stage-contract" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            📄 Contrato (<span id="count-contract">2</span>)
+                        </button>
+                        <button onclick="filterByStage('discovery')" id="stage-discovery" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            📋 Discovery (<span id="count-discovery">1</span>)
+                        </button>
+                        <button onclick="filterByStage('videocall')" id="stage-videocall" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            🎥 Video Call (<span id="count-videocall">2</span>)
+                        </button>
+                        <button onclick="filterByStage('closed')" id="stage-closed" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
+                            ✅ Cerrados (<span id="count-closed">0</span>)
+                        </button>
+                    </div>
+                </div>
                 
                 <div id="clients-list" class="space-y-2">
                     <!-- Se llena con JavaScript -->
@@ -186,7 +214,7 @@
                 <div id="no-results" class="hidden text-center py-12 text-slate-500">
                     <div class="text-4xl mb-2">🔍</div>
                     <div class="font-semibold">No se encontraron clientes</div>
-                    <div class="text-sm mt-1">Intenta con otro término de búsqueda</div>
+                    <div class="text-sm mt-1">Intenta con otro término de búsqueda o cambia el filtro</div>
                 </div>
             </div>
         </div>
@@ -438,6 +466,9 @@
             '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true}]
         };
 
+        // Filtro actual por estadio
+        let currentStageFilter = 'all';
+
         // Base de datos de clientes
         let clients = [
             {
@@ -445,6 +476,7 @@
                 name: 'María González',
                 email: 'maria.gonzalez@email.com',
                 phone: '+34 612 345 678',
+                stage: 'videocall',
                 status: 'analyzing',
                 statusLabel: 'En Análisis',
                 paymentDate: '05 Ene 2026',
@@ -459,6 +491,7 @@
                 name: 'Carlos Rodríguez',
                 email: 'carlos.rodriguez@email.com',
                 phone: '+34 623 456 789',
+                stage: 'videocall',
                 status: 'scheduled',
                 statusLabel: 'Agendado',
                 paymentDate: '03 Ene 2026',
@@ -473,6 +506,7 @@
                 name: 'Ana Martínez',
                 email: 'ana.martinez@email.com',
                 phone: '+34 634 567 890',
+                stage: 'contract',
                 status: 'received',
                 statusLabel: 'Recibido',
                 paymentDate: '07 Ene 2026',
@@ -487,6 +521,7 @@
                 name: 'Pedro López',
                 email: 'pedro.lopez@email.com',
                 phone: '+34 645 678 901',
+                stage: 'contract',
                 status: 'sent',
                 statusLabel: 'Enviado',
                 paymentDate: '08 Ene 2026',
@@ -501,6 +536,7 @@
                 name: 'Laura Fernández',
                 email: 'laura.fernandez@email.com',
                 phone: '+34 656 789 012',
+                stage: 'discovery',
                 status: 'scheduled',
                 statusLabel: 'Agendado',
                 paymentDate: '02 Ene 2026',
@@ -522,6 +558,55 @@
             const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
             const today = new Date();
             return `${today.getDate().toString().padStart(2, '0')} ${months[today.getMonth()]} ${today.getFullYear()}`;
+        }
+
+        // Actualizar contadores por estadio
+        function updateStageCounts() {
+            const counts = {
+                all: clients.length,
+                new: 0,
+                payment: 0,
+                contract: 0,
+                discovery: 0,
+                videocall: 0,
+                closed: 0
+            };
+
+            clients.forEach(client => {
+                if (counts[client.stage] !== undefined) {
+                    counts[client.stage]++;
+                }
+            });
+
+            document.getElementById('count-all').textContent = counts.all;
+            document.getElementById('count-new').textContent = counts.new;
+            document.getElementById('count-payment').textContent = counts.payment;
+            document.getElementById('count-contract').textContent = counts.contract;
+            document.getElementById('count-discovery').textContent = counts.discovery;
+            document.getElementById('count-videocall').textContent = counts.videocall;
+            document.getElementById('count-closed').textContent = counts.closed;
+        }
+
+        // Filtrar por estadio
+        function filterByStage(stage) {
+            currentStageFilter = stage;
+
+            // Actualizar tabs
+            document.querySelectorAll('[id^="stage-"]').forEach(tab => {
+                tab.className = 'px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all';
+            });
+            document.getElementById('stage-' + stage).className = 'px-4 py-2 rounded-lg font-semibold text-sm bg-emerald-100 text-emerald-700 whitespace-nowrap transition-all';
+
+            // Limpiar búsqueda
+            document.getElementById('search-input').value = '';
+
+            // Filtrar clientes
+            if (stage === 'all') {
+                renderClientsList(clients);
+            } else {
+                const filtered = clients.filter(c => c.stage === stage);
+                renderClientsList(filtered);
+            }
         }
 
         // Renderizar lista de clientes
@@ -575,7 +660,11 @@
         function searchClients() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             
-            const filteredClients = clients.filter(client => {
+            // Primero aplicar filtro de estadio
+            let baseClients = currentStageFilter === 'all' ? clients : clients.filter(c => c.stage === currentStageFilter);
+            
+            // Luego aplicar búsqueda
+            const filteredClients = baseClients.filter(client => {
                 return client.name.toLowerCase().includes(searchTerm) ||
                        client.email.toLowerCase().includes(searchTerm) ||
                        client.phone.toLowerCase().includes(searchTerm);
@@ -593,6 +682,7 @@
                 name: document.getElementById('client-name').value,
                 email: document.getElementById('client-email').value,
                 phone: document.getElementById('client-phone').value || 'Sin teléfono',
+                stage: 'new',
                 status: 'new',
                 statusLabel: 'Nuevo',
                 paymentDate: document.getElementById('client-payment-date').value ? 
@@ -606,10 +696,13 @@
             };
 
             // Agregar cliente al array
-            clients.unshift(newClient); // unshift lo pone al principio
+            clients.unshift(newClient);
+
+            // Actualizar contadores
+            updateStageCounts();
 
             // Re-renderizar lista
-            renderClientsList();
+            filterByStage(currentStageFilter);
 
             // Limpiar formulario
             document.getElementById('new-client-form').reset();
@@ -715,7 +808,8 @@
             if(viewName === 'calendar') {
                 renderCalendar();
             } else if(viewName === 'clients') {
-                renderClientsList();
+                updateStageCounts();
+                filterByStage('all');
             }
         }
 
@@ -749,6 +843,7 @@
         // Inicializar
         window.addEventListener('load', function() {
             renderCalendar();
+            updateStageCounts();
             renderClientsList();
         });
     </script>
