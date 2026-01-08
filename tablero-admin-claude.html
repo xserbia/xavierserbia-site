@@ -248,7 +248,7 @@
                         
                         <!-- 1. Registro -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer" onclick="updateStage(1)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer">
                                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                 </svg>
@@ -261,7 +261,7 @@
 
                         <!-- 2. Pago - ACTUAL -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-amber-500 text-white shadow-xl border-4 border-amber-200 animate-pulse cursor-pointer" onclick="updateStage(2)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-amber-500 text-white shadow-xl border-4 border-amber-200 animate-pulse cursor-pointer">
                                 <span class="text-xl">💳</span>
                             </div>
                             <div class="text-center">
@@ -272,7 +272,7 @@
 
                         <!-- 3. Contrato -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all" onclick="updateStage(3)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
                                 <span class="text-xl">📄</span>
                             </div>
                             <div class="text-center">
@@ -283,7 +283,7 @@
 
                         <!-- 4. Discovery -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all" onclick="updateStage(4)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
                                 <span class="text-xl">📋</span>
                             </div>
                             <div class="text-center">
@@ -294,7 +294,7 @@
 
                         <!-- 5. Video Call -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all" onclick="updateStage(5)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
                                 <span class="text-xl">🎥</span>
                             </div>
                             <div class="text-center">
@@ -305,7 +305,7 @@
 
                         <!-- 6. Caso Cerrado -->
                         <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all" onclick="updateStage(6)">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
                                 <span class="text-xl">✅</span>
                             </div>
                             <div class="text-center">
@@ -364,13 +364,38 @@
                         </div>
                     </div>
 
+                    <!-- SECCIÓN DE EMAILS -->
+                    <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-blue-200">
+                            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                📧 Comunicaciones por Email
+                                <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-bold" id="email-count">0</span>
+                            </h3>
+                            <button onclick="showSendEmailModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                ✉️ Enviar Email
+                            </button>
+                        </div>
+
+                        <!-- Historial de emails -->
+                        <div id="email-history" class="space-y-3">
+                            <!-- Se llena con JavaScript -->
+                        </div>
+
+                        <!-- Sin emails -->
+                        <div id="no-emails" class="text-center py-8 text-slate-500">
+                            <div class="text-4xl mb-2">📬</div>
+                            <div class="font-semibold">No hay emails enviados</div>
+                            <div class="text-sm mt-1">Envía el primer email a este cliente</div>
+                        </div>
+                    </div>
+
                     <!-- Acciones -->
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
                         <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
                             Acciones Rápidas
                         </h3>
                         <div class="space-y-3">
-                            <button class="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                            <button onclick="sendWelcomeEmail()" class="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
                                 📧 Enviar Email de Bienvenida
                             </button>
                             <button class="w-full px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors">
@@ -457,19 +482,78 @@
         </div>
     </div>
 
+    <!-- MODAL ENVIAR EMAIL -->
+    <div id="send-email-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-2xl my-8">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-2">
+                <h2 class="text-2xl font-bold text-slate-900">📧 Enviar Email</h2>
+                <button onclick="hideSendEmailModal()" class="text-slate-400 hover:text-slate-700 text-2xl">✕</button>
+            </div>
+            
+            <form id="send-email-form" class="space-y-4">
+                <!-- Para -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Para:</label>
+                    <input type="email" id="email-to" readonly class="w-full px-4 py-3 border-2 border-slate-200 bg-slate-50 rounded-xl outline-none">
+                </div>
+
+                <!-- Plantilla -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Plantilla (opcional)</label>
+                    <select id="email-template" onchange="loadTemplate()" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none">
+                        <option value="">-- Seleccionar plantilla --</option>
+                        <option value="welcome">🎉 Bienvenida a Money Map</option>
+                        <option value="discovery">📋 Solicitud de Discovery Form</option>
+                        <option value="contract">📄 Envío de Contrato</option>
+                        <option value="session">🎥 Confirmación de Sesión</option>
+                        <option value="reminder">⏰ Recordatorio de Sesión</option>
+                        <option value="followup">✅ Seguimiento Post-Sesión</option>
+                    </select>
+                </div>
+
+                <!-- Asunto -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Asunto *</label>
+                    <input type="text" id="email-subject" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none" placeholder="Ej: Bienvenido a Money Map">
+                </div>
+
+                <!-- Mensaje -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Mensaje *</label>
+                    <textarea id="email-message" required rows="12" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none resize-none" placeholder="Escribe tu mensaje aquí..."></textarea>
+                </div>
+
+                <!-- Adjuntar archivos -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Adjuntar archivos</label>
+                    <input type="file" multiple class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 outline-none">
+                    <div class="text-xs text-slate-500 mt-2">Puedes adjuntar contratos, documentos, etc.</div>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:shadow-lg flex items-center justify-center gap-2">
+                        <span>✉️</span> Enviar Email
+                    </button>
+                    <button type="button" onclick="hideSendEmailModal()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Variables globales del calendario
+        // Variables globales
         let currentMonth = 0;
         let currentYear = 2026;
+        let currentStageFilter = 'all';
+        let currentClientId = null; // Para saber qué cliente está abierto
         
         const sessions = {
             '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true}]
         };
 
-        // Filtro actual por estadio
-        let currentStageFilter = 'all';
-
-        // Base de datos de clientes
+        // Base de datos de clientes con historial de emails
         let clients = [
             {
                 id: 'maria',
@@ -484,7 +568,30 @@
                 hasSession: true,
                 sessionDate: '12 Ene - 15:00',
                 hasVideoLink: true,
-                registrationDate: '03 Ene 2026'
+                registrationDate: '03 Ene 2026',
+                emails: [
+                    {
+                        id: 1,
+                        subject: 'Bienvenida a Money Map',
+                        date: '03 Ene 2026 - 10:30',
+                        status: 'sent',
+                        preview: 'Hola María, bienvenida a Money Map. Estamos emocionados de comenzar...'
+                    },
+                    {
+                        id: 2,
+                        subject: 'Solicitud de Discovery Form',
+                        date: '03 Ene 2026 - 15:45',
+                        status: 'sent',
+                        preview: 'Para poder ofrecerte la mejor asesoría, necesitamos que completes...'
+                    },
+                    {
+                        id: 3,
+                        subject: 'Confirmación de Sesión - 12 Enero',
+                        date: '06 Ene 2026 - 09:00',
+                        status: 'sent',
+                        preview: 'Tu sesión está confirmada para el domingo 12 de enero a las 15:00...'
+                    }
+                ]
             },
             {
                 id: 'carlos',
@@ -499,7 +606,8 @@
                 hasSession: true,
                 sessionDate: '10 Ene - 10:30',
                 hasVideoLink: true,
-                registrationDate: '02 Ene 2026'
+                registrationDate: '02 Ene 2026',
+                emails: []
             },
             {
                 id: 'ana',
@@ -514,7 +622,8 @@
                 hasSession: false,
                 sessionDate: 'Sin agendar',
                 hasVideoLink: false,
-                registrationDate: '06 Ene 2026'
+                registrationDate: '06 Ene 2026',
+                emails: []
             },
             {
                 id: 'pedro',
@@ -529,7 +638,8 @@
                 hasSession: false,
                 sessionDate: 'Sin agendar',
                 hasVideoLink: false,
-                registrationDate: '07 Ene 2026'
+                registrationDate: '07 Ene 2026',
+                emails: []
             },
             {
                 id: 'laura',
@@ -544,9 +654,142 @@
                 hasSession: true,
                 sessionDate: '15 Ene - 16:30',
                 hasVideoLink: false,
-                registrationDate: '01 Ene 2026'
+                registrationDate: '01 Ene 2026',
+                emails: []
             }
         ];
+
+        // Plantillas de email
+        const emailTemplates = {
+            welcome: {
+                subject: '¡Bienvenido/a a Money Map! 🎉',
+                message: `Hola [NOMBRE],
+
+¡Bienvenido/a a Money Map! Estamos muy emocionados de comenzar este viaje hacia tu libertad financiera.
+
+En Money Map, nuestro objetivo es ayudarte a tomar control total de tus finanzas personales a través de un plan personalizado y práctico.
+
+**Próximos Pasos:**
+1. Completa el formulario de Discovery que te enviaremos próximamente
+2. Revisaremos tu información detalladamente
+3. Agendaremos una sesión personalizada para tu Plan Review
+
+Si tienes alguna pregunta, no dudes en responder a este email.
+
+¡Estamos aquí para ayudarte!
+
+Saludos,
+El equipo de Money Map 💰`
+            },
+            discovery: {
+                subject: 'Formulario Discovery - Money Map 📋',
+                message: `Hola [NOMBRE],
+
+Para poder ofrecerte la mejor asesoría personalizada, necesitamos que completes nuestro formulario de Discovery.
+
+Este formulario nos ayudará a entender:
+- Tus fuentes de ingreso actuales
+- Tus gastos mensuales
+- Tus deudas (si las hay)
+- Tus objetivos financieros
+
+**Link del formulario:** [INSERTAR LINK]
+
+El formulario toma aproximadamente 15-20 minutos en completarse. Por favor, complétalo antes de nuestra sesión.
+
+¡Gracias por tu colaboración!
+
+Saludos,
+El equipo de Money Map 💰`
+            },
+            contract: {
+                subject: 'Contrato de Servicios - Money Map 📄',
+                message: `Hola [NOMBRE],
+
+Adjunto encontrarás el contrato de servicios de Money Map para tu revisión y firma.
+
+Por favor:
+1. Lee el contrato cuidadosamente
+2. Firma digitalmente
+3. Devuélvelo a este email
+
+Una vez recibamos el contrato firmado, procederemos a agendar tu sesión de Plan Review.
+
+Si tienes alguna pregunta sobre los términos, estamos disponibles para aclaraciones.
+
+Saludos,
+El equipo de Money Map 💰`
+            },
+            session: {
+                subject: 'Confirmación de Sesión - Money Map 🎥',
+                message: `Hola [NOMBRE],
+
+¡Tu sesión de Plan Review está confirmada!
+
+**Detalles de la Sesión:**
+📅 Fecha: [FECHA]
+🕐 Hora: [HORA]
+🎥 Link de Zoom: [LINK]
+
+**Qué traer:**
+- Tu formulario Discovery completado
+- Preguntas o dudas sobre tus finanzas
+- Un cuaderno para tomar notas
+
+**Duración:** Aproximadamente 90 minutos
+
+Te enviaremos un recordatorio 24 horas antes de la sesión.
+
+¡Nos vemos pronto!
+
+Saludos,
+El equipo de Money Map 💰`
+            },
+            reminder: {
+                subject: '⏰ Recordatorio: Tu sesión es mañana - Money Map',
+                message: `Hola [NOMBRE],
+
+Este es un recordatorio amistoso de que tu sesión de Plan Review es **MAÑANA**.
+
+**Detalles:**
+📅 Fecha: [FECHA]
+🕐 Hora: [HORA]
+🎥 Link de Zoom: [LINK]
+
+**Recuerda:**
+- Estar en un lugar tranquilo
+- Tener tu información financiera a mano
+- Conectarte 5 minutos antes
+
+¡Estamos emocionados por trabajar contigo!
+
+Saludos,
+El equipo de Money Map 💰`
+            },
+            followup: {
+                subject: '✅ Seguimiento: Tu Plan Review - Money Map',
+                message: `Hola [NOMBRE],
+
+¡Gracias por tu tiempo en la sesión de hoy!
+
+Aquí está el resumen de lo que discutimos:
+
+**Próximos pasos:**
+1. [ACCIÓN 1]
+2. [ACCIÓN 2]
+3. [ACCIÓN 3]
+
+**Recursos adicionales:**
+[ENLACES O DOCUMENTOS]
+
+Estaremos en contacto en [X] semanas para revisar tu progreso.
+
+Si tienes preguntas, estamos aquí para ayudarte.
+
+Saludos,
+El equipo de Money Map 💰`
+            }
+        };
 
         // Función para generar ID único
         function generateClientId() {
@@ -558,6 +801,14 @@
             const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
             const today = new Date();
             return `${today.getDate().toString().padStart(2, '0')} ${months[today.getMonth()]} ${today.getFullYear()}`;
+        }
+
+        function getCurrentDateTime() {
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const today = new Date();
+            const hours = today.getHours().toString().padStart(2, '0');
+            const minutes = today.getMinutes().toString().padStart(2, '0');
+            return `${today.getDate().toString().padStart(2, '0')} ${months[today.getMonth()]} ${today.getFullYear()} - ${hours}:${minutes}`;
         }
 
         // Actualizar contadores por estadio
@@ -673,6 +924,119 @@
             renderClientsList(filteredClients);
         }
 
+        // Renderizar historial de emails
+        function renderEmailHistory(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+
+            const container = document.getElementById('email-history');
+            const noEmails = document.getElementById('no-emails');
+            const emailCount = document.getElementById('email-count');
+
+            emailCount.textContent = client.emails.length;
+
+            if (client.emails.length === 0) {
+                container.innerHTML = '';
+                noEmails.classList.remove('hidden');
+                return;
+            }
+
+            noEmails.classList.add('hidden');
+
+            container.innerHTML = client.emails.map(email => `
+                <div class="p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border-2 border-blue-200 hover:border-blue-400 transition-all">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <div class="font-bold text-slate-900">${email.subject}</div>
+                            <div class="text-sm text-slate-600 mt-1">${email.preview}</div>
+                        </div>
+                        <span class="ml-2 px-2 py-1 rounded-md text-xs font-bold ${email.status === 'sent' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                            ${email.status === 'sent' ? '✓ Enviado' : '⏳ Pendiente'}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 pt-3 border-t border-blue-100">
+                        <div class="text-xs text-slate-500">📅 ${email.date}</div>
+                        <button onclick="viewEmailDetail(${email.id})" class="text-xs text-blue-600 hover:text-blue-800 font-semibold">
+                            Ver detalles →
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Mostrar modal de enviar email
+        function showSendEmailModal() {
+            const client = clients.find(c => c.id === currentClientId);
+            if (!client) return;
+
+            document.getElementById('email-to').value = client.email;
+            document.getElementById('send-email-modal').classList.remove('hidden');
+        }
+
+        function hideSendEmailModal() {
+            document.getElementById('send-email-modal').classList.add('hidden');
+            document.getElementById('send-email-form').reset();
+        }
+
+        // Cargar plantilla de email
+        function loadTemplate() {
+            const template = document.getElementById('email-template').value;
+            if (!template) return;
+
+            const client = clients.find(c => c.id === currentClientId);
+            const templateData = emailTemplates[template];
+
+            document.getElementById('email-subject').value = templateData.subject;
+            document.getElementById('email-message').value = templateData.message.replace('[NOMBRE]', client.name.split(' ')[0]);
+        }
+
+        // Enviar email de bienvenida rápido
+        function sendWelcomeEmail() {
+            const client = clients.find(c => c.id === currentClientId);
+            if (!client) return;
+
+            const newEmail = {
+                id: Date.now(),
+                subject: '¡Bienvenido/a a Money Map! 🎉',
+                date: getCurrentDateTime(),
+                status: 'sent',
+                preview: `Hola ${client.name.split(' ')[0]}, bienvenida a Money Map. Estamos emocionados de comenzar...`
+            };
+
+            client.emails.push(newEmail);
+            renderEmailHistory(currentClientId);
+            alert('✅ Email de bienvenida enviado exitosamente!');
+        }
+
+        // Manejar envío de email
+        document.getElementById('send-email-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const client = clients.find(c => c.id === currentClientId);
+            if (!client) return;
+
+            const subject = document.getElementById('email-subject').value;
+            const message = document.getElementById('email-message').value;
+
+            const newEmail = {
+                id: Date.now(),
+                subject: subject,
+                date: getCurrentDateTime(),
+                status: 'sent',
+                preview: message.substring(0, 80) + '...'
+            };
+
+            client.emails.push(newEmail);
+            renderEmailHistory(currentClientId);
+            hideSendEmailModal();
+            alert('✅ Email enviado exitosamente!');
+        });
+
+        function viewEmailDetail(emailId) {
+            alert(`Ver detalles del email #${emailId}`);
+            // Aquí podrías abrir otro modal con los detalles completos
+        }
+
         // Manejar formulario de nuevo cliente
         document.getElementById('new-client-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -692,25 +1056,15 @@
                 hasSession: false,
                 sessionDate: 'Sin agendar',
                 hasVideoLink: false,
-                registrationDate: getCurrentDate()
+                registrationDate: getCurrentDate(),
+                emails: []
             };
 
-            // Agregar cliente al array
             clients.unshift(newClient);
-
-            // Actualizar contadores
             updateStageCounts();
-
-            // Re-renderizar lista
             filterByStage(currentStageFilter);
-
-            // Limpiar formulario
             document.getElementById('new-client-form').reset();
-
-            // Cerrar modal
             hideNewClientModal();
-
-            // Mostrar mensaje de éxito
             alert(`✅ Cliente "${newClient.name}" creado exitosamente!`);
         });
 
@@ -794,10 +1148,6 @@
             renderCalendar();
         }
 
-        function updateStage(stage) {
-            alert(`Etapa actualizada`);
-        }
-
         function showView(viewName) {
             document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
             document.querySelectorAll('[id^="btn-"]').forEach(b => b.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-white text-slate-700 hover:bg-slate-50');
@@ -825,10 +1175,13 @@
             const client = clients.find(c => c.id === clientId);
             if (!client) return;
 
+            currentClientId = clientId;
+
             document.getElementById('detail-client-name').textContent = client.name;
             document.getElementById('detail-client-contact').textContent = `${client.email} • ${client.phone}`;
             document.getElementById('detail-client-date').textContent = client.registrationDate;
 
+            renderEmailHistory(clientId);
             showView('client-detail');
         }
 
