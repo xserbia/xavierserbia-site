@@ -1,0 +1,393 @@
+import React, { useState } from 'react';
+
+export default function MoneyMapDashboard() {
+  const [view, setView] = useState('dashboard');
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white p-6 shadow-xl">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold mb-2">💰 Money Map - Admin Dashboard</h1>
+          <p className="text-emerald-100">Centro de control para Plan Review</p>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="flex gap-4 mb-8">
+          <button
+            onClick={() => setView('dashboard')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              view === 'dashboard'
+                ? 'bg-emerald-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            📊 Dashboard
+          </button>
+          <button
+            onClick={() => setView('calendar')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              view === 'calendar'
+                ? 'bg-emerald-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            📅 Calendario
+          </button>
+          <button
+            onClick={() => setView('clients')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              view === 'clients'
+                ? 'bg-emerald-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            👥 Clientes
+          </button>
+        </div>
+
+        {/* Content */}
+        {view === 'dashboard' && <DashboardView />}
+        {view === 'calendar' && <CalendarView />}
+        {view === 'clients' && <ClientsView />}
+      </div>
+    </div>
+  );
+}
+
+function DashboardView() {
+  return (
+    <div className="space-y-6">
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <StatCard label="Clientes Activos" value="5" color="emerald" />
+        <StatCard label="Requieren Acción" value="2" color="red" urgent />
+        <StatCard label="Sesiones Agendadas" value="3" color="emerald" />
+        <StatCard label="En Análisis" value="1" color="orange" />
+      </div>
+
+      {/* Alerts */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4">🚨 Alertas Operativas</h2>
+        <div className="space-y-3">
+          <AlertCard
+            type="urgent"
+            title="Contrato pendiente: Ana Martínez"
+            text="No se puede agendar sesión sin contrato firmado"
+          />
+          <AlertCard
+            type="warning"
+            title="Sesión mañana: Carlos Rodríguez"
+            text="Preparar materiales para la revisión"
+          />
+        </div>
+      </div>
+
+      {/* Upcoming Sessions */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4">📅 Sesiones Esta Semana</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <SessionCard
+            name="Carlos Rodríguez"
+            email="carlos.rodriguez@email.com"
+            date="10 Ene, Viernes"
+            time="10:30"
+            daysUntil="2 días"
+          />
+          <SessionCard
+            name="María González"
+            email="maria.gonzalez@email.com"
+            date="12 Ene, Domingo"
+            time="15:00"
+            daysUntil="4 días"
+          />
+          <SessionCard
+            name="Laura Fernández"
+            email="laura.fernandez@email.com"
+            date="15 Ene, Miércoles"
+            time="16:30"
+            daysUntil="7 días"
+          />
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4">⚡ Próximas Acciones</h2>
+        <div className="space-y-2">
+          <ClientRow name="María González" email="maria.gonzalez@email.com" status="analyzing" />
+          <ClientRow name="Carlos Rodríguez" email="carlos.rodriguez@email.com" status="scheduled" />
+          <ClientRow name="Ana Martínez" email="ana.martinez@email.com" status="received" />
+          <ClientRow name="Pedro López" email="pedro.lopez@email.com" status="sent" />
+          <ClientRow name="Laura Fernández" email="laura.fernandez@email.com" status="scheduled" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CalendarView() {
+  const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+  
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Calendar */}
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-slate-900">Enero 2026</h2>
+            <div className="flex gap-2">
+              <button className="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200">←</button>
+              <button className="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg font-semibold">Hoy</button>
+              <button className="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200">→</button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-7 gap-2 mb-2">
+            {days.map(day => (
+              <div key={day} className="text-center font-semibold text-slate-600 text-sm py-2">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-7 gap-2">
+            {[...Array(31)].map((_, i) => {
+              const day = i + 1;
+              const hasSession = [10, 12, 15].includes(day);
+              const isToday = day === 8;
+              
+              return (
+                <div
+                  key={day}
+                  className={`aspect-square border-2 rounded-lg p-2 ${
+                    isToday
+                      ? 'border-emerald-500 bg-emerald-50'
+                      : hasSession
+                      ? 'border-amber-200 bg-amber-50'
+                      : 'border-slate-200'
+                  }`}
+                >
+                  <div className={`text-sm font-semibold ${isToday ? 'text-emerald-700' : 'text-slate-700'}`}>
+                    {day}
+                  </div>
+                  {hasSession && (
+                    <div className="text-xs bg-emerald-600 text-white px-1 py-0.5 rounded mt-1 truncate">
+                      {day === 10 ? '10:30 Carlos' : day === 12 ? '15:00 María' : '16:30 Laura'}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Upcoming Sessions */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg">
+          <h3 className="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+            Próximas Sesiones
+          </h3>
+          <div className="space-y-3">
+            <UpcomingSession name="Carlos Rodríguez" date="10 Ene" time="10:30" badge="En 2 días" />
+            <UpcomingSession name="María González" date="12 Ene" time="15:00" badge="En 4 días" />
+            <UpcomingSession name="Laura Fernández" date="15 Ene" time="16:30" badge="En 7 días" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ClientsView() {
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-slate-900">Lista de Clientes</h2>
+        <button className="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+          ➕ Nuevo Cliente
+        </button>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Buscar cliente..."
+        className="w-full md:w-96 px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+      />
+
+      <div className="space-y-2">
+        <ClientDetailRow
+          name="María González"
+          email="maria.gonzalez@email.com"
+          phone="+34 612 345 678"
+          status="analyzing"
+          payment="05 Ene 2026"
+          contract="✓"
+          session="12 Ene - 15:00"
+        />
+        <ClientDetailRow
+          name="Carlos Rodríguez"
+          email="carlos.rodriguez@email.com"
+          phone="+34 623 456 789"
+          status="scheduled"
+          payment="03 Ene 2026"
+          contract="✓"
+          session="10 Ene - 10:30"
+        />
+        <ClientDetailRow
+          name="Ana Martínez"
+          email="ana.martinez@email.com"
+          phone="+34 634 567 890"
+          status="received"
+          payment="07 Ene 2026"
+          contract="✗"
+          session="Sin agendar"
+        />
+        <ClientDetailRow
+          name="Pedro López"
+          email="pedro.lopez@email.com"
+          phone="+34 645 678 901"
+          status="sent"
+          payment="08 Ene 2026"
+          contract="✗"
+          session="Sin agendar"
+        />
+        <ClientDetailRow
+          name="Laura Fernández"
+          email="laura.fernandez@email.com"
+          phone="+34 656 789 012"
+          status="scheduled"
+          payment="02 Ene 2026"
+          contract="✓"
+          session="15 Ene - 16:30"
+        />
+      </div>
+    </div>
+  );
+}
+
+// Helper Components
+function StatCard({ label, value, color, urgent }) {
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-all relative">
+      <div className={`absolute top-0 left-0 w-1 h-full rounded-l-2xl ${
+        color === 'emerald' ? 'bg-gradient-to-b from-emerald-500 to-emerald-700' :
+        color === 'red' ? 'bg-gradient-to-b from-red-500 to-red-700' :
+        'bg-gradient-to-b from-orange-500 to-orange-700'
+      }`} />
+      <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">{label}</div>
+      <div className="flex items-baseline gap-2">
+        <div className="text-4xl font-bold text-slate-900">{value}</div>
+        {urgent && <span className="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-md">¡URGENTE!</span>}
+      </div>
+    </div>
+  );
+}
+
+function AlertCard({ type, title, text }) {
+  return (
+    <div className={`rounded-xl p-4 shadow-md border-l-4 flex items-center gap-4 ${
+      type === 'urgent' ? 'border-red-500 bg-gradient-to-r from-red-50 to-white' :
+      'border-orange-500 bg-gradient-to-r from-orange-50 to-white'
+    }`}>
+      <span className="text-2xl">{type === 'urgent' ? '🚨' : '⚠️'}</span>
+      <div>
+        <div className="font-semibold text-slate-900">{title}</div>
+        <div className="text-sm text-slate-600">{text}</div>
+      </div>
+    </div>
+  );
+}
+
+function SessionCard({ name, email, date, time, daysUntil }) {
+  return (
+    <div className="p-4 bg-gradient-to-br from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 cursor-pointer transition-all">
+      <div className="font-bold text-slate-900 mb-1">{name}</div>
+      <div className="text-sm text-slate-600 mb-3">{email}</div>
+      <div className="flex items-center gap-2 text-sm text-slate-700 mb-2">
+        📅 {date}
+      </div>
+      <div className="text-sm font-semibold text-emerald-700">🕐 {time}</div>
+      <div className="mt-2 text-xs px-2 py-1 bg-slate-200 text-slate-600 rounded-md inline-block">
+        {daysUntil}
+      </div>
+    </div>
+  );
+}
+
+function ClientRow({ name, email, status }) {
+  const statusColors = {
+    analyzing: 'bg-orange-100 text-orange-700',
+    scheduled: 'bg-emerald-100 text-emerald-700',
+    received: 'bg-amber-100 text-amber-700',
+    sent: 'bg-blue-100 text-blue-700'
+  };
+
+  const statusLabels = {
+    analyzing: 'En Análisis',
+    scheduled: 'Agendado',
+    received: 'Recibido',
+    sent: 'Enviado'
+  };
+
+  return (
+    <div className="p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 cursor-pointer transition-all flex justify-between items-center">
+      <div>
+        <div className="font-semibold text-slate-900">{name}</div>
+        <div className="text-sm text-slate-600">{email}</div>
+      </div>
+      <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase ${statusColors[status]}`}>
+        {statusLabels[status]}
+      </span>
+    </div>
+  );
+}
+
+function ClientDetailRow({ name, email, phone, status, payment, contract, session }) {
+  const statusColors = {
+    analyzing: 'bg-orange-100 text-orange-700',
+    scheduled: 'bg-emerald-100 text-emerald-700',
+    received: 'bg-amber-100 text-amber-700',
+    sent: 'bg-blue-100 text-blue-700'
+  };
+
+  const statusLabels = {
+    analyzing: 'Análisis',
+    scheduled: 'Agendado',
+    received: 'Recibido',
+    sent: 'Enviado'
+  };
+
+  return (
+    <div className="p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 cursor-pointer transition-all">
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <div className="font-bold text-slate-900">{name}</div>
+          <div className="text-sm text-slate-600">{email}</div>
+          <div className="text-xs text-slate-500">{phone}</div>
+        </div>
+        <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase ${statusColors[status]}`}>
+          {statusLabels[status]}
+        </span>
+      </div>
+      <div className="flex gap-4 text-sm text-slate-600 mt-3">
+        <div>💳 {payment}</div>
+        <div>{contract === '✓' ? '✅' : '❌'} Contrato</div>
+        <div>📅 {session}</div>
+      </div>
+    </div>
+  );
+}
+
+function UpcomingSession({ name, date, time, badge }) {
+  return (
+    <div className="p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 cursor-pointer transition-all border-l-4 border-emerald-600">
+      <div className="font-semibold text-slate-900 mb-1">{name}</div>
+      <div className="text-sm text-slate-600 mb-2">{date} - {time}</div>
+      <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-md font-bold">
+        {badge}
+      </span>
+    </div>
+  );
+}
