@@ -103,9 +103,14 @@
 
         <!-- CALENDAR VIEW -->
         <div id="view-calendar" class="hidden">
-            <div class="mb-8 pb-6 border-b-2 border-emerald-200">
-                <h1 class="text-4xl font-bold text-slate-900 mb-2">Calendario de Sesiones</h1>
-                <p class="text-slate-600 mt-4">Vista de todas las sesiones agendadas</p>
+            <div class="mb-8 pb-6 border-b-2 border-emerald-200 flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-slate-900 mb-2">Calendario de Sesiones</h1>
+                    <p class="text-slate-600 mt-4">Vista de todas las sesiones agendadas</p>
+                </div>
+                <button onclick="showNewSessionModal()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                    ➕ Nueva Sesión
+                </button>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -775,63 +780,63 @@
     </div>
 
     <!-- MODAL NUEVA SESIÓN -->
-<div id="new-session-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-        <div class="flex justify-between items-center mb-6 pb-4 border-b-2">
-            <h2 class="text-2xl font-bold text-slate-900">📅 Nueva Sesión</h2>
-            <button onclick="hideNewSessionModal()" class="text-slate-400 hover:text-slate-700 text-2xl">✕</button>
+    <div id="new-session-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b-2">
+                <h2 class="text-2xl font-bold text-slate-900">📅 Nueva Sesión</h2>
+                <button onclick="hideNewSessionModal()" class="text-slate-400 hover:text-slate-700 text-2xl">✕</button>
+            </div>
+            <form id="new-session-form" class="space-y-4">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Cliente *</label>
+                    <select id="session-client" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                        <option value="">Selecciona un cliente...</option>
+                        <!-- Se llena dinámicamente -->
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Fecha *</label>
+                    <input type="date" id="session-date" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                </div>
+                
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Hora *</label>
+                    <input type="time" id="session-time" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                </div>
+                
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Duración</label>
+                    <select id="session-duration" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                        <option value="60">1 hora</option>
+                        <option value="90" selected>1.5 horas</option>
+                        <option value="120">2 horas</option>
+                        <option value="30">30 minutos</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada</label>
+                    <input type="url" id="session-video-link" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="https://zoom.us/j/...">
+                    <div class="text-xs text-slate-500 mt-2">Zoom, Google Meet, Teams, etc.</div>
+                </div>
+                
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Notas/Descripción</label>
+                    <textarea id="session-notes" rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none resize-none" placeholder="Temas a tratar, recordatorios..."></textarea>
+                </div>
+                
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
+                        ✅ Crear Sesión
+                    </button>
+                    <button type="button" onclick="hideNewSessionModal()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
         </div>
-        <form id="new-session-form" class="space-y-4">
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Cliente *</label>
-                <select id="session-client" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-                    <option value="">Selecciona un cliente...</option>
-                    <!-- Se llena dinámicamente -->
-                </select>
-            </div>
-            
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Fecha *</label>
-                <input type="date" id="session-date" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-            </div>
-            
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Hora *</label>
-                <input type="time" id="session-time" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-            </div>
-            
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Duración</label>
-                <select id="session-duration" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
-                    <option value="60">1 hora</option>
-                    <option value="90" selected>1.5 horas</option>
-                    <option value="120">2 horas</option>
-                    <option value="30">30 minutos</option>
-                </select>
-            </div>
-            
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada</label>
-                <input type="url" id="session-video-link" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="https://zoom.us/j/...">
-                <div class="text-xs text-slate-500 mt-2">Zoom, Google Meet, Teams, etc.</div>
-            </div>
-            
-            <div>
-                <label class="block font-semibold text-slate-700 mb-2 text-sm">Notas/Descripción</label>
-                <textarea id="session-notes" rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none resize-none" placeholder="Temas a tratar, recordatorios..."></textarea>
-            </div>
-            
-            <div class="flex gap-3 pt-4">
-                <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
-                    ✅ Crear Sesión
-                </button>
-                <button type="button" onclick="hideNewSessionModal()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
-                    Cancelar
-                </button>
-            </div>
-        </form>
     </div>
-</div>
     
     <!-- MODAL EDITOR DE PLANTILLAS -->
     <div id="template-editor-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
@@ -954,8 +959,8 @@
         let templateImages = [];
         let templateVideos = [];
         
-        const sessions = {
-            '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true}]
+        let sessions = {
+            '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true, clientId: 'maria'}]
         };
 
         // Base de datos de clientes
@@ -1308,6 +1313,99 @@ El equipo de Money Map 💰`,
                 createdAt: '2026-01-01'
             }
         ];
+
+        // FUNCIONES DE SESIONES
+        function showNewSessionModal() {
+            // Llenar dropdown de clientes
+            const clientSelect = document.getElementById('session-client');
+            clientSelect.innerHTML = '<option value="">Selecciona un cliente...</option>' +
+                clients.map(client => `
+                    <option value="${client.id}">${client.name} - ${client.email}</option>
+                `).join('');
+            
+            // Establecer fecha mínima (hoy)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('session-date').setAttribute('min', today);
+            
+            document.getElementById('new-session-modal').classList.remove('hidden');
+        }
+
+        function hideNewSessionModal() {
+            document.getElementById('new-session-modal').classList.add('hidden');
+            document.getElementById('new-session-form').reset();
+        }
+
+        // Manejar creación de sesión
+        document.getElementById('new-session-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const clientId = document.getElementById('session-client').value;
+            const date = document.getElementById('session-date').value;
+            const time = document.getElementById('session-time').value;
+            const duration = document.getElementById('session-duration').value;
+            const videoLink = document.getElementById('session-video-link').value.trim();
+            const notes = document.getElementById('session-notes').value.trim();
+            
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+            
+            // Crear sesión en el calendario
+            if (!sessions[date]) {
+                sessions[date] = [];
+            }
+            
+            sessions[date].push({
+                name: client.name,
+                time: time,
+                hasVideo: videoLink !== '',
+                videoLink: videoLink,
+                duration: duration,
+                notes: notes,
+                clientId: clientId
+            });
+            
+            // Actualizar información del cliente
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const dateObj = new Date(date);
+            const formattedDate = `${dateObj.getDate()} ${months[dateObj.getMonth()]}`;
+            
+            client.hasSession = true;
+            client.sessionDate = `${formattedDate} - ${time}`;
+            client.hasVideoLink = videoLink !== '';
+            
+            // Si el cliente está en etapa de contrato o discovery, avanzarlo a videocall
+            if (client.stage === 'contract' || client.stage === 'discovery') {
+                client.stage = 'videocall';
+                client.status = 'scheduled';
+                client.statusLabel = 'Agendado';
+            }
+            
+            // Re-renderizar
+            renderCalendar();
+            updateStageCounts();
+            hideNewSessionModal();
+            
+            alert(`✅ Sesión creada exitosamente!\n\nCliente: ${client.name}\nFecha: ${formattedDate}\nHora: ${time}`);
+        });
+
+        // Función para ver detalles de una sesión al hacer click en el día
+        function viewDayDetails(dateStr) {
+            const daySessions = sessions[dateStr];
+            if (!daySessions || daySessions.length === 0) return;
+            
+            const dateObj = new Date(dateStr);
+            const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                           'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const formattedDate = `${dateObj.getDate()} de ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+            
+            const sessionsDetails = daySessions.map(session => `
+- ${session.time} - ${session.name}
+  ${session.hasVideo ? '🎥 Videollamada configurada' : ''}
+  ${session.notes ? 'Notas: ' + session.notes : ''}
+            `).join('\n');
+            
+            alert(`📅 Sesiones del ${formattedDate}\n\n${sessionsDetails}`);
+        }
 
         // FUNCIONES DE PLANTILLAS
         function showTemplateEditor(templateId = null) {
@@ -2117,7 +2215,10 @@ El equipo de Money Map 💰`,
                     dayClass += 'border-slate-200 hover:border-slate-300';
                 }
                 
-                calendarHTML += `<div class="${dayClass}">
+                // Agregar onclick para ver detalles
+                const onclickAttr = hasSession ? `onclick="viewDayDetails('${dateStr}')"` : '';
+                
+                calendarHTML += `<div class="${dayClass}" ${onclickAttr}>
                     <div class="text-sm font-semibold mb-1 ${isToday ? 'text-emerald-700' : 'text-slate-700'}">
                         ${day}
                     </div>`;
@@ -2125,7 +2226,7 @@ El equipo de Money Map 💰`,
                 if (hasSession) {
                     hasSession.forEach(session => {
                         const videoIcon = session.hasVideo ? '🎥' : '';
-                        calendarHTML += `<div class="text-xs bg-emerald-600 text-white px-1.5 py-0.5 rounded truncate mt-1" title="${session.name} - ${session.time}">
+                        calendarHTML += `<div class="text-xs bg-emerald-600 text-white px-1.5 py-0.5 rounded truncate mt-1" title="${session.name} - ${session.time}${session.notes ? '\n' + session.notes : ''}">
                             ${videoIcon} ${session.time} ${session.name.split(' ')[0]}
                         </div>`;
                     });
