@@ -231,265 +231,293 @@
                 <p class="text-emerald-100 text-lg" id="detail-client-contact">maria.gonzalez@email.com • +34 612 345 678</p>
             </div>
 
-            <!-- TIMELINE DE PROGRESO -->
-            <div class="bg-white rounded-2xl p-8 mb-6 shadow-lg">
-                <h3 class="text-xl font-bold text-slate-900 mb-6 pb-3 border-b-2 border-emerald-200">
-                    📊 Progreso del Cliente
-                </h3>
-                
-                <!-- Timeline -->
-                <div class="relative">
-                    <!-- Línea de conexión -->
-                    <div class="absolute top-6 left-0 right-0 h-1 bg-slate-200" style="z-index: 0;"></div>
-                    <div class="absolute top-6 left-0 h-1 bg-emerald-500 transition-all duration-500" id="timeline-progress" style="width: 16.66%; z-index: 0;"></div>
-                    
-                    <!-- Etapas -->
-                    <div class="grid grid-cols-6 gap-2 relative" style="z-index: 1;">
-                        
-                        <!-- 1. Registro -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer">
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-emerald-700 text-sm">Registro</div>
-                                <div class="text-xs text-slate-500 mt-1">✓ Completado</div>
-                            </div>
-                        </div>
-
-                        <!-- 2. Pago - ACTUAL -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-amber-500 text-white shadow-xl border-4 border-amber-200 animate-pulse cursor-pointer">
-                                <span class="text-xl">💳</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-amber-700 text-sm">Pago</div>
-                                <div class="text-xs text-amber-600 mt-1 font-semibold">← Pendiente</div>
-                            </div>
-                        </div>
-
-                        <!-- 3. Contrato -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
-                                <span class="text-xl">📄</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-slate-500 text-sm">Contrato</div>
-                                <div class="text-xs text-slate-400 mt-1">Pendiente</div>
-                            </div>
-                        </div>
-
-                        <!-- 4. Discovery -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
-                                <span class="text-xl">📋</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-slate-500 text-sm">Discovery</div>
-                                <div class="text-xs text-slate-400 mt-1">Pendiente</div>
-                            </div>
-                        </div>
-
-                        <!-- 5. Video Call -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
-                                <span class="text-xl">🎥</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-slate-500 text-sm">Video Call</div>
-                                <div class="text-xs text-slate-400 mt-1">Pendiente</div>
-                            </div>
-                        </div>
-
-                        <!-- 6. Caso Cerrado -->
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
-                                <span class="text-xl">✅</span>
-                            </div>
-                            <div class="text-center">
-                                <div class="font-bold text-slate-500 text-sm">Cerrado</div>
-                                <div class="text-xs text-slate-400 mt-1">Pendiente</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Info de etapa actual -->
-                <div id="timeline-info" class="mt-6 p-4 bg-amber-50 border-2 border-amber-200 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <div class="text-3xl">💳</div>
-                        <div>
-                            <div class="font-bold text-amber-900">Etapa Actual: Esperando Pago</div>
-                            <div class="text-sm text-amber-700 mt-1">
-                                Cliente registrado recientemente
-                            </div>
-                        </div>
-                    </div>
+            <!-- TABS NAVIGATION -->
+            <div class="bg-white rounded-t-2xl p-4 shadow-lg border-b-2 border-emerald-200">
+                <div class="flex gap-2 overflow-x-auto">
+                    <button onclick="showClientTab('general')" id="tab-general" class="px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-100 text-emerald-700 whitespace-nowrap">
+                        📋 Información General
+                    </button>
+                    <button onclick="showClientTab('documents')" id="tab-documents" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">
+                        📁 Documentos
+                    </button>
+                    <button onclick="showClientTab('video')" id="tab-video" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">
+                        🎥 Videollamada
+                    </button>
+                    <button onclick="showClientTab('email')" id="tab-email" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">
+                        📧 Email
+                    </button>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Left Column -->
+                <!-- Left Column - Contenido según tab -->
                 <div class="lg:col-span-2 space-y-6">
                     
-                    <!-- Información General -->
-                    <div class="bg-white rounded-2xl p-6 shadow-lg">
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
-                            Información General
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between py-3 border-b border-slate-200">
-                                <span class="font-semibold text-slate-700">Estado Actual</span>
-                                <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase bg-blue-100 text-blue-700" id="detail-status">Nuevo</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-b border-slate-200">
-                                <span class="font-semibold text-slate-700">Fecha de Registro</span>
-                                <span class="text-slate-600" id="detail-client-date">08 Enero 2026</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-b border-slate-200">
-                                <span class="font-semibold text-slate-700">Discovery</span>
-                                <span class="text-slate-600" id="detail-discovery">⏳ Pendiente</span>
-                            </div>
-                            <div class="flex justify-between py-3 border-b border-slate-200">
-                                <span class="font-semibold text-slate-700">Contrato</span>
-                                <span class="text-slate-600" id="detail-contract">⏳ Pendiente</span>
-                            </div>
-                            <div class="flex justify-between py-3">
-                                <span class="font-semibold text-slate-700">Sesión Programada</span>
-                                <span class="text-slate-600" id="detail-session">⏳ Sin agendar</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SECCIÓN DE DOCUMENTOS -->
-                    <div id="documents-section" class="bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-200">
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-purple-200">
-                            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                                📁 Documentos del Cliente
-                                <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-md text-xs font-bold" id="docs-count">0</span>
+                    <!-- TAB: INFORMACIÓN GENERAL -->
+                    <div id="content-general" class="space-y-6">
+                        <!-- TIMELINE DE PROGRESO -->
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6 pb-3 border-b-2 border-emerald-200">
+                                📊 Progreso del Cliente
                             </h3>
-                            <button onclick="showUploadDocModal()" class="px-3 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                ⬆️ Subir
-                            </button>
-                        </div>
-
-                        <!-- Lista de documentos -->
-                        <div id="client-documents" class="space-y-3">
-                            <!-- Se llena con JavaScript según el estado del cliente -->
-                        </div>
-
-                        <!-- Sin documentos -->
-                        <div id="no-documents" class="hidden text-center py-8 text-slate-500">
-                            <div class="text-4xl mb-2">📂</div>
-                            <div class="font-semibold">Sin documentos aún</div>
-                            <div class="text-sm mt-1">Los documentos aparecerán según avance el proceso</div>
-                        </div>
-                    </div>
-
-                    <!-- VIDEOLLAMADA SECTION -->
-                    <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-emerald-200">
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200 flex items-center gap-2">
-                            🎥 Videollamada
-                        </h3>
-                        
-                        <!-- Link de videollamada guardado -->
-                        <div id="video-link-display">
-                            <div class="bg-gradient-to-r from-emerald-50 to-white p-4 rounded-xl border-2 border-emerald-300 mb-4">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div class="flex-1">
-                                        <div class="text-sm font-semibold text-slate-700 mb-2">Link de Sesión:</div>
-                                        <div class="text-sm text-slate-600 break-all" id="saved-video-link">
-                                            https://zoom.us/j/123456789
+                            
+                            <!-- Timeline -->
+                            <div class="relative">
+                                <!-- Línea de conexión -->
+                                <div class="absolute top-6 left-0 right-0 h-1 bg-slate-200" style="z-index: 0;"></div>
+                                <div class="absolute top-6 left-0 h-1 bg-emerald-500 transition-all duration-500" id="timeline-progress" style="width: 16.66%; z-index: 0;"></div>
+                                
+                                <!-- Etapas -->
+                                <div class="grid grid-cols-6 gap-2 relative" style="z-index: 1;">
+                                    
+                                    <!-- 1. Registro -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer">
+                                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-emerald-700 text-sm">Registro</div>
+                                            <div class="text-xs text-slate-500 mt-1">✓ Completado</div>
                                         </div>
                                     </div>
-                                    <button onclick="editVideoLink()" class="ml-2 text-slate-500 hover:text-slate-700" title="Editar">
-                                        ✏️
-                                    </button>
+
+                                    <!-- 2. Pago - ACTUAL -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-amber-500 text-white shadow-xl border-4 border-amber-200 animate-pulse cursor-pointer">
+                                            <span class="text-xl">💳</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-amber-700 text-sm">Pago</div>
+                                            <div class="text-xs text-amber-600 mt-1 font-semibold">← Pendiente</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Contrato -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
+                                            <span class="text-xl">📄</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-slate-500 text-sm">Contrato</div>
+                                            <div class="text-xs text-slate-400 mt-1">Pendiente</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Discovery -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
+                                            <span class="text-xl">📋</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-slate-500 text-sm">Discovery</div>
+                                            <div class="text-xs text-slate-400 mt-1">Pendiente</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Video Call -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
+                                            <span class="text-xl">🎥</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-slate-500 text-sm">Video Call</div>
+                                            <div class="text-xs text-slate-400 mt-1">Pendiente</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 6. Caso Cerrado -->
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-slate-200 text-slate-400 cursor-pointer hover:bg-slate-300 transition-all">
+                                            <span class="text-xl">✅</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-slate-500 text-sm">Cerrado</div>
+                                            <div class="text-xs text-slate-400 mt-1">Pendiente</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Info de etapa actual -->
+                            <div id="timeline-info" class="mt-6 p-4 bg-amber-50 border-2 border-amber-200 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-3xl">💳</div>
+                                    <div>
+                                        <div class="font-bold text-amber-900">Etapa Actual: Esperando Pago</div>
+                                        <div class="text-sm text-amber-700 mt-1">
+                                            Cliente registrado recientemente
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información General -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+                                Detalles del Cliente
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between py-3 border-b border-slate-200">
+                                    <span class="font-semibold text-slate-700">Estado Actual</span>
+                                    <span class="px-3 py-1 rounded-lg text-xs font-bold uppercase bg-blue-100 text-blue-700" id="detail-status">Nuevo</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-slate-200">
+                                    <span class="font-semibold text-slate-700">Fecha de Registro</span>
+                                    <span class="text-slate-600" id="detail-client-date">08 Enero 2026</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-slate-200">
+                                    <span class="font-semibold text-slate-700">Discovery</span>
+                                    <span class="text-slate-600" id="detail-discovery">⏳ Pendiente</span>
+                                </div>
+                                <div class="flex justify-between py-3 border-b border-slate-200">
+                                    <span class="font-semibold text-slate-700">Contrato</span>
+                                    <span class="text-slate-600" id="detail-contract">⏳ Pendiente</span>
+                                </div>
+                                <div class="flex justify-between py-3">
+                                    <span class="font-semibold text-slate-700">Sesión Programada</span>
+                                    <span class="text-slate-600" id="detail-session">⏳ Sin agendar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acciones Rápidas -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+                                Acciones Rápidas
+                            </h3>
+                            <div class="space-y-3">
+                                <button onclick="sendWelcomeEmail()" class="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                                    📧 Enviar Email de Bienvenida
+                                </button>
+                                <button class="w-full px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors">
+                                    📄 Enviar Contrato
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: DOCUMENTOS -->
+                    <div id="content-documents" class="hidden">
+                        <div id="documents-section" class="bg-white rounded-2xl p-6 shadow-lg border-2 border-purple-200">
+                            <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-purple-200">
+                                <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                    📁 Documentos del Cliente
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-md text-xs font-bold" id="docs-count">0</span>
+                                </h3>
+                                <button onclick="showUploadDocModal()" class="px-3 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ⬆️ Subir
+                                </button>
+                            </div>
+
+                            <!-- Lista de documentos -->
+                            <div id="client-documents" class="space-y-3">
+                                <!-- Se llena con JavaScript según el estado del cliente -->
+                            </div>
+
+                            <!-- Sin documentos -->
+                            <div id="no-documents" class="hidden text-center py-8 text-slate-500">
+                                <div class="text-4xl mb-2">📂</div>
+                                <div class="font-semibold">Sin documentos aún</div>
+                                <div class="text-sm mt-1">Los documentos aparecerán según avance el proceso</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: VIDEOLLAMADA -->
+                    <div id="content-video" class="hidden">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-emerald-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200 flex items-center gap-2">
+                                🎥 Videollamada
+                            </h3>
+                            
+                            <!-- Link de videollamada guardado -->
+                            <div id="video-link-display">
+                                <div class="bg-gradient-to-r from-emerald-50 to-white p-4 rounded-xl border-2 border-emerald-300 mb-4">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div class="flex-1">
+                                            <div class="text-sm font-semibold text-slate-700 mb-2">Link de Sesión:</div>
+                                            <div class="text-sm text-slate-600 break-all" id="saved-video-link">
+                                                https://zoom.us/j/123456789
+                                            </div>
+                                        </div>
+                                        <button onclick="editVideoLink()" class="ml-2 text-slate-500 hover:text-slate-700" title="Editar">
+                                            ✏️
+                                        </button>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="startVideoCall()" class="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                            🎥 Iniciar Sesión
+                                        </button>
+                                        <button onclick="copyVideoLink()" class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors flex items-center gap-2">
+                                            📋 Copiar Link
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulario para añadir/editar link (oculto por defecto) -->
+                            <div id="video-link-form" class="hidden mb-4">
+                                <div class="mb-3">
+                                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada (Zoom, Meet, Teams)</label>
+                                    <input 
+                                        type="url" 
+                                        id="video-link-input"
+                                        placeholder="https://zoom.us/j/..." 
+                                        class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                                        value="https://zoom.us/j/123456789"
+                                    >
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="startVideoCall()" class="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                                        🎥 Iniciar Sesión
+                                    <button onclick="saveVideoLink()" class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                                        💾 Guardar Link
                                     </button>
-                                    <button onclick="copyVideoLink()" class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors flex items-center gap-2">
-                                        📋 Copiar Link
+                                    <button onclick="cancelEditVideoLink()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition-colors">
+                                        Cancelar
                                     </button>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Formulario para añadir/editar link (oculto por defecto) -->
-                        <div id="video-link-form" class="hidden mb-4">
-                            <div class="mb-3">
-                                <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada (Zoom, Meet, Teams)</label>
-                                <input 
-                                    type="url" 
-                                    id="video-link-input"
-                                    placeholder="https://zoom.us/j/..." 
-                                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
-                                    value="https://zoom.us/j/123456789"
-                                >
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="saveVideoLink()" class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-                                    💾 Guardar Link
-                                </button>
-                                <button onclick="cancelEditVideoLink()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition-colors">
-                                    Cancelar
-                                </button>
+                            <!-- Info adicional -->
+                            <div class="p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
+                                <strong>💡 Tip:</strong> Puedes usar Zoom, Google Meet, Microsoft Teams o cualquier plataforma de videollamadas.
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Info adicional -->
-                        <div class="p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
-                            <strong>💡 Tip:</strong> Puedes usar Zoom, Google Meet, Microsoft Teams o cualquier plataforma de videollamadas.
+                    <!-- TAB: EMAIL -->
+                    <div id="content-email" class="hidden">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200">
+                            <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-blue-200">
+                                <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                                    📧 Comunicaciones por Email
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-bold" id="email-count">0</span>
+                                </h3>
+                                <button onclick="showSendEmailModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                                    ✉️ Enviar Email
+                                </button>
+                            </div>
+
+                            <!-- Historial de emails -->
+                            <div id="email-history" class="space-y-3">
+                                <!-- Se llena con JavaScript -->
+                            </div>
+
+                            <!-- Sin emails -->
+                            <div id="no-emails" class="text-center py-8 text-slate-500">
+                                <div class="text-4xl mb-2">📬</div>
+                                <div class="font-semibold">No hay emails enviados</div>
+                                <div class="text-sm mt-1">Envía el primer email a este cliente</div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- SECCIÓN DE EMAILS -->
-                    <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200">
-                        <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-blue-200">
-                            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                                📧 Comunicaciones por Email
-                                <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-bold" id="email-count">0</span>
-                            </h3>
-                            <button onclick="showSendEmailModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
-                                ✉️ Enviar Email
-                            </button>
-                        </div>
-
-                        <!-- Historial de emails -->
-                        <div id="email-history" class="space-y-3">
-                            <!-- Se llena con JavaScript -->
-                        </div>
-
-                        <!-- Sin emails -->
-                        <div id="no-emails" class="text-center py-8 text-slate-500">
-                            <div class="text-4xl mb-2">📬</div>
-                            <div class="font-semibold">No hay emails enviados</div>
-                            <div class="text-sm mt-1">Envía el primer email a este cliente</div>
-                        </div>
-                    </div>
-
-                    <!-- Acciones -->
-                    <div class="bg-white rounded-2xl p-6 shadow-lg">
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
-                            Acciones Rápidas
-                        </h3>
-                        <div class="space-y-3">
-                            <button onclick="sendWelcomeEmail()" class="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
-                                📧 Enviar Email de Bienvenida
-                            </button>
-                            <button class="w-full px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors">
-                                📄 Enviar Contrato
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Right Column: Notas -->
+                <!-- Right Column: Notas (SIEMPRE VISIBLE) -->
                 <div class="bg-white rounded-2xl p-6 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
@@ -670,6 +698,7 @@
         let currentYear = 2026;
         let currentStageFilter = 'all';
         let currentClientId = null;
+        let currentClientTab = 'general';
         
         const sessions = {
             '2026-01-12': [{name: 'María González', time: '15:00', hasVideo: true}]
@@ -989,6 +1018,23 @@ Saludos,
 El equipo de Money Map 💰`
             }
         };
+
+        // Función para cambiar entre tabs del cliente
+        function showClientTab(tabName) {
+            currentClientTab = tabName;
+            
+            // Ocultar todos los contenidos
+            document.querySelectorAll('[id^="content-"]').forEach(c => c.classList.add('hidden'));
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            
+            // Actualizar tabs
+            document.querySelectorAll('[id^="tab-"]').forEach(t => {
+                t.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap';
+            });
+            document.getElementById('tab-' + tabName).className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-100 text-emerald-700 whitespace-nowrap';
+        }
 
         // Función para generar ID único
         function generateClientId() {
@@ -1514,6 +1560,10 @@ El equipo de Money Map 💰`
 
             renderEmailHistory(clientId);
             renderClientDocuments(clientId);
+            
+            // Mostrar tab por defecto (general)
+            showClientTab('general');
+            
             showView('client-detail');
         }
 
