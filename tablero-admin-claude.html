@@ -29,20 +29,20 @@
     }
 </script>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-emerald-50 min-h-screen">
+<body class="bg-gradient-to-br from-slate-50 to-brand-50 min-h-screen">
     
     <!-- Header -->
-    <div class="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white p-6 shadow-xl">
+    <div class="bg-gradient-to-r from-brand-700 to-brand-600 text-white p-6 shadow-xl">
         <div class="max-w-7xl mx-auto">
             <h1 class="text-3xl font-bold mb-2">💰 Money Map - Admin Dashboard</h1>
-            <p class="text-emerald-100">Centro de control para Plan Review</p>
+            <p class="text-brand-100">Centro de control para Plan Review</p>
         </div>
     </div>
 
     <!-- Navigation -->
     <div class="max-w-7xl mx-auto p-6">
         <div class="flex gap-4 mb-8">
-            <button onclick="showView('dashboard')" id="btn-dashboard" class="px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-600 text-white shadow-lg">
+            <button onclick="showView('dashboard')" id="btn-dashboard" class="px-6 py-3 rounded-lg font-semibold transition-all bg-brand-600 text-white shadow-lg">
                 📊 Dashboard
             </button>
             <button onclick="showView('calendar')" id="btn-calendar" class="px-6 py-3 rounded-lg font-semibold transition-all bg-white text-slate-700 hover:bg-slate-50">
@@ -61,7 +61,7 @@
             <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-all relative">
-                    <div class="absolute top-0 left-0 w-1 h-full rounded-l-2xl bg-gradient-to-b from-emerald-500 to-emerald-700"></div>
+                    <div class="absolute top-0 left-0 w-1 h-full rounded-l-2xl bg-gradient-to-b from-brand-500 to-brand-700"></div>
                     <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Clientes Activos</div>
                     <div class="text-4xl font-bold text-slate-900" id="stat-total-clients">5</div>
                 </div>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-all relative">
-                    <div class="absolute top-0 left-0 w-1 h-full rounded-l-2xl bg-gradient-to-b from-emerald-500 to-emerald-700"></div>
+                    <div class="absolute top-0 left-0 w-1 h-full rounded-l-2xl bg-gradient-to-b from-brand-500 to-brand-700"></div>
                     <div class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Sesiones Agendadas</div>
                     <div class="text-4xl font-bold text-slate-900">3</div>
                 </div>
@@ -110,14 +110,14 @@
             <div class="bg-white rounded-2xl p-6 shadow-lg">
                 <h2 class="text-2xl font-bold text-slate-900 mb-4">📅 Sesiones Esta Semana</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 bg-gradient-to-br from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 cursor-pointer transition-all" onclick="showClientDetail('maria')">
+                    <div class="p-4 bg-gradient-to-br from-brand-50 to-white rounded-xl border-2 border-brand-200 hover:border-brand-400 cursor-pointer transition-all" onclick="showClientDetail('maria')">
                         <div class="flex justify-between items-start mb-2">
                             <div class="font-bold text-slate-900">María González</div>
                             <span class="text-lg" title="Link de videollamada configurado">🎥</span>
                         </div>
                         <div class="text-sm text-slate-600 mb-3">maria.gonzalez@email.com</div>
                         <div class="flex items-center gap-2 text-sm text-slate-700 mb-2">📅 12 Ene, Domingo</div>
-                        <div class="text-sm font-semibold text-emerald-700">🕐 15:00</div>
+                        <div class="text-sm font-semibold text-brand-700">🕐 15:00</div>
                         <div class="mt-2 text-xs px-2 py-1 bg-slate-200 text-slate-600 rounded-md inline-block">En 4 días</div>
                     </div>
                 </div>
@@ -126,12 +126,12 @@
 
         <!-- CALENDAR VIEW -->
         <div id="view-calendar" class="hidden">
-            <div class="mb-8 pb-6 border-b-2 border-emerald-200 flex justify-between items-center">
+            <div class="mb-8 pb-6 border-b-2 border-brand-200 flex justify-between items-center">
                 <div>
                     <h1 class="text-4xl font-bold text-slate-900 mb-2">Calendario de Sesiones</h1>
                     <p class="text-slate-600 mt-4">Vista de todas las sesiones agendadas</p>
                 </div>
-                <button onclick="showNewSessionModal()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                <button onclick="showNewSessionModal()" class="px-5 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
                     ➕ Nueva Sesión
                 </button>
             </div>
@@ -145,7 +145,7 @@
                             <button onclick="previousMonth()" class="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
                                 ← 
                             </button>
-                            <button onclick="goToToday()" class="px-4 py-2 bg-emerald-100 text-emerald-700 rounded-lg font-semibold hover:bg-emerald-200 transition-colors text-sm">
+                            <button onclick="goToToday()" class="px-4 py-2 bg-brand-100 text-brand-700 rounded-lg font-semibold hover:bg-brand-200 transition-colors text-sm">
                                 Hoy
                             </button>
                             <button onclick="nextMonth()" class="px-4 py-2 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors">
@@ -173,11 +173,11 @@
 
                 <!-- Próximas Sesiones -->
                 <div class="bg-white rounded-2xl p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200">
                         Próximas Sesiones
                     </h3>
                     <div class="space-y-3">
-                        <div onclick="showClientDetail('maria')" class="p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 cursor-pointer transition-all border-l-4 border-emerald-600">
+                        <div onclick="showClientDetail('maria')" class="p-4 bg-slate-50 rounded-xl hover:bg-brand-50 cursor-pointer transition-all border-l-4 border-brand-600">
                             <div class="flex justify-between items-start mb-1">
                                 <div class="font-semibold text-slate-900">María González</div>
                                 <span class="text-sm" title="Con videollamada">🎥</span>
@@ -197,7 +197,7 @@
             <div class="bg-white rounded-2xl p-6 shadow-lg">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-slate-900">👥 Lista de Clientes (<span id="client-count">5</span>)</h2>
-                    <button onclick="showNewClientModal()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                    <button onclick="showNewClientModal()" class="px-5 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
                         ➕ Nuevo Cliente
                     </button>
                 </div>
@@ -208,13 +208,13 @@
                     id="search-input"
                     placeholder="Buscar cliente por nombre, email o teléfono..." 
                     oninput="searchClients()"
-                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-4 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                    class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-4 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all outline-none"
                 >
 
                 <!-- Filtros por Estadio -->
                 <div class="mb-6 overflow-x-auto">
                     <div class="flex gap-2 min-w-max">
-                        <button onclick="filterByStage('all')" id="stage-all" class="px-4 py-2 rounded-lg font-semibold text-sm bg-emerald-100 text-emerald-700 whitespace-nowrap transition-all">
+                        <button onclick="filterByStage('all')" id="stage-all" class="px-4 py-2 rounded-lg font-semibold text-sm bg-brand-100 text-brand-700 whitespace-nowrap transition-all">
                             Todos (<span id="count-all">5</span>)
                         </button>
                         <button onclick="filterByStage('new')" id="stage-new" class="px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all">
@@ -252,7 +252,7 @@
 
         <!-- SETTINGS VIEW -->
         <div id="view-settings" class="hidden">
-            <div class="mb-8 pb-6 border-b-2 border-emerald-200">
+            <div class="mb-8 pb-6 border-b-2 border-brand-200">
                 <h1 class="text-4xl font-bold text-slate-900 mb-2">⚙️ Configuración</h1>
                 <p class="text-slate-600 mt-4">Gestiona las plantillas y configuraciones del sistema</p>
             </div>
@@ -262,7 +262,7 @@
                 <div class="bg-white rounded-2xl p-6 shadow-lg">
                     <h3 class="text-lg font-bold text-slate-900 mb-4">Secciones</h3>
                     <div class="space-y-2">
-                        <button onclick="showSettingsTab('templates')" id="settings-tab-templates" class="w-full px-4 py-3 bg-emerald-100 text-emerald-700 rounded-lg font-semibold text-left transition-all">
+                        <button onclick="showSettingsTab('templates')" id="settings-tab-templates" class="w-full px-4 py-3 bg-brand-100 text-brand-700 rounded-lg font-semibold text-left transition-all">
                             📧 Plantillas de Email
                         </button>
                         <button onclick="showSettingsTab('plans')" id="settings-tab-plans" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
@@ -311,7 +311,7 @@
                         <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
                             <div class="flex justify-between items-center mb-6">
                                 <h2 class="text-2xl font-bold text-slate-900">💰 Planes y Paquetes</h2>
-                                <button onclick="showPlanEditor()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                                <button onclick="showPlanEditor()" class="px-5 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
                                     ➕ Nuevo Plan
                                 </button>
                             </div>
@@ -322,7 +322,7 @@
                                 id="plan-search"
                                 placeholder="Buscar plan..." 
                                 oninput="searchPlans()"
-                                class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                                class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all outline-none"
                             >
 
                             <!-- Plans List -->
@@ -349,15 +349,15 @@
             </button>
 
             <!-- Client Header -->
-            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-2xl p-8 mb-6 shadow-xl">
+            <div class="bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-2xl p-8 mb-6 shadow-xl">
                 <h1 class="text-3xl font-bold mb-2" id="detail-client-name">María González</h1>
-                <p class="text-emerald-100 text-lg" id="detail-client-contact">maria.gonzalez@email.com • +34 612 345 678</p>
+                <p class="text-brand-100 text-lg" id="detail-client-contact">maria.gonzalez@email.com • +34 612 345 678</p>
             </div>
 
             <!-- TABS NAVIGATION -->
-            <div class="bg-white rounded-t-2xl p-4 shadow-lg border-b-2 border-emerald-200">
+            <div class="bg-white rounded-t-2xl p-4 shadow-lg border-b-2 border-brand-200">
                 <div class="flex gap-2 overflow-x-auto">
-                    <button onclick="showClientTab('general')" id="tab-general" class="px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-100 text-emerald-700 whitespace-nowrap">
+                    <button onclick="showClientTab('general')" id="tab-general" class="px-6 py-3 rounded-lg font-semibold transition-all bg-brand-100 text-brand-700 whitespace-nowrap">
                         📋 Información General
                     </button>
                     <button onclick="showClientTab('documents')" id="tab-documents" class="px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap">
@@ -380,7 +380,7 @@
                     <div id="content-general" class="space-y-6">
                         <!-- TIMELINE DE PROGRESO -->
                         <div class="bg-white rounded-2xl p-8 shadow-lg">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6 pb-3 border-b-2 border-emerald-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6 pb-3 border-b-2 border-brand-200">
                                 📊 Progreso del Cliente
                             </h3>
                             
@@ -388,20 +388,20 @@
                             <div class="relative">
                                 <!-- Línea de conexión -->
                                 <div class="absolute top-6 left-0 right-0 h-1 bg-slate-200" style="z-index: 0;"></div>
-                                <div class="absolute top-6 left-0 h-1 bg-emerald-500 transition-all duration-500" id="timeline-progress" style="width: 16.66%; z-index: 0;"></div>
+                                <div class="absolute top-6 left-0 h-1 bg-brand-500 transition-all duration-500" id="timeline-progress" style="width: 16.66%; z-index: 0;"></div>
                                 
                                 <!-- Etapas -->
                                 <div class="grid grid-cols-6 gap-2 relative" style="z-index: 1;">
                                     
                                     <!-- 1. Registro -->
                                     <div class="flex flex-col items-center">
-                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-emerald-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer">
+                                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-brand-500 text-white shadow-lg transform hover:scale-110 transition-all cursor-pointer">
                                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                             </svg>
                                         </div>
                                         <div class="text-center">
-                                            <div class="font-bold text-emerald-700 text-sm">Registro</div>
+                                            <div class="font-bold text-brand-700 text-sm">Registro</div>
                                             <div class="text-xs text-slate-500 mt-1">✓ Completado</div>
                                         </div>
                                     </div>
@@ -480,7 +480,7 @@
 
                         <!-- Información General -->
                         <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200">
                                 Detalles del Cliente
                             </h3>
                             <div class="space-y-3">
@@ -509,11 +509,11 @@
 
                         <!-- Acciones Rápidas -->
                         <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200">
                                 Acciones Rápidas
                             </h3>
                             <div class="space-y-3">
-                                <button onclick="sendWelcomeEmail()" class="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                                <button onclick="sendWelcomeEmail()" class="w-full px-4 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
                                     📧 Enviar Email de Bienvenida
                                 </button>
                                 <button class="w-full px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors">
@@ -552,14 +552,14 @@
 
                     <!-- TAB: VIDEOLLAMADA -->
                     <div id="content-video" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-emerald-200">
-                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-emerald-200 flex items-center gap-2">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-brand-200">
+                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200 flex items-center gap-2">
                                 🎥 Videollamada
                             </h3>
                             
                             <!-- Link de videollamada guardado -->
                             <div id="video-link-display">
-                                <div class="bg-gradient-to-r from-emerald-50 to-white p-4 rounded-xl border-2 border-emerald-300 mb-4">
+                                <div class="bg-gradient-to-r from-brand-50 to-white p-4 rounded-xl border-2 border-brand-300 mb-4">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex-1">
                                             <div class="text-sm font-semibold text-slate-700 mb-2">Link de Sesión:</div>
@@ -572,7 +572,7 @@
                                         </button>
                                     </div>
                                     <div class="flex gap-2">
-                                        <button onclick="startVideoCall()" class="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                        <button onclick="startVideoCall()" class="flex-1 px-4 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
                                             🎥 Iniciar Sesión
                                         </button>
                                         <button onclick="copyVideoLink()" class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors flex items-center gap-2">
@@ -590,12 +590,12 @@
                                         type="url" 
                                         id="video-link-input"
                                         placeholder="https://zoom.us/j/..." 
-                                        class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                                        class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all outline-none"
                                         value="https://zoom.us/j/123456789"
                                     >
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="saveVideoLink()" class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                                    <button onclick="saveVideoLink()" class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors">
                                         💾 Guardar Link
                                     </button>
                                     <button onclick="cancelEditVideoLink()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition-colors">
@@ -650,23 +650,23 @@
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
                             📝 Notas
-                            <span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-md text-xs font-bold">0</span>
+                            <span class="px-2 py-1 bg-brand-100 text-brand-700 rounded-md text-xs font-bold">0</span>
                         </h3>
-                        <button onclick="showNewNoteForm()" class="px-3 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
+                        <button onclick="showNewNoteForm()" class="px-3 py-2 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-lg font-semibold hover:shadow-lg transition-all">
                             ➕ Nueva
                         </button>
                     </div>
 
                     <!-- Form Nueva Nota -->
-                    <div id="new-note-form" class="hidden bg-gradient-to-br from-slate-50 to-emerald-50 p-4 rounded-xl mb-4 border-2 border-emerald-200">
-                        <select class="w-full px-3 py-2 border-2 border-slate-200 rounded-lg mb-3 focus:border-emerald-500 outline-none font-semibold">
+                    <div id="new-note-form" class="hidden bg-gradient-to-br from-slate-50 to-brand-50 p-4 rounded-xl mb-4 border-2 border-brand-200">
+                        <select class="w-full px-3 py-2 border-2 border-slate-200 rounded-lg mb-3 focus:border-brand-500 outline-none font-semibold">
                             <option>💬 Nota General</option>
                             <option>⏳ Pendiente</option>
                             <option>⚠️ Alerta Importante</option>
                         </select>
-                        <textarea placeholder="Escribe tu nota..." class="w-full px-3 py-2 border-2 border-slate-200 rounded-lg mb-3 min-h-[100px] focus:border-emerald-500 outline-none resize-none"></textarea>
+                        <textarea placeholder="Escribe tu nota..." class="w-full px-3 py-2 border-2 border-slate-200 rounded-lg mb-3 min-h-[100px] focus:border-brand-500 outline-none resize-none"></textarea>
                         <div class="flex gap-2">
-                            <button onclick="alert('Nota guardada'); hideNewNoteForm();" class="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700">
+                            <button onclick="alert('Nota guardada'); hideNewNoteForm();" class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700">
                                 💾 Guardar
                             </button>
                             <button onclick="hideNewNoteForm()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300">
@@ -696,22 +696,22 @@
             <form id="new-client-form" class="space-y-4">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Nombre Completo *</label>
-                    <input type="text" id="client-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <input type="text" id="client-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Email *</label>
-                    <input type="email" id="client-email" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <input type="email" id="client-email" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Teléfono</label>
-                    <input type="tel" id="client-phone" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="+34 ...">
+                    <input type="tel" id="client-phone" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none" placeholder="+34 ...">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Fecha de Pago</label>
-                    <input type="date" id="client-payment-date" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <input type="date" id="client-payment-date" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                 </div>
                 <div class="flex gap-3 pt-4">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg">
                         ✅ Crear Cliente
                     </button>
                     <button type="button" onclick="hideNewClientModal()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
@@ -825,7 +825,7 @@
             <form id="new-session-form" class="space-y-4">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Cliente *</label>
-                    <select id="session-client" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <select id="session-client" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                         <option value="">Selecciona un cliente...</option>
                         <!-- Se llena dinámicamente -->
                     </select>
@@ -833,17 +833,17 @@
                 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Fecha *</label>
-                    <input type="date" id="session-date" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <input type="date" id="session-date" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                 </div>
                 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Hora *</label>
-                    <input type="time" id="session-time" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <input type="time" id="session-time" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                 </div>
                 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Duración</label>
-                    <select id="session-duration" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <select id="session-duration" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                         <option value="60">1 hora</option>
                         <option value="90" selected>1.5 horas</option>
                         <option value="120">2 horas</option>
@@ -853,17 +853,17 @@
                 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada</label>
-                    <input type="url" id="session-video-link" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="https://zoom.us/j/...">
+                    <input type="url" id="session-video-link" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none" placeholder="https://zoom.us/j/...">
                     <div class="text-xs text-slate-500 mt-2">Zoom, Google Meet, Teams, etc.</div>
                 </div>
                 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Notas/Descripción</label>
-                    <textarea id="session-notes" rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none resize-none" placeholder="Temas a tratar, recordatorios..."></textarea>
+                    <textarea id="session-notes" rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none resize-none" placeholder="Temas a tratar, recordatorios..."></textarea>
                 </div>
                 
                 <div class="flex gap-3 pt-4">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg">
                         ✅ Crear Sesión
                     </button>
                     <button type="button" onclick="hideNewSessionModal()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
@@ -994,12 +994,12 @@
             <form id="plan-form" class="space-y-4">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Nombre del Plan *</label>
-                    <input type="text" id="plan-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="Ej: Plan Review Básico">
+                    <input type="text" id="plan-name" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none" placeholder="Ej: Plan Review Básico">
                 </div>
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Descripción Breve</label>
-                    <textarea id="plan-description" rows="2" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none resize-none" placeholder="Descripción corta del plan"></textarea>
+                    <textarea id="plan-description" rows="2" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none resize-none" placeholder="Descripción corta del plan"></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -1007,12 +1007,12 @@
                         <label class="block font-semibold text-slate-700 mb-2 text-sm">Precio *</label>
                         <div class="relative">
                             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-semibold">€</span>
-                            <input type="number" id="plan-price" required min="0" step="0.01" class="w-full pl-8 pr-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none" placeholder="99.00">
+                            <input type="number" id="plan-price" required min="0" step="0.01" class="w-full pl-8 pr-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none" placeholder="99.00">
                         </div>
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-2 text-sm">Moneda</label>
-                        <select id="plan-currency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                        <select id="plan-currency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                             <option value="EUR">EUR (€)</option>
                             <option value="USD">USD ($)</option>
                             <option value="GBP">GBP (£)</option>
@@ -1022,7 +1022,7 @@
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Tipo de Pago *</label>
-                    <select id="plan-payment-type" onchange="togglePaymentFrequency()" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <select id="plan-payment-type" onchange="togglePaymentFrequency()" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                         <option value="one-time">Pago Único</option>
                         <option value="recurring">Suscripción</option>
                     </select>
@@ -1030,7 +1030,7 @@
 
                 <div id="payment-frequency-container" class="hidden">
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Frecuencia de Pago *</label>
-                    <select id="plan-frequency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none">
+                    <select id="plan-frequency" class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 outline-none">
                         <option value="monthly">Mensual</option>
                         <option value="annual">Anual</option>
                         <option value="quarterly">Trimestral</option>
@@ -1042,8 +1042,8 @@
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Características del Plan</label>
                     <div id="features-list" class="space-y-2 mb-3"></div>
                     <div class="flex gap-2">
-                        <input type="text" id="new-feature-input" class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-emerald-500 outline-none" placeholder="Ej: 1 sesión de 90 minutos">
-                        <button type="button" onclick="addFeature()" class="px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                        <input type="text" id="new-feature-input" class="flex-1 px-4 py-2 border-2 border-slate-200 rounded-lg focus:border-brand-500 outline-none" placeholder="Ej: 1 sesión de 90 minutos">
+                        <button type="button" onclick="addFeature()" class="px-4 py-2 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors">
                             ➕ Agregar
                         </button>
                     </div>
@@ -1053,7 +1053,7 @@
                     <label class="block font-semibold text-slate-700 mb-2 text-sm">Estado del Plan</label>
                     <div class="flex gap-4">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" id="plan-status-active" name="plan-status" value="active" checked class="w-4 h-4 text-emerald-600">
+                            <input type="radio" id="plan-status-active" name="plan-status" value="active" checked class="w-4 h-4 text-brand-600">
                             <span class="text-sm font-medium">Activo</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
@@ -1064,7 +1064,7 @@
                 </div>
 
                 <div class="flex gap-3 pt-4">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold hover:shadow-lg">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg">
                         💾 Guardar Plan
                     </button>
                     <button type="button" onclick="hidePlanEditor()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300">
@@ -1963,7 +1963,7 @@ function showSettingsTab(tabName) {
     document.querySelectorAll('[id^="settings-tab-"]').forEach(t => {
         t.className = 'w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all';
     });
-    document.getElementById('settings-tab-' + tabName).className = 'w-full px-4 py-3 bg-emerald-100 text-emerald-700 rounded-lg font-semibold text-left transition-all';
+    document.getElementById('settings-tab-' + tabName).className = 'w-full px-4 py-3 bg-brand-100 text-brand-700 rounded-lg font-semibold text-left transition-all';
     
     if (tabName === 'plans') {
         renderPlansList();
@@ -1984,7 +1984,7 @@ function showSettingsTab(tabName) {
             document.querySelectorAll('[id^="tab-"]').forEach(t => {
                 t.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap';
             });
-            document.getElementById('tab-' + tabName).className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-100 text-emerald-700 whitespace-nowrap';
+            document.getElementById('tab-' + tabName).className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-brand-100 text-brand-700 whitespace-nowrap';
         }
 
         // Función para generar ID único
@@ -2036,8 +2036,8 @@ function showSettingsTab(tabName) {
                 let statusText = doc.status === 'signed' ? '✓ FIRMADO' : 'RECIBIDO';
 
                 if (isContract) {
-                    bgColor = 'from-emerald-50 to-white border-emerald-200';
-                    badgeColor = 'bg-emerald-100 text-emerald-700';
+                    bgColor = 'from-brand-50 to-white border-brand-200';
+                    badgeColor = 'bg-brand-100 text-brand-700';
                     icon = '📄';
                 } else if (isDiscovery) {
                     bgColor = 'from-blue-50 to-white border-blue-200';
@@ -2051,7 +2051,7 @@ function showSettingsTab(tabName) {
                             <div class="flex items-start gap-3 flex-1">
                                 <div class="text-3xl">${icon}</div>
                                 <div class="flex-1">
-                                    <div class="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                                    <div class="font-bold text-slate-900 group-hover:text-brand-700 transition-colors">
                                         ${doc.name}
                                     </div>
                                     <div class="text-sm text-slate-600 mt-1">
@@ -2173,7 +2173,7 @@ function showSettingsTab(tabName) {
             document.querySelectorAll('[id^="stage-"]').forEach(tab => {
                 tab.className = 'px-4 py-2 rounded-lg font-semibold text-sm bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap transition-all';
             });
-            document.getElementById('stage-' + stage).className = 'px-4 py-2 rounded-lg font-semibold text-sm bg-emerald-100 text-emerald-700 whitespace-nowrap transition-all';
+            document.getElementById('stage-' + stage).className = 'px-4 py-2 rounded-lg font-semibold text-sm bg-brand-100 text-brand-700 whitespace-nowrap transition-all';
 
             document.getElementById('search-input').value = '';
 
@@ -2205,14 +2205,14 @@ function showSettingsTab(tabName) {
 
             const statusColors = {
                 analyzing: 'bg-orange-100 text-orange-700',
-                scheduled: 'bg-emerald-100 text-emerald-700',
+                scheduled: 'bg-brand-100 text-brand-700',
                 received: 'bg-amber-100 text-amber-700',
                 sent: 'bg-blue-100 text-blue-700',
                 new: 'bg-purple-100 text-purple-700'
             };
 
             container.innerHTML = clientsToRender.map(client => `
-                <div class="p-4 bg-slate-50 rounded-xl hover:bg-emerald-50 transition-all cursor-pointer" onclick="showClientDetail('${client.id}')">
+                <div class="p-4 bg-slate-50 rounded-xl hover:bg-brand-50 transition-all cursor-pointer" onclick="showClientDetail('${client.id}')">
                     <div class="flex justify-between items-start">
                         <div>
                             <div class="font-bold text-slate-900">${client.name}</div>
@@ -2271,7 +2271,7 @@ function showSettingsTab(tabName) {
                             <div class="font-bold text-slate-900">${email.subject}</div>
                             <div class="text-sm text-slate-600 mt-1">${email.preview}</div>
                         </div>
-                        <span class="ml-2 px-2 py-1 rounded-md text-xs font-bold ${email.status === 'sent' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">
+                        <span class="ml-2 px-2 py-1 rounded-md text-xs font-bold ${email.status === 'sent' ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700'}">
                             ${email.status === 'sent' ? '✓ Enviado' : '⏳ Pendiente'}
                         </span>
                     </div>
@@ -2423,7 +2423,7 @@ function showSettingsTab(tabName) {
                 
                 let dayClass = 'aspect-square border-2 rounded-lg p-2 transition-all ';
                 if (isToday) {
-                    dayClass += 'border-emerald-500 bg-emerald-50';
+                    dayClass += 'border-brand-500 bg-brand-50';
                 } else if (hasSession) {
                     dayClass += 'border-amber-200 bg-amber-50 hover:border-amber-400 cursor-pointer';
                 } else {
@@ -2434,14 +2434,14 @@ function showSettingsTab(tabName) {
                 const onclickAttr = hasSession ? `onclick="viewDayDetails('${dateStr}')"` : '';
                 
                 calendarHTML += `<div class="${dayClass}" ${onclickAttr}>
-                    <div class="text-sm font-semibold mb-1 ${isToday ? 'text-emerald-700' : 'text-slate-700'}">
+                    <div class="text-sm font-semibold mb-1 ${isToday ? 'text-brand-700' : 'text-slate-700'}">
                         ${day}
                     </div>`;
                 
                 if (hasSession) {
                     hasSession.forEach(session => {
                         const videoIcon = session.hasVideo ? '🎥' : '';
-                        calendarHTML += `<div class="text-xs bg-emerald-600 text-white px-1.5 py-0.5 rounded truncate mt-1" title="${session.name} - ${session.time}${session.notes ? '\n' + session.notes : ''}">
+                        calendarHTML += `<div class="text-xs bg-brand-600 text-white px-1.5 py-0.5 rounded truncate mt-1" title="${session.name} - ${session.time}${session.notes ? '\n' + session.notes : ''}">
                             ${videoIcon} ${session.time} ${session.name.split(' ')[0]}
                         </div>`;
                     });
@@ -2483,7 +2483,7 @@ function showSettingsTab(tabName) {
             document.querySelectorAll('[id^="btn-"]').forEach(b => b.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-white text-slate-700 hover:bg-slate-50');
             document.getElementById('view-' + viewName).classList.remove('hidden');
             const btn = document.getElementById('btn-' + viewName);
-            if(btn) btn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-emerald-600 text-white shadow-lg';
+            if(btn) btn.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-brand-600 text-white shadow-lg';
             
             if(viewName === 'calendar') {
                 renderCalendar();
@@ -2622,9 +2622,9 @@ function renderFeaturesList() {
     }
     
     container.innerHTML = currentPlanFeatures.map((feature, index) => `
-        <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+        <div class="flex items-center justify-between p-3 bg-brand-50 rounded-lg border border-brand-200">
             <div class="flex items-center gap-2">
-                <span class="text-emerald-600">✓</span>
+                <span class="text-brand-600">✓</span>
                 <span class="text-sm text-slate-700">${feature}</span>
             </div>
             <button type="button" onclick="removeFeature(${index})" class="text-red-500 hover:text-red-700 text-sm font-semibold">
@@ -2656,11 +2656,11 @@ function renderPlansList() {
             : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
         
         const statusBadge = plan.status === 'active'
-            ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
+            ? '<span class="px-3 py-1 bg-brand-100 text-brand-700 rounded-full text-xs font-bold">ACTIVO</span>'
             : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
         
         return `
-            <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
+            <div class="p-6 bg-gradient-to-r from-brand-50 to-white rounded-xl border-2 border-brand-200 hover:border-brand-400 transition-all">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
@@ -2668,13 +2668,13 @@ function renderPlansList() {
                             ${statusBadge}
                         </div>
                         <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
-                        <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
+                        <div class="text-2xl font-bold text-brand-700 mb-4">${priceText}</div>
                         
                         <div class="space-y-2">
                             <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
                             ${plan.features.map(feature => `
                                 <div class="flex items-center gap-2 text-sm text-slate-600">
-                                    <span class="text-emerald-600">✓</span>
+                                    <span class="text-brand-600">✓</span>
                                     <span>${feature}</span>
                                 </div>
                             `).join('')}
@@ -2748,11 +2748,11 @@ function searchPlans() {
             : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
         
         const statusBadge = plan.status === 'active'
-            ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
+            ? '<span class="px-3 py-1 bg-brand-100 text-brand-700 rounded-full text-xs font-bold">ACTIVO</span>'
             : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
         
         return `
-            <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
+            <div class="p-6 bg-gradient-to-r from-brand-50 to-white rounded-xl border-2 border-brand-200 hover:border-brand-400 transition-all">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
@@ -2760,13 +2760,13 @@ function searchPlans() {
                             ${statusBadge}
                         </div>
                         <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
-                        <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
+                        <div class="text-2xl font-bold text-brand-700 mb-4">${priceText}</div>
                         
                         <div class="space-y-2">
                             <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
                             ${plan.features.map(feature => `
                                 <div class="flex items-center gap-2 text-sm text-slate-600">
-                                    <span class="text-emerald-600">✓</span>
+                                    <span class="text-brand-600">✓</span>
                                     <span>${feature}</span>
                                 </div>
                             `).join('')}
