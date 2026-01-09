@@ -1676,51 +1676,7 @@ El equipo de Money Map 💰`,
                 });
             }
         });
-// Event listener para el formulario de planes
-    const planForm = document.getElementById('plan-form');
-    if (planForm) {
-        planForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('plan-name').value.trim();
-            const description = document.getElementById('plan-description').value.trim();
-            const price = parseFloat(document.getElementById('plan-price').value);
-            const currency = document.getElementById('plan-currency').value;
-            const paymentType = document.getElementById('plan-payment-type').value;
-            const frequency = paymentType === 'recurring' ? document.getElementById('plan-frequency').value : null;
-            const status = document.querySelector('input[name="plan-status"]:checked').value;
-            
-            if (currentPlanFeatures.length === 0) {
-                alert('Por favor agrega al menos una característica');
-                return;
-            }
-            
-            const plan = {
-                id: editingPlanId || 'plan_' + Date.now(),
-                name,
-                description,
-                price,
-                currency,
-                paymentType,
-                frequency,
-                features: [...currentPlanFeatures],
-                status
-            };
-            
-            if (editingPlanId) {
-                const index = plans.findIndex(p => p.id === editingPlanId);
-                plans[index] = plan;
-                alert('✅ Plan actualizado exitosamente!');
-            } else {
-                plans.push(plan);
-                alert('✅ Plan creado exitosamente!');
-            }
-            
-            renderPlansList();
-            hidePlanEditor();
-        });
-    }
-});
+
         function addVideoToTemplate() {
             const videoUrl = document.getElementById('template-video-url').value.trim();
             if (!videoUrl) {
