@@ -243,13 +243,7 @@
                             📧 Plantillas de Email
                         </button>
                         <button onclick="showSettingsTab('plans')" id="settings-tab-plans" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
-    💰 Planes y Paquetes
-</button>
-                        <button onclick="showSettingsTab('profile')" id="settings-tab-profile" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
-                            👤 Perfil
-                        </button>
-                        <button onclick="showSettingsTab('notifications')" id="settings-tab-notifications" class="w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all">
-                            🔔 Notificaciones
+                            💰 Planes y Paquetes
                         </button>
                     </div>
                 </div>
@@ -290,49 +284,34 @@
                     </div>
 
                     <!-- PLANS -->
-<div id="settings-content-plans" class="hidden">
-    <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-slate-900">💰 Planes y Paquetes</h2>
-            <button onclick="showPlanEditor()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
-                ➕ Nuevo Plan
-            </button>
-        </div>
+                    <div id="settings-content-plans" class="hidden">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-bold text-slate-900">💰 Planes y Paquetes</h2>
+                                <button onclick="showPlanEditor()" class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                                    ➕ Nuevo Plan
+                                </button>
+                            </div>
 
-        <!-- Search Plans -->
-        <input 
-            type="text" 
-            id="plan-search"
-            placeholder="Buscar plan..." 
-            oninput="searchPlans()"
-            class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
-        >
+                            <!-- Search Plans -->
+                            <input 
+                                type="text" 
+                                id="plan-search"
+                                placeholder="Buscar plan..." 
+                                oninput="searchPlans()"
+                                class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl mb-6 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 transition-all outline-none"
+                            >
 
-        <!-- Plans List -->
-        <div id="plans-list" class="space-y-4">
-            <!-- Se llena con JavaScript -->
-        </div>
+                            <!-- Plans List -->
+                            <div id="plans-list" class="space-y-4">
+                                <!-- Se llena con JavaScript -->
+                            </div>
 
-        <div id="no-plans" class="hidden text-center py-12 text-slate-500">
-            <div class="text-4xl mb-2">💰</div>
-            <div class="font-semibold">No hay planes configurados</div>
-            <div class="text-sm mt-1">Crea tu primer plan o paquete</div>
-        </div>
-    </div>
-</div>
-                    <!-- PROFILE -->
-                    <div id="settings-content-profile" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h2 class="text-2xl font-bold text-slate-900 mb-6">👤 Perfil</h2>
-                            <p class="text-slate-600">Configuración de perfil próximamente...</p>
-                        </div>
-                    </div>
-
-                    <!-- NOTIFICATIONS -->
-                    <div id="settings-content-notifications" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h2 class="text-2xl font-bold text-slate-900 mb-6">🔔 Notificaciones</h2>
-                            <p class="text-slate-600">Configuración de notificaciones próximamente...</p>
+                            <div id="no-plans" class="hidden text-center py-12 text-slate-500">
+                                <div class="text-4xl mb-2">💰</div>
+                                <div class="font-semibold">No hay planes configurados</div>
+                                <div class="text-sm mt-1">Crea tu primer plan o paquete</div>
+                            </div>
                         </div>
                     </div>
 
