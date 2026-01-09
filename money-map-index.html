@@ -282,226 +282,230 @@
       </div>
     </div>
   </section>
+Sí — eso está pasando porque el bloque lo diseñé tipo “glass” (mucho `rgba(...)`, `backdrop-filter` y sombras suaves). En Wix, encima de un fondo claro, **se lava** y se ve “todo blanco”.
+
+Aquí tienes **la misma idea, pero en “nivel” (alto contraste)**: tarjeta blanca real, texto oscuro, checks claros y botones visibles. Solo pega esto **debajo del bloque del Proceso**.
+
+```html
 <!-- =========================
-     BLOQUE: PLAN REVISIÓN
-     (Colócalo debajo del bloque EL PROCESO)
+     BLOQUE: PLAN REVISIÓN (ALTO CONTRASTE / PRO)
+     PÉGALO DEBAJO DEL BLOQUE "EL PROCESO"
 ========================= -->
 
 <style>
   :root{
     --xs:#5B4CE2;
     --ink:#0b1220;
-    --muted:#e9e7ff;
-    --muted2: rgba(255,255,255,.88);
-    --r:22px;
+    --muted:#5b6472;
+    --border: rgba(255,255,255,.18);
+    --cardBorder: rgba(10,18,32,.10);
+    --shadow: 0 18px 55px rgba(10,18,32,.18);
+    --shadow2: 0 10px 30px rgba(10,18,32,.12);
+    --r: 22px;
   }
 
-  .reviewWrap{
-    margin-top: 26px;
+  .xs-review{
+    margin-top: 28px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
-  .reviewHeader{
+  .xs-review .head{
     text-align:center;
     margin-bottom: 14px;
   }
-  .reviewHeader h3{
+  .xs-review .head h3{
     margin:0;
-    font-weight:1000;
+    font-weight: 1000;
     letter-spacing:-.4px;
-    font-size: clamp(18px, 2.2vw, 26px);
-    color:#fff;
+    font-size: clamp(18px, 2.1vw, 26px);
+    color:#fff; /* asumiendo que estás dentro del fondo morado */
   }
-  .reviewHeader p{
+  .xs-review .head p{
     margin:8px auto 0;
-    max-width: 880px;
-    color: var(--muted2);
+    max-width: 860px;
+    color: rgba(255,255,255,.92);
     font-weight: 800;
     line-height: 1.55;
     font-size: 14.5px;
   }
 
-  .reviewCard{
-    width: min(980px, 100%);
+  /* Card principal: SOLIDA (no glass) */
+  .xs-review .card{
+    width: min(1040px, 100%);
     margin: 0 auto;
-    border-radius: 26px;
-    background: rgba(255,255,255,.10);
-    border: 1px solid rgba(255,255,255,.18);
-    box-shadow: 0 22px 70px rgba(10,18,32,.22);
+    border-radius: calc(var(--r) + 6px);
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,.22); /* borde contra morado */
+    box-shadow: var(--shadow);
     overflow:hidden;
-    backdrop-filter: blur(10px);
   }
 
-  .reviewTop{
+  .xs-review .top{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:14px;
-    padding: 18px 18px 14px;
-    background: linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.06) 100%);
-    border-bottom: 1px solid rgba(255,255,255,.16);
+    gap: 14px;
+    padding: 18px 18px 16px;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
+    border-bottom: 1px solid rgba(10,18,32,.08);
   }
 
-  .reviewTitle{
+  .xs-review .title{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap: 12px;
     min-width: 240px;
   }
-  .badgeR{
-    width: 44px; height:44px;
+  .xs-review .badge{
+    width: 46px; height: 46px;
     border-radius: 16px;
     display:flex; align-items:center; justify-content:center;
-    font-weight:1000;
+    font-weight: 1000;
     color:#fff;
-    background: rgba(255,255,255,.16);
-    border: 1px solid rgba(255,255,255,.22);
-    box-shadow: 0 14px 35px rgba(10,18,32,.20);
+    background: var(--xs);
+    box-shadow: 0 12px 26px rgba(91,76,226,.25);
     letter-spacing:.6px;
   }
-  .reviewTitleText{
-    display:flex;
-    flex-direction:column;
-    line-height:1.1;
-  }
-  .reviewTitleText .name{
-    font-weight:1000;
-    color:#fff;
+  .xs-review .ttext{line-height:1.1;}
+  .xs-review .ttext .name{
+    font-weight: 1000;
+    color: var(--ink);
     letter-spacing:-.2px;
     font-size: 15px;
+    margin:0;
   }
-  .reviewTitleText .tag{
-    margin-top:4px;
+  .xs-review .ttext .tag{
+    margin-top:6px;
     display:inline-flex;
-    width: fit-content;
     padding: 6px 10px;
     border-radius:999px;
-    font-weight:1000;
+    font-weight: 1000;
     font-size: 12px;
-    border: 1px solid rgba(255,255,255,.22);
-    background: rgba(255,255,255,.10);
-    color: rgba(255,255,255,.92);
+    border: 1px solid rgba(91,76,226,.18);
+    background: rgba(91,76,226,.08);
+    color: rgba(91,76,226,.95);
   }
 
-  .priceBox{
+  .xs-review .price{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap: 10px;
     padding: 10px 12px;
     border-radius: 18px;
-    border:1px solid rgba(255,255,255,.18);
-    background: rgba(0,0,0,.08);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    border: 1px solid rgba(10,18,32,.08);
+    background: #ffffff;
+    box-shadow: var(--shadow2);
+    white-space:nowrap;
   }
-  .cart{
-    width: 34px; height:34px;
+  .xs-review .cart{
+    width: 34px; height: 34px;
     border-radius: 14px;
     display:flex; align-items:center; justify-content:center;
-    background: rgba(255,255,255,.14);
-    border:1px solid rgba(255,255,255,.20);
+    background: rgba(91,76,226,.10);
+    border: 1px solid rgba(91,76,226,.18);
+    color: rgba(91,76,226,.95);
     font-size: 16px;
   }
-  .priceText{
-    display:flex;
-    flex-direction:column;
-    line-height:1.05;
-  }
-  .priceText .lbl{
-    color: rgba(255,255,255,.80);
-    font-weight: 900;
-    font-size: 12px;
-    letter-spacing:.2px;
+  .xs-review .price .lbl{
+    display:block;
+    font-size: 11px;
+    font-weight: 1000;
+    letter-spacing:.25px;
     text-transform: uppercase;
+    color: #6b7280;
+    line-height:1.1;
   }
-  .priceText .amt{
-    color:#fff;
-    font-weight:1000;
-    font-size: 22px;
-    letter-spacing:-.3px;
+  .xs-review .price .amt{
+    display:block;
+    font-weight: 1000;
+    font-size: 20px;
+    letter-spacing:-.25px;
+    color: var(--ink);
+    line-height:1.1;
   }
 
-  .reviewBody{
+  .xs-review .body{
     padding: 16px 18px 18px;
     display:grid;
-    grid-template-columns: 1.2fr .8fr;
+    grid-template-columns: 1.2fr .9fr;
     gap: 16px;
   }
 
-  .includeBox{
-    border-radius: 20px;
-    background: rgba(255,255,255,.10);
-    border: 1px solid rgba(255,255,255,.16);
+  .xs-review .includes{
+    border-radius: var(--r);
+    border: 1px solid rgba(10,18,32,.08);
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(10,18,32,.06);
     padding: 14px 14px 12px;
   }
-  .includeBox h4{
+  .xs-review .includes h4{
     margin:0 0 10px;
-    color:#fff;
-    font-weight:1000;
+    color: var(--ink);
+    font-weight: 1000;
     letter-spacing:-.2px;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
-    opacity:.95;
   }
 
-  .incRow{
+  .xs-review .row{
     display:flex;
     align-items:flex-start;
     justify-content:space-between;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,.12);
+    border-bottom: 1px solid rgba(10,18,32,.06);
   }
-  .incRow:last-child{border-bottom:0}
-  .incRow .txt{
-    color: rgba(255,255,255,.92);
-    font-weight: 850;
-    font-size: 13.8px;
+  .xs-review .row:last-child{border-bottom:0}
+  .xs-review .row .txt{
+    color: var(--ink);
+    font-weight: 900;
+    font-size: 13.6px;
     line-height: 1.4;
   }
-  .check{
-    flex: 0 0 auto;
+  .xs-review .ok{
+    flex:0 0 auto;
     width: 30px; height: 30px;
     border-radius: 12px;
     display:flex; align-items:center; justify-content:center;
-    background: rgba(255,255,255,.14);
-    border: 1px solid rgba(255,255,255,.22);
-    color:#fff;
-    font-weight:1000;
-    box-shadow: 0 10px 26px rgba(10,18,32,.18);
+    background: rgba(34,197,94,.12);
+    border: 1px solid rgba(34,197,94,.22);
+    color: #16a34a;
+    font-weight: 1000;
   }
 
-  .ctaBox{
-    border-radius: 20px;
-    background: rgba(0,0,0,.10);
-    border: 1px solid rgba(255,255,255,.16);
+  .xs-review .cta{
+    border-radius: var(--r);
+    border: 1px solid rgba(10,18,32,.08);
+    background: #ffffff;
+    box-shadow: 0 10px 26px rgba(10,18,32,.06);
     padding: 14px 14px 14px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     gap: 12px;
   }
-  .ctaBox .miniTitle{
-    color:#fff;
-    font-weight:1000;
+  .xs-review .cta .miniTitle{
+    margin:0;
+    color: var(--ink);
+    font-weight: 1000;
     letter-spacing:-.2px;
     font-size: 14px;
-    margin:0;
   }
-  .ctaBox .miniText{
+  .xs-review .cta .miniText{
     margin: 6px 0 0;
-    color: rgba(255,255,255,.88);
-    font-weight: 800;
+    color: var(--muted);
+    font-weight: 850;
     font-size: 13.5px;
-    line-height:1.55;
+    line-height: 1.55;
   }
 
-  .btnRow{
+  .xs-review .btnRow{
     display:flex;
     gap: 10px;
     flex-wrap:wrap;
   }
-  .btnReview{
+  .xs-review .btn{
     appearance:none;
     border:0;
     cursor:pointer;
@@ -513,95 +517,89 @@
     font-size: 14px;
     transition: transform .12s ease, filter .12s ease;
   }
-  .btnReview:active{transform: translateY(1px)}
-  .btnBuy{
-    background:#fff;
-    color: rgba(91,76,226,.95);
-    box-shadow: 0 18px 40px rgba(10,18,32,.20);
-    flex:1 1 180px;
-  }
-  .btnInfo{
-    background: rgba(255,255,255,.14);
+  .xs-review .btn:active{transform: translateY(1px)}
+  .xs-review .btn.primary{
+    background: var(--xs);
     color:#fff;
-    border: 1px solid rgba(255,255,255,.22);
-    flex:1 1 180px;
+    box-shadow: 0 14px 28px rgba(91,76,226,.28);
+    flex: 1 1 180px;
+  }
+  .xs-review .btn.ghost{
+    background: #ffffff;
+    color: rgba(91,76,226,.95);
+    border: 1px solid rgba(91,76,226,.22);
+    box-shadow: 0 12px 24px rgba(10,18,32,.08);
+    flex: 1 1 180px;
   }
 
   /* Responsive */
   @media (max-width: 980px){
-    .reviewBody{grid-template-columns: 1fr;}
+    .xs-review .body{grid-template-columns: 1fr;}
   }
   @media (max-width: 520px){
-    .reviewTop{flex-direction:column; align-items:flex-start;}
-    .priceBox{width:100%;}
-    .btnRow{flex-direction:column;}
-    .btnBuy,.btnInfo{width:100%;}
+    .xs-review .top{flex-direction:column; align-items:flex-start;}
+    .xs-review .price{width:100%; justify-content:flex-start;}
+    .xs-review .btnRow{flex-direction:column;}
+    .xs-review .btn.primary, .xs-review .btn.ghost{width:100%;}
   }
 </style>
 
-<div class="reviewWrap">
-  <div class="reviewHeader">
+<section class="xs-review">
+  <div class="head">
     <h3>Plan Revisión</h3>
     <p>Todo lo necesario para ordenar tu información, ver tu realidad con claridad y salir con próximos pasos concretos.</p>
   </div>
 
-  <div class="reviewCard">
-    <div class="reviewTop">
-      <div class="reviewTitle">
-        <div class="badgeR">R</div>
-        <div class="reviewTitleText">
-          <div class="name">Plan Revisión</div>
-          <div class="tag">Punto de partida</div>
+  <div class="card">
+    <div class="top">
+      <div class="title">
+        <div class="badge">R</div>
+        <div class="ttext">
+          <p class="name">Plan Revisión</p>
+          <span class="tag">Punto de partida</span>
         </div>
       </div>
 
-      <div class="priceBox" aria-label="Precio del plan">
+      <div class="price" aria-label="Precio del plan">
         <div class="cart">🛒</div>
-        <div class="priceText">
-          <div class="lbl">Precio</div>
-          <div class="amt">USD$ 299</div>
+        <div>
+          <span class="lbl">Precio</span>
+          <span class="amt">USD$ 299</span>
         </div>
       </div>
     </div>
 
-    <div class="reviewBody">
-      <!-- Incluye -->
-      <div class="includeBox">
+    <div class="body">
+      <div class="includes">
         <h4>Incluye</h4>
 
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Discovery Map (mapa financiero inicial)</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
-
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Organización de ingresos, gastos, activos y pasivos</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
-
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Análisis de liquidez, endeudamiento y estructura general</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
-
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Identificación de riesgos y prioridades</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
-
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Sesión guiada de interpretación</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
-
-        <div class="incRow">
+        <div class="row">
           <div class="txt">Recomendación de próximos pasos</div>
-          <div class="check">✓</div>
+          <div class="ok">✓</div>
         </div>
       </div>
 
-      <!-- CTA -->
-      <div class="ctaBox">
+      <div class="cta">
         <div>
           <p class="miniTitle">Resultado esperado</p>
           <p class="miniText">
@@ -610,13 +608,13 @@
         </div>
 
         <div class="btnRow">
-          <button class="btnReview btnBuy" type="button">Comprar</button>
-          <button class="btnReview btnInfo" type="button">Más información</button>
+          <button class="btn primary" type="button">Más información</button>
+          <button class="btn ghost" type="button">Comprar</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 </body>
 </html>
 ```
