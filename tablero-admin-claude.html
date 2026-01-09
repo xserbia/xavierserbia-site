@@ -2743,12 +2743,13 @@ function searchPlans() {
 }
         // Inicializar
         window.addEventListener('load', function() {
-            renderCalendar();
-            updateStageCounts();
-            renderClientsList();
-            renderTemplatesList();
-            populateEmailTemplateSelect();
-        });
+    renderCalendar();
+    updateStageCounts();
+    renderClientsList();
+    renderTemplatesList();
+    populateEmailTemplateSelect();
+    renderPlansList();  // <-- AGREGA ESTA LÍNEA
+});
     </script>
 </body>
 </html>
