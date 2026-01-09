@@ -12,31 +12,19 @@
   <style>
     :root{
       --xs:#5B4CE2;
-      --xs2:#6A5CFF;
       --ink:#0b1220;
       --muted:#6b7280;
-      --card:#ffffff;
-      --bg:#ffffff;
-      --border:#e8edf6;
-      --soft:#f6f7ff;
-      --shadow: 0 18px 60px rgba(10,18,32,.12);
-      --shadow2: 0 14px 40px rgba(10,18,32,.10);
-      --r: 22px;
+      --shadow: 0 14px 40px rgba(10,18,32,.10);
     }
-
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
       font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      background:var(--bg);
+      background:#fff;
       color:var(--ink);
     }
-
     .container{width:min(1180px, 100%); margin:0 auto; padding:0 18px;}
     .section{padding: 56px 0;}
-    .center{text-align:center}
-    .muted{color:var(--muted)}
     .h1{
       font-size: clamp(28px, 3.4vw, 46px);
       line-height: 1.05;
@@ -50,14 +38,6 @@
       margin:0;
       letter-spacing:-.5px;
       font-weight: 900;
-    }
-    .h3{font-size:16px; margin:0; font-weight:900; letter-spacing:-.25px;}
-    .p{
-      font-size: 15px;
-      line-height: 1.6;
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-weight: 700;
     }
 
     /* TOP BAR */
@@ -115,7 +95,7 @@
       background-size:cover;
       background-position:center;
       aspect-ratio: 16/9;
-      box-shadow: var(--shadow2);
+      box-shadow: var(--shadow);
       border: 1px solid rgba(10,18,32,.08);
     }
     .play{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
@@ -133,9 +113,8 @@
       border-bottom: 12px solid transparent;
       margin-left:4px;
     }
-    .hero-card{display:flex; flex-direction:column; gap:14px; padding: 8px 2px;}
     .hero-sub{font-size: 14px; color: var(--muted); font-weight: 800; margin-top: 6px;}
-    .cta{display:flex; gap:12px; align-items:center; margin-top: 6px; flex-wrap:wrap;}
+    .cta{display:flex; gap:12px; align-items:center; margin-top: 14px; flex-wrap:wrap;}
     .btn{
       appearance:none; border: 0; cursor:pointer;
       font-family: inherit;
@@ -144,7 +123,7 @@
       border-radius: 999px;
       padding: 12px 22px;
       font-size: 14px;
-      transition: transform .12s ease, filter .12s ease;
+      transition: transform .12s ease;
     }
     .btn:active{transform: translateY(1px)}
     .btn.primary{
@@ -152,13 +131,8 @@
       color:#fff;
       box-shadow: 0 14px 28px rgba(91,76,226,.28);
     }
-    .btn.ghost{
-      background: rgba(91,76,226,.10);
-      color: rgba(91,76,226,.95);
-      border: 1px solid rgba(91,76,226,.22);
-    }
 
-    /* PURPLE SECTION */
+    /* PROCESS BLOCK */
     .purple{
       background: linear-gradient(180deg, var(--xs) 0%, #5a52ef 55%, #594eea 100%);
       color:#fff;
@@ -178,8 +152,6 @@
       opacity:.95;
       pointer-events:none;
     }
-
-    /* PROCESS */
     .process-title{margin-bottom: 18px; text-align:center; position:relative; z-index:1;}
     .steps{
       display:grid;
@@ -211,321 +183,16 @@
     .step ul{margin: 10px 0 0; padding-left: 18px}
     .step .lead{opacity:.98; margin:0 0 10px;}
 
-    /* TIMELINE BLOCK (INSERTED BELOW PROCESS) */
-    .xs-title{
-      margin:0;
-      font-weight:1000;
-      letter-spacing:-.5px;
-      color:#fff;
-      font-size: clamp(20px, 2.2vw, 30px);
-      line-height:1.1;
-      position:relative;
-      z-index:1;
-      text-align:center;
-      margin-top: 26px;
-    }
-    .xs-sub{
-      margin:10px auto 0;
-      color:rgba(255,255,255,.92);
-      font-weight:800;
-      font-size:14.5px;
-      line-height:1.55;
-      max-width: 900px;
-      text-align:center;
-      position:relative;
-      z-index:1;
-    }
-
-    .glance{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:14px;
-      position:relative;
-      z-index:1;
-    }
-    .gcard{
-      background: linear-gradient(180deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.88) 100%);
-      border:1px solid rgba(255,255,255,.22);
-      border-radius: var(--r);
-      box-shadow: 0 18px 55px rgba(10,18,32,.22);
-      padding:14px 14px 12px;
-      position:relative;
-      overflow:hidden;
-      min-height: 122px;
-      color:#0b1220;
-    }
-    .gcard:before{
-      content:"";
-      position:absolute;
-      inset:-40px -30px auto auto;
-      width:120px; height:120px;
-      border-radius:999px;
-      background: radial-gradient(circle, rgba(91,76,226,.18), transparent 60%);
-      transform: rotate(15deg);
-      pointer-events:none;
-    }
-    .g-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;}
-    .g-pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px; border-radius:999px;
-      font-weight:1000; font-size:12px;
-      border:1px solid rgba(91,76,226,.20);
-      background: rgba(91,76,226,.10);
-      color: rgba(91,76,226,.95);
-      letter-spacing:.15px;
-      white-space:nowrap;
-    }
-    .g-num{
-      width:34px; height:34px; border-radius:12px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(91,76,226,.10);
-      border:1px solid rgba(91,76,226,.18);
-      color: rgba(91,76,226,.95);
-      font-weight:1000;
-    }
-    .g-main{margin:0; font-weight:1000; color:#0b1220; letter-spacing:-.2px; font-size: 14px; line-height:1.25;}
-    .g-sub{margin:8px 0 0; color:#475569; font-weight:900; font-size: 13px; line-height:1.45;}
-    .g-sub strong{color:#0b1220;}
-
-    .detail{
-      margin-top:18px;
-      display:grid;
-      gap:12px;
-      position:relative;
-      z-index:1;
-    }
-    .dcard{
-      background: rgba{% raw %}(255,255,255,.92){% endraw %};
-      border:1px solid rgba(255,255,255,.22);
-      border-radius: var(--r);
-      box-shadow: 0 18px 55px rgba(10,18,32,.22);
-      padding:16px 16px 14px;
-      display:grid;
-      grid-template-columns: 52px 1fr;
-      gap:12px;
-      color:#0b1220;
-    }
-    .d-idx{
-      width:52px; height:52px;
-      border-radius: 18px;
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, rgba(91,76,226,.18), rgba(91,76,226,.06));
-      border:1px solid rgba(91,76,226,.18);
-      color: rgba(91,76,226,.95);
-      font-weight:1000;
-      font-size:16px;
-      box-shadow: 0 12px 30px rgba(91,76,226,.18);
-    }
-    .d-title{margin:0; font-weight:1000; letter-spacing:-.25px; color:#0b1220; font-size: 15px; line-height:1.2;}
-    .d-meta{margin:6px 0 10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
-    .chip{
-      display:inline-flex; align-items:center;
-      padding:6px 10px; border-radius:999px;
-      font-weight:1000; font-size: 12px;
-      border:1px solid rgba(10,18,32,.08);
-      background: #f3f6ff;
-      color:#1b2945;
-    }
-    .chip.purple{border-color: rgba(91,76,226,.18); background: rgba(91,76,226,.10); color: rgba(91,76,226,.95);}
-    .d-text{margin:0; color:#1b2945; font-weight:800; font-size: 13.5px; line-height:1.55;}
-    .d-text strong{color:#0b1220;}
-    .d-list{margin:10px 0 0; padding-left: 18px; color:#1b2945; font-weight:800; font-size: 13.5px; line-height:1.55;}
-    .warn{
-      margin-top:10px;
-      padding:12px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(245,158,11,.25);
-      background: rgba(245,158,11,.10);
-      color:#7a4c00;
-      font-weight:900;
-      font-size: 13px;
-      line-height:1.45;
-    }
-    .resp{
-      margin-top: 14px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      position:relative;
-      z-index:1;
-    }
-    .rcard{
-      background: rgba(255,255,255,.92);
-      border:1px solid rgba(255,255,255,.22);
-      border-radius: var(--r);
-      box-shadow: 0 18px 55px rgba(10,18,32,.22);
-      padding: 14px 14px 12px;
-      color:#0b1220;
-    }
-    .rhead{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 10px;}
-    .rtitle{margin:0; font-weight:1000; color:#0b1220; letter-spacing:-.2px; font-size: 14px;}
-    .rbadge{
-      display:inline-flex; align-items:center;
-      padding:6px 10px; border-radius:999px;
-      font-weight:1000; font-size: 12px;
-      border:1px solid rgba(91,76,226,.18);
-      background: rgba(91,76,226,.10);
-      color: rgba(91,76,226,.95);
-    }
-    .rlist{margin:0; padding-left: 18px; color:#1b2945; font-weight:900; font-size: 13.5px; line-height:1.55;}
-
-    /* PLANS */
-    .band-title{
-      padding: 30px 0 0;
-      text-align:center;
-      position:relative;
-      z-index:1;
-    }
-    .plans-area{padding: 18px 0 56px; position:relative; z-index:1;}
-    .plans-grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      align-items:stretch;
-      margin-top: 22px;
-    }
-    .plan-card{
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(10,18,32,.08);
-      border-radius: 20px;
-      box-shadow: 0 18px 55px rgba(10,18,32,.22);
-      overflow:hidden;
-      position:relative;
-    }
-    .plan-top{
-      padding: 18px 18px 10px;
-      text-align:center;
-      background: linear-gradient(180deg, rgba(10,18,32,.04) 0%, rgba(255,255,255,.95) 60%);
-    }
-    .badge-circle{
-      width: 58px; height:58px;
-      border-radius: 999px;
-      margin: -34px auto 10px;
-      display:flex; align-items:center; justify-content:center;
-      font-weight: 1000;
-      color:#fff;
-      border: 5px solid rgba(255,255,255,.92);
-      box-shadow: 0 14px 35px rgba(10,18,32,.22);
-      letter-spacing:.8px;
-    }
-    .badge-r{background: var(--xs);}
-    .badge-c{background: var(--xs);}
-    .badge-s{background: #b37a2a;}
-
-    .pill{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 6px 12px; border-radius: 999px;
-      font-weight: 900; font-size: 12.5px;
-      border: 1px solid rgba(0,0,0,.10);
-      background: #ffffff;
-      margin: 6px auto 10px;
-    }
-    .pill.blue{color:#1f64d6; border-color: rgba(31,100,214,.35); background: rgba(31,100,214,.08);}
-    .pill.pink{color:#e11d48; border-color: rgba(225,29,72,.35); background: rgba(225,29,72,.08);}
-    .pill.gold{color:#b37a2a; border-color: rgba(179,122,42,.35); background: rgba(179,122,42,.12);}
-
-    .price{
-      display:flex; align-items:center; justify-content:center;
-      gap:10px; margin: 8px 0 0;
-      font-weight: 1000; color:#111827;
-      letter-spacing:-.3px;
-    }
-    .cart{
-      width: 22px; height:22px; border-radius: 8px;
-      background: rgba(91,76,226,.10);
-      display:inline-flex; align-items:center; justify-content:center;
-      border:1px solid rgba(91,76,226,.22);
-      color: rgba(91,76,226,.95);
-      font-size: 14px;
-    }
-    .price strong{font-size: 20px}
-    .plan-body{padding: 10px 18px 18px;}
-    .plan-body ul{
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color:#111827;
-      font-weight: 800;
-      line-height:1.5;
-      font-size: 13.5px;
-    }
-    .plan-body li{margin: 8px 0}
-    .plan-actions{padding: 0 18px 18px; display:flex; justify-content:center;}
-    .plan-actions .btn{width: 70%; padding: 12px 18px;}
-    .plan-actions .btn.primary{background: var(--xs);}
-    .plan-actions .btn.gold{
-      background:#b37a2a; color:#fff;
-      box-shadow: 0 14px 28px rgba(179,122,42,.28);
-    }
-
-    /* COMPARISON (WHITE) */
-    .compare{
-      background:#fff;
-      border-top: 4px solid rgba(91,76,226,.20);
-    }
-    .compare-head{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom: 12px;}
-    .legend{
-      display:flex; align-items:center; gap:10px;
-      font-weight: 900; color: var(--muted);
-      font-size: 13px; white-space: nowrap;
-    }
-    .legend .ok{color: #16a34a}
-    .legend .no{color: #ef4444}
-    .table-card{
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-    }
-    .table-scroll{overflow:auto; -webkit-overflow-scrolling: touch;}
-    table{width:100%; border-collapse:separate; border-spacing:0; min-width: 860px;}
-    thead th{
-      position:sticky; top:0;
-      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
-      z-index: 2;
-      border-bottom:1px solid var(--border);
-      padding: 16px 14px;
-      text-align:center;
-      font-weight: 1000;
-      letter-spacing:-.2px;
-      font-size: 14px;
-      white-space: nowrap;
-    }
-    thead th:first-child{ text-align:left; padding-left: 18px; color: var(--muted); font-weight: 900; }
-    tbody td, tbody th{ border-bottom:1px solid var(--border); padding: 14px 14px; font-size: 14px; }
-    tbody th{
-      text-align:left; padding-left: 18px;
-      font-weight: 900; color:#1b2945;
-      background: #ffffff; width: 46%;
-    }
-    tbody td{text-align:center; width:18%; background:#ffffff;}
-    .yesIcon,.noIcon{
-      display:inline-flex; width: 30px; height: 30px; border-radius: 10px;
-      align-items:center; justify-content:center;
-      font-weight: 1000; font-size: 16px; line-height:1;
-    }
-    .yesIcon{background: rgba(22,163,74,.10); border:1px solid rgba(22,163,74,.20); color:#16a34a;}
-    .noIcon{background: rgba(239,68,68,.08); border:1px solid rgba(239,68,68,.18); color:#ef4444;}
-    td.sig, th.sig{background: linear-gradient(180deg, rgba(91,76,226,.07) 0%, rgba(91,76,226,.03) 100%);}
-
     /* Responsive */
     @media (max-width: 980px){
       .hero-grid{grid-template-columns: 1fr;}
       .tagline{display:none;}
       .steps{grid-template-columns: 1fr 1fr;}
-      .glance{grid-template-columns: 1fr 1fr;}
-      .plans-grid{grid-template-columns: 1fr; max-width: 520px; margin-left:auto; margin-right:auto;}
-      .plan-actions .btn{width: 82%;}
       .section{padding: 44px 0;}
-      .resp{grid-template-columns:1fr;}
     }
     @media (max-width: 520px){
       .container{padding:0 14px;}
       .steps{grid-template-columns: 1fr;}
-      .glance{grid-template-columns: 1fr;}
-      .dcard{grid-template-columns: 44px 1fr;}
-      .d-idx{width:44px;height:44px;border-radius:16px;}
       .brand .name span:last-child{font-size:18px}
       .hero{padding: 34px 0 32px;}
       .section{padding: 38px 0;}
@@ -559,23 +226,20 @@
           </div>
         </div>
 
-        <div class="hero-card">
+        <div>
           <h1 class="h1">Un mapa claro para decidir mejor con tu dinero.</h1>
           <div class="hero-sub">Xavier explica de qué se trata</div>
           <div class="cta">
             <button class="btn primary" type="button">Comprar</button>
-            <button class="btn ghost" type="button">Ver planes</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROCESS + TIMELINE + PLANS (PURPLE) -->
+  <!-- PROCESS -->
   <section class="section purple">
     <div class="container">
-
-      <!-- PROCESS -->
       <div class="process-title">
         <h2 class="h2">EL PROCESO</h2>
       </div>
@@ -617,375 +281,10 @@
           <p>El Discovery Map evoluciona de diagnóstico a herramienta viva.</p>
         </div>
       </div>
-
-      <!-- TIMELINE (INSERTED BELOW PROCESS) -->
-      <h3 class="xs-title">Timeline del servicio</h3>
-      <p class="xs-sub">
-        Un vistazo rápido a los tiempos típicos desde la compra hasta la primera sesión. (Plazos estimados; no son un SLA rígido.)
-      </p>
-
-      <!-- One-glance -->
-      <div class="glance">
-        <div class="gcard">
-          <div class="g-top">
-            <span class="g-pill">Inicio</span>
-            <span class="g-num">0</span>
-          </div>
-          <p class="g-main">Compra + aceptación del MSA</p>
-          <p class="g-sub"><strong>Día 0</strong> (sin esperar)</p>
-        </div>
-
-        <div class="gcard">
-          <div class="g-top">
-            <span class="g-pill">Cliente</span>
-            <span class="g-num">14</span>
-          </div>
-          <p class="g-main">Ventana para completar el Discovery</p>
-          <p class="g-sub">Hasta <strong>14 días</strong> (+ posible extensión de 7 días)</p>
-        </div>
-
-        <div class="gcard">
-          <div class="g-top">
-            <span class="g-pill">XS Money Map</span>
-            <span class="g-num">5–7</span>
-          </div>
-          <p class="g-main">Revisión del Discovery</p>
-          <p class="g-sub"><strong>5–7 días hábiles</strong></p>
-        </div>
-
-        <div class="gcard">
-          <div class="g-top">
-            <span class="g-pill">Agenda</span>
-            <span class="g-num">7–10</span>
-          </div>
-          <p class="g-main">Agendar primera videollamada</p>
-          <p class="g-sub">Dentro de <strong>7–10 días hábiles</strong></p>
-        </div>
-      </div>
-
-      <!-- Detailed timeline -->
-      <div class="detail">
-        <div class="dcard">
-          <div class="d-idx">1</div>
-          <div>
-            <h3 class="d-title">Purchase & Contract Acceptance</h3>
-            <div class="d-meta">
-              <span class="chip purple">Día 0</span>
-              <span class="chip">Pago completado</span>
-              <span class="chip">MSA + Anexos A–G</span>
-            </div>
-            <p class="d-text">
-              El Cliente completa el pago y acepta el MSA y anexos. Las tarifas quedan <strong>earned upon receipt</strong> (no reembolsables).
-              XS Money Map puede comenzar preparación administrativa.
-            </p>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">2</div>
-          <div>
-            <h3 class="d-title">Discovery Materials Delivered</h3>
-            <div class="d-meta">
-              <span class="chip purple">Día 0–1</span>
-              <span class="chip">Discovery form</span>
-              <span class="chip">Instrucciones + plazos</span>
-            </div>
-            <p class="d-text">XS Money Map envía el Discovery form, instrucciones y los plazos oficiales.</p>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">3</div>
-          <div>
-            <h3 class="d-title">Discovery Completion (Cliente)</h3>
-            <div class="d-meta">
-              <span class="chip purple">Hasta 14 días calendario</span>
-              <span class="chip">+ 1 extensión</span>
-              <span class="chip">Hasta 7 días</span>
-            </div>
-            <p class="d-text">
-              El Cliente tiene hasta <strong>14 días calendario</strong> para completar y someter información.
-              Puede solicitar <strong>1 extensión</strong> de hasta 7 días antes de vencer el plazo.
-            </p>
-            <div class="warn">
-              ⚠️ XS Money Map no comienza análisis hasta recibir información razonablemente completa.
-              No hay reembolsos por retrasos del Cliente.
-            </div>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">4</div>
-          <div>
-            <h3 class="d-title">Failure to Submit Discovery (si aplica)</h3>
-            <div class="d-meta">
-              <span class="chip purple">Si no se entrega a tiempo</span>
-              <span class="chip">Sin extensión solicitada</span>
-            </div>
-            <ul class="d-list">
-              <li>El servicio puede suspenderse</li>
-              <li>Sesiones pueden postergarse o perderse</li>
-              <li>El engagement puede marcarse <strong>inactive</strong></li>
-              <li>No hay reembolsos ni créditos</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">5</div>
-          <div>
-            <h3 class="d-title">Discovery Review & Processing (XS Money Map)</h3>
-            <div class="d-meta">
-              <span class="chip purple">5–7 días hábiles</span>
-              <span class="chip">Análisis + visuales</span>
-              <span class="chip">Estructura de sesión</span>
-            </div>
-            <p class="d-text">
-              Una vez recibido el discovery razonablemente completo, XS Money Map analiza, prepara visuales y estructura la sesión.
-              El tiempo depende de complejidad, calidad de info y volumen de trabajo.
-            </p>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">6</div>
-          <div>
-            <h3 class="d-title">Scheduling First Video Call</h3>
-            <div class="d-meta">
-              <span class="chip purple">Dentro de 7–10 días hábiles</span>
-              <span class="chip">Agenda mutua</span>
-              <span class="chip">Respuesta oportuna</span>
-            </div>
-            <p class="d-text">
-              XS Money Map propone disponibilidad y la sesión se agenda según agenda mutua y respuesta oportuna del Cliente.
-              <strong>No es inmediato ni garantizado</strong>; son plazos estimados.
-            </p>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">7</div>
-          <div>
-            <h3 class="d-title">First Coaching Session</h3>
-            <div class="d-meta">
-              <span class="chip purple">Fecha acordada</span>
-              <span class="chip">Videollamada</span>
-            </div>
-            <p class="d-text">Se realiza la primera videollamada. Aplican políticas de cancelación, grabaciones e IP según anexos.</p>
-          </div>
-        </div>
-
-        <div class="dcard">
-          <div class="d-idx">8</div>
-          <div>
-            <h3 class="d-title">Remainder of Services (según paquete)</h3>
-            <div class="d-meta">
-              <span class="chip purple">Depende del plan</span>
-              <span class="chip">Entrega restante</span>
-            </div>
-            <ul class="d-list">
-              <li><strong>Review:</strong> engagement se cierra tras la sesión.</li>
-              <li><strong>Continuity:</strong> sesiones mensuales.</li>
-              <li><strong>Signature:</strong> múltiples sesiones / periodo definido.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Responsibilities -->
-      <div class="resp">
-        <div class="rcard">
-          <div class="rhead">
-            <h4 class="rtitle">Cliente</h4>
-            <span class="rbadge">⏱️ Tiempos clave</span>
-          </div>
-          <ul class="rlist">
-            <li>14 días para discovery (+7 extensión)</li>
-            <li>Responder y agendar oportunamente</li>
-            <li>Asistir a sesiones</li>
-          </ul>
-        </div>
-
-        <div class="rcard">
-          <div class="rhead">
-            <h4 class="rtitle">XS Money Map</h4>
-            <span class="rbadge">⏱️ Best efforts</span>
-          </div>
-          <ul class="rlist">
-            <li>5–7 días hábiles para analizar discovery</li>
-            <li>7–10 días hábiles para primera sesión</li>
-            <li>Best efforts (sin garantías)</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- PLANS TITLE -->
-      <div class="band-title">
-        <h2 class="h2">LOS PLANES</h2>
-      </div>
-
-      <!-- PLANS -->
-      <div class="plans-area">
-        <div class="plans-grid">
-          <!-- Review -->
-          <article class="plan-card">
-            <div class="plan-top">
-              <div class="badge-circle badge-r">R</div>
-              <div class="pill blue">Plan Revisión</div>
-              <div class="price"><span class="cart">🛒</span><strong>USD$ 299</strong></div>
-            </div>
-            <div class="plan-body">
-              <ul>
-                <li>Revisión completa de tu situación financiera</li>
-                <li>Mapa financiero claro y estructurado</li>
-                <li>Identificación de riesgos y prioridades</li>
-                <li>Sesión guiada de interpretación</li>
-              </ul>
-            </div>
-            <div class="plan-actions">
-              <button class="btn primary" type="button">Comprar</button>
-            </div>
-          </article>
-
-          <!-- Continuity -->
-          <article class="plan-card">
-            <div class="plan-top">
-              <div class="badge-circle badge-c">C</div>
-              <div class="pill pink">Plan Continuidad</div>
-              <div class="price"><span class="cart">🛒</span><strong>USD$ 499</strong></div>
-            </div>
-            <div class="plan-body">
-              <ul>
-                <li>Todo lo incluido en el Plan Revisión</li>
-                <li>Seguimiento financiero continuo</li>
-                <li>Ajuste periódico de decisiones</li>
-                <li>Soporte para decisiones recurrentes</li>
-                <li>Acceso a herramientas y recursos</li>
-              </ul>
-            </div>
-            <div class="plan-actions">
-              <button class="btn primary" type="button">Comprar</button>
-            </div>
-          </article>
-
-          <!-- Signature -->
-          <article class="plan-card">
-            <div class="plan-top">
-              <div class="badge-circle badge-s">S</div>
-              <div class="pill gold">Plan Signature</div>
-              <div class="price"><span class="cart">🛒</span><strong>HABLEMOS</strong></div>
-            </div>
-            <div class="plan-body">
-              <ul>
-                <li>Acompañamiento estratégico continuo</li>
-                <li>Decisiones patrimoniales complejas</li>
-                <li>Visión de largo plazo</li>
-                <li>Coordinación con otros profesionales</li>
-                <li>Aplicación requerida</li>
-                <li>Requisito: &gt;US$500k en investable assets</li>
-              </ul>
-            </div>
-            <div class="plan-actions">
-              <button class="btn gold" type="button">Agendar Cita</button>
-            </div>
-          </article>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- COMPARISON (WHITE) -->
-  <section class="section compare">
-    <div class="container">
-      <div class="compare-head">
-        <div>
-          <h2 class="h2" style="color:var(--ink);">Comparación de planes</h2>
-          <div class="legend"><span class="ok">✅ Incluye</span> <span>|</span> <span class="no">✖ No incluye</span></div>
-        </div>
-      </div>
-
-      <div class="table-card">
-        <div class="table-scroll" role="region" aria-label="Tabla comparativa" tabindex="0">
-          <table>
-            <thead>
-              <tr>
-                <th>Característica</th>
-                <th>Review</th>
-                <th>Continuity</th>
-                <th class="sig">Signature</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <th>Discovery Map (mapa financiero inicial)</th>
-                <td><span class="yesIcon">✓</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Organización de ingresos, gastos, activos y pasivos</th>
-                <td><span class="yesIcon">✓</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Identificación de riesgos y prioridades</th>
-                <td><span class="yesIcon">✓</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Sesión guiada de interpretación</th>
-                <td><span class="yesIcon">✓</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-
-              <tr>
-                <th>Seguimiento periódico</th>
-                <td><span class="noIcon">✕</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Ajustes a decisiones en el tiempo</th>
-                <td><span class="noIcon">✕</span></td>
-                <td><span class="yesIcon">✓</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-
-              <tr>
-                <th>Ejecución acompañada de decisiones</th>
-                <td><span class="noIcon">✕</span></td>
-                <td><span class="noIcon">✕</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Requiere aplicación previa</th>
-                <td><span class="noIcon">✕</span></td>
-                <td><span class="noIcon">✕</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-              <tr>
-                <th>Activos invertibles mínimos ($500k)</th>
-                <td><span class="noIcon">✕</span></td>
-                <td><span class="noIcon">✕</span></td>
-                <td class="sig"><span class="yesIcon">✓</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <p class="p" style="max-width:860px;">
-        <strong style="color:var(--ink)">Nota:</strong>
-        Los tiempos del timeline son estimados y dependen de la entrega de información y disponibilidad de agenda.
-      </p>
     </div>
   </section>
 
 </body>
 </html>
 ```
+
