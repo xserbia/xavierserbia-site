@@ -1441,6 +1441,42 @@ El equipo de Money Map 💰`,
             }
         ];
 
+        let plans = [
+    {
+        id: 'plan_basic',
+        name: 'Plan Review Básico',
+        description: 'Análisis financiero completo y plan personalizado',
+        price: 299.00,
+        currency: 'EUR',
+        paymentType: 'one-time',
+        frequency: null,
+        features: ['Sesión de 90 minutos', 'Análisis completo de finanzas', 'Plan personalizado', 'Soporte por email 30 días'],
+        status: 'active'
+    },
+    {
+        id: 'plan_premium',
+        name: 'Plan Review Premium',
+        description: 'Incluye seguimiento mensual y asesoría continua',
+        price: 99.00,
+        currency: 'EUR',
+        paymentType: 'recurring',
+        frequency: 'monthly',
+        features: ['Sesión inicial de 90 minutos', 'Seguimiento mensual', 'Acceso a comunidad privada', 'Soporte prioritario', 'Actualizaciones del plan'],
+        status: 'active'
+    },
+    {
+        id: 'plan_annual',
+        name: 'Plan Anual Completo',
+        description: 'Acompañamiento durante todo el año',
+        price: 999.00,
+        currency: 'EUR',
+        paymentType: 'recurring',
+        frequency: 'annual',
+        features: ['Sesiones trimestrales', '12 meses de seguimiento', 'Revisión de objetivos', 'Soporte ilimitado', 'Acceso a todos los recursos'],
+        status: 'active'
+    }
+];
+
         // FUNCIONES DE SESIONES
         function showNewSessionModal() {
             // Llenar dropdown de clientes
