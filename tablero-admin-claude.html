@@ -1902,21 +1902,26 @@ El equipo de Money Map 💰`,
                 `).join('');
         }
 
-        function showSettingsTab(tabName) {
-            currentSettingsTab = tabName;
-            
-            // Ocultar todos los contenidos
-            document.querySelectorAll('[id^="settings-content-"]').forEach(c => c.classList.add('hidden'));
-            
-            // Mostrar el contenido seleccionado
-            document.getElementById('settings-content-' + tabName).classList.remove('hidden');
-            
-            // Actualizar tabs
-            document.querySelectorAll('[id^="settings-tab-"]').forEach(t => {
-                t.className = 'w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all';
-            });
-            document.getElementById('settings-tab-' + tabName).className = 'w-full px-4 py-3 bg-emerald-100 text-emerald-700 rounded-lg font-semibold text-left transition-all';
-        }
+function showSettingsTab(tabName) {
+    currentSettingsTab = tabName;
+    
+    // Ocultar todos los contenidos
+    document.querySelectorAll('[id^="settings-content-"]').forEach(c => c.classList.add('hidden'));
+    
+    // Mostrar el contenido seleccionado
+    document.getElementById('settings-content-' + tabName).classList.remove('hidden');
+    
+    // Actualizar tabs
+    document.querySelectorAll('[id^="settings-tab-"]').forEach(t => {
+        t.className = 'w-full px-4 py-3 bg-slate-100 text-slate-600 rounded-lg font-semibold text-left hover:bg-slate-200 transition-all';
+    });
+    document.getElementById('settings-tab-' + tabName).className = 'w-full px-4 py-3 bg-emerald-100 text-emerald-700 rounded-lg font-semibold text-left transition-all';
+    
+    // AGREGA ESTA LÍNEA NUEVA:
+    if (tabName === 'plans') {
+        renderPlansList();
+    }
+}
 
         // Función para cambiar entre tabs del cliente
         function showClientTab(tabName) {
