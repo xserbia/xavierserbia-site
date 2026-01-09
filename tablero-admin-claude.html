@@ -2484,7 +2484,258 @@ El equipo de Money Map 💰`,
         function hideNewNoteForm() {
             document.getElementById('new-note-form').classList.add('hidden');
         }
+// ========== FUNCIONES DE PLANES ==========
 
+function showPlanEditor(planId = null) {
+    editingPlanId = planId;
+    currentPlanFeatures = [];
+    
+    if (planId) {
+        const plan = plans.find(p => p.id === planId);
+        if (plan) {
+            document.getElementById('plan-modal-title').textContent = 'Editar Plan';
+            document.getElementById('plan-name').value = plan.name;
+            document.getElementById('plan-description').value = plan.description;
+            document.getElementById('plan-price').value = plan.price;
+            document.getElementById('plan-currency').value = plan.currency;
+            document.getElementById('plan-payment-type').value = plan.paymentType;
+            
+            if (plan.paymentType === 'recurring') {
+                document.getElementById('payment-frequency-container').classList.remove('hidden');
+                document.getElementById('plan-frequency').value = plan.frequency;
+            }
+            
+            currentPlanFeatures = [...plan.features];
+            
+            if (plan.status === 'active') {
+                document.getElementById('plan-status-active').checked = true;
+            } else {
+                document.getElementById('plan-status-inactive').checked = true;
+            }
+        }
+    } else {
+        document.getElementById('plan-modal-title').textContent = 'Nuevo Plan';
+        document.getElementById('plan-form').reset();
+        document.getElementById('payment-frequency-container').classList.add('hidden');
+        document.getElementById('plan-status-active').checked = true;
+    }
+    
+    renderFeaturesList();
+    document.getElementById('plan-editor-modal').classList.remove('hidden');
+}
+
+function hidePlanEditor() {
+    document.getElementById('plan-editor-modal').classList.add('hidden');
+    document.getElementById('plan-form').reset();
+    currentPlanFeatures = [];
+}
+
+function togglePaymentFrequency() {
+    const paymentType = document.getElementById('plan-payment-type').value;
+    const frequencyContainer = document.getElementById('payment-frequency-container');
+    
+    if (paymentType === 'recurring') {
+        frequencyContainer.classList.remove('hidden');
+    } else {
+        frequencyContainer.classList.add('hidden');
+    }
+}
+
+function addFeature() {
+    const input = document.getElementById('new-feature-input');
+    const feature = input.value.trim();
+    
+    if (!feature) {
+        alert('Por favor escribe una característica');
+        return;
+    }
+    
+    currentPlanFeatures.push(feature);
+    input.value = '';
+    renderFeaturesList();
+}
+
+function removeFeature(index) {
+    currentPlanFeatures.splice(index, 1);
+    renderFeaturesList();
+}
+
+function renderFeaturesList() {
+    const container = document.getElementById('features-list');
+    
+    if (currentPlanFeatures.length === 0) {
+        container.innerHTML = '<div class="text-sm text-slate-500 italic">No hay características agregadas</div>';
+        return;
+    }
+    
+    container.innerHTML = currentPlanFeatures.map((feature, index) => `
+        <div class="flex items-center justify-between p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+            <div class="flex items-center gap-2">
+                <span class="text-emerald-600">✓</span>
+                <span class="text-sm text-slate-700">${feature}</span>
+            </div>
+            <button type="button" onclick="removeFeature(${index})" class="text-red-500 hover:text-red-700 text-sm font-semibold">
+                ✕
+            </button>
+        </div>
+    `).join('');
+}
+
+function renderPlansList() {
+    const container = document.getElementById('plans-list');
+    const noPlans = document.getElementById('no-plans');
+    
+    if (plans.length === 0) {
+        container.innerHTML = '';
+        noPlans.classList.remove('hidden');
+        return;
+    }
+    
+    noPlans.classList.add('hidden');
+    
+    const currencySymbols = {'EUR': '€', 'USD': '$', 'GBP': '£'};
+    const frequencyLabels = {'monthly': 'mes', 'annual': 'año', 'quarterly': 'trimestre', 'biannual': 'semestre'};
+    
+    container.innerHTML = plans.map(plan => {
+        const currencySymbol = currencySymbols[plan.currency] || plan.currency;
+        const priceText = plan.paymentType === 'one-time' 
+            ? `${currencySymbol}${plan.price.toFixed(2)} (Pago único)`
+            : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
+        
+        const statusBadge = plan.status === 'active'
+            ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
+            : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
+        
+        return `
+            <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="text-xl font-bold text-slate-900">${plan.name}</h3>
+                            ${statusBadge}
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
+                        <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
+                        
+                        <div class="space-y-2">
+                            <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
+                            ${plan.features.map(feature => `
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <span class="text-emerald-600">✓</span>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 ml-4">
+                        <button onclick="showPlanEditor('${plan.id}')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold hover:bg-blue-200 transition-colors">
+                            ✏️ Editar
+                        </button>
+                        <button onclick="duplicatePlan('${plan.id}')" class="px-3 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors">
+                            📋
+                        </button>
+                        <button onclick="deletePlan('${plan.id}')" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition-colors">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function duplicatePlan(planId) {
+    const plan = plans.find(p => p.id === planId);
+    if (!plan) return;
+    
+    const newPlan = {...plan, id: 'plan_' + Date.now(), name: plan.name + ' (Copia)'};
+    plans.push(newPlan);
+    renderPlansList();
+    alert('✅ Plan duplicado exitosamente!');
+}
+
+function deletePlan(planId) {
+    if (!confirm('¿Estás seguro de eliminar este plan?')) return;
+    
+    const index = plans.findIndex(p => p.id === planId);
+    if (index > -1) {
+        plans.splice(index, 1);
+        renderPlansList();
+        alert('✅ Plan eliminado');
+    }
+}
+
+function searchPlans() {
+    const searchTerm = document.getElementById('plan-search').value.toLowerCase();
+    const filtered = plans.filter(plan => 
+        plan.name.toLowerCase().includes(searchTerm) ||
+        plan.description.toLowerCase().includes(searchTerm) ||
+        plan.features.some(f => f.toLowerCase().includes(searchTerm))
+    );
+    
+    const container = document.getElementById('plans-list');
+    const noPlans = document.getElementById('no-plans');
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '';
+        noPlans.classList.remove('hidden');
+        return;
+    }
+    
+    noPlans.classList.add('hidden');
+    
+    const currencySymbols = {'EUR': '€', 'USD': '$', 'GBP': '£'};
+    const frequencyLabels = {'monthly': 'mes', 'annual': 'año', 'quarterly': 'trimestre', 'biannual': 'semestre'};
+    
+    container.innerHTML = filtered.map(plan => {
+        const currencySymbol = currencySymbols[plan.currency] || plan.currency;
+        const priceText = plan.paymentType === 'one-time' 
+            ? `${currencySymbol}${plan.price.toFixed(2)} (Pago único)`
+            : `${currencySymbol}${plan.price.toFixed(2)}/${frequencyLabels[plan.frequency]}`;
+        
+        const statusBadge = plan.status === 'active'
+            ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ACTIVO</span>'
+            : '<span class="px-3 py-1 bg-slate-200 text-slate-600 rounded-full text-xs font-bold">INACTIVO</span>';
+        
+        return `
+            <div class="p-6 bg-gradient-to-r from-emerald-50 to-white rounded-xl border-2 border-emerald-200 hover:border-emerald-400 transition-all">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="text-xl font-bold text-slate-900">${plan.name}</h3>
+                            ${statusBadge}
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">${plan.description}</p>
+                        <div class="text-2xl font-bold text-emerald-700 mb-4">${priceText}</div>
+                        
+                        <div class="space-y-2">
+                            <div class="font-semibold text-slate-700 text-sm mb-2">Incluye:</div>
+                            ${plan.features.map(feature => `
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <span class="text-emerald-600">✓</span>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2 ml-4">
+                        <button onclick="showPlanEditor('${plan.id}')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold hover:bg-blue-200 transition-colors">
+                            ✏️ Editar
+                        </button>
+                        <button onclick="duplicatePlan('${plan.id}')" class="px-3 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition-colors">
+                            📋
+                        </button>
+                        <button onclick="deletePlan('${plan.id}')" class="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-semibold hover:bg-red-200 transition-colors">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
         // Inicializar
         window.addEventListener('load', function() {
             renderCalendar();
