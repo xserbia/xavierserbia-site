@@ -1269,6 +1269,14 @@
           <p class="userName" id="headerUserName">Juan Pérez</p>
           <p class="userEmail" id="headerUserEmail">juan.perez@email.com</p>
         </div>
+        <button 
+          id="resetBtn" 
+          class="btn ghost"
+          title="Reiniciar Discovery"
+          style="padding: 8px 16px; font-size: 13px;"
+        >
+          🔄 Reiniciar
+        </button>
       </div>
 
       <div class="stepCircles" id="stepCircles">
@@ -3218,6 +3226,55 @@
     hints.classList.add('show');
     hintTimer = setTimeout(() => hints.classList.remove('show'), 3000);
   });
+
+  // ===== RESET DISCOVERY =====
+  function resetDiscovery() {
+    // Ask for confirmation
+    const confirmed = confirm('¿Estás seguro que quieres reiniciar el Discovery?\n\nSe borrarán todos los datos y volverás al inicio.');
+    
+    if (!confirmed) return;
+    
+    // Clear localStorage
+    localStorage.removeItem('discovery_draft_v3');
+    
+    // Reset state to defaults
+    state.step = 1;
+    state.startTime = Date.now();
+    state.people.members = [];
+    state.people.template = '';
+    state.people.householdRole = '';
+    state.goals = [];
+    state.financials = {
+      incomeRange: "",
+      hasDebts: null,
+      hasInvestments: null,
+      hasRealEstate: null,
+      hasInsurance: null,
+      hasBusiness: null,
+      hasLegal: null,
+      hasOtherAssets: null,
+      hasSavings: null,
+      categoriesSelected: [],
+      items: []
+    };
+    state.wizardStep = 1;
+    state.wizardComplete = false;
+    state.notes = "";
+    
+    // Reset views
+    $('#beforeSubmit').style.display = 'block';
+    $('#afterSubmit').style.display = 'none';
+    $('.btns').style.display = 'flex';
+    
+    // Go back to step 1
+    setStep(1);
+    
+    // Show confirmation
+    showToast('🔄 Discovery reiniciado correctamente');
+  }
+  
+  // Attach reset button event
+  $('#resetBtn').addEventListener('click', resetDiscovery);
 
   // ===== Init =====
   loadDraft();
