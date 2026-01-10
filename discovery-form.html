@@ -1852,8 +1852,9 @@
   }
 
   function isStep3Complete() {
-    // Step 3 (Metas) is optional, always complete
-    return true;
+    // Step 3 (Metas) shows checkmark only if goals are selected
+    // But it's still optional for submission validation
+    return state.goals.length > 0;
   }
 
   function isStep4Complete() {
@@ -3234,6 +3235,8 @@
     
     if (!confirmed) return;
     
+    console.log('🔄 Reseteando Discovery...');
+    
     // Clear localStorage
     localStorage.removeItem('discovery_draft_v3');
     
@@ -3260,6 +3263,20 @@
     state.wizardStep = 1;
     state.wizardComplete = false;
     state.notes = "";
+    
+    console.log('📊 Estado después de reset:', {
+      step: state.step,
+      people: state.people.members.length,
+      goals: state.goals.length,
+      financials: state.financials.items.length
+    });
+    
+    console.log('✅ Validaciones:', {
+      step1: isStep1Complete(),
+      step2: isStep2Complete(),
+      step3: isStep3Complete(),
+      step4: isStep4Complete()
+    });
     
     // Reset views
     $('#beforeSubmit').style.display = 'block';
