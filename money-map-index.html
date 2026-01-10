@@ -475,20 +475,29 @@
       .xs-review .btnRow{flex-direction:column;}
       .xs-review .btn.primary, .xs-review .btn.ghost{width:100%;}
     }
+    .brand{
+  display:flex;
+  align-items:center;
+}
+
+.brand-logo{
+  height: 42px;       /* controla el tamaño del logo */
+  width: auto;
+  display:block;
+}
+
   </style>
 </head>
 
 <body>
   <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="container">
-      <div class="topbar-inner">
-        <div class="brand" aria-label="Xavier Money Map">
-          <div class="name">
-            <span>Xavier</span>
-            <span>Money Map</span>
-          </div>
-        </div>
+<div class="brand" aria-label="Xavier Money Map">
+  <img 
+    src="https://xserbia.github.io/xavierserbia-site/XAVIER-MONEY-MAP-LOGO.png" alt="Logo (placeholder)" 
+    alt="Xavier Money Map Logo"
+    class="brand-logo"
+  />
+</div>
 
           <!-- NAV LINKS: TODOS VAN A /login -->
           <div class="nav-links" aria-label="Navegación">
