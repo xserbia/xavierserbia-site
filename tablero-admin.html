@@ -553,67 +553,51 @@
                         </div>
                     </div>
 
-                    <!-- TAB: VIDEOLLAMADA -->
-                    <div id="content-video" class="hidden">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-brand-200">
-                            <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200 flex items-center gap-2">
-                                🎥 Videollamada
-                            </h3>
-                            
-                            <!-- Link de videollamada guardado -->
-                            <div id="video-link-display">
-                                <div class="bg-gradient-to-r from-brand-50 to-white p-4 rounded-xl border-2 border-brand-300 mb-4">
-                                    <div class="flex justify-between items-start mb-3">
-                                        <div class="flex-1">
-                                            <div class="text-sm font-semibold text-slate-700 mb-2">Link de Sesión:</div>
-                                            <div class="text-sm text-slate-600 break-all" id="saved-video-link">
-                                                https://zoom.us/j/123456789
-                                            </div>
-                                        </div>
-                                        <button onclick="editVideoLink()" class="ml-2 text-slate-500 hover:text-slate-700" title="Editar">
-                                            ✏️
-                                        </button>
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <button onclick="startVideoCall()" class="flex-1 px-4 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                                            🎥 Iniciar Sesión
-                                        </button>
-                                        <button onclick="copyVideoLink()" class="px-4 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors flex items-center gap-2">
-                                            📋 Copiar Link
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+<!-- TAB: VIDEOLLAMADA -->
+<div id="content-video" class="hidden">
+    <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-brand-200">
+        <h3 class="text-xl font-bold text-slate-900 mb-4 pb-3 border-b-2 border-brand-200 flex items-center gap-2">
+            🎥 Opciones de Videollamada
+        </h3>
+        
+        <!-- Botón para configurar opciones -->
+        <div class="mb-6">
+            <button onclick="showScheduleOptionsModal()" class="w-full px-6 py-4 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                <span class="text-2xl">📅</span>
+                <span>Configurar Opciones de Horario</span>
+            </button>
+            <p class="text-sm text-slate-600 mt-2 text-center">El cliente podrá elegir una de estas opciones desde su tablero</p>
+        </div>
 
-                            <!-- Formulario para añadir/editar link (oculto por defecto) -->
-                            <div id="video-link-form" class="hidden mb-4">
-                                <div class="mb-3">
-                                    <label class="block font-semibold text-slate-700 mb-2 text-sm">Link de Videollamada (Zoom, Meet, Teams)</label>
-                                    <input 
-                                        type="url" 
-                                        id="video-link-input"
-                                        placeholder="https://zoom.us/j/..." 
-                                        class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all outline-none"
-                                        value="https://zoom.us/j/123456789"
-                                    >
-                                </div>
-                                <div class="flex gap-2">
-                                    <button onclick="saveVideoLink()" class="flex-1 px-4 py-2 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors">
-                                        💾 Guardar Link
-                                    </button>
-                                    <button onclick="cancelEditVideoLink()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition-colors">
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
+        <!-- Opciones configuradas -->
+        <div id="schedule-options-list" class="space-y-3">
+            <!-- Se llena con JavaScript -->
+        </div>
 
-                            <!-- Info adicional -->
-                            <div class="p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
-                                <strong>💡 Tip:</strong> Puedes usar Zoom, Google Meet, Microsoft Teams o cualquier plataforma de videollamadas.
-                            </div>
-                        </div>
+        <!-- Sin opciones -->
+        <div id="no-schedule-options" class="text-center py-8 text-slate-500">
+            <div class="text-4xl mb-2">📅</div>
+            <div class="font-semibold">No hay opciones de horario configuradas</div>
+            <div class="text-sm mt-1">Configura las fechas y horas disponibles para que el cliente elija</div>
+        </div>
+
+        <!-- Info adicional -->
+        <div class="mt-6 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+            <div class="flex items-start gap-3">
+                <span class="text-2xl">💡</span>
+                <div>
+                    <div class="font-semibold text-blue-900 mb-1">¿Cómo funciona?</div>
+                    <div class="text-sm text-blue-800">
+                        1. Configuras varias opciones de fecha/hora disponibles<br>
+                        2. El cliente ve estas opciones en su tablero<br>
+                        3. El cliente selecciona la que mejor le convenga<br>
+                        4. Recibes notificación de su elección
                     </div>
-
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                     <!-- TAB: EMAIL -->
                     <div id="content-email" class="hidden">
                         <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200">
