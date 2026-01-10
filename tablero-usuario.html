@@ -1,0 +1,1278 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mi Tablero · Proceso</title>
+
+  <!-- Tipografía (puedes cambiarla a Greycliff si ya la sirves desde tu repo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#3956E8;
+      --secondary:#7459D9;
+      --accent:#E8C239;
+      --bg:#ffffff;
+      --soft:#f5f7ff;
+      --text:#0f172a;
+      --muted:#64748B;
+      --border:#e5e7eb;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:18px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Nunito", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at top, #e8efff 0, #ffffff 55%, #ffffff 100%);
+      color:var(--text);
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:22px 18px 40px;
+    }
+
+    /* Header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      background:rgba(255,255,255,.75);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+      position:sticky;
+      top:12px;
+      z-index:20;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:220px;
+    }
+    .logo{
+      width:38px; height:38px;
+      border-radius:12px;
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      display:grid; place-items:center;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.5px;
+      box-shadow:0 8px 18px rgba(57,86,232,.25);
+      flex:0 0 auto;
+    }
+    .brand h1{
+      font-size:16px;
+      line-height:1.1;
+      margin:0;
+      font-weight:800;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .pill strong{ color:var(--text); }
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:.15s ease;
+      box-shadow:0 6px 16px rgba(15,23,42,.06);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      background:var(--primary);
+      border-color:transparent;
+      color:#fff;
+      box-shadow:0 10px 22px rgba(57,86,232,.22);
+    }
+    .btn.ghost{
+      background:transparent;
+      box-shadow:none;
+    }
+
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 360px 1fr 300px;
+      gap:16px;
+      margin-top:16px;
+      align-items:start;
+    }
+
+    .card{
+      background:rgba(255,255,255,.9);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(245,247,255,.9), rgba(255,255,255,.92));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd h2{
+      margin:0;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .card .bd{
+      padding:14px 16px 16px;
+    }
+
+    /* Timeline */
+    .timeline{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .step{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      cursor:pointer;
+      transition:.15s ease;
+      position:relative;
+    }
+    .step:hover{ transform: translateY(-1px); }
+    .step[aria-disabled="true"]{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none;
+      background: #fafafa;
+    }
+    .step.active{
+      border-color: rgba(57,86,232,.35);
+      box-shadow:0 14px 28px rgba(57,86,232,.12);
+      background:linear-gradient(180deg, rgba(57,86,232,.06), #fff);
+    }
+    .icon{
+      width:38px; height:38px;
+      border-radius:14px;
+      display:grid; place-items:center;
+      font-size:16px;
+      flex:0 0 auto;
+      border:1px solid var(--border);
+      background:var(--soft);
+    }
+    .meta{
+      min-width:0;
+      flex:1;
+    }
+    .meta .name{
+      margin:0;
+      font-weight:900;
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .badge{
+      font-size:11px;
+      font-weight:900;
+      padding:5px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      background:#fff;
+      flex:0 0 auto;
+      white-space:nowrap;
+    }
+    .badge.ok{
+      color:#0f766e;
+      background:rgba(13,148,136,.08);
+      border-color:rgba(13,148,136,.22);
+    }
+    .badge.pending{
+      color:#92400e;
+      background:rgba(232,194,57,.18);
+      border-color:rgba(232,194,57,.5);
+    }
+    .badge.locked{
+      color:#475569;
+      background:rgba(148,163,184,.16);
+      border-color:rgba(148,163,184,.35);
+    }
+    .meta .desc{
+      margin:6px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+    .lock{
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      font-size:12px;
+      color:var(--muted);
+      display:none;
+    }
+    .step[aria-disabled="true"] .lock{ display:block; }
+
+    /* Main panel */
+    .kpi-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .kpi{
+      flex:1 1 190px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:10px 12px;
+    }
+    .kpi .t{
+      font-size:11px;
+      color:var(--muted);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .kpi .v{
+      margin-top:6px;
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .video{
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      background:#000;
+      box-shadow:0 10px 22px rgba(15,23,42,.10);
+      aspect-ratio: 16 / 9;
+    }
+    .video iframe{ width:100%; height:100%; border:0; display:block; }
+
+    .section{
+      margin-top:14px;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background: #fff;
+    }
+    .section h3{
+      margin:0 0 8px;
+      font-size:13px;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .section small{ color:var(--muted); font-weight:700; }
+
+    /* Checklist */
+    .checklist{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .checklist li{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding:9px 10px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(245,247,255,.75), #fff);
+    }
+    .tick{
+      width:18px; height:18px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#fff;
+      display:grid;
+      place-items:center;
+      font-size:12px;
+      flex:0 0 auto;
+      margin-top:1px;
+    }
+    .tick.done{
+      background:rgba(13,148,136,.12);
+      border-color:rgba(13,148,136,.25);
+      color:#0f766e;
+      font-weight:900;
+    }
+    .checklist .txt{
+      font-size:12px;
+      line-height:1.35;
+      color:var(--text);
+      font-weight:800;
+    }
+    .checklist .sub{
+      font-size:11px;
+      color:var(--muted);
+      font-weight:700;
+      margin-top:2px;
+    }
+
+    /* Notes */
+    textarea{
+      width:100%;
+      min-height:120px;
+      resize:vertical;
+      border-radius:16px;
+      border:1px solid var(--border);
+      padding:12px;
+      font-family:inherit;
+      font-size:13px;
+      outline:none;
+      background:#fff;
+    }
+    textarea:focus{
+      border-color: rgba(57,86,232,.45);
+      box-shadow:0 0 0 4px rgba(57,86,232,.12);
+    }
+    .note-actions{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .hint{
+      margin-top:8px;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    /* Emails table */
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+    }
+    th, td{
+      padding:10px 10px;
+      font-size:12px;
+      border-bottom:1px solid var(--border);
+      vertical-align:top;
+    }
+    th{
+      text-align:left;
+      color:var(--muted);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      background:linear-gradient(180deg, rgba(245,247,255,.9), #fff);
+    }
+    tr:last-child td{ border-bottom:0; }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      font-weight:900;
+      font-size:11px;
+      color:var(--muted);
+      background:#fff;
+      white-space:nowrap;
+    }
+    .tag.sent{
+      color:#0f766e;
+      background:rgba(13,148,136,.08);
+      border-color:rgba(13,148,136,.22);
+    }
+    .tag.fail{
+      color:#b91c1c;
+      background:rgba(239,68,68,.09);
+      border-color:rgba(239,68,68,.22);
+    }
+    .mini-btn{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:7px 10px;
+      border-radius:12px;
+      font-weight:900;
+      cursor:pointer;
+      font-size:12px;
+    }
+
+    /* Right sidebar */
+    .progress{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background:#e5e7eb;
+      overflow:hidden;
+      flex:1;
+      border:1px solid var(--border);
+    }
+    .bar > span{
+      display:block;
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius:999px;
+    }
+    .file{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+      margin-top:10px;
+    }
+    .file .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+    .file .dot{
+      width:34px; height:34px;
+      border-radius:14px;
+      display:grid; place-items:center;
+      background:var(--soft);
+      border:1px solid var(--border);
+      font-size:14px;
+      flex:0 0 auto;
+    }
+    .file .nm{
+      font-size:12px;
+      font-weight:900;
+      margin:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width:180px;
+    }
+    .file .st{
+      font-size:11px;
+      color:var(--muted);
+      font-weight:700;
+      margin-top:2px;
+    }
+
+    /* Modal (preview email) */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:50;
+    }
+    .modal.open{ display:flex; }
+    .modal-box{
+      width:min(860px, 100%);
+      max-height:85vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:22px;
+      border:1px solid var(--border);
+      box-shadow:0 24px 80px rgba(0,0,0,.25);
+    }
+    .modal-hd{
+      position:sticky;
+      top:0;
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .modal-hd strong{ font-weight:900; }
+    .modal-bd{ padding:14px; }
+    .email-preview{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px;
+      background:linear-gradient(180deg, rgba(245,247,255,.8), #fff);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size:13px;
+      line-height:1.45;
+      color:var(--text);
+    }
+
+    /* Responsive */
+    @media (max-width: 1050px){
+      .grid{ grid-template-columns: 340px 1fr; }
+      .right{ grid-column: 1 / -1; }
+    }
+    @media (max-width: 780px){
+      header{ position:static; }
+      .grid{ grid-template-columns: 1fr; }
+      .brand{ min-width:unset; }
+      .btn{ width:100%; justify-content:center; }
+      .header-actions{ width:100%; }
+      .pill{ width:100%; justify-content:center; }
+      .file .nm{ max-width:240px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">X</div>
+        <div>
+          <h1>Mi Tablero</h1>
+          <p id="subHeader">Proceso guiado · todo en un solo lugar</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="pill" title="Estado del proceso">
+          <span>🧭</span>
+          <span>Paso actual: <strong id="currentStepLabel">—</strong></span>
+        </div>
+        <button class="btn ghost" id="btnSupport" type="button">🆘 Soporte</button>
+        <button class="btn" id="btnRefresh" type="button">🔄 Actualizar</button>
+        <button class="btn primary" id="btnDemoAdvance" type="button" title="Solo para demo">
+          ⭐ Marcar paso como completado (Demo)
+        </button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Left: Timeline -->
+      <section class="card">
+        <div class="hd">
+          <h2>Proceso</h2>
+          <span class="badge pending" id="progressBadge">0/6</span>
+        </div>
+        <div class="bd">
+          <div class="timeline" id="timeline"></div>
+          <p class="hint" style="margin-top:12px;">
+            Tip: Haz clic en un paso para ver el video, checklist, notas y emails relacionados.
+          </p>
+        </div>
+      </section>
+
+      <!-- Middle: Step Detail -->
+      <main class="card">
+        <div class="hd">
+          <h2 id="stepTitle">—</h2>
+          <span class="badge" id="stepStatusBadge">—</span>
+        </div>
+
+        <div class="bd">
+          <div class="kpi-row">
+            <div class="kpi">
+              <div class="t">Acción principal</div>
+              <div class="v" id="ctaText">—</div>
+            </div>
+            <div class="kpi">
+              <div class="t">Próximo</div>
+              <div class="v" id="nextText">—</div>
+            </div>
+            <div class="kpi">
+              <div class="t">Nota rápida</div>
+              <div class="v" id="tipText">—</div>
+            </div>
+          </div>
+
+          <div class="video" aria-label="Video explicativo del paso">
+            <iframe
+              id="stepVideo"
+              src=""
+              title="Video del paso"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="section">
+            <h3>
+              ✅ Checklist del paso
+              <small id="checklistHint"></small>
+            </h3>
+            <ul class="checklist" id="checklist"></ul>
+
+            <div class="note-actions" style="margin-top:12px;">
+              <button class="btn primary" id="btnGoAction" type="button">Ir al paso</button>
+              <button class="btn" id="btnCopyLink" type="button">🔗 Copiar link del paso (demo)</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>📝 Mis notas</h3>
+            <textarea id="notes" placeholder="Escribe aquí tus dudas o notas para este paso..."></textarea>
+            <div class="note-actions">
+              <button class="btn primary" id="btnSaveNotes" type="button">Guardar notas</button>
+              <button class="btn" id="btnClearNotes" type="button">Borrar</button>
+            </div>
+            <p class="hint" id="notesSavedHint"></p>
+          </div>
+
+          <div class="section">
+            <h3>📩 Emails enviados</h3>
+            <div style="overflow:auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="min-width:140px;">Fecha</th>
+                    <th style="min-width:200px;">Asunto</th>
+                    <th style="min-width:140px;">Tipo</th>
+                    <th style="min-width:120px;">Estado</th>
+                    <th style="min-width:120px;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="emailTable"></tbody>
+              </table>
+            </div>
+            <p class="hint" id="emailHint"></p>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right: Summary -->
+      <aside class="card right">
+        <div class="hd">
+          <h2>Resumen</h2>
+          <span class="badge" id="demoBadge">Modo: Demo</span>
+        </div>
+        <div class="bd">
+          <div class="progress">
+            <div class="bar" aria-label="Progreso">
+              <span id="progressBar"></span>
+            </div>
+            <div style="font-weight:900;" id="progressText">0%</div>
+          </div>
+
+          <div class="section" style="margin-top:0;">
+            <h3 style="margin-bottom:6px;">🎯 Próximo hito</h3>
+            <div style="font-weight:900;" id="nextMilestone">—</div>
+            <div class="hint" id="nextMilestoneHint">—</div>
+          </div>
+
+          <div class="section">
+            <h3 style="margin-bottom:6px;">📁 Archivos</h3>
+
+            <div class="file">
+              <div class="left">
+                <div class="dot">📄</div>
+                <div>
+                  <p class="nm">Contrato firmado</p>
+                  <div class="st" id="fileContract">No disponible</div>
+                </div>
+              </div>
+              <button class="mini-btn" type="button" disabled id="btnContractFile">Ver</button>
+            </div>
+
+            <div class="file">
+              <div class="left">
+                <div class="dot">📋</div>
+                <div>
+                  <p class="nm">PDF Discovery</p>
+                  <div class="st" id="fileDiscovery">No disponible</div>
+                </div>
+              </div>
+              <button class="mini-btn" type="button" disabled id="btnDiscoveryFile">Ver</button>
+            </div>
+
+            <div class="file">
+              <div class="left">
+                <div class="dot">✅</div>
+                <div>
+                  <p class="nm">Resumen final</p>
+                  <div class="st" id="fileFinal">No disponible</div>
+                </div>
+              </div>
+              <button class="mini-btn" type="button" disabled id="btnFinalFile">Ver</button>
+            </div>
+
+            <p class="hint" style="margin-top:10px;">
+              Nota: En producción, estos botones apuntan a archivos reales (S3/Wix Media/Drive).
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Modal email preview -->
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-hd">
+        <div>
+          <strong id="modalSubject">Email</strong>
+          <div style="font-size:12px;color:var(--muted);font-weight:700;" id="modalMeta">—</div>
+        </div>
+        <button class="btn" id="modalClose" type="button">✖ Cerrar</button>
+      </div>
+      <div class="modal-bd">
+        <div class="email-preview" id="modalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * TABLERO USUARIO (DUMMY)
+     * - Timeline con bloqueo de pasos futuros
+     * - Panel del paso: video, checklist, CTA, notas (localStorage), emails (mock)
+     * - Botón "Marcar paso completado" solo para demo
+     */
+
+    const STORAGE_KEY = "userDashboardDemo.v1";
+
+    const steps = [
+      {
+        id: "registro",
+        order: 1,
+        icon: "✓",
+        emoji: "🧾",
+        title: "Registro",
+        short: "Tu cuenta está creada.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Ver mi perfil (demo)", href: "#perfil" },
+        tip: "Verifica tu email y datos de contacto.",
+        checklist: [
+          { text: "Cuenta creada", sub: "Ya puedes acceder al tablero.", done: true },
+          { text: "Email verificado", sub: "Recomendado para recibir notificaciones.", done: false },
+          { text: "Datos básicos completos", sub: "Nombre, teléfono y preferencia de contacto.", done: false }
+        ]
+      },
+      {
+        id: "pago",
+        order: 2,
+        icon: "💳",
+        emoji: "💳",
+        title: "Pago",
+        short: "Confirma el pago para desbloquear contrato y discovery.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Ir a pagar (demo)", href: "#pago" },
+        tip: "Al confirmarse el pago, se habilitan Contrato y Discovery.",
+        checklist: [
+          { text: "Pago iniciado", sub: "Se generó tu enlace de pago.", done: false },
+          { text: "Pago confirmado", sub: "Recibimos confirmación del procesador.", done: false },
+          { text: "Email de bienvenida enviado", sub: "Incluye próximos pasos.", done: false }
+        ]
+      },
+      {
+        id: "contrato",
+        order: 3,
+        icon: "📄",
+        emoji: "📄",
+        title: "Contrato",
+        short: "Firma y recibe copia del acuerdo.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Firmar contrato (demo)", href: "#contrato" },
+        tip: "Sin contrato firmado, no avanzamos al Discovery.",
+        checklist: [
+          { text: "Contrato generado", sub: "Documento listo para firma.", done: false },
+          { text: "Contrato firmado", sub: "Tu firma fue registrada.", done: false },
+          { text: "Copia entregada", sub: "Recibes copia por email y aquí en el tablero.", done: false }
+        ]
+      },
+      {
+        id: "discovery",
+        order: 4,
+        icon: "📋",
+        emoji: "📋",
+        title: "Discovery",
+        short: "Completa la información para el análisis.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Completar Discovery (demo)", href: "#discovery" },
+        tip: "Puedes guardar y terminar luego. Mientras más completo, mejor.",
+        checklist: [
+          { text: "Formulario iniciado", sub: "Ya comenzaste el discovery.", done: false },
+          { text: "Información completa", sub: "Ingresos, gastos, activos y deudas.", done: false },
+          { text: "PDF enviado al equipo", sub: "Se comparte para revisión interna.", done: false }
+        ]
+      },
+      {
+        id: "videocall",
+        order: 5,
+        icon: "🎥",
+        emoji: "🎥",
+        title: "Video Call",
+        short: "Sesión para resultados y plan de acción.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Agendar llamada (demo)", href: "#videocall" },
+        tip: "Aquí se presentan hallazgos y próximos pasos.",
+        checklist: [
+          { text: "Discovery revisado", sub: "Confirmamos que todo esté listo.", done: false },
+          { text: "Llamada agendada", sub: "Fecha y hora confirmadas.", done: false },
+          { text: "Llamada completada", sub: "Se discutieron hallazgos y plan.", done: false }
+        ]
+      },
+      {
+        id: "cerrado",
+        order: 6,
+        icon: "✅",
+        emoji: "✅",
+        title: "Cerrado",
+        short: "Entrega final y próximos pasos.",
+        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
+        cta: { label: "Ver resumen final (demo)", href: "#cerrado" },
+        tip: "Se entrega el resumen final y tu hoja de ruta.",
+        checklist: [
+          { text: "Resumen final generado", sub: "Documento de resultados listo.", done: false },
+          { text: "Plan de acción entregado", sub: "Metas, prioridades y próximos pasos.", done: false },
+          { text: "Cierre confirmado", sub: "Proceso completo.", done: false }
+        ]
+      }
+    ];
+
+    const mockEmails = [
+      {
+        id: "e1",
+        stepId: "registro",
+        sentAt: "2026-01-09 10:12 AM",
+        subject: "Bienvenido · Tu tablero ya está listo",
+        type: "Bienvenida",
+        status: "sent",
+        body: `
+          <strong>Hola</strong>,<br/><br/>
+          Tu cuenta está activa y ya puedes ver tu proceso paso a paso en el tablero.<br/>
+          Próximo paso: <strong>Pago</strong> para desbloquear Contrato y Discovery.<br/><br/>
+          — Equipo`
+      },
+      {
+        id: "e2",
+        stepId: "pago",
+        sentAt: "2026-01-09 10:15 AM",
+        subject: "Enlace de pago disponible",
+        type: "Pago",
+        status: "sent",
+        body: `
+          Te compartimos tu enlace de pago. Una vez confirmado, se habilitan Contrato y Discovery.<br/><br/>
+          — Equipo`
+      },
+      {
+        id: "e3",
+        stepId: "contrato",
+        sentAt: "—",
+        subject: "Contrato listo para firma",
+        type: "Contrato",
+        status: "fail",
+        body: `
+          (Demo) Este email está marcado como fallido para mostrar el estado.<br/><br/>
+          — Equipo`
+      }
+    ];
+
+    // --- State ---
+    const defaultState = {
+      selectedStepId: "pago", // por tu ejemplo: Pago pendiente
+      currentStepId: "pago",
+      completed: { registro: true, pago: false, contrato: false, discovery: false, videocall: false, cerrado: false },
+      notes: {} // {stepId: "texto"}
+    };
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return structuredClone(defaultState);
+        const parsed = JSON.parse(raw);
+        return { ...structuredClone(defaultState), ...parsed };
+      }catch(e){
+        return structuredClone(defaultState);
+      }
+    }
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    let state = loadState();
+
+    // --- Helpers ---
+    function getStep(id){ return steps.find(s => s.id === id); }
+
+    function computeLocks(){
+      // Lock: everything after currentStepId is locked
+      const currentIndex = steps.findIndex(s => s.id === state.currentStepId);
+      const locks = {};
+      steps.forEach((s, idx) => locks[s.id] = idx > currentIndex);
+      return locks;
+    }
+
+    function getStatus(stepId){
+      const locks = computeLocks();
+      if(state.completed[stepId]) return "completed";
+      if(locks[stepId]) return "locked";
+      // reachable but not completed
+      if(stepId === state.currentStepId) return "pending-active";
+      return "pending";
+    }
+
+    function statusBadge(status){
+      if(status === "completed") return { text:"Completado", cls:"ok" };
+      if(status === "locked") return { text:"Pendiente", cls:"locked" };
+      if(status === "pending-active") return { text:"Pendiente", cls:"pending" };
+      return { text:"Pendiente", cls:"pending" };
+    }
+
+    function nextStepId(){
+      const idx = steps.findIndex(s => s.id === state.currentStepId);
+      return steps[idx + 1]?.id || null;
+    }
+
+    function completedCount(){
+      return steps.reduce((acc,s)=> acc + (state.completed[s.id] ? 1 : 0), 0);
+    }
+
+    function percentProgress(){
+      return Math.round((completedCount() / steps.length) * 100);
+    }
+
+    // --- Render Timeline ---
+    function renderTimeline(){
+      const el = document.getElementById("timeline");
+      el.innerHTML = "";
+
+      const locks = computeLocks();
+
+      steps.forEach(step => {
+        const st = getStatus(step.id);
+        const badge = statusBadge(st);
+
+        const row = document.createElement("div");
+        row.className = "step" + (step.id === state.selectedStepId ? " active" : "");
+        row.setAttribute("role","button");
+        row.setAttribute("tabindex","0");
+
+        const disabled = locks[step.id] && !state.completed[step.id];
+        row.setAttribute("aria-disabled", disabled ? "true" : "false");
+
+        row.innerHTML = `
+          <div class="icon">${step.icon}</div>
+          <div class="meta">
+            <div class="name">
+              <span>${step.emoji} ${step.title}</span>
+              <span class="badge ${badge.cls}">${badge.text}</span>
+            </div>
+            <div class="desc">${step.short}</div>
+          </div>
+          <div class="lock">🔒</div>
+        `;
+
+        const onActivate = () => {
+          if(disabled) return;
+          state.selectedStepId = step.id;
+          saveState();
+          renderAll();
+        };
+
+        row.addEventListener("click", onActivate);
+        row.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            onActivate();
+          }
+        });
+
+        el.appendChild(row);
+      });
+
+      // progress badge
+      document.getElementById("progressBadge").textContent = `${completedCount()}/${steps.length}`;
+    }
+
+    // --- Render Detail ---
+    function renderDetail(){
+      const step = getStep(state.selectedStepId) || getStep(state.currentStepId) || steps[0];
+      const st = getStatus(step.id);
+      const b = statusBadge(st);
+
+      document.getElementById("stepTitle").textContent = `${step.emoji} ${step.title}`;
+      const stepBadge = document.getElementById("stepStatusBadge");
+      stepBadge.textContent = b.text;
+      stepBadge.className = `badge ${b.cls}`;
+
+      // header current step label
+      const currentStep = getStep(state.currentStepId);
+      document.getElementById("currentStepLabel").textContent = currentStep ? currentStep.title : "—";
+
+      // KPIs
+      document.getElementById("ctaText").textContent = step.cta.label;
+      const nxt = nextStepId();
+      document.getElementById("nextText").textContent = nxt ? getStep(nxt).title : "—";
+      document.getElementById("tipText").textContent = step.tip;
+
+      // Video
+      document.getElementById("stepVideo").src = step.videoUrl;
+
+      // Checklist (marca done si step completado => marca todos como done; si no, muestra los done del blueprint)
+      const ul = document.getElementById("checklist");
+      ul.innerHTML = "";
+      const completed = !!state.completed[step.id];
+      step.checklist.forEach((c, idx) => {
+        const isDone = completed ? true : !!c.done;
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <div class="tick ${isDone ? "done" : ""}">${isDone ? "✓" : ""}</div>
+          <div>
+            <div class="txt">${c.text}</div>
+            <div class="sub">${c.sub}</div>
+          </div>
+        `;
+        ul.appendChild(li);
+      });
+      document.getElementById("checklistHint").textContent =
+        completed ? "Todo listo en este paso." : "Marca completado (demo) cuando termines.";
+
+      // CTA button (demo)
+      const btnGo = document.getElementById("btnGoAction");
+      btnGo.textContent = step.cta.label;
+      btnGo.onclick = () => {
+        alert(`(Demo) Irías a: ${step.cta.href}\nEn producción: abrir link real del paso.`);
+      };
+
+      // Copy link (demo)
+      document.getElementById("btnCopyLink").onclick = async () => {
+        const fakeLink = `${location.origin}${location.pathname}#${step.id}`;
+        try{
+          await navigator.clipboard.writeText(fakeLink);
+          alert("Link copiado (demo): " + fakeLink);
+        }catch(e){
+          prompt("Copia el link (demo):", fakeLink);
+        }
+      };
+
+      // Notes
+      const notesEl = document.getElementById("notes");
+      notesEl.value = state.notes[step.id] || "";
+      document.getElementById("notesSavedHint").textContent = "";
+
+      document.getElementById("btnSaveNotes").onclick = () => {
+        state.notes[step.id] = notesEl.value.trim();
+        saveState();
+        document.getElementById("notesSavedHint").textContent = "✅ Notas guardadas en este navegador (localStorage).";
+      };
+      document.getElementById("btnClearNotes").onclick = () => {
+        notesEl.value = "";
+        delete state.notes[step.id];
+        saveState();
+        document.getElementById("notesSavedHint").textContent = "🗑️ Notas borradas.";
+      };
+
+      // Emails (filtra por step seleccionado + pasos anteriores)
+      renderEmails(step.id);
+    }
+
+    function renderEmails(selectedStepId){
+      const tbody = document.getElementById("emailTable");
+      tbody.innerHTML = "";
+
+      const selectedIdx = steps.findIndex(s => s.id === selectedStepId);
+      const allowedStepIds = new Set(steps.slice(0, selectedIdx + 1).map(s => s.id));
+
+      const rows = mockEmails.filter(e => allowedStepIds.has(e.stepId));
+
+      if(rows.length === 0){
+        document.getElementById("emailHint").textContent = "Aún no hay emails registrados para este paso.";
+      }else{
+        document.getElementById("emailHint").textContent = "Mostrando emails del paso seleccionado y anteriores.";
+      }
+
+      rows.forEach(email => {
+        const tr = document.createElement("tr");
+        const tagClass = email.status === "sent" ? "sent" : "fail";
+        const tagText = email.status === "sent" ? "Enviado" : "Fallido";
+
+        tr.innerHTML = `
+          <td>${email.sentAt}</td>
+          <td><strong>${escapeHtml(email.subject)}</strong></td>
+          <td>${escapeHtml(email.type)}</td>
+          <td><span class="tag ${tagClass}">${tagText}</span></td>
+          <td><button class="mini-btn" type="button" data-email="${email.id}">Ver</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // bind preview buttons
+      tbody.querySelectorAll("button[data-email]").forEach(btn => {
+        btn.addEventListener("click", () => openEmail(btn.getAttribute("data-email")));
+      });
+    }
+
+    // --- Summary sidebar ---
+    function renderSummary(){
+      const pct = percentProgress();
+      document.getElementById("progressText").textContent = `${pct}%`;
+      document.getElementById("progressBar").style.width = `${pct}%`;
+
+      const nxt = nextStepId();
+      const nextLabel = nxt ? getStep(nxt).title : "—";
+      document.getElementById("nextMilestone").textContent = getStep(state.currentStepId).title;
+      document.getElementById("nextMilestoneHint").textContent =
+        nxt ? `Después de completar este paso, sigue: ${nextLabel}` : "Proceso finalizado.";
+
+      // Files availability logic (demo): enable when step completed
+      const contractDone = state.completed["contrato"];
+      const discoveryDone = state.completed["discovery"];
+      const finalDone = state.completed["cerrado"];
+
+      document.getElementById("fileContract").textContent = contractDone ? "Disponible (demo)" : "No disponible";
+      document.getElementById("fileDiscovery").textContent = discoveryDone ? "Disponible (demo)" : "No disponible";
+      document.getElementById("fileFinal").textContent = finalDone ? "Disponible (demo)" : "No disponible";
+
+      const btnContract = document.getElementById("btnContractFile");
+      btnContract.disabled = !contractDone;
+      btnContract.onclick = () => alert("(Demo) Abrirías el PDF del contrato.");
+
+      const btnDiscovery = document.getElementById("btnDiscoveryFile");
+      btnDiscovery.disabled = !discoveryDone;
+      btnDiscovery.onclick = () => alert("(Demo) Abrirías el PDF del Discovery.");
+
+      const btnFinal = document.getElementById("btnFinalFile");
+      btnFinal.disabled = !finalDone;
+      btnFinal.onclick = () => alert("(Demo) Abrirías el resumen final.");
+    }
+
+    // --- Demo: advance current step ---
+    function advanceCurrentStepDemo(){
+      const idx = steps.findIndex(s => s.id === state.currentStepId);
+      const current = steps[idx];
+      if(!current) return;
+
+      state.completed[current.id] = true;
+
+      // move to next if exists
+      const next = steps[idx + 1];
+      if(next){
+        state.currentStepId = next.id;
+        // auto select next to show it
+        state.selectedStepId = next.id;
+      }else{
+        state.selectedStepId = current.id;
+      }
+
+      saveState();
+      renderAll();
+    }
+
+    // --- Header actions ---
+    document.getElementById("btnRefresh").addEventListener("click", () => {
+      // En producción: aquí llamarías backend para refrescar estados.
+      state = loadState();
+      renderAll();
+    });
+    document.getElementById("btnSupport").addEventListener("click", () => {
+      alert("(Demo) Aquí abrirías: centro de ayuda / WhatsApp / email soporte.");
+    });
+    document.getElementById("btnDemoAdvance").addEventListener("click", () => {
+      advanceCurrentStepDemo();
+    });
+
+    // --- Modal email preview ---
+    const modal = document.getElementById("modal");
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+
+    function openEmail(emailId){
+      const email = mockEmails.find(e => e.id === emailId);
+      if(!email) return;
+
+      document.getElementById("modalSubject").textContent = email.subject;
+      document.getElementById("modalMeta").textContent = `${email.type} · ${email.sentAt} · ${email.status === "sent" ? "Enviado" : "Fallido"}`;
+      document.getElementById("modalBody").innerHTML = email.body;
+      modal.classList.add("open");
+    }
+    function closeModal(){ modal.classList.remove("open"); }
+
+    // --- Utilities ---
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // --- Render all ---
+    function renderAll(){
+      renderTimeline();
+      renderDetail();
+      renderSummary();
+    }
+
+    // Init
+    renderAll();
+  </script>
+</body>
+</html>
+```
+
+**Cómo usarlo rápido**
+
+* Pégalo como `tablero-usuario.html` en tu repo o en Wix (embed HTML).
+* Abre el archivo y prueba:
+
+  * clic en pasos (los futuros están bloqueados),
+  * escribe notas y guarda (se guardan en el navegador),
+  * “Ver” emails (abre modal),
+  * botón ⭐ “Marcar paso como completado (Demo)” para avanzar el flujo.
+
+Si me dices dónde lo vas a conectar (Wix + Railway / o GitHub Pages + backend), te lo adapto para que el estado venga de un JSON real (ej. `/api/status`) y que el historial de emails se alimente del log de tu sistema.
