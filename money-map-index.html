@@ -799,6 +799,238 @@
 
   </div>
 </section>
+  ```html
+<!-- =========================
+     BLOQUE: FAQ (Preguntas frecuentes)
+     (Pégalo debajo del bloque ¿Para quién es?/¿Para quién no es?)
+========================= -->
+
+<style>
+  :root{
+    --xs:#5B4CE2;
+    --ink:#0b1220;
+    --muted:#5b6472;
+    --card:#ffffff;
+    --shadow: 0 18px 55px rgba(10,18,32,.18);
+    --shadow2: 0 10px 30px rgba(10,18,32,.12);
+    --r: 28px;
+  }
+
+  .xs-faq{
+    margin-top: 26px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .xs-faq .card{
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    background: var(--card);
+    border-radius: 34px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,.22); /* se ve bien sobre morado */
+    padding: 26px 22px 18px;
+    overflow:hidden;
+  }
+
+  .xs-faq .head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .xs-faq .title{
+    margin:0;
+    font-weight: 1000;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: rgba(11,18,32,.92);
+    font-size: clamp(18px, 2.1vw, 24px);
+  }
+
+  .xs-faq .sub{
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-weight: 850;
+    line-height: 1.55;
+    font-size: 14px;
+    max-width: 720px;
+  }
+
+  .xs-faq .cta{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    flex: 0 0 auto;
+  }
+
+  .xs-faq .btn{
+    appearance:none;
+    border:0;
+    cursor:pointer;
+    font-family: inherit;
+    font-weight: 1000;
+    letter-spacing:.15px;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-size: 14px;
+    color:#fff;
+    background: var(--xs);
+    box-shadow: 0 14px 28px rgba(91,76,226,.28);
+    text-decoration:none;
+    white-space:nowrap;
+  }
+
+  /* Accordion */
+  .xs-faq details{
+    border-top: 1px solid rgba(10,18,32,.08);
+    padding: 14px 0;
+  }
+  .xs-faq details:first-of-type{border-top: 0;}
+  .xs-faq summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-weight: 1000;
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .xs-faq summary::-webkit-details-marker{display:none;}
+
+  .xs-faq .icon{
+    width: 34px; height: 34px;
+    border-radius: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(91,76,226,.10);
+    border: 1px solid rgba(91,76,226,.18);
+    color: rgba(91,76,226,.95);
+    font-weight: 1000;
+    flex: 0 0 auto;
+  }
+
+  .xs-faq details[open] .icon{
+    background: rgba(91,76,226,.16);
+  }
+
+  .xs-faq .answer{
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-weight: 850;
+    line-height: 1.65;
+    font-size: 14px;
+  }
+
+  .xs-faq .note{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(10,18,32,.08);
+    color: var(--muted);
+    font-weight: 800;
+    font-size: 12.8px;
+    line-height: 1.55;
+  }
+
+  /* Mobile */
+  @media (max-width: 720px){
+    .xs-faq .card{border-radius: 28px; padding: 22px 16px 14px;}
+    .xs-faq .head{flex-direction:column; align-items:flex-start;}
+    .xs-faq .cta{width:100%; justify-content:flex-start;}
+    .xs-faq .btn{width:100%; justify-content:center;}
+    .xs-faq summary{font-size: 14.6px;}
+  }
+</style>
+
+<section class="xs-faq">
+  <div class="card">
+    <div class="head">
+      <div>
+        <h3 class="title">FAQ</h3>
+        <p class="sub">Respuestas cortas a las preguntas más comunes antes de comprar el Plan Revisión.</p>
+      </div>
+      <div class="cta">
+        <a class="btn" href="/login">Comprar</a>
+      </div>
+    </div>
+
+    <details>
+      <summary>
+        <span>¿Qué exactamente recibo al final del Plan Revisión?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        Un <strong>Discovery Map</strong> (tu mapa financiero inicial), una lectura clara de tu situación (liquidez, deudas, estructura),
+        tus <strong>riesgos y prioridades</strong> principales y una <strong>recomendación de próximos pasos</strong> para decidir con intención.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span>¿Cuánto tiempo toma el proceso?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        Depende de qué tan rápido completes tu información. Una vez tenemos el Discovery completo,
+        se coordina la sesión guiada de interpretación y se entrega el resumen con próximos pasos.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span>¿Necesito tener todas mis cuentas perfectas para empezar?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        No. Empezamos con lo que tienes. El objetivo es <strong>ordenar y hacer visible</strong> tu realidad hoy.
+        Si faltan datos, te indicamos exactamente qué completar.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span>¿Esto incluye asesoría de inversiones, impuestos o legal?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        No es asesoría de inversión, impuestos o legal. Es un proceso para <strong>organizar, entender y decidir</strong>.
+        Si surge la necesidad de especialistas (CPA, abogado, etc.), se sugiere como próximo paso.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span>¿Qué pasa si compro y no tengo tiempo para completar el Discovery?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        Puedes completarlo cuando estés listo. El Discovery toma tiempo porque requiere recopilar información,
+        así que el proceso avanza cuando tu data está completa.
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span>¿Todo esto es confidencial?</span>
+        <span class="icon">+</span>
+      </summary>
+      <div class="answer">
+        Sí. Tu información se usa únicamente para construir el Discovery Map y preparar la sesión.
+        El acceso y el flujo se manejan desde tu cuenta.
+      </div>
+    </details>
+
+    <div class="note">
+      Nota: Todos los enlaces llevan a <strong>/login</strong> por ahora (un solo punto de entrada).
+    </div>
+  </div>
+</section>
 </body>
 </html>
 
