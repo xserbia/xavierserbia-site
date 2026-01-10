@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Mensaje</title>
+  </head>
+
+  <body style="margin:0;padding:0;background:#f5f6fa;">
+    <!-- Preheader -->
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+      Mensaje de Xavier Money Map
+    </div>
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f5f6fa;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <!-- Contenedor -->
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
+            style="width:600px;max-width:600px;background:#ffffff;border:1px solid #e6e8ef;border-radius:10px;overflow:hidden;">
+
+            <!-- Header -->
+            <tr>
+              <td align="center" style="padding:22px 16px;border-bottom:1px solid #f0f1f6;">
+                <img
+                  src="https://xserbia.github.io/xavierserbia-site/XAVIER-MONEY-MAP-LOGO-2.png"
+                  width="220"
+                  alt="Xavier Money Map"
+                  style="display:block;border:0;outline:none;height:auto;"
+                />
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:28px;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+                <div style="font-size:26px;font-weight:700;margin-bottom:14px;color:#111827;">
+                  Hola {{var:name}},
+                </div>
+
+                <div style="font-size:16px;line-height:26px;color:#4b5563;margin-bottom:18px;">
+                  {{var:message_intro}}
+                </div>
+
+                <div style="font-size:16px;line-height:26px;color:#111827;margin-bottom:22px;">
+                  {{var:message_body}}
+                </div>
+
+                <!-- CTA opcional -->
+                {{#if var:cta_link}}
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:18px auto;">
+                  <tr>
+                    <td bgcolor="#4f46e5" style="border-radius:999px;">
+                      <a
+                        href="{{var:cta_link}}"
+                        style="display:inline-block;padding:12px 28px;font-size:16px;color:#ffffff;text-decoration:none;font-weight:700;border-radius:999px;"
+                        target="_blank"
+                      >
+                        {{var:cta_text}}
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+                {{/if}}
+
+                <div style="font-size:15px;line-height:24px;color:#4b5563;margin-top:24px;">
+                  {{var:message_closing}}
+                </div>
+
+                <div style="margin-top:22px;font-size:15px;color:#111827;">
+                  Saludos,<br />
+                  <strong>{{var:sender_name}}</strong><br />
+                  {{var:sender_title}}<br />
+                  <span style="color:#6b7280;">Xavier Money Map</span>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="background:#111827;padding:14px;text-align:center;">
+                <div style="font-size:13px;color:#ffffff;font-family:Arial,Helvetica,sans-serif;">
+                  &copy; {{var:year}} Xavier Money Map
+                </div>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
