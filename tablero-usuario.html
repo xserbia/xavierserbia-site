@@ -1,1278 +1,3413 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Mi Tablero · Proceso</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tablero - Dashboard de Usuario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Tipografía (puedes cambiarla a Greycliff si ya la sirves desde tu repo) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, rgba(91, 76, 226, 0.05), #f5f5f4);
+            min-height: 100vh;
+        }
 
-  <style>
-    :root{
-      --primary:#3956E8;
-      --secondary:#7459D9;
-      --accent:#E8C239;
-      --bg:#ffffff;
-      --soft:#f5f7ff;
-      --text:#0f172a;
-      --muted:#64748B;
-      --border:#e5e7eb;
-      --shadow:0 10px 30px rgba(15,23,42,.08);
-      --radius:18px;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family:"Nunito", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(circle at top, #e8efff 0, #ffffff 55%, #ffffff 100%);
-      color:var(--text);
-    }
-    a{ color:inherit; text-decoration:none; }
-    .wrap{
-      max-width:1200px;
-      margin:0 auto;
-      padding:22px 18px 40px;
-    }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+        }
 
-    /* Header */
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px 16px;
-      background:rgba(255,255,255,.75);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(10px);
-      position:sticky;
-      top:12px;
-      z-index:20;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:220px;
-    }
-    .logo{
-      width:38px; height:38px;
-      border-radius:12px;
-      background:linear-gradient(135deg, var(--primary), var(--secondary));
-      display:grid; place-items:center;
-      color:#fff;
-      font-weight:800;
-      letter-spacing:.5px;
-      box-shadow:0 8px 18px rgba(57,86,232,.25);
-      flex:0 0 auto;
-    }
-    .brand h1{
-      font-size:16px;
-      line-height:1.1;
-      margin:0;
-      font-weight:800;
-    }
-    .brand p{
-      margin:2px 0 0;
-      font-size:12px;
-      color:var(--muted);
-      font-weight:600;
-    }
+        .header {
+            background: white;
+            border-bottom: 1px solid #e7e5e4;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
 
-    .header-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:#fff;
-      font-size:12px;
-      color:var(--muted);
-      font-weight:700;
-      white-space:nowrap;
-    }
-    .pill strong{ color:var(--text); }
-    .btn{
-      border:1px solid var(--border);
-      background:#fff;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:13px;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      transition:.15s ease;
-      box-shadow:0 6px 16px rgba(15,23,42,.06);
-    }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.primary{
-      background:var(--primary);
-      border-color:transparent;
-      color:#fff;
-      box-shadow:0 10px 22px rgba(57,86,232,.22);
-    }
-    .btn.ghost{
-      background:transparent;
-      box-shadow:none;
-    }
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    /* Layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 360px 1fr 300px;
-      gap:16px;
-      margin-top:16px;
-      align-items:start;
-    }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-    .card{
-      background:rgba(255,255,255,.9);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .card .hd{
-      padding:14px 16px;
-      border-bottom:1px solid var(--border);
-      background:linear-gradient(180deg, rgba(245,247,255,.9), rgba(255,255,255,.92));
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .card .hd h2{
-      margin:0;
-      font-size:14px;
-      font-weight:900;
-      letter-spacing:.2px;
-    }
-    .card .bd{
-      padding:14px 16px 16px;
-    }
+        .user-info-container {
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Timeline */
-    .timeline{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .step{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      padding:12px 12px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
-      cursor:pointer;
-      transition:.15s ease;
-      position:relative;
-    }
-    .step:hover{ transform: translateY(-1px); }
-    .step[aria-disabled="true"]{
-      opacity:.6;
-      cursor:not-allowed;
-      transform:none;
-      background: #fafafa;
-    }
-    .step.active{
-      border-color: rgba(57,86,232,.35);
-      box-shadow:0 14px 28px rgba(57,86,232,.12);
-      background:linear-gradient(180deg, rgba(57,86,232,.06), #fff);
-    }
-    .icon{
-      width:38px; height:38px;
-      border-radius:14px;
-      display:grid; place-items:center;
-      font-size:16px;
-      flex:0 0 auto;
-      border:1px solid var(--border);
-      background:var(--soft);
-    }
-    .meta{
-      min-width:0;
-      flex:1;
-    }
-    .meta .name{
-      margin:0;
-      font-weight:900;
-      font-size:13px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .badge{
-      font-size:11px;
-      font-weight:900;
-      padding:5px 8px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      background:#fff;
-      flex:0 0 auto;
-      white-space:nowrap;
-    }
-    .badge.ok{
-      color:#0f766e;
-      background:rgba(13,148,136,.08);
-      border-color:rgba(13,148,136,.22);
-    }
-    .badge.pending{
-      color:#92400e;
-      background:rgba(232,194,57,.18);
-      border-color:rgba(232,194,57,.5);
-    }
-    .badge.locked{
-      color:#475569;
-      background:rgba(148,163,184,.16);
-      border-color:rgba(148,163,184,.35);
-    }
-    .meta .desc{
-      margin:6px 0 0;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.35;
-    }
-    .lock{
-      position:absolute;
-      right:10px;
-      bottom:10px;
-      font-size:12px;
-      color:var(--muted);
-      display:none;
-    }
-    .step[aria-disabled="true"] .lock{ display:block; }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
 
-    /* Main panel */
-    .kpi-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:12px;
-    }
-    .kpi{
-      flex:1 1 190px;
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:10px 12px;
-    }
-    .kpi .t{
-      font-size:11px;
-      color:var(--muted);
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.6px;
-    }
-    .kpi .v{
-      margin-top:6px;
-      font-size:14px;
-      font-weight:900;
-    }
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #5B4CE2;
+        }
 
-    .video{
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid var(--border);
-      background:#000;
-      box-shadow:0 10px 22px rgba(15,23,42,.10);
-      aspect-ratio: 16 / 9;
-    }
-    .video iframe{ width:100%; height:100%; border:0; display:block; }
+        .user-email {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
 
-    .section{
-      margin-top:14px;
-      padding:12px;
-      border:1px solid var(--border);
-      border-radius:18px;
-      background: #fff;
-    }
-    .section h3{
-      margin:0 0 8px;
-      font-size:13px;
-      font-weight:900;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .section small{ color:var(--muted); font-weight:700; }
+        .btn-edit-user {
+            background: none;
+            border: none;
+            padding: 0.25rem;
+            cursor: pointer;
+            color: #78716c;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
 
-    /* Checklist */
-    .checklist{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .checklist li{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      padding:9px 10px;
-      border:1px solid var(--border);
-      border-radius:14px;
-      background:linear-gradient(180deg, rgba(245,247,255,.75), #fff);
-    }
-    .tick{
-      width:18px; height:18px;
-      border-radius:6px;
-      border:1px solid var(--border);
-      background:#fff;
-      display:grid;
-      place-items:center;
-      font-size:12px;
-      flex:0 0 auto;
-      margin-top:1px;
-    }
-    .tick.done{
-      background:rgba(13,148,136,.12);
-      border-color:rgba(13,148,136,.25);
-      color:#0f766e;
-      font-weight:900;
-    }
-    .checklist .txt{
-      font-size:12px;
-      line-height:1.35;
-      color:var(--text);
-      font-weight:800;
-    }
-    .checklist .sub{
-      font-size:11px;
-      color:var(--muted);
-      font-weight:700;
-      margin-top:2px;
-    }
+        .btn-edit-user:hover {
+            color: #5B4CE2;
+        }
 
-    /* Notes */
-    textarea{
-      width:100%;
-      min-height:120px;
-      resize:vertical;
-      border-radius:16px;
-      border:1px solid var(--border);
-      padding:12px;
-      font-family:inherit;
-      font-size:13px;
-      outline:none;
-      background:#fff;
-    }
-    textarea:focus{
-      border-color: rgba(57,86,232,.45);
-      box-shadow:0 0 0 4px rgba(57,86,232,.12);
-    }
-    .note-actions{
-      display:flex;
-      gap:10px;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .hint{
-      margin-top:8px;
-      font-size:12px;
-      color:var(--muted);
-      font-weight:700;
-    }
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1c1917;
+            letter-spacing: -0.025em;
+        }
 
-    /* Emails table */
-    table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0;
-      overflow:hidden;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
-    }
-    th, td{
-      padding:10px 10px;
-      font-size:12px;
-      border-bottom:1px solid var(--border);
-      vertical-align:top;
-    }
-    th{
-      text-align:left;
-      color:var(--muted);
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.6px;
-      background:linear-gradient(180deg, rgba(245,247,255,.9), #fff);
-    }
-    tr:last-child td{ border-bottom:0; }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:5px 8px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      font-weight:900;
-      font-size:11px;
-      color:var(--muted);
-      background:#fff;
-      white-space:nowrap;
-    }
-    .tag.sent{
-      color:#0f766e;
-      background:rgba(13,148,136,.08);
-      border-color:rgba(13,148,136,.22);
-    }
-    .tag.fail{
-      color:#b91c1c;
-      background:rgba(239,68,68,.09);
-      border-color:rgba(239,68,68,.22);
-    }
-    .mini-btn{
-      border:1px solid var(--border);
-      background:#fff;
-      padding:7px 10px;
-      border-radius:12px;
-      font-weight:900;
-      cursor:pointer;
-      font-size:12px;
-    }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
 
-    /* Right sidebar */
-    .progress{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:12px;
-    }
-    .bar{
-      height:10px;
-      border-radius:999px;
-      background:#e5e7eb;
-      overflow:hidden;
-      flex:1;
-      border:1px solid var(--border);
-    }
-    .bar > span{
-      display:block;
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius:999px;
-    }
-    .file{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:10px 10px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:#fff;
-      margin-top:10px;
-    }
-    .file .left{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
-    .file .dot{
-      width:34px; height:34px;
-      border-radius:14px;
-      display:grid; place-items:center;
-      background:var(--soft);
-      border:1px solid var(--border);
-      font-size:14px;
-      flex:0 0 auto;
-    }
-    .file .nm{
-      font-size:12px;
-      font-weight:900;
-      margin:0;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:180px;
-    }
-    .file .st{
-      font-size:11px;
-      color:var(--muted);
-      font-weight:700;
-      margin-top:2px;
-    }
+        .modal-overlay.active {
+            display: flex;
+        }
 
-    /* Modal (preview email) */
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.45);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      z-index:50;
-    }
-    .modal.open{ display:flex; }
-    .modal-box{
-      width:min(860px, 100%);
-      max-height:85vh;
-      overflow:auto;
-      background:#fff;
-      border-radius:22px;
-      border:1px solid var(--border);
-      box-shadow:0 24px 80px rgba(0,0,0,.25);
-    }
-    .modal-hd{
-      position:sticky;
-      top:0;
-      background:#fff;
-      border-bottom:1px solid var(--border);
-      padding:12px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .modal-hd strong{ font-weight:900; }
-    .modal-bd{ padding:14px; }
-    .email-preview{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      background:linear-gradient(180deg, rgba(245,247,255,.8), #fff);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size:13px;
-      line-height:1.45;
-      color:var(--text);
-    }
+        .modal {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Responsive */
-    @media (max-width: 1050px){
-      .grid{ grid-template-columns: 340px 1fr; }
-      .right{ grid-column: 1 / -1; }
-    }
-    @media (max-width: 780px){
-      header{ position:static; }
-      .grid{ grid-template-columns: 1fr; }
-      .brand{ min-width:unset; }
-      .btn{ width:100%; justify-content:center; }
-      .header-actions{ width:100%; }
-      .pill{ width:100%; justify-content:center; }
-      .file .nm{ max-width:240px; }
-    }
-  </style>
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            font-size: 0.875rem;
+            color: #78716c;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #44403c;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            border: 1px solid #d6d3d1;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #5B4CE2;
+            box-shadow: 0 0 0 3px rgba(91, 76, 226, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-modal {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .btn-modal-primary {
+            background: #5B4CE2;
+            color: white;
+        }
+
+        .btn-modal-primary:hover {
+            background: #4A3BB8;
+        }
+
+        .btn-modal-secondary {
+            background: #f5f5f4;
+            color: #44403c;
+        }
+
+        .btn-modal-secondary:hover {
+            background: #e7e5e4;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            border: 2px solid #5B4CE2;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 300px;
+        }
+
+        .demo-controls.hidden {
+            display: none;
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #5B4CE2;
+        }
+
+        .demo-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #5B4CE2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-toggle-demo {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            color: #78716c;
+        }
+
+        .btn-toggle-demo:hover {
+            color: #5B4CE2;
+        }
+
+        .demo-section {
+            margin-bottom: 1rem;
+        }
+
+        .demo-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #44403c;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .btn-demo-step {
+            padding: 0.5rem 0.75rem;
+            background: #f5f5f4;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #44403c;
+        }
+
+        .btn-demo-step:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-demo-step.active {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-demo-action {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-demo-action:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            transform: translateY(-1px);
+        }
+
+        .demo-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 99;
+        }
+
+        .demo-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+        }
+
+        .demo-fab.hidden {
+            display: none;
+        }
+
+        .demo-info {
+            font-size: 0.7rem;
+            color: #78716c;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #fafaf9;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        /* Contract Documents Section */
+        .documents-section {
+            margin-bottom: 2rem;
+        }
+
+        .documents-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .document-card {
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
+            border: 2px solid #e7e5e4;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .document-card:hover {
+            border-color: #5B4CE2;
+            box-shadow: 0 4px 6px -1px rgba(91, 76, 226, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .document-card.signed {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #86efac;
+        }
+
+        .document-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .document-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .document-card.signed .document-icon {
+            background: #22c55e;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-name {
+            font-weight: 600;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .document-meta {
+            font-size: 0.75rem;
+            color: #78716c;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .btn-document {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            color: #44403c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-document:hover {
+            background: #f5f5f4;
+            border-color: #d6d3d1;
+        }
+
+        .btn-document.primary {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-document.primary:hover {
+            background: #4A3BB8;
+        }
+
+        .btn-document.success {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+
+        .btn-document.success:hover {
+            background: #16a34a;
+        }
+
+        .signature-section {
+            background: linear-gradient(135deg, #fafaf9 0%, white 100%);
+            border: 2px dashed #d6d3d1;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-subtitle {
+            font-size: 0.875rem;
+            color: #78716c;
+        }
+
+        .signature-canvas-wrapper {
+            background: white;
+            border: 2px solid #e7e5e4;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .signature-canvas {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #d6d3d1;
+            border-radius: 0.5rem;
+            cursor: crosshair;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 24px,
+                #f5f5f4 24px,
+                #f5f5f4 25px
+            );
+        }
+
+        .signature-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn-signature {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-signature.clear {
+            background: #f5f5f4;
+            color: #44403c;
+        }
+
+        .btn-signature.clear:hover {
+            background: #e7e5e4;
+        }
+
+        .btn-signature.sign {
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-signature.sign:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .signature-info {
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            color: #854d0e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .document-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .document-status-badge.pending {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .document-status-badge.signed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* Discovery Status Section */
+        .discovery-status-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #7dd3fc;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .discovery-status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-status-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .discovery-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .discovery-status-badge.not-started {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .discovery-status-badge.in-progress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .discovery-status-badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .discovery-progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .discovery-progress-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #0c4a6e;
+        }
+
+        .discovery-progress-percent {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #5B4CE2;
+        }
+
+        .discovery-progress-bar-bg {
+            height: 0.75rem;
+            background: white;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 2px solid #bae6fd;
+        }
+
+        .discovery-progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #5B4CE2, #7dd3fc);
+            transition: width 0.5s;
+            box-shadow: 0 0 10px rgba(91, 76, 226, 0.3);
+        }
+
+        .discovery-info-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .discovery-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .discovery-info-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .discovery-info-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-info-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1c1917;
+        }
+
+        .discovery-info-value.empty {
+            color: #a8a29e;
+            font-style: italic;
+        }
+
+        .discovery-summary-section {
+            background: white;
+            border: 2px solid #bae6fd;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-summary-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .discovery-summary-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .discovery-summary-item {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .discovery-summary-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .discovery-summary-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-summary-value {
+            font-size: 0.875rem;
+            color: #1c1917;
+            line-height: 1.5;
+        }
+
+        .discovery-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-discovery {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-discovery.primary {
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-discovery.primary:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-discovery.secondary {
+            background: white;
+            color: #5B4CE2;
+            border: 2px solid #5B4CE2;
+        }
+
+        .btn-discovery.secondary:hover {
+            background: #f0f9ff;
+        }
+
+        .discovery-alert {
+            background: #fef3c7;
+            border: 2px solid #fde047;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .discovery-alert-icon {
+            flex-shrink: 0;
+            color: #854d0e;
+        }
+
+        .discovery-alert-content {
+            flex: 1;
+        }
+
+        .discovery-alert-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #854d0e;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-alert-text {
+            font-size: 0.75rem;
+            color: #92400e;
+            line-height: 1.5;
+        }
+
+        /* Video Call Scheduling Section */
+        .videocall-section {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 2px solid #d8b4fe;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .videocall-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .videocall-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #581c87;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .videocall-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .videocall-status-badge.not-scheduled {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .videocall-status-badge.scheduled {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .videocall-status-badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* Meeting Details Card */
+        .meeting-details-card {
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meeting-details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f3e8ff;
+        }
+
+        .meeting-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #5B4CE2, #7c3aed);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(91, 76, 226, 0.2);
+        }
+
+        .meeting-details-info {
+            flex: 1;
+        }
+
+        .meeting-date-time {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+        }
+
+        .meeting-platform {
+            font-size: 0.875rem;
+            color: #78716c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meeting-link-section {
+            background: #faf5ff;
+            border: 2px dashed #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .meeting-link-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #78716c;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .meeting-link-value {
+            font-size: 0.875rem;
+            color: #5B4CE2;
+            font-weight: 500;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-copy-link {
+            padding: 0.25rem 0.5rem;
+            background: white;
+            border: 1px solid #d8b4fe;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-copy-link:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .meeting-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-meeting {
+            flex: 1;
+            min-width: 180px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-meeting.join {
+            background: linear-gradient(to right, #5B4CE2, #7c3aed);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-meeting.join:hover {
+            background: linear-gradient(to right, #4A3BB8, #6d28d9);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-meeting.reschedule {
+            background: white;
+            color: #5B4CE2;
+            border: 2px solid #5B4CE2;
+        }
+
+        .btn-meeting.reschedule:hover {
+            background: #faf5ff;
+        }
+
+        .btn-meeting.calendar {
+            background: white;
+            color: #78716c;
+            border: 2px solid #e7e5e4;
+        }
+
+        .btn-meeting.calendar:hover {
+            background: #f5f5f4;
+            border-color: #d6d3d1;
+        }
+
+        /* Calendar Slots */
+        .calendar-section {
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-header {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #581c87;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .calendar-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .calendar-day {
+            background: #faf5ff;
+            border: 2px solid #e9d5ff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            border-color: #d8b4fe;
+            box-shadow: 0 2px 4px rgba(91, 76, 226, 0.1);
+        }
+
+        .calendar-day-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e9d5ff;
+        }
+
+        .calendar-day-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #5B4CE2, #7c3aed);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day-info {
+            flex: 1;
+        }
+
+        .calendar-day-name {
+            font-weight: 600;
+            color: #1c1917;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day-date {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .calendar-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .slot-button {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5B4CE2;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slot-button:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+            transform: translateY(-1px);
+        }
+
+        .slot-button.selected {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .videocall-info-alert {
+            background: #dbeafe;
+            border: 2px solid #93c5fd;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .videocall-info-icon {
+            flex-shrink: 0;
+            color: #1e40af;
+        }
+
+        .videocall-info-content {
+            flex: 1;
+        }
+
+        .videocall-info-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 0.25rem;
+        }
+
+        .videocall-info-text {
+            font-size: 0.75rem;
+            color: #1e3a8a;
+            line-height: 1.5;
+        }
+
+        .selected-slot-preview {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .selected-slot-preview.active {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .selected-slot-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .selected-slot-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .btn-confirm-slot {
+            padding: 0.5rem 1.5rem;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-confirm-slot:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+        }
+
+        .status-badge {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(91, 76, 226, 0.1);
+            border: 1px solid rgba(91, 76, 226, 0.3);
+            border-radius: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .status-badge {
+                display: flex;
+            }
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #5B4CE2;
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .status-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #5B4CE2;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: #f5f5f4;
+        }
+
+        .btn-support {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #1c1917;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-support:hover {
+            background: #292524;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr 3fr;
+            }
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e7e5e4;
+            overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                position: sticky;
+                top: 6rem;
+            }
+        }
+
+        .progress-header {
+            padding: 1.5rem;
+            background: linear-gradient(to bottom right, #5B4CE2, #4A3BB8);
+            color: white;
+        }
+
+        .progress-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .progress-bar-bg {
+            flex: 1;
+            height: 0.5rem;
+            background: #3D2F9E;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #9D95F5, #C7C2FF);
+            transition: width 0.5s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        .timeline {
+            padding: 1rem;
+        }
+
+        .step-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.25rem;
+            background: white;
+            text-align: left;
+        }
+
+        .step-btn:hover:not(:disabled) {
+            background: #f5f5f4;
+        }
+
+        .step-btn.active {
+            background: #5B4CE2;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .step-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .step-icon {
+            flex-shrink: 0;
+        }
+
+        .step-icon.completed {
+            color: #22c55e;
+        }
+
+        .step-icon.current {
+            color: #5B4CE2;
+        }
+
+        .step-icon.current.active {
+            color: white;
+        }
+
+        .step-icon.pending {
+            color: #d6d3d1;
+        }
+
+        .step-info {
+            flex: 1;
+            color: #44403c;
+        }
+
+        .step-btn.active .step-info {
+            color: white;
+        }
+
+        .step-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .step-status {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .step-btn.active .step-status {
+            color: #d6d3d1;
+        }
+
+        .files-section {
+            padding: 1rem;
+            border-top: 1px solid #e7e5e4;
+        }
+
+        .files-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.75rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-item.available {
+            color: #44403c;
+        }
+
+        .file-item.unavailable {
+            color: #a8a29e;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e7e5e4;
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-container {
+            position: relative;
+            background: #1c1917;
+            aspect-ratio: 16/9;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-content {
+            text-align: center;
+        }
+
+        .play-button {
+            width: 5rem;
+            height: 5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-description {
+            font-size: 1.125rem;
+            color: #57534e;
+            line-height: 1.75;
+        }
+
+        .checklist-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #fafaf9;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+        }
+
+        .checklist-icon {
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .checklist-icon.done {
+            color: #16a34a;
+        }
+
+        .checklist-icon.pending {
+            color: #d6d3d1;
+        }
+
+        .checklist-text {
+            font-size: 0.875rem;
+        }
+
+        .checklist-text.done {
+            color: #44403c;
+            text-decoration: line-through;
+        }
+
+        .checklist-text.pending {
+            color: #1c1917;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        @media (min-width: 768px) {
+            .cta-button {
+                width: auto;
+            }
+        }
+
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .notes-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+        }
+
+        .btn-save {
+            padding: 0.5rem 1rem;
+            background: #5B4CE2;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #4A3BB8;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 8rem;
+            padding: 1rem;
+            border: 1px solid #d6d3d1;
+            border-radius: 0.75rem;
+            resize: none;
+            color: #44403c;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: #5B4CE2;
+            box-shadow: 0 0 0 3px rgba(91, 76, 226, 0.1);
+        }
+
+        .email-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+
+        .email-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .email-table-container {
+            overflow-x: auto;
+        }
+
+        .email-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .email-table thead {
+            background: #f5f5f4;
+            border-bottom: 1px solid #e7e5e4;
+        }
+
+        .email-table th {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #57534e;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .email-table tbody tr {
+            border-bottom: 1px solid #e7e5e4;
+            transition: background 0.2s;
+        }
+
+        .email-table tbody tr:hover {
+            background: #fafaf9;
+        }
+
+        .email-table td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .email-subject {
+            font-weight: 500;
+            color: #1c1917;
+        }
+
+        .email-date, .email-type {
+            color: #57534e;
+        }
+
+        .email-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .btn-view-email {
+            background: none;
+            border: none;
+            color: #5B4CE2;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-view-email:hover {
+            color: #4A3BB8;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">X</div>
-        <div>
-          <h1>Mi Tablero</h1>
-          <p id="subHeader">Proceso guiado · todo en un solo lugar</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="user-info-container">
+                    <div class="user-info">
+                        <span class="user-name" id="userName">Juan Pérez</span>
+                        <button class="btn-edit-user" onclick="openEditModal()">
+                            <i data-lucide="edit-2" style="width: 14px; height: 14px;"></i>
+                        </button>
+                    </div>
+                    <div class="user-email" id="userEmail">juan.perez@email.com</div>
+                    <h1 class="header-title">Mi Tablero</h1>
+                </div>
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <span class="status-text">Paso actual: <strong id="currentStepName">Pago</strong></span>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <button class="btn-icon" onclick="reloadStatus()">
+                    <i data-lucide="refresh-cw" style="width: 20px; height: 20px; color: #57534e;"></i>
+                </button>
+                <button class="btn-support">
+                    <i data-lucide="life-buoy" style="width: 16px; height: 16px;"></i>
+                    <span>Soporte</span>
+                </button>
+            </div>
         </div>
-      </div>
-
-      <div class="header-actions">
-        <div class="pill" title="Estado del proceso">
-          <span>🧭</span>
-          <span>Paso actual: <strong id="currentStepLabel">—</strong></span>
-        </div>
-        <button class="btn ghost" id="btnSupport" type="button">🆘 Soporte</button>
-        <button class="btn" id="btnRefresh" type="button">🔄 Actualizar</button>
-        <button class="btn primary" id="btnDemoAdvance" type="button" title="Solo para demo">
-          ⭐ Marcar paso como completado (Demo)
-        </button>
-      </div>
     </header>
 
-    <div class="grid">
-      <!-- Left: Timeline -->
-      <section class="card">
-        <div class="hd">
-          <h2>Proceso</h2>
-          <span class="badge pending" id="progressBadge">0/6</span>
-        </div>
-        <div class="bd">
-          <div class="timeline" id="timeline"></div>
-          <p class="hint" style="margin-top:12px;">
-            Tip: Haz clic en un paso para ver el video, checklist, notas y emails relacionados.
-          </p>
-        </div>
-      </section>
-
-      <!-- Middle: Step Detail -->
-      <main class="card">
-        <div class="hd">
-          <h2 id="stepTitle">—</h2>
-          <span class="badge" id="stepStatusBadge">—</span>
-        </div>
-
-        <div class="bd">
-          <div class="kpi-row">
-            <div class="kpi">
-              <div class="t">Acción principal</div>
-              <div class="v" id="ctaText">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Próximo</div>
-              <div class="v" id="nextText">—</div>
-            </div>
-            <div class="kpi">
-              <div class="t">Nota rápida</div>
-              <div class="v" id="tipText">—</div>
-            </div>
-          </div>
-
-          <div class="video" aria-label="Video explicativo del paso">
-            <iframe
-              id="stepVideo"
-              src=""
-              title="Video del paso"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-
-          <div class="section">
-            <h3>
-              ✅ Checklist del paso
-              <small id="checklistHint"></small>
-            </h3>
-            <ul class="checklist" id="checklist"></ul>
-
-            <div class="note-actions" style="margin-top:12px;">
-              <button class="btn primary" id="btnGoAction" type="button">Ir al paso</button>
-              <button class="btn" id="btnCopyLink" type="button">🔗 Copiar link del paso (demo)</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <h3>📝 Mis notas</h3>
-            <textarea id="notes" placeholder="Escribe aquí tus dudas o notas para este paso..."></textarea>
-            <div class="note-actions">
-              <button class="btn primary" id="btnSaveNotes" type="button">Guardar notas</button>
-              <button class="btn" id="btnClearNotes" type="button">Borrar</button>
-            </div>
-            <p class="hint" id="notesSavedHint"></p>
-          </div>
-
-          <div class="section">
-            <h3>📩 Emails enviados</h3>
-            <div style="overflow:auto;">
-              <table>
-                <thead>
-                  <tr>
-                    <th style="min-width:140px;">Fecha</th>
-                    <th style="min-width:200px;">Asunto</th>
-                    <th style="min-width:140px;">Tipo</th>
-                    <th style="min-width:120px;">Estado</th>
-                    <th style="min-width:120px;">Acción</th>
-                  </tr>
-                </thead>
-                <tbody id="emailTable"></tbody>
-              </table>
-            </div>
-            <p class="hint" id="emailHint"></p>
-          </div>
-        </div>
-      </main>
-
-      <!-- Right: Summary -->
-      <aside class="card right">
-        <div class="hd">
-          <h2>Resumen</h2>
-          <span class="badge" id="demoBadge">Modo: Demo</span>
-        </div>
-        <div class="bd">
-          <div class="progress">
-            <div class="bar" aria-label="Progreso">
-              <span id="progressBar"></span>
-            </div>
-            <div style="font-weight:900;" id="progressText">0%</div>
-          </div>
-
-          <div class="section" style="margin-top:0;">
-            <h3 style="margin-bottom:6px;">🎯 Próximo hito</h3>
-            <div style="font-weight:900;" id="nextMilestone">—</div>
-            <div class="hint" id="nextMilestoneHint">—</div>
-          </div>
-
-          <div class="section">
-            <h3 style="margin-bottom:6px;">📁 Archivos</h3>
-
-            <div class="file">
-              <div class="left">
-                <div class="dot">📄</div>
-                <div>
-                  <p class="nm">Contrato firmado</p>
-                  <div class="st" id="fileContract">No disponible</div>
+    <!-- Main Container -->
+    <div class="container">
+        <div class="grid">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="progress-header">
+                    <h2 class="progress-title">Progreso</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progressBar" style="width: 16.67%"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">1/6</span>
+                    </div>
                 </div>
-              </div>
-              <button class="mini-btn" type="button" disabled id="btnContractFile">Ver</button>
-            </div>
 
-            <div class="file">
-              <div class="left">
-                <div class="dot">📋</div>
-                <div>
-                  <p class="nm">PDF Discovery</p>
-                  <div class="st" id="fileDiscovery">No disponible</div>
+                <div class="timeline" id="timeline">
+                    <!-- Steps will be generated here -->
                 </div>
-              </div>
-              <button class="mini-btn" type="button" disabled id="btnDiscoveryFile">Ver</button>
-            </div>
 
-            <div class="file">
-              <div class="left">
-                <div class="dot">✅</div>
-                <div>
-                  <p class="nm">Resumen final</p>
-                  <div class="st" id="fileFinal">No disponible</div>
+                <div class="files-section">
+                    <h3 class="files-title">Archivos</h3>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Contrato de servicios</span>
+                    </div>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Discovery completado</span>
+                    </div>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Resumen final</span>
+                    </div>
                 </div>
-              </div>
-              <button class="mini-btn" type="button" disabled id="btnFinalFile">Ver</button>
-            </div>
+            </aside>
 
-            <p class="hint" style="margin-top:10px;">
-              Nota: En producción, estos botones apuntan a archivos reales (S3/Wix Media/Drive).
-            </p>
-          </div>
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Video and Content Card -->
+                <div class="card">
+                    <div class="video-container">
+                        <div class="video-placeholder">
+                            <div class="video-content">
+                                <button class="play-button">
+                                    <i data-lucide="play" style="width: 40px; height: 40px; color: white; margin-left: 4px;"></i>
+                                </button>
+                                <p class="video-text" id="videoText">Video explicativo - Confirma tu pago</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="content-header">
+                            <h2 class="content-title" id="contentTitle">Confirma tu pago</h2>
+                            <p class="content-description" id="contentDescription">
+                                Cuando se confirme el pago, activamos el contrato y el discovery. Esto nos permite preparar tu análisis.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="checklist-title">Checklist</h3>
+                            <div class="checklist" id="checklist">
+                                <!-- Checklist items will be generated here -->
+                            </div>
+                        </div>
+
+                        <div id="ctaContainer">
+                            <!-- CTA button will be generated here if applicable -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Card -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="notes-header">
+                            <h3 class="notes-title">Mis notas - <span id="notesStepName">Pago</span></h3>
+                            <button class="btn-save" onclick="saveNote()">Guardar</button>
+                        </div>
+                        <textarea 
+                            id="notesTextarea" 
+                            class="notes-textarea" 
+                            placeholder="Escribe aquí tus notas, dudas o recordatorios para este paso..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Email History Card -->
+                <div class="card">
+                    <div class="email-header">
+                        <h3 class="email-title">
+                            <i data-lucide="mail" style="width: 20px; height: 20px;"></i>
+                            Historial de Emails
+                        </h3>
+                    </div>
+                    <div class="email-table-container">
+                        <table class="email-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Asunto</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="email-date">2024-01-09 10:30</td>
+                                    <td class="email-subject">Bienvenido a tu proceso</td>
+                                    <td class="email-type">Bienvenida</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="email-date">2024-01-09 10:35</td>
+                                    <td class="email-subject">Próximo paso: Confirmación de pago</td>
+                                    <td class="email-type">Próximo paso</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="email-date">2024-01-08 15:20</td>
+                                    <td class="email-subject">Registro completado</td>
+                                    <td class="email-type">Confirmación</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
         </div>
-      </aside>
     </div>
-  </div>
 
-  <!-- Modal email preview -->
-  <div class="modal" id="modal">
-    <div class="modal-box">
-      <div class="modal-hd">
-        <div>
-          <strong id="modalSubject">Email</strong>
-          <div style="font-size:12px;color:var(--muted);font-weight:700;" id="modalMeta">—</div>
+    <!-- Demo Controls Panel -->
+    <div class="demo-controls hidden" id="demoControls">
+        <div class="demo-header">
+            <span class="demo-title">🎮 Panel Demo</span>
+            <button class="btn-toggle-demo" onclick="toggleDemoPanel()">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+            </button>
         </div>
-        <button class="btn" id="modalClose" type="button">✖ Cerrar</button>
-      </div>
-      <div class="modal-bd">
-        <div class="email-preview" id="modalBody"></div>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    /**
-     * TABLERO USUARIO (DUMMY)
-     * - Timeline con bloqueo de pasos futuros
-     * - Panel del paso: video, checklist, CTA, notas (localStorage), emails (mock)
-     * - Botón "Marcar paso completado" solo para demo
-     */
-
-    const STORAGE_KEY = "userDashboardDemo.v1";
-
-    const steps = [
-      {
-        id: "registro",
-        order: 1,
-        icon: "✓",
-        emoji: "🧾",
-        title: "Registro",
-        short: "Tu cuenta está creada.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Ver mi perfil (demo)", href: "#perfil" },
-        tip: "Verifica tu email y datos de contacto.",
-        checklist: [
-          { text: "Cuenta creada", sub: "Ya puedes acceder al tablero.", done: true },
-          { text: "Email verificado", sub: "Recomendado para recibir notificaciones.", done: false },
-          { text: "Datos básicos completos", sub: "Nombre, teléfono y preferencia de contacto.", done: false }
-        ]
-      },
-      {
-        id: "pago",
-        order: 2,
-        icon: "💳",
-        emoji: "💳",
-        title: "Pago",
-        short: "Confirma el pago para desbloquear contrato y discovery.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Ir a pagar (demo)", href: "#pago" },
-        tip: "Al confirmarse el pago, se habilitan Contrato y Discovery.",
-        checklist: [
-          { text: "Pago iniciado", sub: "Se generó tu enlace de pago.", done: false },
-          { text: "Pago confirmado", sub: "Recibimos confirmación del procesador.", done: false },
-          { text: "Email de bienvenida enviado", sub: "Incluye próximos pasos.", done: false }
-        ]
-      },
-      {
-        id: "contrato",
-        order: 3,
-        icon: "📄",
-        emoji: "📄",
-        title: "Contrato",
-        short: "Firma y recibe copia del acuerdo.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Firmar contrato (demo)", href: "#contrato" },
-        tip: "Sin contrato firmado, no avanzamos al Discovery.",
-        checklist: [
-          { text: "Contrato generado", sub: "Documento listo para firma.", done: false },
-          { text: "Contrato firmado", sub: "Tu firma fue registrada.", done: false },
-          { text: "Copia entregada", sub: "Recibes copia por email y aquí en el tablero.", done: false }
-        ]
-      },
-      {
-        id: "discovery",
-        order: 4,
-        icon: "📋",
-        emoji: "📋",
-        title: "Discovery",
-        short: "Completa la información para el análisis.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Completar Discovery (demo)", href: "#discovery" },
-        tip: "Puedes guardar y terminar luego. Mientras más completo, mejor.",
-        checklist: [
-          { text: "Formulario iniciado", sub: "Ya comenzaste el discovery.", done: false },
-          { text: "Información completa", sub: "Ingresos, gastos, activos y deudas.", done: false },
-          { text: "PDF enviado al equipo", sub: "Se comparte para revisión interna.", done: false }
-        ]
-      },
-      {
-        id: "videocall",
-        order: 5,
-        icon: "🎥",
-        emoji: "🎥",
-        title: "Video Call",
-        short: "Sesión para resultados y plan de acción.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Agendar llamada (demo)", href: "#videocall" },
-        tip: "Aquí se presentan hallazgos y próximos pasos.",
-        checklist: [
-          { text: "Discovery revisado", sub: "Confirmamos que todo esté listo.", done: false },
-          { text: "Llamada agendada", sub: "Fecha y hora confirmadas.", done: false },
-          { text: "Llamada completada", sub: "Se discutieron hallazgos y plan.", done: false }
-        ]
-      },
-      {
-        id: "cerrado",
-        order: 6,
-        icon: "✅",
-        emoji: "✅",
-        title: "Cerrado",
-        short: "Entrega final y próximos pasos.",
-        videoUrl: "https://www.youtube.com/embed/ysz5S6PUM-U?rel=0",
-        cta: { label: "Ver resumen final (demo)", href: "#cerrado" },
-        tip: "Se entrega el resumen final y tu hoja de ruta.",
-        checklist: [
-          { text: "Resumen final generado", sub: "Documento de resultados listo.", done: false },
-          { text: "Plan de acción entregado", sub: "Metas, prioridades y próximos pasos.", done: false },
-          { text: "Cierre confirmado", sub: "Proceso completo.", done: false }
-        ]
-      }
-    ];
-
-    const mockEmails = [
-      {
-        id: "e1",
-        stepId: "registro",
-        sentAt: "2026-01-09 10:12 AM",
-        subject: "Bienvenido · Tu tablero ya está listo",
-        type: "Bienvenida",
-        status: "sent",
-        body: `
-          <strong>Hola</strong>,<br/><br/>
-          Tu cuenta está activa y ya puedes ver tu proceso paso a paso en el tablero.<br/>
-          Próximo paso: <strong>Pago</strong> para desbloquear Contrato y Discovery.<br/><br/>
-          — Equipo`
-      },
-      {
-        id: "e2",
-        stepId: "pago",
-        sentAt: "2026-01-09 10:15 AM",
-        subject: "Enlace de pago disponible",
-        type: "Pago",
-        status: "sent",
-        body: `
-          Te compartimos tu enlace de pago. Una vez confirmado, se habilitan Contrato y Discovery.<br/><br/>
-          — Equipo`
-      },
-      {
-        id: "e3",
-        stepId: "contrato",
-        sentAt: "—",
-        subject: "Contrato listo para firma",
-        type: "Contrato",
-        status: "fail",
-        body: `
-          (Demo) Este email está marcado como fallido para mostrar el estado.<br/><br/>
-          — Equipo`
-      }
-    ];
-
-    // --- State ---
-    const defaultState = {
-      selectedStepId: "pago", // por tu ejemplo: Pago pendiente
-      currentStepId: "pago",
-      completed: { registro: true, pago: false, contrato: false, discovery: false, videocall: false, cerrado: false },
-      notes: {} // {stepId: "texto"}
-    };
-
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return structuredClone(defaultState);
-        const parsed = JSON.parse(raw);
-        return { ...structuredClone(defaultState), ...parsed };
-      }catch(e){
-        return structuredClone(defaultState);
-      }
-    }
-    function saveState(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    let state = loadState();
-
-    // --- Helpers ---
-    function getStep(id){ return steps.find(s => s.id === id); }
-
-    function computeLocks(){
-      // Lock: everything after currentStepId is locked
-      const currentIndex = steps.findIndex(s => s.id === state.currentStepId);
-      const locks = {};
-      steps.forEach((s, idx) => locks[s.id] = idx > currentIndex);
-      return locks;
-    }
-
-    function getStatus(stepId){
-      const locks = computeLocks();
-      if(state.completed[stepId]) return "completed";
-      if(locks[stepId]) return "locked";
-      // reachable but not completed
-      if(stepId === state.currentStepId) return "pending-active";
-      return "pending";
-    }
-
-    function statusBadge(status){
-      if(status === "completed") return { text:"Completado", cls:"ok" };
-      if(status === "locked") return { text:"Pendiente", cls:"locked" };
-      if(status === "pending-active") return { text:"Pendiente", cls:"pending" };
-      return { text:"Pendiente", cls:"pending" };
-    }
-
-    function nextStepId(){
-      const idx = steps.findIndex(s => s.id === state.currentStepId);
-      return steps[idx + 1]?.id || null;
-    }
-
-    function completedCount(){
-      return steps.reduce((acc,s)=> acc + (state.completed[s.id] ? 1 : 0), 0);
-    }
-
-    function percentProgress(){
-      return Math.round((completedCount() / steps.length) * 100);
-    }
-
-    // --- Render Timeline ---
-    function renderTimeline(){
-      const el = document.getElementById("timeline");
-      el.innerHTML = "";
-
-      const locks = computeLocks();
-
-      steps.forEach(step => {
-        const st = getStatus(step.id);
-        const badge = statusBadge(st);
-
-        const row = document.createElement("div");
-        row.className = "step" + (step.id === state.selectedStepId ? " active" : "");
-        row.setAttribute("role","button");
-        row.setAttribute("tabindex","0");
-
-        const disabled = locks[step.id] && !state.completed[step.id];
-        row.setAttribute("aria-disabled", disabled ? "true" : "false");
-
-        row.innerHTML = `
-          <div class="icon">${step.icon}</div>
-          <div class="meta">
-            <div class="name">
-              <span>${step.emoji} ${step.title}</span>
-              <span class="badge ${badge.cls}">${badge.text}</span>
+        <div class="demo-section">
+            <div class="demo-label">Establecer paso actual:</div>
+            <div class="demo-buttons">
+                <button class="btn-demo-step" onclick="setDemoStep('registro')">Registro</button>
+                <button class="btn-demo-step active" onclick="setDemoStep('pago')">Pago</button>
+                <button class="btn-demo-step" onclick="setDemoStep('contrato')">Contrato</button>
+                <button class="btn-demo-step" onclick="setDemoStep('discovery')">Discovery</button>
+                <button class="btn-demo-step" onclick="setDemoStep('videocall')">Video Call</button>
+                <button class="btn-demo-step" onclick="setDemoStep('cerrado')">Cerrado</button>
             </div>
-            <div class="desc">${step.short}</div>
-          </div>
-          <div class="lock">🔒</div>
-        `;
+        </div>
 
-        const onActivate = () => {
-          if(disabled) return;
-          state.selectedStepId = step.id;
-          saveState();
-          renderAll();
+        <div class="demo-section">
+            <div class="demo-label">Acciones rápidas:</div>
+            <button class="btn-demo-action" onclick="completeCurrentStep()">
+                ✓ Completar paso actual
+            </button>
+        </div>
+
+        <div class="demo-section">
+            <button class="btn-demo-action" onclick="simulateChecklist()">
+                📋 Simular checklist
+            </button>
+        </div>
+
+        <div class="demo-section">
+            <div class="demo-label">Discovery (solo si estás en ese paso):</div>
+            <button class="btn-demo-action" onclick="simulateDiscoveryProgress()">
+                ⏩ Simular progreso Discovery
+            </button>
+        </div>
+
+        <div class="demo-section">
+            <div class="demo-label">Video Call (solo si estás en ese paso):</div>
+            <button class="btn-demo-action" onclick="simulateMeetingCompletion()">
+                ✅ Marcar llamada completada
+            </button>
+        </div>
+
+        <div class="demo-section">
+            <button class="btn-demo-action" onclick="resetProgress()">
+                🔄 Reiniciar todo
+            </button>
+        </div>
+
+        <div class="demo-info">
+            Panel de pruebas para visualizar cada etapa del proceso
+        </div>
+    </div>
+
+    <!-- Demo FAB Button -->
+    <button class="demo-fab" id="demoFab" onclick="toggleDemoPanel()">
+        <i data-lucide="settings" style="width: 24px; height: 24px;"></i>
+    </button>
+
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar información</h2>
+                <p class="modal-subtitle">Actualiza tu nombre y email registrado</p>
+            </div>
+            <form class="modal-form" onsubmit="saveUserInfo(event)">
+                <div class="form-group">
+                    <label class="form-label" for="editUserName">Nombre completo</label>
+                    <input 
+                        type="text" 
+                        id="editUserName" 
+                        class="form-input" 
+                        placeholder="Ej: Juan Pérez"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editUserEmail">Email</label>
+                    <input 
+                        type="email" 
+                        id="editUserEmail" 
+                        class="form-input" 
+                        placeholder="Ej: juan.perez@email.com"
+                        required
+                    >
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-modal btn-modal-secondary" onclick="closeEditModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-modal btn-modal-primary">
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const steps = [
+            { id: 'registro', name: 'Registro', icon: 'check-circle', status: 'completed', order: 1 },
+            { id: 'pago', name: 'Pago', icon: 'credit-card', status: 'current', order: 2 },
+            { id: 'contrato', name: 'Contrato', icon: 'file-text', status: 'pending', order: 3 },
+            { id: 'discovery', name: 'Discovery', icon: 'message-square', status: 'pending', order: 4 },
+            { id: 'videocall', name: 'Video Call', icon: 'video', status: 'pending', order: 5 },
+            { id: 'cerrado', name: 'Cerrado', icon: 'award', status: 'pending', order: 6 }
+        ];
+
+        const stepContent = {
+            registro: {
+                title: '¡Bienvenido a tu tablero!',
+                description: 'Listo: ya tienes acceso a tu tablero. El próximo paso es confirmar el pago para desbloquear contrato y discovery.',
+                checklist: [
+                    { item: 'Cuenta creada exitosamente', done: true },
+                    { item: 'Email de bienvenida enviado', done: true },
+                    { item: 'Acceso al tablero habilitado', done: true }
+                ],
+                cta: null
+            },
+            pago: {
+                title: 'Confirma tu pago',
+                description: 'Cuando se confirme el pago, activamos el contrato y el discovery. Esto nos permite preparar tu análisis.',
+                checklist: [
+                    { item: 'Confirmación de pago recibida', done: false },
+                    { item: 'Acceso a Discovery habilitado', done: false },
+                    { item: 'Email de confirmación enviado', done: false }
+                ],
+                cta: { text: 'Ir a pagar', action: 'payment' }
+            },
+            contrato: {
+                title: 'Firma tu contrato',
+                description: 'Aquí firmas y recibes copia. Esto define alcance, tiempos, y privacidad. Sin contrato firmado no avanzamos al discovery.',
+                checklist: [
+                    { item: 'Contrato generado', done: true },
+                    { item: 'Firma digital completada', done: false },
+                    { item: 'Copia enviada a tu email', done: false }
+                ],
+                cta: { text: 'Firmar contrato', action: 'sign' },
+                documents: [
+                    { 
+                        name: 'Contrato de Servicios Profesionales',
+                        size: '245 KB',
+                        pages: 8,
+                        status: 'pending',
+                        url: '#'
+                    },
+                    { 
+                        name: 'Anexo A - Alcance del Proyecto',
+                        size: '128 KB',
+                        pages: 3,
+                        status: 'pending',
+                        url: '#'
+                    },
+                    { 
+                        name: 'Política de Privacidad y NDA',
+                        size: '156 KB',
+                        pages: 5,
+                        status: 'pending',
+                        url: '#'
+                    }
+                ]
+            },
+            discovery: {
+                title: 'Completa el Discovery',
+                description: 'Este formulario es la base del análisis. Mientras más completo, mejor. Si te falta info, puedes guardarlo y volver.',
+                checklist: [
+                    { item: 'Formulario iniciado', done: false },
+                    { item: 'Información básica completada', done: false },
+                    { item: 'Discovery enviado para revisión', done: false }
+                ],
+                cta: { text: 'Completar Discovery', action: 'discovery' },
+                discoveryStatus: {
+                    status: 'not_started', // not_started, in_progress, completed
+                    progress: 0, // 0-100
+                    lastUpdated: null,
+                    link: 'https://xserbia.github.io/xavierserbia-site/discovery-form-claude.html',
+                    summary: {
+                        businessName: '',
+                        industry: '',
+                        currentRevenue: '',
+                        goals: ''
+                    }
+                }
+            },
+            videocall: {
+                title: 'Agenda tu Video Call',
+                description: 'Con el discovery revisado, coordinamos la llamada. Aquí se presentan hallazgos, plan de acción y próximos pasos.',
+                checklist: [
+                    { item: 'Agenda sincronizada', done: false },
+                    { item: 'Llamada agendada', done: false },
+                    { item: 'Recordatorio enviado', done: false }
+                ],
+                cta: { text: 'Agendar llamada', action: 'schedule' },
+                meetingStatus: {
+                    status: 'not_scheduled', // not_scheduled, scheduled, completed
+                    scheduledDate: null,
+                    scheduledTime: null,
+                    meetingLink: null,
+                    meetingPlatform: 'Google Meet', // Zoom, Google Meet, Teams
+                    duration: '60 minutos',
+                    availableSlots: [
+                        { date: '2024-01-15', day: 'Lunes', slots: ['10:00 AM', '2:00 PM', '4:00 PM'] },
+                        { date: '2024-01-16', day: 'Martes', slots: ['11:00 AM', '3:00 PM'] },
+                        { date: '2024-01-17', day: 'Miércoles', slots: ['9:00 AM', '1:00 PM', '5:00 PM'] },
+                        { date: '2024-01-18', day: 'Jueves', slots: ['10:00 AM', '2:00 PM'] },
+                        { date: '2024-01-19', day: 'Viernes', slots: ['11:00 AM', '3:00 PM', '4:00 PM'] }
+                    ],
+                    meetingNotes: '',
+                    recordingUrl: null
+                }
+            },
+            cerrado: {
+                title: 'Proceso completado',
+                description: 'Se entrega el resumen final y próximos pasos. Si tienes seguimiento mensual, aquí inicia el ciclo de check-ins.',
+                checklist: [
+                    { item: 'Resumen final entregado', done: false },
+                    { item: 'Plan de acción definido', done: false },
+                    { item: 'Seguimiento programado', done: false }
+                ],
+                cta: { text: 'Descargar resumen', action: 'download' }
+            }
         };
 
-        row.addEventListener("click", onActivate);
-        row.addEventListener("keydown", (e) => {
-          if(e.key === "Enter" || e.key === " "){
-            e.preventDefault();
-            onActivate();
-          }
+        let currentStep = 'pago';
+        let selectedStep = 'pago';
+        let notes = {};
+        let userInfo = {
+            name: 'Juan Pérez',
+            email: 'juan.perez@email.com'
+        };
+
+        // Initialize
+        function init() {
+            loadUserInfo();
+            loadNotes();
+            renderTimeline();
+            updateProgress();
+            updateContent();
+            lucide.createIcons();
+        }
+
+        // Load user info from localStorage
+        function loadUserInfo() {
+            const savedUserInfo = localStorage.getItem('userDashboardInfo');
+            if (savedUserInfo) {
+                userInfo = JSON.parse(savedUserInfo);
+            }
+            updateUserDisplay();
+        }
+
+        // Update user info display
+        function updateUserDisplay() {
+            document.getElementById('userName').textContent = userInfo.name;
+            document.getElementById('userEmail').textContent = userInfo.email;
+        }
+
+        // Open edit modal
+        function openEditModal() {
+            document.getElementById('editUserName').value = userInfo.name;
+            document.getElementById('editUserEmail').value = userInfo.email;
+            document.getElementById('editUserModal').classList.add('active');
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editUserModal').classList.remove('active');
+        }
+
+        // Save user info
+        function saveUserInfo(event) {
+            event.preventDefault();
+            
+            userInfo.name = document.getElementById('editUserName').value;
+            userInfo.email = document.getElementById('editUserEmail').value;
+            
+            localStorage.setItem('userDashboardInfo', JSON.stringify(userInfo));
+            updateUserDisplay();
+            closeEditModal();
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('editUserModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
         });
 
-        el.appendChild(row);
-      });
-
-      // progress badge
-      document.getElementById("progressBadge").textContent = `${completedCount()}/${steps.length}`;
-    }
-
-    // --- Render Detail ---
-    function renderDetail(){
-      const step = getStep(state.selectedStepId) || getStep(state.currentStepId) || steps[0];
-      const st = getStatus(step.id);
-      const b = statusBadge(st);
-
-      document.getElementById("stepTitle").textContent = `${step.emoji} ${step.title}`;
-      const stepBadge = document.getElementById("stepStatusBadge");
-      stepBadge.textContent = b.text;
-      stepBadge.className = `badge ${b.cls}`;
-
-      // header current step label
-      const currentStep = getStep(state.currentStepId);
-      document.getElementById("currentStepLabel").textContent = currentStep ? currentStep.title : "—";
-
-      // KPIs
-      document.getElementById("ctaText").textContent = step.cta.label;
-      const nxt = nextStepId();
-      document.getElementById("nextText").textContent = nxt ? getStep(nxt).title : "—";
-      document.getElementById("tipText").textContent = step.tip;
-
-      // Video
-      document.getElementById("stepVideo").src = step.videoUrl;
-
-      // Checklist (marca done si step completado => marca todos como done; si no, muestra los done del blueprint)
-      const ul = document.getElementById("checklist");
-      ul.innerHTML = "";
-      const completed = !!state.completed[step.id];
-      step.checklist.forEach((c, idx) => {
-        const isDone = completed ? true : !!c.done;
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <div class="tick ${isDone ? "done" : ""}">${isDone ? "✓" : ""}</div>
-          <div>
-            <div class="txt">${c.text}</div>
-            <div class="sub">${c.sub}</div>
-          </div>
-        `;
-        ul.appendChild(li);
-      });
-      document.getElementById("checklistHint").textContent =
-        completed ? "Todo listo en este paso." : "Marca completado (demo) cuando termines.";
-
-      // CTA button (demo)
-      const btnGo = document.getElementById("btnGoAction");
-      btnGo.textContent = step.cta.label;
-      btnGo.onclick = () => {
-        alert(`(Demo) Irías a: ${step.cta.href}\nEn producción: abrir link real del paso.`);
-      };
-
-      // Copy link (demo)
-      document.getElementById("btnCopyLink").onclick = async () => {
-        const fakeLink = `${location.origin}${location.pathname}#${step.id}`;
-        try{
-          await navigator.clipboard.writeText(fakeLink);
-          alert("Link copiado (demo): " + fakeLink);
-        }catch(e){
-          prompt("Copia el link (demo):", fakeLink);
+        // ===== DEMO CONTROLS =====
+        
+        // Toggle demo panel
+        function toggleDemoPanel() {
+            const panel = document.getElementById('demoControls');
+            const fab = document.getElementById('demoFab');
+            
+            panel.classList.toggle('hidden');
+            fab.classList.toggle('hidden');
+            
+            lucide.createIcons();
         }
-      };
 
-      // Notes
-      const notesEl = document.getElementById("notes");
-      notesEl.value = state.notes[step.id] || "";
-      document.getElementById("notesSavedHint").textContent = "";
+        // Set current step for demo
+        function setDemoStep(stepId) {
+            currentStep = stepId;
+            selectedStep = stepId;
+            
+            // Update active button
+            document.querySelectorAll('.btn-demo-step').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update UI
+            renderTimeline();
+            updateProgress();
+            updateContent();
+            
+            // Update note textarea
+            document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+        }
 
-      document.getElementById("btnSaveNotes").onclick = () => {
-        state.notes[step.id] = notesEl.value.trim();
-        saveState();
-        document.getElementById("notesSavedHint").textContent = "✅ Notas guardadas en este navegador (localStorage).";
-      };
-      document.getElementById("btnClearNotes").onclick = () => {
-        notesEl.value = "";
-        delete state.notes[step.id];
-        saveState();
-        document.getElementById("notesSavedHint").textContent = "🗑️ Notas borradas.";
-      };
+        // Complete current step
+        function completeCurrentStep() {
+            const currentIndex = steps.findIndex(s => s.id === currentStep);
+            
+            if (currentIndex < steps.length - 1) {
+                // Move to next step
+                currentStep = steps[currentIndex + 1].id;
+                selectedStep = currentStep;
+                
+                // Update active button in demo panel
+                updateDemoButtons();
+                
+                // Update UI
+                renderTimeline();
+                updateProgress();
+                updateContent();
+                
+                // Update note textarea
+                document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+                
+                // Show notification
+                showNotification('¡Paso completado! Avanzando al siguiente paso');
+            } else {
+                showNotification('¡Proceso completado! 🎉');
+            }
+        }
 
-      // Emails (filtra por step seleccionado + pasos anteriores)
-      renderEmails(step.id);
-    }
+        // Simulate checklist completion
+        function simulateChecklist() {
+            const content = stepContent[selectedStep];
+            
+            // Toggle checklist items
+            content.checklist.forEach(item => {
+                item.done = !item.done;
+            });
+            
+            // Update UI
+            updateContent();
+            
+            showNotification('Checklist actualizado');
+        }
 
-    function renderEmails(selectedStepId){
-      const tbody = document.getElementById("emailTable");
-      tbody.innerHTML = "";
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('¿Estás seguro de reiniciar todo el progreso?')) {
+                // Reset to first step
+                currentStep = 'registro';
+                selectedStep = 'registro';
+                
+                // Reset all checklists
+                Object.keys(stepContent).forEach(key => {
+                    stepContent[key].checklist.forEach(item => {
+                        item.done = false;
+                    });
+                });
+                
+                // Reset registro checklist to completed
+                stepContent.registro.checklist.forEach(item => {
+                    item.done = true;
+                });
+                
+                // Reset contract documents to pending
+                if (stepContent.contrato.documents) {
+                    stepContent.contrato.documents.forEach(doc => {
+                        doc.status = 'pending';
+                    });
+                }
+                
+                // Reset contract checklist
+                stepContent.contrato.checklist[0].done = true; // Contrato generado
+                stepContent.contrato.checklist[1].done = false; // Firma digital
+                stepContent.contrato.checklist[2].done = false; // Copia enviada
+                
+                // Reset discovery status
+                if (stepContent.discovery.discoveryStatus) {
+                    stepContent.discovery.discoveryStatus.status = 'not_started';
+                    stepContent.discovery.discoveryStatus.progress = 0;
+                    stepContent.discovery.discoveryStatus.lastUpdated = null;
+                    stepContent.discovery.discoveryStatus.summary = {
+                        businessName: '',
+                        industry: '',
+                        currentRevenue: '',
+                        goals: ''
+                    };
+                }
+                
+                // Reset videocall status
+                if (stepContent.videocall.meetingStatus) {
+                    stepContent.videocall.meetingStatus.status = 'not_scheduled';
+                    stepContent.videocall.meetingStatus.scheduledDate = null;
+                    stepContent.videocall.meetingStatus.scheduledTime = null;
+                    stepContent.videocall.meetingStatus.meetingLink = null;
+                    stepContent.videocall.meetingStatus.recordingUrl = null;
+                }
+                
+                // Update demo buttons
+                updateDemoButtons();
+                
+                // Update UI
+                renderTimeline();
+                updateProgress();
+                updateContent();
+                
+                // Update note textarea
+                document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+                
+                showNotification('Progreso reiniciado');
+            }
+        }
 
-      const selectedIdx = steps.findIndex(s => s.id === selectedStepId);
-      const allowedStepIds = new Set(steps.slice(0, selectedIdx + 1).map(s => s.id));
+        // Update demo panel buttons
+        function updateDemoButtons() {
+            document.querySelectorAll('.btn-demo-step').forEach(btn => {
+                btn.classList.remove('active');
+                
+                const stepName = btn.textContent.toLowerCase().trim();
+                const stepMatch = steps.find(s => s.name.toLowerCase() === stepName);
+                
+                if (stepMatch && stepMatch.id === currentStep) {
+                    btn.classList.add('active');
+                }
+            });
+        }
 
-      const rows = mockEmails.filter(e => allowedStepIds.has(e.stepId));
+        // Show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: #5B4CE2;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+                z-index: 1001;
+                font-weight: 500;
+                font-size: 0.875rem;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
 
-      if(rows.length === 0){
-        document.getElementById("emailHint").textContent = "Aún no hay emails registrados para este paso.";
-      }else{
-        document.getElementById("emailHint").textContent = "Mostrando emails del paso seleccionado y anteriores.";
-      }
+        // ===== SIGNATURE CANVAS FUNCTIONS =====
+        let canvas, ctx;
+        let isDrawing = false;
+        let hasSignature = false;
 
-      rows.forEach(email => {
-        const tr = document.createElement("tr");
-        const tagClass = email.status === "sent" ? "sent" : "fail";
-        const tagText = email.status === "sent" ? "Enviado" : "Fallido";
+        function initSignatureCanvas() {
+            canvas = document.getElementById('signatureCanvas');
+            if (!canvas) return;
+            
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            // Set drawing style
+            ctx.strokeStyle = '#1c1917';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
 
-        tr.innerHTML = `
-          <td>${email.sentAt}</td>
-          <td><strong>${escapeHtml(email.subject)}</strong></td>
-          <td>${escapeHtml(email.type)}</td>
-          <td><span class="tag ${tagClass}">${tagText}</span></td>
-          <td><button class="mini-btn" type="button" data-email="${email.id}">Ver</button></td>
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+            hasSignature = true;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        }
+
+        function handleTouchMove(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.stroke();
+            hasSignature = true;
+        }
+
+        function clearSignature() {
+            if (!canvas) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSignature = false;
+            showNotification('Firma borrada');
+        }
+
+        function signDocuments() {
+            if (!hasSignature) {
+                showNotification('⚠️ Por favor dibuja tu firma primero');
+                return;
+            }
+            
+            // Mark all documents as signed
+            const content = stepContent.contrato;
+            content.documents.forEach(doc => {
+                doc.status = 'signed';
+            });
+            
+            // Update checklist
+            content.checklist[1].done = true; // Firma digital completada
+            content.checklist[2].done = true; // Copia enviada
+            
+            // Refresh content
+            updateContent();
+            
+            showNotification('✅ ¡Documentos firmados exitosamente! Ya puedes descargar tus copias');
+        }
+
+        // ===== DOCUMENT FUNCTIONS =====
+        function previewDocument(index) {
+            const doc = stepContent.contrato.documents[index];
+            showNotification(`📄 Abriendo vista previa: ${doc.name}`);
+            
+            // En producción aquí se abriría el PDF en un modal o nueva ventana
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción se mostraría el PDF completo.');
+            }, 1500);
+        }
+
+        function downloadDocument(index) {
+            const doc = stepContent.contrato.documents[index];
+            showNotification(`⬇️ Descargando: ${doc.name}`);
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Documento descargado correctamente');
+            }, 1000);
+        }
+
+        // ===== DISCOVERY FUNCTIONS =====
+        
+        // Open discovery form in new tab
+        function openDiscoveryForm() {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            // Open the external form
+            window.open(ds.link, '_blank');
+            
+            showNotification('🚀 Abriendo formulario Discovery en nueva pestaña');
+            
+            // If not started, mark as in progress
+            if (ds.status === 'not_started') {
+                setTimeout(() => {
+                    ds.status = 'in_progress';
+                    ds.progress = 10;
+                    ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    // Update checklist
+                    stepContent.discovery.checklist[0].done = true; // Formulario iniciado
+                    
+                    updateContent();
+                    showNotification('✓ Discovery iniciado - Progreso guardado automáticamente');
+                }, 2000);
+            }
+        }
+
+        // Simulate discovery completion (for demo)
+        function simulateDiscoveryCompletion() {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            // Mark as completed
+            ds.status = 'completed';
+            ds.progress = 100;
+            ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Add dummy summary data
+            ds.summary = {
+                businessName: 'Tech Solutions Inc.',
+                industry: 'Tecnología y Software',
+                currentRevenue: '$500K - $1M anuales',
+                goals: 'Aumentar conversión web en 30%, optimizar funnel de ventas, implementar automatización de marketing'
+            };
+            
+            // Update checklist
+            stepContent.discovery.checklist[0].done = true; // Formulario iniciado
+            stepContent.discovery.checklist[1].done = true; // Información básica completada
+            stepContent.discovery.checklist[2].done = true; // Discovery enviado
+            
+            updateContent();
+            showNotification('✅ Discovery completado - Respuestas enviadas para revisión');
+        }
+
+        // Simulate progress update (could be called from external form via postMessage)
+        function updateDiscoveryProgress(progress) {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            ds.progress = progress;
+            ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Update checklist based on progress
+            if (progress >= 30) {
+                stepContent.discovery.checklist[0].done = true;
+            }
+            if (progress >= 70) {
+                stepContent.discovery.checklist[1].done = true;
+            }
+            if (progress === 100) {
+                ds.status = 'completed';
+                stepContent.discovery.checklist[2].done = true;
+            }
+            
+            updateContent();
+        }
+
+        // Simulate discovery progress for demo
+        function simulateDiscoveryProgress() {
+            if (selectedStep !== 'discovery') {
+                showNotification('⚠️ Primero selecciona el paso Discovery');
+                return;
+            }
+            
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            if (ds.status === 'not_started') {
+                // Start it
+                ds.status = 'in_progress';
+                ds.progress = 35;
+                ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                stepContent.discovery.checklist[0].done = true;
+                updateContent();
+                showNotification('📝 Discovery iniciado - Progreso: 35%');
+            } else if (ds.status === 'in_progress' && ds.progress < 100) {
+                // Advance progress
+                ds.progress = Math.min(ds.progress + 30, 100);
+                ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                if (ds.progress >= 70) {
+                    stepContent.discovery.checklist[1].done = true;
+                }
+                
+                if (ds.progress === 100) {
+                    ds.status = 'completed';
+                    stepContent.discovery.checklist[2].done = true;
+                    ds.summary = {
+                        businessName: 'Tech Solutions Inc.',
+                        industry: 'Tecnología y Software',
+                        currentRevenue: '$500K - $1M anuales',
+                        goals: 'Aumentar conversión web en 30%, optimizar funnel de ventas, implementar automatización de marketing'
+                    };
+                    showNotification('✅ Discovery completado - 100%');
+                } else {
+                    showNotification(`📝 Progreso actualizado - ${ds.progress}%`);
+                }
+                
+                updateContent();
+            } else {
+                showNotification('✓ El Discovery ya está completado');
+            }
+        }
+
+        // ===== VIDEOCALL FUNCTIONS =====
+        let selectedSlotData = null;
+
+        // Select a time slot
+        function selectSlot(button) {
+            // Remove previous selection
+            document.querySelectorAll('.slot-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select current slot
+            button.classList.add('selected');
+            
+            // Store slot data
+            selectedSlotData = {
+                date: button.getAttribute('data-date'),
+                day: button.getAttribute('data-day'),
+                time: button.getAttribute('data-time')
+            };
+            
+            // Show preview
+            const preview = document.getElementById('selectedSlotPreview');
+            const text = document.getElementById('selectedSlotText');
+            text.textContent = `${selectedSlotData.day}, ${selectedSlotData.date} a las ${selectedSlotData.time}`;
+            preview.classList.add('active');
+            
+            lucide.createIcons();
+        }
+
+        // Confirm schedule
+        function confirmSchedule() {
+            if (!selectedSlotData) {
+                showNotification('⚠️ Por favor selecciona un horario');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            // Update meeting status
+            ms.status = 'scheduled';
+            ms.scheduledDate = `${selectedSlotData.day}, ${selectedSlotData.date}`;
+            ms.scheduledTime = selectedSlotData.time;
+            ms.meetingLink = 'https://meet.google.com/abc-defg-hij'; // Dummy link
+            
+            // Update checklist
+            stepContent.videocall.checklist[0].done = true; // Agenda sincronizada
+            stepContent.videocall.checklist[1].done = true; // Llamada agendada
+            stepContent.videocall.checklist[2].done = true; // Recordatorio enviado
+            
+            // Refresh content
+            updateContent();
+            
+            showNotification('✅ Videollamada agendada exitosamente! El link ha sido enviado a tu email');
+        }
+
+        // Copy meeting link
+        function copyMeetingLink() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.meetingLink) {
+                // Copy to clipboard
+                navigator.clipboard.writeText(ms.meetingLink).then(() => {
+                    showNotification('📋 Link copiado al portapapeles');
+                }).catch(() => {
+                    showNotification('⚠️ No se pudo copiar el link');
+                });
+            }
+        }
+
+        // Join meeting
+        function joinMeeting() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.meetingLink) {
+                showNotification('🚀 Abriendo videollamada...');
+                
+                // Open meeting link
+                window.open(ms.meetingLink, '_blank');
+                
+                setTimeout(() => {
+                    showNotification('💡 Asegúrate de permitir el acceso a cámara y micrófono');
+                }, 2000);
+            }
+        }
+
+        // Add to calendar
+        function addToCalendar() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            showNotification('📅 Generando evento de calendario...');
+            
+            // En producción aquí se generaría un archivo .ics o se usaría la API de Google Calendar
+            setTimeout(() => {
+                showNotification('✓ Evento agregado a tu calendario');
+            }, 1500);
+        }
+
+        // Show rescheduling
+        function showRescheduling() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            // Reset to not_scheduled to show calendar again
+            ms.status = 'not_scheduled';
+            ms.scheduledDate = null;
+            ms.scheduledTime = null;
+            ms.meetingLink = null;
+            
+            // Reset checklist
+            stepContent.videocall.checklist[1].done = false; // Llamada agendada
+            stepContent.videocall.checklist[2].done = false; // Recordatorio enviado
+            
+            updateContent();
+            showNotification('📅 Puedes seleccionar un nuevo horario');
+        }
+
+        // Download recording (for completed meetings)
+        function downloadRecording() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            showNotification('⬇️ Descargando grabación de la videollamada...');
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Grabación descargada correctamente');
+            }, 1500);
+        }
+
+        // Simulate meeting completion (for demo)
+        function simulateMeetingCompletion() {
+            if (selectedStep !== 'videocall') {
+                showNotification('⚠️ Primero selecciona el paso Video Call');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.status !== 'scheduled') {
+                showNotification('⚠️ Primero agenda una videollamada');
+                return;
+            }
+            
+            // Mark as completed
+            ms.status = 'completed';
+            ms.recordingUrl = 'https://example.com/recording.mp4'; // Dummy URL
+            
+            updateContent();
+            showNotification('✅ Videollamada marcada como completada');
+        }
+
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+            }
         `;
-        tbody.appendChild(tr);
-      });
+        document.head.appendChild(style);
 
-      // bind preview buttons
-      tbody.querySelectorAll("button[data-email]").forEach(btn => {
-        btn.addEventListener("click", () => openEmail(btn.getAttribute("data-email")));
-      });
-    }
+        // Load notes from localStorage
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('userDashboardNotes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+            }
+        }
 
-    // --- Summary sidebar ---
-    function renderSummary(){
-      const pct = percentProgress();
-      document.getElementById("progressText").textContent = `${pct}%`;
-      document.getElementById("progressBar").style.width = `${pct}%`;
+        // Render timeline
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
 
-      const nxt = nextStepId();
-      const nextLabel = nxt ? getStep(nxt).title : "—";
-      document.getElementById("nextMilestone").textContent = getStep(state.currentStepId).title;
-      document.getElementById("nextMilestoneHint").textContent =
-        nxt ? `Después de completar este paso, sigue: ${nextLabel}` : "Proceso finalizado.";
+            steps.forEach(step => {
+                const status = getStepStatus(step);
+                const accessible = isStepAccessible(step);
+                
+                const button = document.createElement('button');
+                button.className = 'step-btn';
+                if (selectedStep === step.id) button.classList.add('active');
+                if (!accessible) button.disabled = true;
+                button.onclick = () => selectStep(step.id);
 
-      // Files availability logic (demo): enable when step completed
-      const contractDone = state.completed["contrato"];
-      const discoveryDone = state.completed["discovery"];
-      const finalDone = state.completed["cerrado"];
+                const iconClass = status === 'completed' ? 'completed' : 
+                                 status === 'current' ? 'current' : 'pending';
+                
+                const iconName = status === 'completed' ? 'check-circle' :
+                                status === 'pending' && !accessible ? 'lock' : step.icon;
 
-      document.getElementById("fileContract").textContent = contractDone ? "Disponible (demo)" : "No disponible";
-      document.getElementById("fileDiscovery").textContent = discoveryDone ? "Disponible (demo)" : "No disponible";
-      document.getElementById("fileFinal").textContent = finalDone ? "Disponible (demo)" : "No disponible";
+                button.innerHTML = `
+                    <div class="step-icon ${iconClass} ${selectedStep === step.id ? 'active' : ''}">
+                        <i data-lucide="${iconName}" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="step-info">
+                        <div class="step-name">${step.name}</div>
+                        <div class="step-status">${status === 'completed' ? 'Completado' : status === 'current' ? 'En progreso' : 'Pendiente'}</div>
+                    </div>
+                    ${selectedStep === step.id ? '<i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>' : ''}
+                `;
 
-      const btnContract = document.getElementById("btnContractFile");
-      btnContract.disabled = !contractDone;
-      btnContract.onclick = () => alert("(Demo) Abrirías el PDF del contrato.");
+                timeline.appendChild(button);
+            });
 
-      const btnDiscovery = document.getElementById("btnDiscoveryFile");
-      btnDiscovery.disabled = !discoveryDone;
-      btnDiscovery.onclick = () => alert("(Demo) Abrirías el PDF del Discovery.");
+            lucide.createIcons();
+        }
 
-      const btnFinal = document.getElementById("btnFinalFile");
-      btnFinal.disabled = !finalDone;
-      btnFinal.onclick = () => alert("(Demo) Abrirías el resumen final.");
-    }
+        // Check if step is accessible
+        function isStepAccessible(step) {
+            const currentStepIndex = steps.findIndex(s => s.id === currentStep);
+            const stepIndex = steps.findIndex(s => s.id === step.id);
+            return stepIndex <= currentStepIndex;
+        }
 
-    // --- Demo: advance current step ---
-    function advanceCurrentStepDemo(){
-      const idx = steps.findIndex(s => s.id === state.currentStepId);
-      const current = steps[idx];
-      if(!current) return;
+        // Get step status
+        function getStepStatus(step) {
+            const currentStepIndex = steps.findIndex(s => s.id === currentStep);
+            const stepIndex = steps.findIndex(s => s.id === step.id);
+            
+            if (stepIndex < currentStepIndex) return 'completed';
+            if (stepIndex === currentStepIndex) return 'current';
+            return 'pending';
+        }
 
-      state.completed[current.id] = true;
+        // Select step
+        function selectStep(stepId) {
+            if (!isStepAccessible(steps.find(s => s.id === stepId))) return;
+            
+            selectedStep = stepId;
+            renderTimeline();
+            updateContent();
+            
+            // Update note textarea
+            document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+        }
 
-      // move to next if exists
-      const next = steps[idx + 1];
-      if(next){
-        state.currentStepId = next.id;
-        // auto select next to show it
-        state.selectedStepId = next.id;
-      }else{
-        state.selectedStepId = current.id;
-      }
+        // Update progress
+        function updateProgress() {
+            const completedSteps = steps.filter(s => getStepStatus(s) === 'completed').length;
+            const progressPercent = (completedSteps / steps.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `${completedSteps}/${steps.length}`;
+        }
 
-      saveState();
-      renderAll();
-    }
+        // Update content
+        function updateContent() {
+            const content = stepContent[selectedStep];
+            const stepName = steps.find(s => s.id === selectedStep).name;
+            
+            document.getElementById('currentStepName').textContent = steps.find(s => s.id === currentStep).name;
+            document.getElementById('videoText').textContent = `Video explicativo - ${content.title}`;
+            document.getElementById('contentTitle').textContent = content.title;
+            document.getElementById('contentDescription').textContent = content.description;
+            document.getElementById('notesStepName').textContent = stepName;
+            
+            // Render checklist
+            const checklist = document.getElementById('checklist');
+            checklist.innerHTML = '';
+            content.checklist.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'checklist-item';
+                div.innerHTML = `
+                    <div class="checklist-icon ${item.done ? 'done' : 'pending'}">
+                        <i data-lucide="${item.done ? 'check-circle' : 'circle'}" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span class="checklist-text ${item.done ? 'done' : 'pending'}">${item.item}</span>
+                `;
+                checklist.appendChild(div);
+            });
+            
+            // Render documents section for contract step
+            let documentsHTML = '';
+            if (selectedStep === 'contrato' && content.documents) {
+                documentsHTML = `
+                    <div class="documents-section">
+                        <h3 class="checklist-title">Documentos para firmar</h3>
+                        <div class="documents-grid">
+                            ${content.documents.map((doc, index) => `
+                                <div class="document-card ${doc.status === 'signed' ? 'signed' : ''}" id="doc-${index}">
+                                    <div class="document-header">
+                                        <div class="document-icon">
+                                            <i data-lucide="${doc.status === 'signed' ? 'check-circle' : 'file-text'}" 
+                                               style="width: 24px; height: 24px; color: ${doc.status === 'signed' ? 'white' : '#5B4CE2'};">
+                                            </i>
+                                        </div>
+                                        <div class="document-info">
+                                            <div class="document-name">${doc.name}</div>
+                                            <div class="document-meta">
+                                                <span>📄 ${doc.pages} páginas</span>
+                                                <span>💾 ${doc.size}</span>
+                                                <span class="document-status-badge ${doc.status}">
+                                                    ${doc.status === 'signed' ? '✓ Firmado' : '⏳ Pendiente'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="document-actions">
+                                        <button class="btn-document" onclick="previewDocument(${index})">
+                                            <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
+                                            Vista previa
+                                        </button>
+                                        ${doc.status === 'signed' ? `
+                                            <button class="btn-document success" onclick="downloadDocument(${index})">
+                                                <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+                                                Descargar copia
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="signature-section" id="signatureSection">
+                            <div class="signature-header">
+                                <h3 class="signature-title">Firma Electrónica</h3>
+                                <p class="signature-subtitle">Dibuja tu firma en el recuadro o escribe tu nombre completo</p>
+                            </div>
+                            <div class="signature-canvas-wrapper">
+                                <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                            </div>
+                            <div class="signature-actions">
+                                <button class="btn-signature clear" onclick="clearSignature()">
+                                    <i data-lucide="eraser" style="width: 16px; height: 16px;"></i>
+                                    Limpiar
+                                </button>
+                                <button class="btn-signature sign" onclick="signDocuments()">
+                                    <i data-lucide="pen-tool" style="width: 16px; height: 16px;"></i>
+                                    Firmar documentos
+                                </button>
+                            </div>
+                            <div class="signature-info">
+                                <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                                <span>Al firmar, aceptas los términos y condiciones de todos los documentos listados arriba</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Render discovery status panel
+            let discoveryHTML = '';
+            if (selectedStep === 'discovery' && content.discoveryStatus) {
+                const ds = content.discoveryStatus;
+                const statusText = {
+                    not_started: '⏳ No iniciado',
+                    in_progress: '📝 En progreso',
+                    completed: '✅ Completado'
+                };
+                const statusClass = ds.status.replace('_', '-');
+                
+                discoveryHTML = `
+                    <div class="discovery-status-section">
+                        <div class="discovery-status-header">
+                            <h3 class="discovery-status-title">
+                                <i data-lucide="clipboard-list" style="width: 24px; height: 24px;"></i>
+                                Estado del Discovery
+                            </h3>
+                            <span class="discovery-status-badge ${statusClass}">
+                                ${statusText[ds.status]}
+                            </span>
+                        </div>
+                        
+                        ${ds.status !== 'not_started' ? `
+                            <div class="discovery-progress-container">
+                                <div class="discovery-progress-header">
+                                    <span class="discovery-progress-label">Progreso del formulario</span>
+                                    <span class="discovery-progress-percent">${ds.progress}%</span>
+                                </div>
+                                <div class="discovery-progress-bar-bg">
+                                    <div class="discovery-progress-bar-fill" style="width: ${ds.progress}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="discovery-info-grid">
+                                <div class="discovery-info-item">
+                                    <div class="discovery-info-label">Última actualización</div>
+                                    <div class="discovery-info-value">${ds.lastUpdated || 'N/A'}</div>
+                                </div>
+                                <div class="discovery-info-item">
+                                    <div class="discovery-info-label">Estado del formulario</div>
+                                    <div class="discovery-info-value">${ds.status === 'completed' ? 'Enviado para revisión' : 'Borrador guardado'}</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${ds.status === 'completed' ? `
+                            <div class="discovery-summary-section">
+                                <h4 class="discovery-summary-title">📊 Resumen de respuestas clave</h4>
+                                <div class="discovery-summary-grid">
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Nombre del negocio</div>
+                                        <div class="discovery-summary-value">${ds.summary.businessName || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Industria</div>
+                                        <div class="discovery-summary-value">${ds.summary.industry || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Ingresos actuales</div>
+                                        <div class="discovery-summary-value">${ds.summary.currentRevenue || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Objetivos principales</div>
+                                        <div class="discovery-summary-value">${ds.summary.goals || 'No especificado'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="discovery-actions">
+                            ${ds.status === 'not_started' || ds.status === 'in_progress' ? `
+                                <button class="btn-discovery primary" onclick="openDiscoveryForm()">
+                                    <i data-lucide="external-link" style="width: 18px; height: 18px;"></i>
+                                    ${ds.status === 'not_started' ? 'Iniciar Discovery' : 'Continuar formulario'}
+                                </button>
+                            ` : ''}
+                            
+                            ${ds.status === 'completed' ? `
+                                <button class="btn-discovery secondary" onclick="openDiscoveryForm()">
+                                    <i data-lucide="edit" style="width: 18px; height: 18px;"></i>
+                                    Ver/Editar respuestas
+                                </button>
+                            ` : ''}
+                            
+                            ${ds.status === 'in_progress' ? `
+                                <button class="btn-discovery secondary" onclick="simulateDiscoveryCompletion()">
+                                    <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+                                    Marcar como completado (Demo)
+                                </button>
+                            ` : ''}
+                        </div>
+                        
+                        ${ds.status === 'not_started' ? `
+                            <div class="discovery-alert">
+                                <i data-lucide="alert-circle" class="discovery-alert-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="discovery-alert-content">
+                                    <div class="discovery-alert-title">Importante</div>
+                                    <div class="discovery-alert-text">
+                                        El formulario se abrirá en una nueva pestaña. Puedes guardar tu progreso y volver en cualquier momento. 
+                                        La información se sincronizará automáticamente con este tablero.
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Render videocall scheduling section
+            let videocallHTML = '';
+            if (selectedStep === 'videocall' && content.meetingStatus) {
+                const ms = content.meetingStatus;
+                const statusText = {
+                    not_scheduled: '⏳ No agendada',
+                    scheduled: '📅 Agendada',
+                    completed: '✅ Completada'
+                };
+                const statusClass = ms.status.replace('_', '-');
+                
+                videocallHTML = `
+                    <div class="videocall-section">
+                        <div class="videocall-header">
+                            <h3 class="videocall-title">
+                                <i data-lucide="video" style="width: 24px; height: 24px;"></i>
+                                Video Llamada de Presentación
+                            </h3>
+                            <span class="videocall-status-badge ${statusClass}">
+                                ${statusText[ms.status]}
+                            </span>
+                        </div>
+                        
+                        ${ms.status === 'scheduled' || ms.status === 'completed' ? `
+                            <div class="meeting-details-card">
+                                <div class="meeting-details-header">
+                                    <div class="meeting-icon-wrapper">
+                                        <i data-lucide="calendar-check" style="width: 32px; height: 32px; color: white;"></i>
+                                    </div>
+                                    <div class="meeting-details-info">
+                                        <div class="meeting-date-time">
+                                            ${ms.scheduledDate} a las ${ms.scheduledTime}
+                                        </div>
+                                        <div class="meeting-platform">
+                                            <i data-lucide="${ms.meetingPlatform === 'Zoom' ? 'video' : ms.meetingPlatform === 'Google Meet' ? 'chrome' : 'monitor'}" style="width: 16px; height: 16px;"></i>
+                                            ${ms.meetingPlatform} • Duración: ${ms.duration}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                ${ms.status === 'scheduled' && ms.meetingLink ? `
+                                    <div class="meeting-link-section">
+                                        <div class="meeting-link-label">Link de la videollamada</div>
+                                        <div class="meeting-link-value">
+                                            <span>${ms.meetingLink}</span>
+                                            <button class="btn-copy-link" onclick="copyMeetingLink()">
+                                                <i data-lucide="copy" style="width: 12px; height: 12px;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meeting-actions">
+                                        <button class="btn-meeting join" onclick="joinMeeting()">
+                                            <i data-lucide="video" style="width: 18px; height: 18px;"></i>
+                                            Unirse a la llamada
+                                        </button>
+                                        <button class="btn-meeting calendar" onclick="addToCalendar()">
+                                            <i data-lucide="calendar-plus" style="width: 18px; height: 18px;"></i>
+                                            Agregar a calendario
+                                        </button>
+                                        <button class="btn-meeting reschedule" onclick="showRescheduling()">
+                                            <i data-lucide="calendar-range" style="width: 18px; height: 18px;"></i>
+                                            Re-agendar
+                                        </button>
+                                    </div>
+                                ` : ''}
+                                
+                                ${ms.status === 'completed' ? `
+                                    <div class="videocall-info-alert">
+                                        <i data-lucide="check-circle" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                        <div class="videocall-info-content">
+                                            <div class="videocall-info-title">Llamada completada</div>
+                                            <div class="videocall-info-text">
+                                                Tu llamada de presentación fue completada exitosamente. 
+                                                ${ms.recordingUrl ? 'La grabación está disponible para descarga.' : 'Pronto recibirás el resumen y próximos pasos.'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    ${ms.recordingUrl ? `
+                                        <div class="meeting-actions">
+                                            <button class="btn-meeting reschedule" onclick="downloadRecording()">
+                                                <i data-lucide="download" style="width: 18px; height: 18px;"></i>
+                                                Descargar grabación
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        ${ms.status === 'not_scheduled' ? `
+                            <div class="calendar-section">
+                                <div class="calendar-header">
+                                    📅 Selecciona fecha y hora disponible
+                                </div>
+                                <div class="calendar-grid">
+                                    ${ms.availableSlots.map((daySlot, dayIndex) => `
+                                        <div class="calendar-day">
+                                            <div class="calendar-day-header">
+                                                <div class="calendar-day-icon">
+                                                    ${new Date(daySlot.date).getDate()}
+                                                </div>
+                                                <div class="calendar-day-info">
+                                                    <div class="calendar-day-name">${daySlot.day}</div>
+                                                    <div class="calendar-day-date">${daySlot.date}</div>
+                                                </div>
+                                            </div>
+                                            <div class="calendar-slots">
+                                                ${daySlot.slots.map((slot, slotIndex) => `
+                                                    <button class="slot-button" 
+                                                            data-date="${daySlot.date}" 
+                                                            data-day="${daySlot.day}"
+                                                            data-time="${slot}"
+                                                            onclick="selectSlot(this)">
+                                                        ${slot}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                
+                                <div class="selected-slot-preview" id="selectedSlotPreview">
+                                    <div class="selected-slot-info">
+                                        <i data-lucide="check-circle" style="width: 20px; height: 20px; color: #22c55e;"></i>
+                                        <span class="selected-slot-text" id="selectedSlotText"></span>
+                                    </div>
+                                    <button class="btn-confirm-slot" onclick="confirmSchedule()">
+                                        Confirmar cita
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="videocall-info-alert">
+                                <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="videocall-info-content">
+                                    <div class="videocall-info-title">Sobre la videollamada</div>
+                                    <div class="videocall-info-text">
+                                        En esta sesión presentaremos los hallazgos del análisis, responderemos tus preguntas 
+                                        y definiremos el plan de acción. Recibirás el link de acceso por email una vez confirmes tu horario.
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Render CTA
+            const ctaContainer = document.getElementById('ctaContainer');
+            if (selectedStep === 'contrato') {
+                // Insert documents section before CTA
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', documentsHTML);
+                ctaContainer.innerHTML = '';
+                
+                // Initialize signature canvas
+                setTimeout(initSignatureCanvas, 100);
+            } else if (selectedStep === 'discovery') {
+                // Insert discovery status panel
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', discoveryHTML);
+                ctaContainer.innerHTML = '';
+            } else if (selectedStep === 'videocall') {
+                // Insert videocall scheduling section
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', videocallHTML);
+                ctaContainer.innerHTML = '';
+            } else if (content.cta) {
+                ctaContainer.innerHTML = `
+                    <button class="cta-button" onclick="handleCTA('${content.cta.action}')">
+                        ${content.cta.text}
+                    </button>
+                `;
+            } else {
+                ctaContainer.innerHTML = '';
+            }
+            
+            lucide.createIcons();
+        }
 
-    // --- Header actions ---
-    document.getElementById("btnRefresh").addEventListener("click", () => {
-      // En producción: aquí llamarías backend para refrescar estados.
-      state = loadState();
-      renderAll();
-    });
-    document.getElementById("btnSupport").addEventListener("click", () => {
-      alert("(Demo) Aquí abrirías: centro de ayuda / WhatsApp / email soporte.");
-    });
-    document.getElementById("btnDemoAdvance").addEventListener("click", () => {
-      advanceCurrentStepDemo();
-    });
+        // Save note
+        function saveNote() {
+            const noteText = document.getElementById('notesTextarea').value;
+            notes[selectedStep] = noteText;
+            localStorage.setItem('userDashboardNotes', JSON.stringify(notes));
+            showNotification('💾 Nota guardada correctamente');
+        }
 
-    // --- Modal email preview ---
-    const modal = document.getElementById("modal");
-    document.getElementById("modalClose").addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+        // Handle CTA
+        function handleCTA(action) {
+            if (action === 'discovery') {
+                openDiscoveryForm();
+                return;
+            }
+            
+            if (action === 'schedule') {
+                // Scroll to calendar section
+                const videocallSection = document.querySelector('.videocall-section');
+                if (videocallSection) {
+                    videocallSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showNotification('📅 Selecciona una fecha y hora disponible');
+                }
+                return;
+            }
+            
+            const actionMessages = {
+                payment: '💳 Redirigiendo a pasarela de pago...',
+                sign: '📝 Abriendo contrato para firma...',
+                download: '📥 Descargando resumen final...'
+            };
+            
+            showNotification(actionMessages[action] || 'Procesando acción...');
+            
+            // En producción aquí iría la lógica real
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción aquí se ejecutaría la acción real.');
+            }, 1500);
+        }
 
-    function openEmail(emailId){
-      const email = mockEmails.find(e => e.id === emailId);
-      if(!email) return;
+        // Reload status
+        function reloadStatus() {
+            showNotification('🔄 Actualizando estado...');
+            
+            // Simulate loading
+            setTimeout(() => {
+                showNotification('✓ Estado actualizado correctamente');
+            }, 1000);
+        }
 
-      document.getElementById("modalSubject").textContent = email.subject;
-      document.getElementById("modalMeta").textContent = `${email.type} · ${email.sentAt} · ${email.status === "sent" ? "Enviado" : "Fallido"}`;
-      document.getElementById("modalBody").innerHTML = email.body;
-      modal.classList.add("open");
-    }
-    function closeModal(){ modal.classList.remove("open"); }
-
-    // --- Utilities ---
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    // --- Render all ---
-    function renderAll(){
-      renderTimeline();
-      renderDetail();
-      renderSummary();
-    }
-
-    // Init
-    renderAll();
-  </script>
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
-```
-
-**Cómo usarlo rápido**
-
-* Pégalo como `tablero-usuario.html` en tu repo o en Wix (embed HTML).
-* Abre el archivo y prueba:
-
-  * clic en pasos (los futuros están bloqueados),
-  * escribe notas y guarda (se guardan en el navegador),
-  * “Ver” emails (abre modal),
-  * botón ⭐ “Marcar paso como completado (Demo)” para avanzar el flujo.
-
-Si me dices dónde lo vas a conectar (Wix + Railway / o GitHub Pages + backend), te lo adapto para que el estado venga de un JSON real (ej. `/api/status`) y que el historial de emails se alimente del log de tu sistema.
