@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Activar cuenta</title>
+  </head>
+
+  <body style="margin:0;padding:0;background:#f5f6fa;">
+    <!-- Preheader (texto oculto) -->
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">
+      Activa tu cuenta con tu código o usando el botón de activación.
+    </div>
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f5f6fa;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <!-- Contenedor -->
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="width:600px;max-width:600px;background:#ffffff;border:1px solid #e6e8ef;border-radius:10px;overflow:hidden;">
+            <!-- Header / banner -->
+            <tr>
+              <td align="center" style="background:#ffffff;padding:22px 16px;border-bottom:1px solid #f0f1f6;">
+                <img
+                  src="https://xserbia.github.io/xavierserbia-site/XAVIER-MONEY-MAP-LOGO-2.png"
+                  width="220"
+                  alt="Xavier Money Map"
+                  style="display:block;border:0;outline:none;text-decoration:none;height:auto;max-width:220px;"
+                />
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:28px 28px 22px 28px;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+                <div style="font-size:34px;line-height:40px;font-weight:700;margin:0 0 14px 0;color:#111827;">
+                  Hola {{var:name}}
+                </div>
+
+                <div style="font-size:18px;line-height:28px;margin:0 0 12px 0;color:#4b5563;">
+                  ¡Gracias por unirte a <strong style="color:#111827;">Xavier Money Map</strong>!
+                </div>
+
+                <div style="font-size:18px;line-height:28px;margin:0 0 18px 0;color:#4b5563;">
+                  ¿Qué sigue?
+                </div>
+
+                <div style="font-size:18px;line-height:28px;margin:0 0 10px 0;color:#111827;">
+                  👉 Activar tu cuenta.
+                </div>
+
+                <div style="font-size:18px;line-height:28px;margin:0 0 22px 0;color:#4b5563;">
+                  Código:
+                  <span style="font-weight:700;color:#111827;">{{var:code}}</span>
+                  <span style="color:#4b5563;">&nbsp;o puedes activarla en el botón inferior:</span>
+                </div>
+
+                <!-- Botón -->
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:10px auto 6px auto;">
+                  <tr>
+                    <td align="center" bgcolor="#4f46e5" style="border-radius:999px;">
+                      <a
+                        href="{{var:activation_link}}"
+                        style="display:inline-block;padding:14px 34px;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:18px;color:#ffffff;text-decoration:none;border-radius:999px;font-weight:700;"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        Activar
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+
+                <div style="font-size:13px;line-height:20px;margin:18px 0 0 0;color:#9ca3af;text-align:center;">
+                  Si no solicitaste esta cuenta, puedes ignorar este correo.
+                </div>
+              </td>
+            </tr>
+
+            <!-- Footer bar -->
+            <tr>
+              <td style="background:#111827;padding:14px 18px;text-align:center;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#ffffff;">
+                  Si prefieres no recibir este tipo de correos, puedes darte de baja
+                  <a href="{{var:unsubscribe_link}}" style="color:#ffffff;text-decoration:underline;font-weight:700;" target="_blank" rel="noopener">aquí</a>.
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Footer pequeño -->
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="width:600px;max-width:600px;">
+            <tr>
+              <td style="padding:14px 6px 0 6px;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#9ca3af;">
+                © {{var:year}} Xavier Money Map · Todos los derechos reservados
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
