@@ -211,31 +211,43 @@
             background: white;
             border: 2px solid #5B4CE2;
             border-radius: 1rem;
-            padding: 1.5rem;
+            padding: 1rem;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             z-index: 100;
-            max-width: 300px;
+            max-width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
         }
 
         .demo-controls.hidden {
             display: none;
         }
 
+        .demo-controls.minimized {
+            max-height: 60px;
+            overflow: hidden;
+        }
+
         .demo-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
             border-bottom: 2px solid #5B4CE2;
         }
 
         .demo-title {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: bold;
             color: #5B4CE2;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+
+        .demo-header-actions {
+            display: flex;
+            gap: 0.25rem;
         }
 
         .btn-toggle-demo {
@@ -244,6 +256,8 @@
             cursor: pointer;
             padding: 0.25rem;
             color: #78716c;
+            display: flex;
+            align-items: center;
         }
 
         .btn-toggle-demo:hover {
@@ -251,11 +265,11 @@
         }
 
         .demo-section {
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .demo-label {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: #44403c;
             margin-bottom: 0.5rem;
@@ -270,11 +284,11 @@
         }
 
         .btn-demo-step {
-            padding: 0.5rem 0.75rem;
+            padding: 0.4rem 0.6rem;
             background: #f5f5f4;
             border: 1px solid #e7e5e4;
             border-radius: 0.5rem;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
@@ -295,12 +309,12 @@
 
         .btn-demo-action {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.6rem;
             background: linear-gradient(to right, #5B4CE2, #4A3BB8);
             color: white;
             border: none;
             border-radius: 0.5rem;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -317,8 +331,8 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             background: linear-gradient(to right, #5B4CE2, #4A3BB8);
             color: white;
             border: none;
@@ -342,7 +356,7 @@
         }
 
         .demo-info {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #78716c;
             margin-top: 0.5rem;
             padding: 0.5rem;
@@ -1956,59 +1970,71 @@
     <!-- Demo Controls Panel -->
     <div class="demo-controls hidden" id="demoControls">
         <div class="demo-header">
-            <span class="demo-title">🎮 Panel Demo</span>
-            <button class="btn-toggle-demo" onclick="toggleDemoPanel()">
-                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
-            </button>
-        </div>
-
-        <div class="demo-section">
-            <div class="demo-label">Establecer paso actual:</div>
-            <div class="demo-buttons">
-                <button class="btn-demo-step" onclick="setDemoStep('registro')">Registro</button>
-                <button class="btn-demo-step active" onclick="setDemoStep('pago')">Pago</button>
-                <button class="btn-demo-step" onclick="setDemoStep('contrato')">Contrato</button>
-                <button class="btn-demo-step" onclick="setDemoStep('discovery')">Discovery</button>
-                <button class="btn-demo-step" onclick="setDemoStep('videocall')">Video Call</button>
-                <button class="btn-demo-step" onclick="setDemoStep('cerrado')">Cerrado</button>
+            <span class="demo-title">🎮 Demo Panel</span>
+            <div class="demo-header-actions">
+                <button class="btn-toggle-demo" onclick="toggleMinimizeDemo()" title="Minimizar">
+                    <i data-lucide="minimize-2" style="width: 16px; height: 16px;"></i>
+                </button>
+                <button class="btn-toggle-demo" onclick="toggleDemoPanel()" title="Cerrar">
+                    <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                </button>
             </div>
         </div>
 
-        <div class="demo-section">
-            <div class="demo-label">Acciones rápidas:</div>
-            <button class="btn-demo-action" onclick="completeCurrentStep()">
-                ✓ Completar paso actual
-            </button>
-        </div>
+        <div id="demoContent">
+            <div class="demo-section">
+                <div class="demo-label">Paso actual:</div>
+                <div class="demo-buttons">
+                    <button class="btn-demo-step" onclick="setDemoStep('registro')">Registro</button>
+                    <button class="btn-demo-step active" onclick="setDemoStep('pago')">Pago</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('contrato')">Contrato</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('discovery')">Discovery</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('videocall')">Video</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('cerrado')">Cerrado</button>
+                </div>
+            </div>
 
-        <div class="demo-section">
-            <button class="btn-demo-action" onclick="simulateChecklist()">
-                📋 Simular checklist
-            </button>
-        </div>
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="completeCurrentStep()">
+                    ✓ Completar paso
+                </button>
+            </div>
 
-        <div class="demo-section">
-            <div class="demo-label">Discovery (solo si estás en ese paso):</div>
-            <button class="btn-demo-action" onclick="simulateDiscoveryProgress()">
-                ⏩ Simular progreso Discovery
-            </button>
-        </div>
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="simulateChecklist()">
+                    📋 Toggle checklist
+                </button>
+            </div>
 
-        <div class="demo-section">
-            <div class="demo-label">Video Call (solo si estás en ese paso):</div>
-            <button class="btn-demo-action" onclick="simulateMeetingCompletion()">
-                ✅ Marcar llamada completada
-            </button>
-        </div>
+            <div class="demo-section">
+                <div class="demo-label">Discovery:</div>
+                <button class="btn-demo-action" onclick="simulateDiscoveryProgress()">
+                    ⏩ Avanzar progreso
+                </button>
+            </div>
 
-        <div class="demo-section">
-            <button class="btn-demo-action" onclick="resetProgress()">
-                🔄 Reiniciar todo
-            </button>
-        </div>
+            <div class="demo-section">
+                <div class="demo-label">Video Call:</div>
+                <button class="btn-demo-action" onclick="simulateAdminConfirmation()">
+                    🔗 Enviar link
+                </button>
+            </div>
 
-        <div class="demo-info">
-            Panel de pruebas para visualizar cada etapa del proceso
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="simulateMeetingCompletion()">
+                    ✅ Completar llamada
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="resetProgress()">
+                    🔄 Reiniciar todo
+                </button>
+            </div>
+
+            <div class="demo-info">
+                Panel de pruebas
+            </div>
         </div>
     </div>
 
@@ -2154,7 +2180,7 @@
                 ],
                 cta: { text: 'Agendar llamada', action: 'schedule' },
                 meetingStatus: {
-                    status: 'not_scheduled', // not_scheduled, scheduled, completed
+                    status: 'not_scheduled', // not_scheduled, pending_confirmation, scheduled, completed
                     scheduledDate: null,
                     scheduledTime: null,
                     meetingLink: null,
@@ -2257,6 +2283,19 @@
             
             panel.classList.toggle('hidden');
             fab.classList.toggle('hidden');
+            
+            // Remove minimized state when opening
+            panel.classList.remove('minimized');
+            
+            lucide.createIcons();
+        }
+
+        // Toggle minimize demo panel
+        function toggleMinimizeDemo() {
+            const panel = document.getElementById('demoControls');
+            const content = document.getElementById('demoContent');
+            
+            panel.classList.toggle('minimized');
             
             lucide.createIcons();
         }
@@ -2732,13 +2771,17 @@
                 time: button.getAttribute('data-time')
             };
             
-            // Show preview
-            const preview = document.getElementById('selectedSlotPreview');
-            const text = document.getElementById('selectedSlotText');
-            text.textContent = `${selectedSlotData.day}, ${selectedSlotData.date} a las ${selectedSlotData.time}`;
-            preview.classList.add('active');
-            
-            lucide.createIcons();
+            // Show preview - make sure elements exist
+            setTimeout(() => {
+                const preview = document.getElementById('selectedSlotPreview');
+                const text = document.getElementById('selectedSlotText');
+                
+                if (preview && text) {
+                    text.textContent = `${selectedSlotData.day}, ${selectedSlotData.date} a las ${selectedSlotData.time}`;
+                    preview.classList.add('active');
+                    lucide.createIcons();
+                }
+            }, 100);
         }
 
         // Confirm schedule
@@ -2750,21 +2793,50 @@
             
             const ms = stepContent.videocall.meetingStatus;
             
-            // Update meeting status
-            ms.status = 'scheduled';
+            // Update meeting status to pending confirmation
+            ms.status = 'pending_confirmation';
             ms.scheduledDate = `${selectedSlotData.day}, ${selectedSlotData.date}`;
             ms.scheduledTime = selectedSlotData.time;
-            ms.meetingLink = 'https://meet.google.com/abc-defg-hij'; // Dummy link
+            ms.meetingLink = null; // Will be set by admin
             
-            // Update checklist
+            // Update checklist partially
             stepContent.videocall.checklist[0].done = true; // Agenda sincronizada
-            stepContent.videocall.checklist[1].done = true; // Llamada agendada
-            stepContent.videocall.checklist[2].done = true; // Recordatorio enviado
+            stepContent.videocall.checklist[1].done = false; // Llamada agendada (pending)
+            stepContent.videocall.checklist[2].done = false; // Recordatorio enviado (pending)
+            
+            // Clear selected slot
+            selectedSlotData = null;
             
             // Refresh content
             updateContent();
             
-            showNotification('✅ Videollamada agendada exitosamente! El link ha sido enviado a tu email');
+            showNotification('✅ Solicitud enviada! Recibirás el link aquí y por email cuando el administrador confirme');
+        }
+
+        // Simulate admin confirmation and link assignment (for demo)
+        function simulateAdminConfirmation() {
+            if (selectedStep !== 'videocall') {
+                showNotification('⚠️ Primero selecciona el paso Video Call');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.status !== 'pending_confirmation') {
+                showNotification('⚠️ Primero solicita una cita');
+                return;
+            }
+            
+            // Admin confirms and sends link
+            ms.status = 'scheduled';
+            ms.meetingLink = 'https://meet.google.com/abc-defg-hij'; // Admin-generated link
+            
+            // Update checklist
+            stepContent.videocall.checklist[1].done = true; // Llamada agendada
+            stepContent.videocall.checklist[2].done = true; // Recordatorio enviado
+            
+            updateContent();
+            showNotification('🎉 Link recibido! El administrador ha confirmado tu videollamada');
         }
 
         // Copy meeting link
@@ -2819,7 +2891,11 @@
             ms.scheduledTime = null;
             ms.meetingLink = null;
             
-            // Reset checklist
+            // Clear selected slot
+            selectedSlotData = null;
+            
+            // Reset checklist to only first item done
+            stepContent.videocall.checklist[0].done = true; // Agenda sincronizada (keep)
             stepContent.videocall.checklist[1].done = false; // Llamada agendada
             stepContent.videocall.checklist[2].done = false; // Recordatorio enviado
             
@@ -2849,7 +2925,7 @@
             const ms = stepContent.videocall.meetingStatus;
             
             if (ms.status !== 'scheduled') {
-                showNotification('⚠️ Primero agenda una videollamada');
+                showNotification('⚠️ Primero agenda una videollamada y espera el link del administrador');
                 return;
             }
             
@@ -3181,10 +3257,11 @@
                 const ms = content.meetingStatus;
                 const statusText = {
                     not_scheduled: '⏳ No agendada',
+                    pending_confirmation: '⏳ Esperando confirmación',
                     scheduled: '📅 Agendada',
                     completed: '✅ Completada'
                 };
-                const statusClass = ms.status.replace('_', '-');
+                const statusClass = ms.status === 'pending_confirmation' ? 'not-scheduled' : ms.status.replace('_', '-');
                 
                 videocallHTML = `
                     <div class="videocall-section">
@@ -3197,6 +3274,43 @@
                                 ${statusText[ms.status]}
                             </span>
                         </div>
+                        
+                        ${ms.status === 'pending_confirmation' ? `
+                            <div class="meeting-details-card">
+                                <div class="meeting-details-header">
+                                    <div class="meeting-icon-wrapper">
+                                        <i data-lucide="clock" style="width: 32px; height: 32px; color: white;"></i>
+                                    </div>
+                                    <div class="meeting-details-info">
+                                        <div class="meeting-date-time">
+                                            Cita solicitada: ${ms.scheduledDate} a las ${ms.scheduledTime}
+                                        </div>
+                                        <div class="meeting-platform">
+                                            <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                                            Esperando confirmación del administrador
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="videocall-info-alert">
+                                    <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="videocall-info-content">
+                                        <div class="videocall-info-title">Solicitud enviada</div>
+                                        <div class="videocall-info-text">
+                                            Tu solicitud de videollamada ha sido enviada. <strong>Recibirás el link de la videollamada aquí y confirmado por email</strong> 
+                                            una vez que el administrador confirme tu horario. Te notificaremos cuando esté listo.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="meeting-actions">
+                                    <button class="btn-meeting reschedule" onclick="showRescheduling()">
+                                        <i data-lucide="calendar-range" style="width: 18px; height: 18px;"></i>
+                                        Cambiar horario
+                                    </button>
+                                </div>
+                            </div>
+                        ` : ''}
                         
                         ${ms.status === 'scheduled' || ms.status === 'completed' ? `
                             <div class="meeting-details-card">
@@ -3217,7 +3331,7 @@
                                 
                                 ${ms.status === 'scheduled' && ms.meetingLink ? `
                                     <div class="meeting-link-section">
-                                        <div class="meeting-link-label">Link de la videollamada</div>
+                                        <div class="meeting-link-label">🎉 Link de la videollamada confirmado</div>
                                         <div class="meeting-link-value">
                                             <span>${ms.meetingLink}</span>
                                             <button class="btn-copy-link" onclick="copyMeetingLink()">
@@ -3315,7 +3429,7 @@
                                     <div class="videocall-info-title">Sobre la videollamada</div>
                                     <div class="videocall-info-text">
                                         En esta sesión presentaremos los hallazgos del análisis, responderemos tus preguntas 
-                                        y definiremos el plan de acción. Recibirás el link de acceso por email una vez confirmes tu horario.
+                                        y definiremos el plan de acción. Recibirás el link de acceso aquí y por email una vez que el administrador confirme tu horario.
                                     </div>
                                 </div>
                             </div>
@@ -3326,6 +3440,12 @@
             
             // Render CTA
             const ctaContainer = document.getElementById('ctaContainer');
+            
+            // First, remove any previously added dynamic sections
+            const existingDynamicSections = document.querySelectorAll('.documents-section, .discovery-status-section, .videocall-section');
+            existingDynamicSections.forEach(section => section.remove());
+            
+            // Now render based on current step
             if (selectedStep === 'contrato') {
                 // Insert documents section before CTA
                 const checklistElement = document.getElementById('checklist').parentElement;
@@ -3335,12 +3455,12 @@
                 // Initialize signature canvas
                 setTimeout(initSignatureCanvas, 100);
             } else if (selectedStep === 'discovery') {
-                // Insert discovery status panel
+                // Insert discovery status panel ONLY
                 const checklistElement = document.getElementById('checklist').parentElement;
                 checklistElement.insertAdjacentHTML('afterend', discoveryHTML);
                 ctaContainer.innerHTML = '';
             } else if (selectedStep === 'videocall') {
-                // Insert videocall scheduling section
+                // Insert videocall scheduling section ONLY
                 const checklistElement = document.getElementById('checklist').parentElement;
                 checklistElement.insertAdjacentHTML('afterend', videocallHTML);
                 ctaContainer.innerHTML = '';
