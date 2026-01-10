@@ -1024,12 +1024,213 @@
         El acceso y el flujo se manejan desde tu cuenta.
       </div>
     </details>
+  </div>
+</section>
+```html
+<!-- =========================
+     BLOQUE 1: CONTACTO / IMPUESTOS / FAQ-EMAIL (como tu screenshot)
+     (Pégalo debajo del bloque FAQ)
+========================= -->
 
-    <div class="note">
-      Nota: Todos los enlaces llevan a <strong>/login</strong> por ahora (un solo punto de entrada).
+<style>
+  :root{
+    --xs:#5B4CE2;
+    --ink:#0b1220;
+    --muted:#5b6472;
+    --line: rgba(91,76,226,.35);
+  }
+
+  .xs-contact{
+    margin-top: 26px;
+    background:#fff;
+    padding: 28px 0 6px;
+  }
+
+  .xs-contact .box{
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    border: 1px solid rgba(91,76,226,.35);
+    border-radius: 10px;
+    padding: 18px 18px;
+    text-align:center;
+  }
+
+  .xs-contact .q{
+    margin: 0 0 10px;
+    font-weight: 900;
+    color: var(--ink);
+    font-size: 16px;
+  }
+  .xs-contact .fine{
+    margin: 10px 0 0;
+    color: #374151;
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .xs-contact a{
+    color: var(--ink);
+    font-weight: 900;
+    text-decoration: underline;
+  }
+
+  /* logo placeholder */
+  .xs-logo{
+    display:flex;
+    justify-content:center;
+    padding: 18px 0 8px;
+  }
+  .xs-logo .logoBox{
+    width: min(320px, 72vw);
+    border: 1px solid rgba(91,76,226,.35);
+    border-radius: 10px;
+    padding: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .xs-logo img{
+    width: 210px;
+    max-width: 100%;
+    height: auto;
+    display:block;
+    opacity:.95;
+  }
+
+  @media (max-width: 720px){
+    .xs-contact .box{padding: 16px 14px;}
+    .xs-contact .q{font-size: 15px;}
+  }
+</style>
+
+<section class="xs-contact">
+  <div class="container">
+    <div class="box">
+      <p class="q">Questions? Call us at <strong>888-664-8850</strong> (ext. 1)</p>
+
+      <p class="fine">
+        *List price does not include any applicable state or local taxes that will be applied at time of purchase.
+      </p>
+
+      <p class="fine" style="margin-top:14px;">
+        Visit our <a href="/login">FAQ</a> page or contact
+        <a href="mailto:moneymap@xavierserbia.com">moneymap@xavierserbia.com</a> for inquiries.
+      </p>
+    </div>
+
+    <!-- Aquí va el LOGO (placeholder por ahora) -->
+    <div class="xs-logo">
+      <div class="logoBox" aria-label="Logo Xavier Money Map">
+        <img src="https://via.placeholder.com/560x180.png?text=LOGO+Xavier+Money+Map" alt="Logo (placeholder)" />
+      </div>
     </div>
   </div>
 </section>
+<!-- =========================
+     BLOQUE 2: FOOTER LEGAL / DISCLAIMER / LINKS
+     (Pégalo debajo del bloque de contacto/logo)
+========================= -->
+
+<style>
+  :root{
+    --xs:#5B4CE2;
+    --ink:#0b1220;
+    --muted:#6b7280;
+  }
+
+  .xs-footer{
+    border-top: 4px solid rgba(91,76,226,.65);
+    padding: 22px 0 30px;
+    background:#fff;
+  }
+
+  .xs-footer .disclaimerLink{
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    color: var(--xs);
+    font-weight: 900;
+    text-decoration: none;
+    margin: 4px 0 12px;
+  }
+  .xs-footer .disclaimerLink:hover{ text-decoration: underline; }
+
+  .xs-footer .text{
+    max-width: 980px;
+    margin: 0 auto;
+    text-align:center;
+    color: rgba(91,76,226,.92);
+    font-weight: 800;
+    font-size: 13.2px;
+    line-height: 1.75;
+    padding: 0 12px;
+  }
+
+  .xs-footer .links{
+    display:flex;
+    gap: 26px;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-top: 18px;
+  }
+  .xs-footer .links a{
+    color: var(--xs);
+    font-weight: 900;
+    text-decoration: underline;
+    font-size: 15px;
+  }
+
+  .xs-footer .copy{
+    text-align:center;
+    color: rgba(91,76,226,.85);
+    font-weight: 900;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 720px){
+    .xs-footer .text{font-size: 12.8px;}
+    .xs-footer .links a{font-size: 14.5px;}
+  }
+</style>
+
+<footer class="xs-footer">
+  <div class="container">
+    <a class="disclaimerLink" href="/login" aria-label="Disclaimer">
+      ⚖️ <span>Disclaimer / Descargo de responsabilidad</span>
+    </a>
+
+    <div class="text">
+      <p style="margin:0 0 10px;">
+        Aviso importante: Las herramientas, simuladores y calculadoras aquí presentadas tienen fines exclusivamente educativos e informativos.
+        No constituyen asesoramiento financiero, legal, contable ni de inversión, y no deben interpretarse como una recomendación personalizada.
+      </p>
+      <p style="margin:0 0 10px;">
+        Los resultados y proyecciones son estimaciones basadas en supuestos genéricos, que pueden variar significativamente según la situación particular
+        de cada persona o negocio. Antes de tomar decisiones financieras, se recomienda consultar con un asesor financiero o contable calificado.
+      </p>
+      <p style="margin:0 0 10px;">
+        Esta herramienta no es una oferta ni recomendación para comprar o vender valores o productos financieros, ni crea relación fiduciaria.
+        Usa la información bajo tu propio riesgo y verifica los datos antes de tomar decisiones.
+      </p>
+      <p style="margin:0;">
+        Xavier Serbia Multimedia LLC y sus afiliadas no garantizan la exactitud, integridad o vigencia de los cálculos y no asumen responsabilidad por decisiones
+        tomadas basadas en el uso de estas herramientas. Al utilizar estas calculadoras, el usuario reconoce que los datos ingresados son de carácter voluntario
+        y acepta que su uso es bajo su exclusiva responsabilidad.
+      </p>
+    </div>
+
+    <div class="links">
+      <a href="/login">Términos y condiciones</a>
+      <a href="/login">Políticas de Privacidad</a>
+    </div>
+
+    <div class="copy">©2026 por Xavier Serbia Multimedia LLC</div>
+  </div>
+</footer>
 </body>
 </html>
 
