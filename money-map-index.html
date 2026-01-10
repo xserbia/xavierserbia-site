@@ -553,6 +553,105 @@
       margin-left: 12px;
     }
 
+    /* VIDEOLLAMADA HIGHLIGHT */
+    .video-call-highlight{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items:center;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: var(--shadow2);
+      max-width: 1040px;
+      margin: 0 auto;
+      position:relative;
+      z-index:2;
+    }
+    .video-call-image{
+      position:relative;
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: 0 12px 32px rgba(10,18,32,.18);
+    }
+    .video-call-image img{
+      width:100%;
+      height:auto;
+      display:block;
+      aspect-ratio: 16/10;
+      object-fit:cover;
+    }
+    .video-badge{
+      position:absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(220,38,38,.95);
+      color:#fff;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 13px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    }
+    .live-dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .video-call-content{
+      padding: 8px 0;
+    }
+    .video-title{
+      margin: 0 0 14px;
+      font-size: clamp(20px, 2.2vw, 28px);
+      font-weight: 1000;
+      color: var(--ink);
+      line-height: 1.15;
+      font-family: "Nunito", sans-serif;
+    }
+    .video-text{
+      margin: 0 0 20px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #374151;
+      font-weight: 500;
+    }
+    .video-text strong{
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .video-features{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .feature-item{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(91,76,226,.04), rgba(91,76,226,.08));
+      border-radius: 12px;
+      border: 1px solid rgba(91,76,226,.12);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      font-family: "Nunito", sans-serif;
+    }
+    .feature-icon{
+      font-size: 20px;
+      flex: 0 0 auto;
+    }
+
     .xs-review .body{
       padding: 16px 18px 18px;
       display:grid;
@@ -1099,6 +1198,7 @@
       .diff-grid{grid-template-columns: 1fr;}
       .outcomes-grid{grid-template-columns: 1fr;}
       .xs-fit .wrap{grid-template-columns: 1fr;}
+      .video-call-highlight{grid-template-columns: 1fr; gap:20px; padding:20px;}
     }
     @media (max-width: 720px){
       .sticky-cta{display:block;}
@@ -1111,6 +1211,8 @@
         width:100%;
         flex: none;
       }
+      .video-call-highlight{padding:18px;}
+      .video-badge{font-size:12px; padding:6px 12px;}
     }
     @media (max-width: 520px){
       .container{padding:0 14px;}
@@ -1237,6 +1339,45 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen>
         </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOLLAMADA CON XAVIER -->
+<section style="background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%); padding: 56px 0;">
+  <div class="container">
+    <div class="video-call-highlight">
+      <div class="video-call-image">
+        <img 
+          src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=600&h=400&fit=crop&crop=center" 
+          alt="Sesión de videollamada con Xavier"
+        />
+        <div class="video-badge">
+          <span class="live-dot"></span>
+          Sesión en vivo
+        </div>
+      </div>
+      <div class="video-call-content">
+        <h3 class="video-title">Sesión personal 1-on-1 con Xavier Serbia</h3>
+        <p class="video-text">
+          No es un reporte automático. Es una <strong>sesión guiada en vivo</strong> donde Xavier te explica personalmente tu Discovery Map, 
+          responde tus preguntas y te ayuda a entender exactamente qué hacer con tu dinero.
+        </p>
+        <div class="video-features">
+          <div class="feature-item">
+            <span class="feature-icon">👤</span>
+            <span>100% personalizado</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">💬</span>
+            <span>Preguntas en tiempo real</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Próximos pasos claros</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1409,7 +1550,7 @@
               <div class="ok">✓</div>
             </div>
             <div class="row">
-              <div class="txt">Sesión guiada de interpretación</div>
+              <div class="txt">Sesión 1-on-1 en vivo con Xavier Serbia</div>
               <div class="ok">✓</div>
             </div>
             <div class="row">
