@@ -648,7 +648,157 @@
 
     </div>
   </section>
+```html
+<!-- =========================
+     BLOQUE: ¿PARA QUIÉN ES? / ¿PARA QUIÉN NO ES?
+     (Pégalo justo debajo del Plan Revisión)
+========================= -->
 
+<style>
+  :root{
+    --xs:#5B4CE2;
+    --ink:#0b1220;
+    --muted:#5b6472;
+    --card:#ffffff;
+    --shadow: 0 18px 55px rgba(10,18,32,.18);
+    --shadow2: 0 10px 30px rgba(10,18,32,.12);
+    --r: 28px;
+  }
+
+  .xs-fit{
+    margin-top: 26px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .xs-fit .wrap{
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .xs-fit .panel{
+    background: var(--card);
+    border-radius: 34px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,.22); /* bonito contra morado */
+    padding: 28px 26px 22px;
+    position: relative;
+    overflow:hidden;
+  }
+
+  /* Header con “etiqueta” centrada como en tu screenshot */
+  .xs-fit .title{
+    display:flex;
+    justify-content:center;
+    margin: 0 0 18px;
+  }
+  .xs-fit .title span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border: 2px solid rgba(11,18,32,.20);
+    color: rgba(11,18,32,.92);
+    font-weight: 1000;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-size: clamp(16px, 1.9vw, 22px);
+    background:#fff;
+  }
+
+  .xs-fit .sub{
+    margin: 0 0 8px;
+    font-weight: 900;
+    color: rgba(11,18,32,.86);
+    font-size: 14px;
+  }
+
+  .xs-fit ul{
+    margin: 8px 0 0;
+    padding-left: 20px;
+  }
+  .xs-fit li{
+    margin: 10px 0;
+    color: var(--ink);
+    font-weight: 800;
+    line-height: 1.55;
+    font-size: 14px;
+  }
+
+  .xs-fit .cta{
+    display:flex;
+    justify-content:center;
+    margin-top: 18px;
+  }
+
+  .xs-fit .btn{
+    appearance:none;
+    border:0;
+    cursor:pointer;
+    font-family: inherit;
+    font-weight: 1000;
+    letter-spacing:.15px;
+    border-radius: 999px;
+    padding: 12px 22px;
+    font-size: 14px;
+    color:#fff;
+    background: var(--xs);
+    box-shadow: 0 14px 28px rgba(91,76,226,.28);
+    text-decoration:none;
+    min-width: 210px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* Mobile */
+  @media (max-width: 900px){
+    .xs-fit .wrap{grid-template-columns: 1fr;}
+    .xs-fit .panel{border-radius: 28px;}
+  }
+</style>
+
+<section class="xs-fit">
+  <div class="wrap">
+
+    <!-- PARA QUIÉN ES -->
+    <div class="panel">
+      <div class="title"><span>¿PARA QUIÉN ES?</span></div>
+
+      <p class="sub">Esto es para ti si:</p>
+      <ul>
+        <li>Quieres claridad antes de tomar decisiones importantes.</li>
+        <li>Tienes ingresos o patrimonio que requieren orden.</li>
+        <li>Prefieres estructura sobre opiniones.</li>
+      </ul>
+
+      <div class="cta">
+        <a class="btn" href="/login">Comprar</a>
+      </div>
+    </div>
+
+    <!-- PARA QUIÉN NO ES -->
+    <div class="panel">
+      <div class="title"><span>¿PARA QUIÉN NO ES?</span></div>
+
+      <p class="sub">Esto <strong>NO</strong> es para ti si:</p>
+      <ul>
+        <li>Buscas tips rápidos o fórmulas mágicas.</li>
+        <li>Quieres que alguien decida por ti.</li>
+        <li>No estás dispuesto a mirar tu situación completa.</li>
+      </ul>
+
+      <div class="cta">
+        <a class="btn" href="/login">Comprar</a>
+      </div>
+    </div>
+
+  </div>
+</section>
 </body>
 </html>
 
