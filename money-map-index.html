@@ -1022,7 +1022,6 @@
 
     /* FOOTER */
     .xs-footer{
-      border-top: 4px solid rgba(91,76,226,.65);
       padding: 22px 0 30px;
       background:#fff;
     }
@@ -1112,14 +1111,51 @@
       .steps{grid-template-columns: 1fr;}
       .hero{padding: 34px 0 32px;}
       .section{padding: 38px 0;}
-      .topbar-inner{flex-direction:column; align-items:flex-start; gap:10px;}
-      .nav-right{width:100%; justify-content:space-between;}
-      .nav-links{gap:12px; flex-wrap:wrap;}
-      .nav-links .nav-btn{width:auto;}
-      .xs-review .top{flex-direction:column; align-items:flex-start;}
-      .xs-review .price{width:100%; justify-content:flex-start;}
-      .xs-review .btnRow{flex-direction:column;}
-      .xs-review .btn.primary, .xs-review .btn.ghost{width:100%;}
+      .topbar-inner{
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+      }
+      .nav-right{
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+      }
+      .nav-links{gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+      .nav-links a:not(.nav-btn){display:none;}
+      .nav-links .nav-btn{width:auto; font-size:13px; padding:8px 14px;}
+      .brand-logo{height:44px;}
+      
+      /* Plan Revisión reorganizado */
+      .xs-review .top{
+        flex-direction:row;
+        align-items:flex-start;
+      }
+      .xs-review .top .price{
+        display:none;
+      }
+      
+      /* Precio movido después de includes */
+      .xs-review .price-mobile{
+        display:flex !important;
+        width:100%;
+        justify-content:center;
+        margin: 16px 0 0;
+        padding: 12px 14px;
+      }
+      
+      /* Arreglando botones (sin forma de huevo) */
+      .xs-review .btnRow{
+        flex-direction:column;
+        gap:10px;
+        margin-top: 16px;
+      }
+      .xs-review .btn{
+        width:100%;
+        border-radius: 999px !important;
+        padding: 14px 20px;
+      }
+      
       .xavier-quote{
         grid-template-columns: 1fr; 
         text-align:center;
@@ -1374,6 +1410,15 @@
             <div class="row">
               <div class="txt">Recomendación de próximos pasos</div>
               <div class="ok">✓</div>
+            </div>
+          </div>
+
+          <!-- Precio para mobile (aparece después de includes) -->
+          <div class="price price-mobile" aria-label="Precio del plan" style="display:none;">
+            <div class="cart">🛒</div>
+            <div>
+              <span class="lbl">Precio</span>
+              <span class="amt">USD$ 299</span>
             </div>
           </div>
 
