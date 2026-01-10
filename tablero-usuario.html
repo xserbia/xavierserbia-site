@@ -1240,6 +1240,219 @@
             transform: translateY(-1px);
         }
 
+        /* Final Documents Section (Cerrado) */
+        .final-documents-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #86efac;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .final-documents-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #bbf7d0;
+        }
+
+        .final-documents-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.2);
+        }
+
+        .final-documents-title {
+            flex: 1;
+        }
+
+        .final-documents-title h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #166534;
+            margin-bottom: 0.25rem;
+        }
+
+        .final-documents-subtitle {
+            font-size: 0.875rem;
+            color: #15803d;
+        }
+
+        .final-documents-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .final-documents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .final-document-card {
+            background: white;
+            border: 2px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .final-document-card:hover {
+            border-color: #22c55e;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .final-document-card.pending {
+            background: #fafaf9;
+            border-color: #e7e5e4;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .final-document-card.pending:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .final-document-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-document-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .final-document-card.pending .final-document-icon {
+            background: #d6d3d1;
+        }
+
+        .final-document-info {
+            flex: 1;
+        }
+
+        .final-document-name {
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .final-document-description {
+            font-size: 0.75rem;
+            color: #78716c;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .final-document-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.7rem;
+            color: #a8a29e;
+        }
+
+        .final-document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-final-document {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-final-document.download {
+            background: linear-gradient(to right, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-final-document.download:hover {
+            background: linear-gradient(to right, #16a34a, #15803d);
+            box-shadow: 0 10px 15px rgba(34, 197, 94, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-final-document.preview {
+            background: white;
+            color: #22c55e;
+            border: 2px solid #22c55e;
+        }
+
+        .btn-final-document.preview:hover {
+            background: #f0fdf4;
+        }
+
+        .btn-final-document.pending {
+            background: #f5f5f4;
+            color: #a8a29e;
+            cursor: not-allowed;
+        }
+
+        .completion-message {
+            background: white;
+            border: 2px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .completion-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .completion-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #166534;
+            margin-bottom: 0.5rem;
+        }
+
+        .completion-text {
+            font-size: 0.875rem;
+            color: #15803d;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         .status-badge {
             display: none;
             align-items: center;
@@ -2027,6 +2240,13 @@
             </div>
 
             <div class="demo-section">
+                <div class="demo-label">Cerrado:</div>
+                <button class="btn-demo-action" onclick="simulateFinalDocsAvailable()">
+                    📄 Hacer docs disponibles
+                </button>
+            </div>
+
+            <div class="demo-section">
                 <button class="btn-demo-action" onclick="resetProgress()">
                     🔄 Reiniciar todo
                 </button>
@@ -2202,10 +2422,31 @@
                 description: 'Se entrega el resumen final y próximos pasos. Si tienes seguimiento mensual, aquí inicia el ciclo de check-ins.',
                 checklist: [
                     { item: 'Resumen final entregado', done: false },
-                    { item: 'Plan de acción definido', done: false },
-                    { item: 'Seguimiento programado', done: false }
+                    { item: 'Plan de acción definido', done: false }
                 ],
-                cta: { text: 'Descargar resumen', action: 'download' }
+                cta: null,
+                finalDocuments: [
+                    {
+                        name: 'Resumen Final del Análisis',
+                        description: 'Documento completo con hallazgos, insights y recomendaciones estratégicas',
+                        size: '2.4 MB',
+                        pages: 24,
+                        type: 'pdf',
+                        status: 'available', // available, pending
+                        icon: 'file-text',
+                        url: '#'
+                    },
+                    {
+                        name: 'Plan de Acción',
+                        description: 'Roadmap detallado con pasos específicos, timelines y KPIs a seguir',
+                        size: '1.8 MB',
+                        pages: 16,
+                        type: 'pdf',
+                        status: 'available',
+                        icon: 'clipboard-check',
+                        url: '#'
+                    }
+                ]
             }
         };
 
@@ -2413,6 +2654,13 @@
                     stepContent.videocall.meetingStatus.scheduledTime = null;
                     stepContent.videocall.meetingStatus.meetingLink = null;
                     stepContent.videocall.meetingStatus.recordingUrl = null;
+                }
+                
+                // Reset final documents status
+                if (stepContent.cerrado.finalDocuments) {
+                    stepContent.cerrado.finalDocuments.forEach(doc => {
+                        doc.status = 'pending';
+                    });
                 }
                 
                 // Update demo buttons
@@ -2937,6 +3185,52 @@
             showNotification('✅ Videollamada marcada como completada');
         }
 
+        // ===== FINAL DOCUMENTS FUNCTIONS (CERRADO) =====
+        
+        // Preview final document
+        function previewFinalDocument(index) {
+            const doc = stepContent.cerrado.finalDocuments[index];
+            showNotification(`📄 Abriendo vista previa: ${doc.name}`);
+            
+            // En producción aquí se abriría el PDF en un modal o nueva ventana
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción se mostraría el PDF completo.');
+            }, 1500);
+        }
+
+        // Download final document
+        function downloadFinalDocument(index) {
+            const doc = stepContent.cerrado.finalDocuments[index];
+            showNotification(`⬇️ Descargando: ${doc.name}`);
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Documento descargado correctamente');
+            }, 1000);
+        }
+
+        // Simulate making final documents available (for demo)
+        function simulateFinalDocsAvailable() {
+            if (selectedStep !== 'cerrado') {
+                showNotification('⚠️ Primero selecciona el paso Cerrado');
+                return;
+            }
+            
+            const docs = stepContent.cerrado.finalDocuments;
+            
+            // Make all documents available
+            docs.forEach(doc => {
+                doc.status = 'available';
+            });
+            
+            // Update checklist
+            stepContent.cerrado.checklist[0].done = true; // Resumen final entregado
+            stepContent.cerrado.checklist[1].done = true; // Plan de acción definido
+            
+            updateContent();
+            showNotification('✅ Documentos finales ahora disponibles para descargar');
+        }
+
         // Add animation styles
         const style = document.createElement('style');
         style.textContent = `
@@ -3438,11 +3732,103 @@
                 `;
             }
             
+            // Render final documents section (Cerrado)
+            let finalDocsHTML = '';
+            if (selectedStep === 'cerrado' && content.finalDocuments) {
+                const allDocsAvailable = content.finalDocuments.every(doc => doc.status === 'available');
+                
+                finalDocsHTML = `
+                    <div class="final-documents-section">
+                        ${allDocsAvailable ? `
+                            <div class="final-documents-header">
+                                <div class="final-documents-icon">
+                                    <i data-lucide="check-circle" style="width: 32px; height: 32px; color: white;"></i>
+                                </div>
+                                <div class="final-documents-title">
+                                    <h3>🎉 Proceso Completado</h3>
+                                    <p class="final-documents-subtitle">Tus documentos finales están listos para descargar</p>
+                                </div>
+                            </div>
+                            
+                            <div class="final-documents-grid">
+                                ${content.finalDocuments.map((doc, index) => `
+                                    <div class="final-document-card ${doc.status === 'pending' ? 'pending' : ''}">
+                                        <div class="final-document-header">
+                                            <div class="final-document-icon">
+                                                <i data-lucide="${doc.icon}" style="width: 24px; height: 24px; color: white;"></i>
+                                            </div>
+                                            <div class="final-document-info">
+                                                <div class="final-document-name">${doc.name}</div>
+                                                <div class="final-document-description">${doc.description}</div>
+                                                <div class="final-document-meta">
+                                                    <span>📄 ${doc.pages} páginas</span>
+                                                    <span>💾 ${doc.size}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="final-document-actions">
+                                            ${doc.status === 'available' ? `
+                                                <button class="btn-final-document preview" onclick="previewFinalDocument(${index})">
+                                                    <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+                                                    Vista previa
+                                                </button>
+                                                <button class="btn-final-document download" onclick="downloadFinalDocument(${index})">
+                                                    <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                                                    Descargar
+                                                </button>
+                                            ` : `
+                                                <button class="btn-final-document pending" disabled>
+                                                    <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                                                    Pendiente
+                                                </button>
+                                            `}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="completion-message">
+                                <div class="completion-icon">
+                                    <i data-lucide="award" style="width: 48px; height: 48px; color: white;"></i>
+                                </div>
+                                <h4 class="completion-title">¡Felicitaciones!</h4>
+                                <p class="completion-text">
+                                    Has completado exitosamente el proceso de análisis. Los documentos arriba contienen tu 
+                                    resumen ejecutivo completo y el plan de acción estratégico para alcanzar tus objetivos. 
+                                    Si contrataste seguimiento mensual, pronto recibirás información sobre los próximos check-ins.
+                                </p>
+                            </div>
+                        ` : `
+                            <div class="final-documents-header">
+                                <div class="final-documents-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                    <i data-lucide="clock" style="width: 32px; height: 32px; color: white;"></i>
+                                </div>
+                                <div class="final-documents-title">
+                                    <h3>Documentos en preparación</h3>
+                                    <p class="final-documents-subtitle">Tus documentos finales estarán disponibles pronto</p>
+                                </div>
+                            </div>
+                            
+                            <div class="videocall-info-alert">
+                                <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="videocall-info-content">
+                                    <div class="videocall-info-title">Estamos trabajando en tus documentos</div>
+                                    <div class="videocall-info-text">
+                                        Nuestro equipo está finalizando tu resumen ejecutivo y plan de acción. 
+                                        Recibirás una notificación cuando estén listos para descargar.
+                                    </div>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                `;
+            }
+            
             // Render CTA
             const ctaContainer = document.getElementById('ctaContainer');
             
             // First, remove any previously added dynamic sections
-            const existingDynamicSections = document.querySelectorAll('.documents-section, .discovery-status-section, .videocall-section');
+            const existingDynamicSections = document.querySelectorAll('.documents-section, .discovery-status-section, .videocall-section, .final-documents-section');
             existingDynamicSections.forEach(section => section.remove());
             
             // Now render based on current step
@@ -3463,6 +3849,11 @@
                 // Insert videocall scheduling section ONLY
                 const checklistElement = document.getElementById('checklist').parentElement;
                 checklistElement.insertAdjacentHTML('afterend', videocallHTML);
+                ctaContainer.innerHTML = '';
+            } else if (selectedStep === 'cerrado') {
+                // Insert final documents section ONLY
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', finalDocsHTML);
                 ctaContainer.innerHTML = '';
             } else if (content.cta) {
                 ctaContainer.innerHTML = `
