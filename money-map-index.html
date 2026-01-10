@@ -688,13 +688,14 @@
       font-weight: 1000;
       letter-spacing:.15px;
       border-radius: 999px;
-      padding: 12px 16px;
+      padding: 14px 20px;
       font-size: 14px;
       transition: transform .12s ease;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
+      min-height: 46px;
     }
     .xs-review .btn:active{transform: translateY(1px)}
     .xs-review .btn.primary{
@@ -1105,6 +1106,11 @@
       .xs-faq .cta{width:100%; justify-content:flex-start;}
       .xs-faq .btn{width:100%; justify-content:center;}
       .xavier-quote{grid-template-columns: 100px 1fr;}
+      .xs-review .btnRow{flex-direction:column; gap:10px;}
+      .xs-review .btn.primary, .xs-review .btn.ghost{
+        width:100%;
+        flex: none;
+      }
     }
     @media (max-width: 520px){
       .container{padding:0 14px;}
@@ -1122,7 +1128,6 @@
         align-items:center;
       }
       .nav-links{gap:8px; flex-wrap:wrap; justify-content:flex-end;}
-      .nav-links a:not(.nav-btn){display:none;}
       .nav-links .nav-btn{width:auto; font-size:13px; padding:8px 14px;}
       .brand-logo{height:44px;}
       
@@ -1151,9 +1156,11 @@
         margin-top: 16px;
       }
       .xs-review .btn{
-        width:100%;
+        width:100% !important;
+        flex: none !important;
         border-radius: 999px !important;
-        padding: 14px 20px;
+        padding: 14px 20px !important;
+        min-height: 48px !important;
       }
       
       .xavier-quote{
@@ -1185,8 +1192,6 @@
         />
       </div>
       <nav class="nav-links" aria-label="Navegación">
-        <a href="/login">Legal</a>
-        <a href="/login">Registrarse</a>
         <a class="nav-btn" href="/login">Iniciar sesión</a>
       </nav>
     </div>
