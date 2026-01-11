@@ -2034,6 +2034,11 @@ function showSettingsTab(tabName) {
                 t.className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 whitespace-nowrap';
             });
             document.getElementById('tab-' + tabName).className = 'px-6 py-3 rounded-lg font-semibold transition-all bg-brand-100 text-brand-700 whitespace-nowrap';
+
+            // Renderizar opciones de horario cuando se abre el tab de video
+    if (tabName === 'video') {
+        renderClientScheduleOptions(currentClientId);
+    }
         }
 
         // Función para generar ID único
