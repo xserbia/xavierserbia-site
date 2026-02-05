@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>¿En qué etapa financiera estás?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+  :root{
+    --primary:#4f46e5;
+    --ok:#10b981;
+    --warn:#f59e0b;
+    --bad:#ef4444;
+    --bg:#ffffff;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#e2e8f0;
+  }
+  
+  *{box-sizing:border-box;margin:0;padding:0}
+  
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    padding:20px;
+  }
+  
+  .container{
+    max-width:600px;
+    margin:0 auto;
+  }
+  
+  .card{
+    background:var(--card);
+    border-radius:16px;
+    padding:32px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  }
+  
+  .header{
+    text-align:center;
+    margin-bottom:32px;
+  }
+  
+  .header h1{
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:8px;
+    background:linear-gradient(135deg,var(--primary),#7c3aed);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  
+  .header p{
+    color:var(--muted);
+    font-size:15px;
+  }
+  
+  .progress{
+    height:6px;
+    background:var(--border);
+    border-radius:999px;
+    margin-bottom:32px;
+    overflow:hidden;
+  }
+  
+  .progressBar{
+    height:100%;
+    background:linear-gradient(90deg,var(--primary),#7c3aed);
+    transition:width 0.3s ease;
+  }
+  
+  .question{
+    display:none;
+    animation:fadeIn 0.3s ease;
+  }
+  
+  .question.active{
+    display:block;
+  }
+  
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  
+  .qNumber{
+    display:inline-block;
+    background:var(--primary);
+    color:white;
+    font-weight:700;
+    font-size:12px;
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  
+  .qLabel{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:20px;
+    display:block;
+  }
+  
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  
+  .option{
+    padding:16px 20px;
+    border:2px solid var(--border);
+    border-radius:12px;
+    background:white;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    font-weight:600;
+    font-size:15px;
+  }
+  
+  .option:hover{
+    border-color:var(--primary);
+    background:#f5f3ff;
+  }
+  
+  .option.selected{
+    border-color:var(--primary);
+    background:linear-gradient(135deg,var(--primary),#7c3aed);
+    color:white;
+  }
+  
+  .input{
+    width:100%;
+    padding:16px 20px;
+    border:2px solid var(--border);
+    border-radius:12px;
+    font-family:inherit;
+    font-size:16px;
+    font-weight:600;
+    transition:all 0.2s ease;
+  }
+  
+  .input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 4px rgba(79,70,229,0.1);
+  }
+  
+  .helper{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:8px;
+  }
+  
+  .noSe{
+    width:100%;
+    margin-top:12px;
+    padding:12px 20px;
+    background:#f8fafc;
+    border:2px dashed var(--border);
+    border-radius:12px;
+    font-family:inherit;
+    font-weight:600;
+    font-size:14px;
+    color:var(--muted);
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  
+  .noSe:hover{
+    background:#f1f5f9;
+    border-color:var(--muted);
+  }
+  
+  .noSe.selected{
+    background:linear-gradient(135deg,#fef3c7,#fde68a);
+    border-color:#fbbf24;
+    color:#92400e;
+    font-weight:700;
+  }
+  
+  .actions{
+    display:flex;
+    gap:12px;
+    margin-top:32px;
+  }
+  
+  .btn{
+    flex:1;
+    padding:14px 24px;
+    border:none;
+    border-radius:12px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  
+  .btnPrimary{
+    background:linear-gradient(135deg,var(--primary),#7c3aed);
+    color:white;
+  }
+  
+  .btnPrimary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(79,70,229,0.3);
+  }
+  
+  .btnPrimary:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+    transform:none;
+  }
+  
+  .btnSecondary{
+    background:var(--border);
+    color:var(--text);
+  }
+  
+  .btnSecondary:hover{
+    background:#cbd5e1;
+  }
+  
+  /* RESULTS */
+  .results{
+    display:none;
+    text-align:center;
+    animation:fadeIn 0.5s ease;
+  }
+  
+  .results.show{
+    display:block;
+  }
+  
+  .stageIcon{
+    font-size:80px;
+    margin-bottom:16px;
+  }
+  
+  .stageName{
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+  
+  .stageDesc{
+    font-size:16px;
+    color:var(--muted);
+    margin-bottom:32px;
+  }
+  
+  .scoreCard{
+    background:linear-gradient(135deg,#f0f9ff,#e0f2fe);
+    border:2px solid #bae6fd;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:24px;
+  }
+  
+  .scoreTitle{
+    font-size:13px;
+    font-weight:700;
+    color:#0369a1;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:8px;
+  }
+  
+  .scoreValue{
+    font-size:48px;
+    font-weight:900;
+    color:#0284c7;
+  }
+  
+  .issues{
+    background:#fef3c7;
+    border:2px solid #fde047;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:24px;
+    text-align:left;
+  }
+  
+  .issues h3{
+    font-size:16px;
+    font-weight:800;
+    color:#854d0e;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  
+  .issues ul{
+    list-style:none;
+  }
+  
+  .issues li{
+    font-size:14px;
+    font-weight:600;
+    color:#713f12;
+    padding:8px 0;
+    padding-left:24px;
+    position:relative;
+  }
+  
+  .issues li::before{
+    content:"⚠️";
+    position:absolute;
+    left:0;
+  }
+  
+  .nextSteps{
+    background:#dcfce7;
+    border:2px solid #86efac;
+    border-radius:12px;
+    padding:20px;
+    text-align:left;
+  }
+  
+  .nextSteps h3{
+    font-size:16px;
+    font-weight:800;
+    color:#166534;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  
+  .nextSteps ol{
+    margin-left:20px;
+  }
+  
+  .nextSteps li{
+    font-size:14px;
+    font-weight:600;
+    color:#15803d;
+    padding:6px 0;
+  }
+  
+  .retry{
+    margin-top:24px;
+    padding:12px 24px;
+    background:white;
+    border:2px solid var(--border);
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  
+  .retry:hover{
+    background:var(--bg);
+  }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>¿En qué etapa financiera estás?</h1>
+        <p>11 preguntas para un diagnóstico personalizado</p>
+      </div>
+
+      <div class="progress">
+        <div class="progressBar" id="progressBar"></div>
+      </div>
+
+      <!-- PREGUNTAS -->
+      <div id="questions">
+        <!-- CONTEXTO PERSONAL -->
+        <div class="question active" data-q="1">
+          <span class="qNumber">Pregunta 1 de 11</span>
+          <label class="qLabel">¿Cuál es tu edad?</label>
+          <div class="options">
+            <div class="option" data-value="25">18-30 años</div>
+            <div class="option" data-value="37">31-45 años</div>
+            <div class="option" data-value="52">46-60 años</div>
+            <div class="option" data-value="65">61+ años</div>
+          </div>
+        </div>
+
+        <div class="question" data-q="2">
+          <span class="qNumber">Pregunta 2 de 11</span>
+          <label class="qLabel">¿Tienes personas que dependen económicamente de ti?</label>
+          <div class="options">
+            <div class="option" data-value="0">No, solo yo</div>
+            <div class="option" data-value="1">Sí, 1 persona</div>
+            <div class="option" data-value="2">Sí, 2-3 personas</div>
+            <div class="option" data-value="3">Sí, 4+ personas</div>
+          </div>
+          <div class="helper">Hijos, pareja sin ingresos, padres, etc.</div>
+        </div>
+
+        <div class="question" data-q="3">
+          <span class="qNumber">Pregunta 3 de 11</span>
+          <label class="qLabel">¿Cuál describe mejor tu situación laboral?</label>
+          <div class="options">
+            <div class="option" data-value="6">Empleo estable y seguro</div>
+            <div class="option" data-value="12">Empleo en industria volátil</div>
+            <div class="option" data-value="18">Freelance / Consultor</div>
+            <div class="option" data-value="24">Negocio propio</div>
+            <div class="option" data-value="36">Ingresos muy irregulares / Pre-retiro</div>
+          </div>
+        </div>
+
+        <!-- SITUACIÓN FINANCIERA -->
+        <div class="question" data-q="4">
+          <span class="qNumber">Pregunta 4 de 11</span>
+          <label class="qLabel">¿Tu ingreso mensual cubre todos tus gastos?</label>
+          <div class="options">
+            <div class="option" data-value="no">No, uso crédito o préstamos</div>
+            <div class="option" data-value="justo">Sí, apenas alcanza</div>
+            <div class="option" data-value="sobra">Sí, me sobra dinero</div>
+          </div>
+        </div>
+
+        <div class="question" data-q="5">
+          <span class="qNumber">Pregunta 5 de 11</span>
+          <label class="qLabel">¿Cuántos meses de gastos tienes ahorrados en efectivo?</label>
+          <div class="options">
+            <div class="option" data-value="0">Menos de 1 mes</div>
+            <div class="option" data-value="2">1-3 meses</div>
+            <div class="option" data-value="5">3-6 meses</div>
+            <div class="option" data-value="8">6-9 meses</div>
+            <div class="option" data-value="11">9-12 meses</div>
+            <div class="option" data-value="15">12-18 meses</div>
+            <div class="option" data-value="21">18-24 meses</div>
+            <div class="option" data-value="30">Más de 24 meses</div>
+          </div>
+          <div class="helper">Tu "colchón" de emergencia - te diremos cuánto necesitas según tu situación</div>
+        </div>
+
+        <div class="question" data-q="6">
+          <span class="qNumber">Pregunta 6 de 11</span>
+          <label class="qLabel">¿Qué porcentaje de tu ingreso va a pagar deudas?</label>
+          <input type="number" class="input" id="debtInput" placeholder="Ejemplo: 30" min="0" max="100">
+          <div class="helper">Incluye tarjetas, préstamos, hipoteca, auto... todo</div>
+          <button class="noSe" id="noSeDebt">✓ No sé (asumiremos más de 36%)</button>
+        </div>
+
+        <div class="question" data-q="7">
+          <span class="qNumber">Pregunta 7 de 11</span>
+          <label class="qLabel">¿Qué porcentaje de tus activos son pasivos/deudas?</label>
+          <div class="options">
+            <div class="option" data-value="10">Menos del 20% (bajo)</div>
+            <div class="option" data-value="35">20-49% (moderado)</div>
+            <div class="option" data-value="55">50-60% (alto)</div>
+            <div class="option" data-value="75">Más del 60% (muy alto)</div>
+          </div>
+          <div class="helper">Si tienes $100k en activos y $30k en deudas = 30%</div>
+          <button class="noSe" id="noSeDebtRatio">✓ No sé (asumiremos >50%)</button>
+        </div>
+
+        <div class="question" data-q="8">
+          <span class="qNumber">Pregunta 8 de 11</span>
+          <label class="qLabel">¿Qué porcentaje de tu ingreso ahorras o inviertes?</label>
+          <input type="number" class="input" id="saveInput" placeholder="Ejemplo: 15" min="0" max="100">
+          <div class="helper">Todo lo que guardas cada mes para tu futuro</div>
+          <button class="noSe" id="noSeSave">✓ No sé (asumiremos 0%)</button>
+        </div>
+
+        <div class="question" data-q="9">
+          <span class="qNumber">Pregunta 9 de 11</span>
+          <label class="qLabel">¿Cuánto tienes acumulado para el retiro vs tu ingreso anual?</label>
+          <div class="options">
+            <div class="option" data-value="0">Nada o casi nada</div>
+            <div class="option" data-value="1">Menos de 1 año de ingresos</div>
+            <div class="option" data-value="3">1-3 años de ingresos</div>
+            <div class="option" data-value="6">3-6 años de ingresos</div>
+            <div class="option" data-value="10">6-10 años de ingresos</div>
+            <div class="option" data-value="15">Más de 10 años de ingresos</div>
+          </div>
+          <div class="helper">Fondos de retiro, pensiones, ahorros para vejez</div>
+        </div>
+
+        <div class="question" data-q="10">
+          <span class="qNumber">Pregunta 10 de 11</span>
+          <label class="qLabel">Tu patrimonio neto total (todo lo que tienes - deudas):</label>
+          <div class="options">
+            <div class="option" data-value="-1">Es negativo (debo más de lo que tengo)</div>
+            <div class="option" data-value="0">Menos de 1 año de ingresos</div>
+            <div class="option" data-value="2">1-5 años de ingresos</div>
+            <div class="option" data-value="7">5-15 años de ingresos</div>
+            <div class="option" data-value="20">15-30 años de ingresos</div>
+            <div class="option" data-value="35">Más de 30 años de ingresos</div>
+          </div>
+        </div>
+
+        <div class="question" data-q="11">
+          <span class="qNumber">Pregunta 11 de 11</span>
+          <label class="qLabel">¿Tienes ingresos que lleguen sin trabajar?</label>
+          <div class="options">
+            <div class="option" data-value="0">No, solo gano cuando trabajo</div>
+            <div class="option" data-value="20">Sí, pero cubren menos del 25% de mis gastos</div>
+            <div class="option" data-value="50">Sí, cubren el 25-75% de mis gastos</div>
+            <div class="option" data-value="100">Sí, cubren el 75-100% de mis gastos</div>
+            <div class="option" data-value="120">Sí, cubren MÁS del 100% de mis gastos</div>
+          </div>
+          <div class="helper">Rentas, dividendos, intereses, negocios automatizados...</div>
+        </div>
+      </div>
+
+      <!-- RESULTADOS -->
+      <div class="results" id="results">
+        <div class="stageIcon" id="stageIcon">🆘</div>
+        <h2 class="stageName" id="stageName">Etapa 1: Supervivencia</h2>
+        <p class="stageDesc" id="stageDesc">Descripción de la etapa</p>
+
+        <div class="scoreCard">
+          <div class="scoreTitle">Tu progreso en esta etapa</div>
+          <div class="scoreValue" id="scoreValue">0%</div>
+        </div>
+
+        <div class="issues" id="issuesBox">
+          <h3>⚠️ Áreas que necesitas mejorar</h3>
+          <ul id="issuesList"></ul>
+        </div>
+
+        <div class="nextSteps">
+          <h3>✅ Tus próximos pasos</h3>
+          <ol id="stepsList"></ol>
+        </div>
+
+        <button class="retry" onclick="restart()">🔄 Volver a empezar</button>
+      </div>
+
+      <div class="actions" id="actions">
+        <button class="btn btnSecondary" id="btnBack" style="display:none">← Atrás</button>
+        <button class="btn btnPrimary" id="btnNext">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const STAGES = {
+  1: {
+    icon: '🆘',
+    name: 'Etapa 1: Supervivencia',
+    desc: 'Estás luchando para cubrir gastos básicos',
+    steps: [
+      'Deja de usar crédito para gastos del día a día',
+      'Reduce gastos innecesarios al mínimo',
+      'Busca formas de aumentar ingresos',
+      'Ahorra $100-200/mes como sea posible'
+    ]
+  },
+  2: {
+    icon: '🛡️',
+    name: 'Etapa 2: Seguridad',
+    desc: 'Tienes estabilidad básica pero poca protección',
+    steps: [
+      'Construye reserva de 6-9 meses de gastos',
+      'Reduce tus deudas a menos del 30% del ingreso',
+      'Ahorra mínimo 15% de tu ingreso',
+      'Consigue seguros básicos (vida, salud)'
+    ]
+  },
+  3: {
+    icon: '💰',
+    name: 'Etapa 3: Acumulación',
+    desc: 'Estás construyendo riqueza consistentemente',
+    steps: [
+      'Aumenta ahorro al 25-30% del ingreso',
+      'Diversifica tus inversiones',
+      'Construye patrimonio de 15× tu ingreso anual',
+      'Empieza a generar ingresos pasivos'
+    ]
+  },
+  4: {
+    icon: '🟩',
+    name: 'Etapa 4: Independencia',
+    desc: 'Tus inversiones pueden mantener tu estilo de vida',
+    steps: [
+      'Haz que tus ingresos pasivos cubran 100% de gastos',
+      'Optimiza tu portafolio de inversiones',
+      'Planifica protección patrimonial',
+      'Reduce deuda a menos del 10%'
+    ]
+  },
+  5: {
+    icon: '🟦',
+    name: 'Etapa 5: Libertad',
+    desc: '¡Lograste libertad financiera completa!',
+    steps: [
+      'Protege y preserva tu riqueza',
+      'Optimiza estrategias fiscales',
+      'Planifica legado generacional',
+      'Considera impacto filantrópico'
+    ]
+  }
+};
+
+let currentQ = 1;
+let answers = {};
+
+const progressBar = document.getElementById('progressBar');
+const btnNext = document.getElementById('btnNext');
+const btnBack = document.getElementById('btnBack');
+const questions = document.querySelectorAll('.question');
+const results = document.getElementById('results');
+const actionsDiv = document.getElementById('actions');
+
+// Event listeners para opciones
+document.querySelectorAll('.option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    this.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// Event listeners para botones "No sé"
+document.getElementById('noSeDebt').addEventListener('click', function(e) {
+  e.preventDefault();
+  const input = document.getElementById('debtInput');
+  const btn = this;
+  
+  if(btn.classList.contains('selected')) {
+    // Deseleccionar
+    btn.classList.remove('selected');
+    input.value = '';
+    input.disabled = false;
+    input.style.opacity = '1';
+  } else {
+    // Seleccionar
+    btn.classList.add('selected');
+    input.value = '36';
+    input.disabled = true;
+    input.style.opacity = '0.6';
+  }
+});
+
+document.getElementById('noSeSave').addEventListener('click', function(e) {
+  e.preventDefault();
+  const input = document.getElementById('saveInput');
+  const btn = this;
+  
+  if(btn.classList.contains('selected')) {
+    // Deseleccionar
+    btn.classList.remove('selected');
+    input.value = '';
+    input.disabled = false;
+    input.style.opacity = '1';
+  } else {
+    // Seleccionar
+    btn.classList.add('selected');
+    input.value = '0';
+    input.disabled = true;
+    input.style.opacity = '0.6';
+  }
+});
+
+document.getElementById('noSeDebtRatio').addEventListener('click', function(e) {
+  e.preventDefault();
+  const question = this.closest('.question');
+  const options = question.querySelectorAll('.option');
+  const btn = this;
+  
+  if(btn.classList.contains('selected')) {
+    // Deseleccionar
+    btn.classList.remove('selected');
+    options.forEach(opt => opt.classList.remove('selected'));
+  } else {
+    // Seleccionar - auto-selecciona la opción de 50-60% (alto)
+    btn.classList.add('selected');
+    options.forEach(opt => opt.classList.remove('selected'));
+    options[2].classList.add('selected'); // 50-60% (alto)
+  }
+});
+
+// Navegación
+btnNext.addEventListener('click', () => {
+  const currentQuestion = document.querySelector(`.question[data-q="${currentQ}"]`);
+  
+  // Validar respuesta
+  if(currentQ === 6) {
+    const val = document.getElementById('debtInput').value;
+    const noSeBtn = document.getElementById('noSeDebt');
+    if((!val || val === '') && !noSeBtn.classList.contains('selected')) {
+      alert('Por favor ingresa un número o selecciona "No sé"');
+      return;
+    }
+    answers.debt = parseFloat(val);
+  } else if(currentQ === 8) {
+    const val = document.getElementById('saveInput').value;
+    const noSeBtn = document.getElementById('noSeSave');
+    if((!val || val === '') && !noSeBtn.classList.contains('selected')) {
+      alert('Por favor ingresa un número o selecciona "No sé"');
+      return;
+    }
+    answers.save = parseFloat(val);
+  } else {
+    const selected = currentQuestion.querySelector('.option.selected');
+    if(!selected) {
+      alert('Por favor selecciona una opción');
+      return;
+    }
+    answers[`q${currentQ}`] = selected.dataset.value;
+  }
+  
+  if(currentQ < 11) {
+    currentQ++;
+    updateUI();
+  } else {
+    showResults();
+  }
+});
+
+btnBack.addEventListener('click', () => {
+  if(currentQ > 1) {
+    currentQ--;
+    updateUI();
+  }
+});
+
+function updateUI() {
+  // Progress
+  progressBar.style.width = ((currentQ - 1) / 11 * 100) + '%';
+  
+  // Questions
+  questions.forEach(q => q.classList.remove('active'));
+  document.querySelector(`.question[data-q="${currentQ}"]`).classList.add('active');
+  
+  // Buttons
+  btnBack.style.display = currentQ > 1 ? 'block' : 'none';
+  btnNext.textContent = currentQ === 11 ? 'Ver mi resultado →' : 'Siguiente →';
+}
+
+function showResults() {
+  // Contexto personal
+  const age = parseFloat(answers.q1); // 25, 37, 52, 65
+  const dependents = parseFloat(answers.q2); // 0, 1, 2, 3
+  const employmentType = parseFloat(answers.q3); // 6, 12, 18, 24, 36 (meses base de reserva)
+  
+  // Calcular reserva ideal personalizada
+  let idealEmergency = employmentType;
+  if(dependents > 0) {
+    idealEmergency += 3; // +3 meses si tienes dependientes
+  }
+  
+  // Situación financiera
+  const cashFlow = answers.q4; // no, justo, sobra
+  const emergency = parseFloat(answers.q5); // meses actuales
+  const debt = answers.debt; // % servicio de deuda
+  const debtRatio = parseFloat(answers.q7); // % pasivos/activos
+  const save = answers.save; // %
+  const retirement = parseFloat(answers.q9); // años de ingreso
+  const netWorth = parseFloat(answers.q10); // años de ingreso
+  const passive = parseFloat(answers.q11); // % cobertura
+  
+  // Calcular expectativas según edad
+  let expectedRetirement = 0;
+  let expectedNetWorth = 0;
+  
+  if(age <= 30) {
+    expectedRetirement = 1; // Mínimo 1× ingreso anual a los 30
+    expectedNetWorth = 1;   // Mínimo 1× ingreso anual
+  } else if(age <= 45) {
+    expectedRetirement = 3; // 3× ingreso anual a los 40
+    expectedNetWorth = 3;
+  } else if(age <= 60) {
+    expectedRetirement = 8; // 8× ingreso anual a los 55
+    expectedNetWorth = 10;
+  } else {
+    expectedRetirement = 12; // 12×+ cerca del retiro
+    expectedNetWorth = 20;
+  }
+  
+  let stage = 1;
+  let progress = 0;
+  let issues = [];
+  
+  // Determinar etapa
+  if(cashFlow === 'no' || emergency < 1 || debt > 50 || debtRatio >= 60) {
+    stage = 1;
+    progress = Math.min(100, 
+      (cashFlow !== 'no' ? 25 : 0) +
+      (emergency >= 1 ? 20 : emergency / 1 * 20) +
+      (debt <= 50 ? 20 : 0) +
+      (debtRatio < 60 ? 15 : 0) +
+      (save >= 5 ? 20 : 0)
+    );
+    
+    if(cashFlow === 'no') issues.push('Dependes del crédito para cubrir gastos básicos');
+    if(emergency < 1) issues.push('No tienes ni un mes de reserva de emergencia');
+    if(debt > 50) issues.push('Más de la mitad de tu ingreso va a pagar deudas');
+    if(debtRatio >= 60) issues.push('Nivel de endeudamiento muy alto (>60% pasivos/activos)');
+    if(save < 5) issues.push('No estás ahorrando casi nada para tu futuro');
+    
+  } else if(emergency < idealEmergency || debt > 30 || debtRatio >= 50 || save < 15) {
+    stage = 2;
+    
+    const emergencyScore = Math.min(100, (emergency / idealEmergency) * 100);
+    const debtScore = debt <= 30 ? 100 : Math.max(0, 100 - (debt - 30) * 3);
+    const debtRatioScore = debtRatio < 50 ? 100 : Math.max(0, 100 - (debtRatio - 50) * 2);
+    const saveScore = Math.min(100, (save / 15) * 100);
+    
+    progress = Math.round((emergencyScore + debtScore + debtRatioScore + saveScore) / 4);
+    
+    if(emergency < idealEmergency) {
+      issues.push(`Tu reserva ideal es ${idealEmergency} meses (tienes ${emergency})`);
+    }
+    if(debt > 30) issues.push('Nivel de deuda todavía alto (>30% del ingreso)');
+    if(debtRatio >= 50) issues.push('⚠️ CRÍTICO: Ratio de endeudamiento ≥50% (pasivos/activos)');
+    if(save < 15) issues.push('Deberías ahorrar al menos 15% mensual');
+    if(retirement < expectedRetirement) {
+      issues.push(`Para tu edad deberías tener al menos ${expectedRetirement}× tu ingreso anual en retiro`);
+    }
+    
+  } else if(netWorth < expectedNetWorth || save < 25 || passive < 20 || debtRatio >= 35) {
+    stage = 3;
+    
+    const networthScore = Math.min(100, (netWorth / expectedNetWorth) * 100);
+    const saveScore = Math.min(100, (save / 25) * 100);
+    const passiveScore = Math.min(100, (passive / 20) * 100);
+    const debtRatioScore = debtRatio < 35 ? 100 : Math.max(0, 100 - (debtRatio - 35) * 2);
+    
+    progress = Math.round((networthScore + saveScore + passiveScore + debtRatioScore) / 4);
+    
+    if(netWorth < expectedNetWorth) {
+      issues.push(`Tu patrimonio debería ser ${expectedNetWorth}× tu ingreso anual (tienes ${netWorth}×)`);
+    }
+    if(save < 25) issues.push('En esta etapa deberías ahorrar 25-30% para acelerar');
+    if(passive < 20) issues.push('Empieza a construir fuentes de ingreso pasivo');
+    if(debtRatio >= 35) issues.push('Reduce tu ratio de endeudamiento a <35%');
+    if(retirement < expectedRetirement) {
+      issues.push(`Deberías tener ${expectedRetirement}× tu ingreso anual en retiro`);
+    }
+    
+  } else if(passive < 100 || netWorth < 25 || debtRatio >= 20) {
+    stage = 4;
+    
+    const passiveScore = Math.min(100, (passive / 100) * 100);
+    const networthScore = Math.min(100, (netWorth / 25) * 100);
+    const debtRatioScore = debtRatio < 20 ? 100 : Math.max(0, 100 - (debtRatio - 20) * 5);
+    
+    progress = Math.round((passiveScore + networthScore + debtRatioScore) / 3);
+    
+    if(passive < 100) issues.push('Tus ingresos pasivos aún no cubren todos tus gastos');
+    if(netWorth < 25) issues.push('Aumenta tu patrimonio a 25× gastos anuales');
+    if(debt > 10) issues.push('Reduce deuda a menos del 10% del ingreso');
+    if(debtRatio >= 20) issues.push('Optimiza ratio de endeudamiento a <20%');
+    
+  } else {
+    stage = 5;
+    progress = 100;
+    issues = ['¡Felicidades! Has alcanzado independencia financiera'];
+  }
+  
+  // Personalizar descripción de etapa según edad
+  const stageData = STAGES[stage];
+  let personalizedDesc = stageData.desc;
+  
+  if(stage === 1 && age >= 52) {
+    personalizedDesc = 'A tu edad esto es crítico - necesitas acción urgente';
+  } else if(stage === 2 && age <= 30) {
+    personalizedDesc = 'Vas por buen camino - aprovecha tu edad para crecer más';
+  } else if(stage === 3 && age >= 52) {
+    personalizedDesc = 'Estás acumulando bien pero debes acelerar para el retiro';
+  }
+  
+  // Mostrar resultados
+  document.getElementById('stageIcon').textContent = stageData.icon;
+  document.getElementById('stageName').textContent = stageData.name;
+  document.getElementById('stageDesc').textContent = personalizedDesc;
+  document.getElementById('scoreValue').textContent = Math.round(progress) + '%';
+  
+  // Issues
+  const issuesList = document.getElementById('issuesList');
+  if(issues.length === 0 || stage === 5) {
+    document.getElementById('issuesBox').style.display = 'none';
+  } else {
+    issuesList.innerHTML = issues.map(i => `<li>${i}</li>`).join('');
+  }
+  
+  // Steps personalizados
+  let steps = [...stageData.steps];
+  
+  // Agregar step específico de reserva si no la tiene completa
+  if(emergency < idealEmergency && stage <= 2) {
+    steps.unshift(`Construye reserva de ${idealEmergency} meses (te faltan ${Math.round(idealEmergency - emergency)} meses)`);
+  }
+  
+  // Agregar step de reducir endeudamiento si es ≥50% (CRÍTICO)
+  if(debtRatio >= 50 && stage <= 2) {
+    steps.unshift('🚨 URGENTE: Reduce ratio de endeudamiento bajo 50% (pasivos/activos)');
+  }
+  
+  const stepsList = document.getElementById('stepsList');
+  stepsList.innerHTML = steps.slice(0, 4).map(s => `<li>${s}</li>`).join('');
+  
+  // Show results
+  document.getElementById('questions').style.display = 'none';
+  actionsDiv.style.display = 'none';
+  results.classList.add('show');
+  progressBar.style.width = '100%';
+}
+
+function restart() {
+  currentQ = 1;
+  answers = {};
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.noSe').forEach(btn => btn.classList.remove('selected'));
+  document.getElementById('debtInput').value = '';
+  document.getElementById('debtInput').disabled = false;
+  document.getElementById('debtInput').style.opacity = '1';
+  document.getElementById('saveInput').value = '';
+  document.getElementById('saveInput').disabled = false;
+  document.getElementById('saveInput').style.opacity = '1';
+  
+  document.getElementById('questions').style.display = 'block';
+  actionsDiv.style.display = 'flex';
+  results.classList.remove('show');
+  document.getElementById('issuesBox').style.display = 'block';
+  
+  updateUI();
+}
+
+updateUI();
+</script>
+</body>
+</html>
