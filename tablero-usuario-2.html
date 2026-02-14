@@ -1,0 +1,3893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tablero - Dashboard de Usuario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(to bottom right, #f8fafc, rgba(91, 76, 226, 0.05), #f5f5f4);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e7e5e4;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-info-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #5B4CE2;
+        }
+
+        .user-email {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .btn-edit-user {
+            background: none;
+            border: none;
+            padding: 0.25rem;
+            cursor: pointer;
+            color: #78716c;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-edit-user:hover {
+            color: #5B4CE2;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1c1917;
+            letter-spacing: -0.025em;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            font-size: 0.875rem;
+            color: #78716c;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #44403c;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            border: 1px solid #d6d3d1;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #5B4CE2;
+            box-shadow: 0 0 0 3px rgba(91, 76, 226, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-modal {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .btn-modal-primary {
+            background: #5B4CE2;
+            color: white;
+        }
+
+        .btn-modal-primary:hover {
+            background: #4A3BB8;
+        }
+
+        .btn-modal-secondary {
+            background: #f5f5f4;
+            color: #44403c;
+        }
+
+        .btn-modal-secondary:hover {
+            background: #e7e5e4;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            border: 2px solid #5B4CE2;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .demo-controls.hidden {
+            display: none;
+        }
+
+        .demo-controls.minimized {
+            max-height: 60px;
+            overflow: hidden;
+        }
+
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #5B4CE2;
+        }
+
+        .demo-title {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #5B4CE2;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-header-actions {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .btn-toggle-demo {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            color: #78716c;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-toggle-demo:hover {
+            color: #5B4CE2;
+        }
+
+        .demo-section {
+            margin-bottom: 0.75rem;
+        }
+
+        .demo-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #44403c;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .btn-demo-step {
+            padding: 0.4rem 0.6rem;
+            background: #f5f5f4;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #44403c;
+        }
+
+        .btn-demo-step:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-demo-step.active {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-demo-action {
+            width: 100%;
+            padding: 0.6rem;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-demo-action:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            transform: translateY(-1px);
+        }
+
+        .demo-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 99;
+        }
+
+        .demo-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+        }
+
+        .demo-fab.hidden {
+            display: none;
+        }
+
+        .demo-info {
+            font-size: 0.65rem;
+            color: #78716c;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #fafaf9;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        /* Contract Documents Section */
+        .documents-section {
+            margin-bottom: 2rem;
+        }
+
+        .documents-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .document-card {
+            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
+            border: 2px solid #e7e5e4;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .document-card:hover {
+            border-color: #5B4CE2;
+            box-shadow: 0 4px 6px -1px rgba(91, 76, 226, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .document-card.signed {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #86efac;
+        }
+
+        .document-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .document-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .document-card.signed .document-icon {
+            background: #22c55e;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-name {
+            font-weight: 600;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .document-meta {
+            font-size: 0.75rem;
+            color: #78716c;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .btn-document {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            color: #44403c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-document:hover {
+            background: #f5f5f4;
+            border-color: #d6d3d1;
+        }
+
+        .btn-document.primary {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .btn-document.primary:hover {
+            background: #4A3BB8;
+        }
+
+        .btn-document.success {
+            background: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+
+        .btn-document.success:hover {
+            background: #16a34a;
+        }
+
+        .signature-section {
+            background: linear-gradient(135deg, #fafaf9 0%, white 100%);
+            border: 2px dashed #d6d3d1;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .signature-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-subtitle {
+            font-size: 0.875rem;
+            color: #78716c;
+        }
+
+        .signature-canvas-wrapper {
+            background: white;
+            border: 2px solid #e7e5e4;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .signature-canvas {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #d6d3d1;
+            border-radius: 0.5rem;
+            cursor: crosshair;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 24px,
+                #f5f5f4 24px,
+                #f5f5f4 25px
+            );
+        }
+
+        .signature-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn-signature {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-signature.clear {
+            background: #f5f5f4;
+            color: #44403c;
+        }
+
+        .btn-signature.clear:hover {
+            background: #e7e5e4;
+        }
+
+        .btn-signature.sign {
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-signature.sign:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .signature-info {
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            color: #854d0e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .document-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .document-status-badge.pending {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .document-status-badge.signed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* Discovery Status Section */
+        .discovery-status-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #7dd3fc;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .discovery-status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-status-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .discovery-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .discovery-status-badge.not-started {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .discovery-status-badge.in-progress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .discovery-status-badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .discovery-progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .discovery-progress-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #0c4a6e;
+        }
+
+        .discovery-progress-percent {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #5B4CE2;
+        }
+
+        .discovery-progress-bar-bg {
+            height: 0.75rem;
+            background: white;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 2px solid #bae6fd;
+        }
+
+        .discovery-progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #5B4CE2, #7dd3fc);
+            transition: width 0.5s;
+            box-shadow: 0 0 10px rgba(91, 76, 226, 0.3);
+        }
+
+        .discovery-info-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .discovery-info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .discovery-info-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #bae6fd;
+        }
+
+        .discovery-info-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-info-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1c1917;
+        }
+
+        .discovery-info-value.empty {
+            color: #a8a29e;
+            font-style: italic;
+        }
+
+        .discovery-summary-section {
+            background: white;
+            border: 2px solid #bae6fd;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-summary-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .discovery-summary-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .discovery-summary-item {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .discovery-summary-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .discovery-summary-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-summary-value {
+            font-size: 0.875rem;
+            color: #1c1917;
+            line-height: 1.5;
+        }
+
+        .discovery-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-discovery {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-discovery.primary {
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-discovery.primary:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-discovery.secondary {
+            background: white;
+            color: #5B4CE2;
+            border: 2px solid #5B4CE2;
+        }
+
+        .btn-discovery.secondary:hover {
+            background: #f0f9ff;
+        }
+
+        .discovery-alert {
+            background: #fef3c7;
+            border: 2px solid #fde047;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .discovery-alert-icon {
+            flex-shrink: 0;
+            color: #854d0e;
+        }
+
+        .discovery-alert-content {
+            flex: 1;
+        }
+
+        .discovery-alert-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #854d0e;
+            margin-bottom: 0.25rem;
+        }
+
+        .discovery-alert-text {
+            font-size: 0.75rem;
+            color: #92400e;
+            line-height: 1.5;
+        }
+
+        /* Video Call Scheduling Section */
+        .videocall-section {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 2px solid #d8b4fe;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .videocall-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .videocall-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #581c87;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .videocall-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .videocall-status-badge.not-scheduled {
+            background: #fef3c7;
+            color: #854d0e;
+        }
+
+        .videocall-status-badge.scheduled {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .videocall-status-badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* Meeting Details Card */
+        .meeting-details-card {
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meeting-details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f3e8ff;
+        }
+
+        .meeting-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #5B4CE2, #7c3aed);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(91, 76, 226, 0.2);
+        }
+
+        .meeting-details-info {
+            flex: 1;
+        }
+
+        .meeting-date-time {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+        }
+
+        .meeting-platform {
+            font-size: 0.875rem;
+            color: #78716c;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meeting-link-section {
+            background: #faf5ff;
+            border: 2px dashed #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .meeting-link-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #78716c;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .meeting-link-value {
+            font-size: 0.875rem;
+            color: #5B4CE2;
+            font-weight: 500;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-copy-link {
+            padding: 0.25rem 0.5rem;
+            background: white;
+            border: 1px solid #d8b4fe;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-copy-link:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .meeting-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-meeting {
+            flex: 1;
+            min-width: 180px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-meeting.join {
+            background: linear-gradient(to right, #5B4CE2, #7c3aed);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .btn-meeting.join:hover {
+            background: linear-gradient(to right, #4A3BB8, #6d28d9);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-meeting.reschedule {
+            background: white;
+            color: #5B4CE2;
+            border: 2px solid #5B4CE2;
+        }
+
+        .btn-meeting.reschedule:hover {
+            background: #faf5ff;
+        }
+
+        .btn-meeting.calendar {
+            background: white;
+            color: #78716c;
+            border: 2px solid #e7e5e4;
+        }
+
+        .btn-meeting.calendar:hover {
+            background: #f5f5f4;
+            border-color: #d6d3d1;
+        }
+
+        /* Calendar Slots */
+        .calendar-section {
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-header {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #581c87;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .calendar-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .calendar-day {
+            background: #faf5ff;
+            border: 2px solid #e9d5ff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            border-color: #d8b4fe;
+            box-shadow: 0 2px 4px rgba(91, 76, 226, 0.1);
+        }
+
+        .calendar-day-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e9d5ff;
+        }
+
+        .calendar-day-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #5B4CE2, #7c3aed);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day-info {
+            flex: 1;
+        }
+
+        .calendar-day-name {
+            font-weight: 600;
+            color: #1c1917;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day-date {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .calendar-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .slot-button {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #d8b4fe;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5B4CE2;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .slot-button:hover {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+            transform: translateY(-1px);
+        }
+
+        .slot-button.selected {
+            background: #5B4CE2;
+            color: white;
+            border-color: #5B4CE2;
+        }
+
+        .videocall-info-alert {
+            background: #dbeafe;
+            border: 2px solid #93c5fd;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .videocall-info-icon {
+            flex-shrink: 0;
+            color: #1e40af;
+        }
+
+        .videocall-info-content {
+            flex: 1;
+        }
+
+        .videocall-info-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 0.25rem;
+        }
+
+        .videocall-info-text {
+            font-size: 0.75rem;
+            color: #1e3a8a;
+            line-height: 1.5;
+        }
+
+        .selected-slot-preview {
+            background: #f0fdf4;
+            border: 2px solid #86efac;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .selected-slot-preview.active {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .selected-slot-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .selected-slot-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .btn-confirm-slot {
+            padding: 0.5rem 1.5rem;
+            background: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-confirm-slot:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+        }
+
+        /* Final Documents Section (Cerrado) */
+        .final-documents-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #86efac;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .final-documents-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #bbf7d0;
+        }
+
+        .final-documents-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.2);
+        }
+
+        .final-documents-title {
+            flex: 1;
+        }
+
+        .final-documents-title h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #166534;
+            margin-bottom: 0.25rem;
+        }
+
+        .final-documents-subtitle {
+            font-size: 0.875rem;
+            color: #15803d;
+        }
+
+        .final-documents-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .final-documents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .final-document-card {
+            background: white;
+            border: 2px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .final-document-card:hover {
+            border-color: #22c55e;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .final-document-card.pending {
+            background: #fafaf9;
+            border-color: #e7e5e4;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .final-document-card.pending:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .final-document-header {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-document-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .final-document-card.pending .final-document-icon {
+            background: #d6d3d1;
+        }
+
+        .final-document-info {
+            flex: 1;
+        }
+
+        .final-document-name {
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .final-document-description {
+            font-size: 0.75rem;
+            color: #78716c;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .final-document-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.7rem;
+            color: #a8a29e;
+        }
+
+        .final-document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-final-document {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-final-document.download {
+            background: linear-gradient(to right, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 4px 6px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-final-document.download:hover {
+            background: linear-gradient(to right, #16a34a, #15803d);
+            box-shadow: 0 10px 15px rgba(34, 197, 94, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-final-document.preview {
+            background: white;
+            color: #22c55e;
+            border: 2px solid #22c55e;
+        }
+
+        .btn-final-document.preview:hover {
+            background: #f0fdf4;
+        }
+
+        .btn-final-document.pending {
+            background: #f5f5f4;
+            color: #a8a29e;
+            cursor: not-allowed;
+        }
+
+        .completion-message {
+            background: white;
+            border: 2px solid #bbf7d0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .completion-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .completion-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #166534;
+            margin-bottom: 0.5rem;
+        }
+
+        .completion-text {
+            font-size: 0.875rem;
+            color: #15803d;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .status-badge {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(91, 76, 226, 0.1);
+            border: 1px solid rgba(91, 76, 226, 0.3);
+            border-radius: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .status-badge {
+                display: flex;
+            }
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #5B4CE2;
+            border-radius: 50%;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .status-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #5B4CE2;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: #f5f5f4;
+        }
+
+        .btn-support {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #1c1917;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-support:hover {
+            background: #292524;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr 3fr;
+            }
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e7e5e4;
+            overflow: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                position: sticky;
+                top: 6rem;
+            }
+        }
+
+        .progress-header {
+            padding: 1.5rem;
+            background: linear-gradient(to bottom right, #5B4CE2, #4A3BB8);
+            color: white;
+        }
+
+        .progress-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .progress-bar-bg {
+            flex: 1;
+            height: 0.5rem;
+            background: #3D2F9E;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #9D95F5, #C7C2FF);
+            transition: width 0.5s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        .timeline {
+            padding: 1rem;
+        }
+
+        .step-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.25rem;
+            background: white;
+            text-align: left;
+        }
+
+        .step-btn:hover:not(:disabled) {
+            background: #f5f5f4;
+        }
+
+        .step-btn.active {
+            background: #5B4CE2;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+        }
+
+        .step-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .step-icon {
+            flex-shrink: 0;
+        }
+
+        .step-icon.completed {
+            color: #22c55e;
+        }
+
+        .step-icon.current {
+            color: #5B4CE2;
+        }
+
+        .step-icon.current.active {
+            color: white;
+        }
+
+        .step-icon.pending {
+            color: #d6d3d1;
+        }
+
+        .step-info {
+            flex: 1;
+            color: #44403c;
+        }
+
+        .step-btn.active .step-info {
+            color: white;
+        }
+
+        .step-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .step-status {
+            font-size: 0.75rem;
+            color: #78716c;
+        }
+
+        .step-btn.active .step-status {
+            color: #d6d3d1;
+        }
+
+        .files-section {
+            padding: 1rem;
+            border-top: 1px solid #e7e5e4;
+        }
+
+        .files-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.75rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-item.available {
+            color: #44403c;
+        }
+
+        .file-item.unavailable {
+            color: #a8a29e;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e7e5e4;
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-container {
+            position: relative;
+            background: #1c1917;
+            aspect-ratio: 16/9;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-content {
+            text-align: center;
+        }
+
+        .play-button {
+            width: 5rem;
+            height: 5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .content-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-description {
+            font-size: 1.125rem;
+            color: #57534e;
+            line-height: 1.75;
+        }
+
+        .checklist-title {
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #1c1917;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #fafaf9;
+            border: 1px solid #e7e5e4;
+            border-radius: 0.5rem;
+        }
+
+        .checklist-icon {
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .checklist-icon.done {
+            color: #16a34a;
+        }
+
+        .checklist-icon.pending {
+            color: #d6d3d1;
+        }
+
+        .checklist-text {
+            font-size: 0.875rem;
+        }
+
+        .checklist-text.done {
+            color: #44403c;
+            text-decoration: line-through;
+        }
+
+        .checklist-text.pending {
+            color: #1c1917;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #5B4CE2, #4A3BB8);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.3);
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(to right, #4A3BB8, #3D2F9E);
+            box-shadow: 0 20px 25px -5px rgba(91, 76, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        @media (min-width: 768px) {
+            .cta-button {
+                width: auto;
+            }
+        }
+
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .notes-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+        }
+
+        .btn-save {
+            padding: 0.5rem 1rem;
+            background: #5B4CE2;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #4A3BB8;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 8rem;
+            padding: 1rem;
+            border: 1px solid #d6d3d1;
+            border-radius: 0.75rem;
+            resize: none;
+            color: #44403c;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: #5B4CE2;
+            box-shadow: 0 0 0 3px rgba(91, 76, 226, 0.1);
+        }
+
+        .email-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e7e5e4;
+            background: #fafaf9;
+        }
+
+        .email-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1c1917;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .email-table-container {
+            overflow-x: auto;
+        }
+
+        .email-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .email-table thead {
+            background: #f5f5f4;
+            border-bottom: 1px solid #e7e5e4;
+        }
+
+        .email-table th {
+            padding: 0.75rem 1.5rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #57534e;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .email-table tbody tr {
+            border-bottom: 1px solid #e7e5e4;
+            transition: background 0.2s;
+        }
+
+        .email-table tbody tr:hover {
+            background: #fafaf9;
+        }
+
+        .email-table td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .email-subject {
+            font-weight: 500;
+            color: #1c1917;
+        }
+
+        .email-date, .email-type {
+            color: #57534e;
+        }
+
+        .email-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .btn-view-email {
+            background: none;
+            border: none;
+            color: #5B4CE2;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-view-email:hover {
+            color: #4A3BB8;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="user-info-container">
+                    <div class="user-info">
+                        <span class="user-name" id="userName">Juan Pérez</span>
+                        <button class="btn-edit-user" onclick="openEditModal()">
+                            <i data-lucide="edit-2" style="width: 14px; height: 14px;"></i>
+                        </button>
+                    </div>
+                    <div class="user-email" id="userEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1cbd4c0cf8fd1c4d3c4dbe1c4ccc0c8cd8fc2cecc">[email&#160;protected]</a></div>
+                    <h1 class="header-title">Mi Tablero</h1>
+                </div>
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <span class="status-text">Paso actual: <strong id="currentStepName">Contrato</strong></span>
+                </div>
+            </div>
+            <div class="header-buttons">
+                <button class="btn-icon" onclick="reloadStatus()">
+                    <i data-lucide="refresh-cw" style="width: 20px; height: 20px; color: #57534e;"></i>
+                </button>
+                <button class="btn-support">
+                    <i data-lucide="life-buoy" style="width: 16px; height: 16px;"></i>
+                    <span>Soporte</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="grid">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="progress-header">
+                    <h2 class="progress-title">Progreso</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">0/4</span>
+                    </div>
+                </div>
+
+                <div class="timeline" id="timeline">
+                    <!-- Steps will be generated here -->
+                </div>
+
+                <div class="files-section">
+                    <h3 class="files-title">Archivos</h3>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Contrato de servicios</span>
+                    </div>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Discovery completado</span>
+                    </div>
+                    <div class="file-item unavailable">
+                        <i data-lucide="circle" style="width: 16px; height: 16px;"></i>
+                        <span>Resumen final</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Video and Content Card -->
+                <div class="card">
+                    <div class="video-container">
+                        <div class="video-placeholder">
+                            <div class="video-content">
+                                <button class="play-button">
+                                    <i data-lucide="play" style="width: 40px; height: 40px; color: white; margin-left: 4px;"></i>
+                                </button>
+                                <p class="video-text" id="videoText">Video explicativo - Firma tu contrato</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="content-header">
+                            <h2 class="content-title" id="contentTitle">Firma tu contrato</h2>
+                            <p class="content-description" id="contentDescription">
+                                Aquí firmas y recibes copia. Esto define alcance, tiempos, y privacidad. Sin contrato firmado no avanzamos al discovery.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="checklist-title">Checklist</h3>
+                            <div class="checklist" id="checklist">
+                                <!-- Checklist items will be generated here -->
+                            </div>
+                        </div>
+
+                        <div id="ctaContainer">
+                            <!-- CTA button will be generated here if applicable -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Card -->
+                <div class="card">
+                    <div class="card-content">
+                        <div class="notes-header">
+                            <h3 class="notes-title">Mis notas - <span id="notesStepName">Contrato</span></h3>
+                            <button class="btn-save" onclick="saveNote()">Guardar</button>
+                        </div>
+                        <textarea 
+                            id="notesTextarea" 
+                            class="notes-textarea" 
+                            placeholder="Escribe aquí tus notas, dudas o recordatorios para este paso..."
+                        ></textarea>
+                    </div>
+                </div>
+
+                <!-- Email History Card -->
+                <div class="card">
+                    <div class="email-header">
+                        <h3 class="email-title">
+                            <i data-lucide="mail" style="width: 20px; height: 20px;"></i>
+                            Historial de Emails
+                        </h3>
+                    </div>
+                    <div class="email-table-container">
+                        <table class="email-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Asunto</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="email-date">2024-01-09 10:30</td>
+                                    <td class="email-subject">Bienvenido a tu proceso</td>
+                                    <td class="email-type">Bienvenida</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="email-date">2024-01-09 10:35</td>
+                                    <td class="email-subject">Próximo paso: Confirmación de pago</td>
+                                    <td class="email-type">Próximo paso</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="email-date">2024-01-08 15:20</td>
+                                    <td class="email-subject">Registro completado</td>
+                                    <td class="email-type">Confirmación</td>
+                                    <td><span class="email-status">Enviado</span></td>
+                                    <td><button class="btn-view-email">Ver email</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Demo Controls Panel -->
+    <div class="demo-controls hidden" id="demoControls">
+        <div class="demo-header">
+            <span class="demo-title">🎮 Demo Panel</span>
+            <div class="demo-header-actions">
+                <button class="btn-toggle-demo" onclick="toggleMinimizeDemo()" title="Minimizar">
+                    <i data-lucide="minimize-2" style="width: 16px; height: 16px;"></i>
+                </button>
+                <button class="btn-toggle-demo" onclick="toggleDemoPanel()" title="Cerrar">
+                    <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="demoContent">
+            <div class="demo-section">
+                <div class="demo-label">Paso actual:</div>
+                <div class="demo-buttons">
+                    <button class="btn-demo-step active" onclick="setDemoStep('contrato')">Contrato</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('discovery')">Discovery</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('videocall')">Video</button>
+                    <button class="btn-demo-step" onclick="setDemoStep('cerrado')">Cerrado</button>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="completeCurrentStep()">
+                    ✓ Completar paso
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="simulateChecklist()">
+                    📋 Toggle checklist
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <div class="demo-label">Discovery:</div>
+                <button class="btn-demo-action" onclick="simulateDiscoveryProgress()">
+                    ⏩ Avanzar progreso
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <div class="demo-label">Video Call:</div>
+                <button class="btn-demo-action" onclick="simulateAdminConfirmation()">
+                    🔗 Enviar link
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="simulateMeetingCompletion()">
+                    ✅ Completar llamada
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <div class="demo-label">Cerrado:</div>
+                <button class="btn-demo-action" onclick="simulateFinalDocsAvailable()">
+                    📄 Hacer docs disponibles
+                </button>
+            </div>
+
+            <div class="demo-section">
+                <button class="btn-demo-action" onclick="resetProgress()">
+                    🔄 Reiniciar todo
+                </button>
+            </div>
+
+            <div class="demo-info">
+                Panel de pruebas
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo FAB Button -->
+    <button class="demo-fab" id="demoFab" onclick="toggleDemoPanel()">
+        <i data-lucide="settings" style="width: 24px; height: 24px;"></i>
+    </button>
+
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Editar información</h2>
+                <p class="modal-subtitle">Actualiza tu nombre y email registrado</p>
+            </div>
+            <form class="modal-form" onsubmit="saveUserInfo(event)">
+                <div class="form-group">
+                    <label class="form-label" for="editUserName">Nombre completo</label>
+                    <input 
+                        type="text" 
+                        id="editUserName" 
+                        class="form-input" 
+                        placeholder="Ej: Juan Pérez"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editUserEmail">Email</label>
+                    <input 
+                        type="email" 
+                        id="editUserEmail" 
+                        class="form-input" 
+                        placeholder="Ej: juan.perez@email.com"
+                        required
+                    >
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn-modal btn-modal-secondary" onclick="closeEditModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-modal btn-modal-primary">
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        // Data
+        const steps = [
+            { id: 'contrato', name: 'Contrato', icon: 'file-text', status: 'current', order: 1 },
+            { id: 'discovery', name: 'Discovery', icon: 'message-square', status: 'pending', order: 2 },
+            { id: 'videocall', name: 'Video Call', icon: 'video', status: 'pending', order: 3 },
+            { id: 'cerrado', name: 'Cerrado', icon: 'award', status: 'pending', order: 4 }
+        ];
+
+        const stepContent = {
+            contrato: {
+                title: 'Firma tu contrato',
+                description: 'Aquí firmas y recibes copia. Esto define alcance, tiempos, y privacidad. Sin contrato firmado no avanzamos al discovery.',
+                checklist: [
+                    { item: 'Contrato generado', done: true },
+                    { item: 'Firma digital completada', done: false },
+                    { item: 'Copia enviada a tu email', done: false }
+                ],
+                cta: { text: 'Firmar contrato', action: 'sign' },
+                documents: [
+                    { 
+                        name: 'Contrato de Servicios Profesionales',
+                        size: '245 KB',
+                        pages: 8,
+                        status: 'pending',
+                        url: '#'
+                    },
+                    { 
+                        name: 'Anexo A - Alcance del Proyecto',
+                        size: '128 KB',
+                        pages: 3,
+                        status: 'pending',
+                        url: '#'
+                    },
+                    { 
+                        name: 'Política de Privacidad y NDA',
+                        size: '156 KB',
+                        pages: 5,
+                        status: 'pending',
+                        url: '#'
+                    }
+                ]
+            },
+            discovery: {
+                title: 'Completa el Discovery',
+                description: 'Este formulario es la base del análisis. Mientras más completo, mejor. Si te falta info, puedes guardarlo y volver.',
+                checklist: [
+                    { item: 'Formulario iniciado', done: false },
+                    { item: 'Información básica completada', done: false },
+                    { item: 'Discovery enviado para revisión', done: false }
+                ],
+                cta: { text: 'Completar Discovery', action: 'discovery' },
+                discoveryStatus: {
+                    status: 'not_started', // not_started, in_progress, completed
+                    progress: 0, // 0-100
+                    lastUpdated: null,
+                    link: 'https://xserbia.github.io/xavierserbia-site/discovery-form-claude.html',
+                    summary: {
+                        businessName: '',
+                        industry: '',
+                        currentRevenue: '',
+                        goals: ''
+                    }
+                }
+            },
+            videocall: {
+                title: 'Agenda tu Video Call',
+                description: 'Con el discovery revisado, coordinamos la llamada. Aquí se presentan hallazgos, plan de acción y próximos pasos.',
+                checklist: [
+                    { item: 'Agenda sincronizada', done: false },
+                    { item: 'Llamada agendada', done: false },
+                    { item: 'Recordatorio enviado', done: false }
+                ],
+                cta: { text: 'Agendar llamada', action: 'schedule' },
+                meetingStatus: {
+                    status: 'not_scheduled', // not_scheduled, pending_confirmation, scheduled, completed
+                    scheduledDate: null,
+                    scheduledTime: null,
+                    meetingLink: null,
+                    meetingPlatform: 'Google Meet', // Zoom, Google Meet, Teams
+                    duration: '60 minutos',
+                    availableSlots: [
+                        { date: '2024-01-15', day: 'Lunes', slots: ['10:00 AM', '2:00 PM', '4:00 PM'] },
+                        { date: '2024-01-16', day: 'Martes', slots: ['11:00 AM', '3:00 PM'] },
+                        { date: '2024-01-17', day: 'Miércoles', slots: ['9:00 AM', '1:00 PM', '5:00 PM'] },
+                        { date: '2024-01-18', day: 'Jueves', slots: ['10:00 AM', '2:00 PM'] },
+                        { date: '2024-01-19', day: 'Viernes', slots: ['11:00 AM', '3:00 PM', '4:00 PM'] }
+                    ],
+                    meetingNotes: '',
+                    recordingUrl: null
+                }
+            },
+            cerrado: {
+                title: 'Proceso completado',
+                description: 'Se entrega el resumen final y próximos pasos. Si tienes seguimiento mensual, aquí inicia el ciclo de check-ins.',
+                checklist: [
+                    { item: 'Resumen final entregado', done: false },
+                    { item: 'Plan de acción definido', done: false }
+                ],
+                cta: null,
+                finalDocuments: [
+                    {
+                        name: 'Resumen Final del Análisis',
+                        description: 'Documento completo con hallazgos, insights y recomendaciones estratégicas',
+                        size: '2.4 MB',
+                        pages: 24,
+                        type: 'pdf',
+                        status: 'available', // available, pending
+                        icon: 'file-text',
+                        url: '#'
+                    },
+                    {
+                        name: 'Plan de Acción',
+                        description: 'Roadmap detallado con pasos específicos, timelines y KPIs a seguir',
+                        size: '1.8 MB',
+                        pages: 16,
+                        type: 'pdf',
+                        status: 'available',
+                        icon: 'clipboard-check',
+                        url: '#'
+                    }
+                ]
+            }
+        };
+
+        let currentStep = 'contrato';
+        let selectedStep = 'contrato';
+        let notes = {};
+        let userInfo = {
+            name: 'Juan Pérez',
+            email: 'juan.perez@email.com'
+        };
+
+        // Initialize
+        function init() {
+            loadUserInfo();
+            loadNotes();
+            renderTimeline();
+            updateProgress();
+            updateContent();
+            lucide.createIcons();
+        }
+
+        // Load user info from localStorage
+        function loadUserInfo() {
+            const savedUserInfo = localStorage.getItem('userDashboardInfo');
+            if (savedUserInfo) {
+                userInfo = JSON.parse(savedUserInfo);
+            }
+            updateUserDisplay();
+        }
+
+        // Update user info display
+        function updateUserDisplay() {
+            document.getElementById('userName').textContent = userInfo.name;
+            document.getElementById('userEmail').textContent = userInfo.email;
+        }
+
+        // Open edit modal
+        function openEditModal() {
+            document.getElementById('editUserName').value = userInfo.name;
+            document.getElementById('editUserEmail').value = userInfo.email;
+            document.getElementById('editUserModal').classList.add('active');
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editUserModal').classList.remove('active');
+        }
+
+        // Save user info
+        function saveUserInfo(event) {
+            event.preventDefault();
+            
+            userInfo.name = document.getElementById('editUserName').value;
+            userInfo.email = document.getElementById('editUserEmail').value;
+            
+            localStorage.setItem('userDashboardInfo', JSON.stringify(userInfo));
+            updateUserDisplay();
+            closeEditModal();
+        }
+
+        // ===== DEMO CONTROLS =====
+        
+        // Toggle demo panel
+        function toggleDemoPanel() {
+            const panel = document.getElementById('demoControls');
+            const fab = document.getElementById('demoFab');
+            
+            panel.classList.toggle('hidden');
+            fab.classList.toggle('hidden');
+            
+            // Remove minimized state when opening
+            panel.classList.remove('minimized');
+            
+            lucide.createIcons();
+        }
+
+        // Toggle minimize demo panel
+        function toggleMinimizeDemo() {
+            const panel = document.getElementById('demoControls');
+            const content = document.getElementById('demoContent');
+            
+            panel.classList.toggle('minimized');
+            
+            lucide.createIcons();
+        }
+
+        // Set current step for demo
+        function setDemoStep(stepId) {
+            currentStep = stepId;
+            selectedStep = stepId;
+            
+            // Update active button
+            document.querySelectorAll('.btn-demo-step').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update UI
+            renderTimeline();
+            updateProgress();
+            updateContent();
+            
+            // Update note textarea
+            document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+        }
+
+        // Complete current step
+        function completeCurrentStep() {
+            const currentIndex = steps.findIndex(s => s.id === currentStep);
+            
+            if (currentIndex < steps.length - 1) {
+                // Move to next step
+                currentStep = steps[currentIndex + 1].id;
+                selectedStep = currentStep;
+                
+                // Update active button in demo panel
+                updateDemoButtons();
+                
+                // Update UI
+                renderTimeline();
+                updateProgress();
+                updateContent();
+                
+                // Update note textarea
+                document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+                
+                // Show notification
+                showNotification('¡Paso completado! Avanzando al siguiente paso');
+            } else {
+                showNotification('¡Proceso completado! 🎉');
+            }
+        }
+
+        // Simulate checklist completion
+        function simulateChecklist() {
+            const content = stepContent[selectedStep];
+            
+            // Toggle checklist items
+            content.checklist.forEach(item => {
+                item.done = !item.done;
+            });
+            
+            // Update UI
+            updateContent();
+            
+            showNotification('Checklist actualizado');
+        }
+
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('¿Estás seguro de reiniciar todo el progreso?')) {
+                // Reset to first step
+                currentStep = 'contrato';
+                selectedStep = 'contrato';
+                
+                // Reset all checklists
+                Object.keys(stepContent).forEach(key => {
+                    stepContent[key].checklist.forEach(item => {
+                        item.done = false;
+                    });
+                });
+                
+                // Reset contract checklist
+                stepContent.contrato.checklist[0].done = true; // Contrato generado
+                stepContent.contrato.checklist[1].done = false; // Firma digital
+                stepContent.contrato.checklist[2].done = false; // Copia enviada
+                
+                // Reset contract documents to pending
+                if (stepContent.contrato.documents) {
+                    stepContent.contrato.documents.forEach(doc => {
+                        doc.status = 'pending';
+                    });
+                }
+                
+                // Reset discovery status
+                if (stepContent.discovery.discoveryStatus) {
+                    stepContent.discovery.discoveryStatus.status = 'not_started';
+                    stepContent.discovery.discoveryStatus.progress = 0;
+                    stepContent.discovery.discoveryStatus.lastUpdated = null;
+                    stepContent.discovery.discoveryStatus.summary = {
+                        businessName: '',
+                        industry: '',
+                        currentRevenue: '',
+                        goals: ''
+                    };
+                }
+                
+                // Reset videocall status
+                if (stepContent.videocall.meetingStatus) {
+                    stepContent.videocall.meetingStatus.status = 'not_scheduled';
+                    stepContent.videocall.meetingStatus.scheduledDate = null;
+                    stepContent.videocall.meetingStatus.scheduledTime = null;
+                    stepContent.videocall.meetingStatus.meetingLink = null;
+                    stepContent.videocall.meetingStatus.recordingUrl = null;
+                }
+                
+                // Reset final documents status
+                if (stepContent.cerrado.finalDocuments) {
+                    stepContent.cerrado.finalDocuments.forEach(doc => {
+                        doc.status = 'pending';
+                    });
+                }
+                
+                // Update demo buttons
+                updateDemoButtons();
+                
+                // Update UI
+                renderTimeline();
+                updateProgress();
+                updateContent();
+                
+                // Update note textarea
+                document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+                
+                showNotification('Progreso reiniciado');
+            }
+        }
+
+        // Update demo panel buttons
+        function updateDemoButtons() {
+            document.querySelectorAll('.btn-demo-step').forEach(btn => {
+                btn.classList.remove('active');
+                
+                const stepName = btn.textContent.toLowerCase().trim();
+                const stepMatch = steps.find(s => s.name.toLowerCase() === stepName);
+                
+                if (stepMatch && stepMatch.id === currentStep) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: #5B4CE2;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px -3px rgba(91, 76, 226, 0.4);
+                z-index: 1001;
+                font-weight: 500;
+                font-size: 0.875rem;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // ===== SIGNATURE CANVAS FUNCTIONS =====
+        let canvas, ctx;
+        let isDrawing = false;
+        let hasSignature = false;
+
+        function initSignatureCanvas() {
+            canvas = document.getElementById('signatureCanvas');
+            if (!canvas) return;
+            
+            ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            // Set drawing style
+            ctx.strokeStyle = '#1c1917';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+            hasSignature = true;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        }
+
+        function handleTouchMove(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.stroke();
+            hasSignature = true;
+        }
+
+        function clearSignature() {
+            if (!canvas) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSignature = false;
+            showNotification('Firma borrada');
+        }
+
+        function signDocuments() {
+            if (!hasSignature) {
+                showNotification('⚠️ Por favor dibuja tu firma primero');
+                return;
+            }
+            
+            // Mark all documents as signed
+            const content = stepContent.contrato;
+            content.documents.forEach(doc => {
+                doc.status = 'signed';
+            });
+            
+            // Update checklist
+            content.checklist[1].done = true; // Firma digital completada
+            content.checklist[2].done = true; // Copia enviada
+            
+            // Refresh content
+            updateContent();
+            
+            showNotification('✅ ¡Documentos firmados exitosamente! Ya puedes descargar tus copias');
+        }
+
+        // ===== DOCUMENT FUNCTIONS =====
+        function previewDocument(index) {
+            const doc = stepContent.contrato.documents[index];
+            showNotification(`📄 Abriendo vista previa: ${doc.name}`);
+            
+            // En producción aquí se abriría el PDF en un modal o nueva ventana
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción se mostraría el PDF completo.');
+            }, 1500);
+        }
+
+        function downloadDocument(index) {
+            const doc = stepContent.contrato.documents[index];
+            showNotification(`⬇️ Descargando: ${doc.name}`);
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Documento descargado correctamente');
+            }, 1000);
+        }
+
+        // ===== DISCOVERY FUNCTIONS =====
+        
+        // Open discovery form in new tab
+        function openDiscoveryForm() {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            // Open the external form
+            window.open(ds.link, '_blank');
+            
+            showNotification('🚀 Abriendo formulario Discovery en nueva pestaña');
+            
+            // If not started, mark as in progress
+            if (ds.status === 'not_started') {
+                setTimeout(() => {
+                    ds.status = 'in_progress';
+                    ds.progress = 10;
+                    ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    // Update checklist
+                    stepContent.discovery.checklist[0].done = true; // Formulario iniciado
+                    
+                    updateContent();
+                    showNotification('✓ Discovery iniciado - Progreso guardado automáticamente');
+                }, 2000);
+            }
+        }
+
+        // Simulate discovery completion (for demo)
+        function simulateDiscoveryCompletion() {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            // Mark as completed
+            ds.status = 'completed';
+            ds.progress = 100;
+            ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Add dummy summary data
+            ds.summary = {
+                businessName: 'Tech Solutions Inc.',
+                industry: 'Tecnología y Software',
+                currentRevenue: '$500K - $1M anuales',
+                goals: 'Aumentar conversión web en 30%, optimizar funnel de ventas, implementar automatización de marketing'
+            };
+            
+            // Update checklist
+            stepContent.discovery.checklist[0].done = true; // Formulario iniciado
+            stepContent.discovery.checklist[1].done = true; // Información básica completada
+            stepContent.discovery.checklist[2].done = true; // Discovery enviado
+            
+            updateContent();
+            showNotification('✅ Discovery completado - Respuestas enviadas para revisión');
+        }
+
+        // Simulate progress update (could be called from external form via postMessage)
+        function updateDiscoveryProgress(progress) {
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            ds.progress = progress;
+            ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Update checklist based on progress
+            if (progress >= 30) {
+                stepContent.discovery.checklist[0].done = true;
+            }
+            if (progress >= 70) {
+                stepContent.discovery.checklist[1].done = true;
+            }
+            if (progress === 100) {
+                ds.status = 'completed';
+                stepContent.discovery.checklist[2].done = true;
+            }
+            
+            updateContent();
+        }
+
+        // Simulate discovery progress for demo
+        function simulateDiscoveryProgress() {
+            if (selectedStep !== 'discovery') {
+                showNotification('⚠️ Primero selecciona el paso Discovery');
+                return;
+            }
+            
+            const ds = stepContent.discovery.discoveryStatus;
+            
+            if (ds.status === 'not_started') {
+                // Start it
+                ds.status = 'in_progress';
+                ds.progress = 35;
+                ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                stepContent.discovery.checklist[0].done = true;
+                updateContent();
+                showNotification('📝 Discovery iniciado - Progreso: 35%');
+            } else if (ds.status === 'in_progress' && ds.progress < 100) {
+                // Advance progress
+                ds.progress = Math.min(ds.progress + 30, 100);
+                ds.lastUpdated = new Date().toLocaleDateString('es-ES', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                if (ds.progress >= 70) {
+                    stepContent.discovery.checklist[1].done = true;
+                }
+                
+                if (ds.progress === 100) {
+                    ds.status = 'completed';
+                    stepContent.discovery.checklist[2].done = true;
+                    ds.summary = {
+                        businessName: 'Tech Solutions Inc.',
+                        industry: 'Tecnología y Software',
+                        currentRevenue: '$500K - $1M anuales',
+                        goals: 'Aumentar conversión web en 30%, optimizar funnel de ventas, implementar automatización de marketing'
+                    };
+                    showNotification('✅ Discovery completado - 100%');
+                } else {
+                    showNotification(`📝 Progreso actualizado - ${ds.progress}%`);
+                }
+                
+                updateContent();
+            } else {
+                showNotification('✓ El Discovery ya está completado');
+            }
+        }
+
+        // ===== VIDEOCALL FUNCTIONS =====
+        let selectedSlotData = null;
+
+        // Select a time slot
+        function selectSlot(button) {
+            // Remove previous selection
+            document.querySelectorAll('.slot-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Select current slot
+            button.classList.add('selected');
+            
+            // Store slot data
+            selectedSlotData = {
+                date: button.getAttribute('data-date'),
+                day: button.getAttribute('data-day'),
+                time: button.getAttribute('data-time')
+            };
+            
+            // Show preview - make sure elements exist
+            setTimeout(() => {
+                const preview = document.getElementById('selectedSlotPreview');
+                const text = document.getElementById('selectedSlotText');
+                
+                if (preview && text) {
+                    text.textContent = `${selectedSlotData.day}, ${selectedSlotData.date} a las ${selectedSlotData.time}`;
+                    preview.classList.add('active');
+                    lucide.createIcons();
+                }
+            }, 100);
+        }
+
+        // Confirm schedule
+        function confirmSchedule() {
+            if (!selectedSlotData) {
+                showNotification('⚠️ Por favor selecciona un horario');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            // Update meeting status to pending confirmation
+            ms.status = 'pending_confirmation';
+            ms.scheduledDate = `${selectedSlotData.day}, ${selectedSlotData.date}`;
+            ms.scheduledTime = selectedSlotData.time;
+            ms.meetingLink = null; // Will be set by admin
+            
+            // Update checklist partially
+            stepContent.videocall.checklist[0].done = true; // Agenda sincronizada
+            stepContent.videocall.checklist[1].done = false; // Llamada agendada (pending)
+            stepContent.videocall.checklist[2].done = false; // Recordatorio enviado (pending)
+            
+            // Clear selected slot
+            selectedSlotData = null;
+            
+            // Refresh content
+            updateContent();
+            
+            showNotification('✅ Solicitud enviada! Recibirás el link aquí y por email cuando el administrador confirme');
+        }
+
+        // Simulate admin confirmation and link assignment (for demo)
+        function simulateAdminConfirmation() {
+            if (selectedStep !== 'videocall') {
+                showNotification('⚠️ Primero selecciona el paso Video Call');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.status !== 'pending_confirmation') {
+                showNotification('⚠️ Primero solicita una cita');
+                return;
+            }
+            
+            // Admin confirms and sends link
+            ms.status = 'scheduled';
+            ms.meetingLink = 'https://meet.google.com/abc-defg-hij'; // Admin-generated link
+            
+            // Update checklist
+            stepContent.videocall.checklist[1].done = true; // Llamada agendada
+            stepContent.videocall.checklist[2].done = true; // Recordatorio enviado
+            
+            updateContent();
+            showNotification('🎉 Link recibido! El administrador ha confirmado tu videollamada');
+        }
+
+        // Copy meeting link
+        function copyMeetingLink() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.meetingLink) {
+                // Copy to clipboard
+                navigator.clipboard.writeText(ms.meetingLink).then(() => {
+                    showNotification('📋 Link copiado al portapapeles');
+                }).catch(() => {
+                    showNotification('⚠️ No se pudo copiar el link');
+                });
+            }
+        }
+
+        // Join meeting
+        function joinMeeting() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.meetingLink) {
+                showNotification('🚀 Abriendo videollamada...');
+                
+                // Open meeting link
+                window.open(ms.meetingLink, '_blank');
+                
+                setTimeout(() => {
+                    showNotification('💡 Asegúrate de permitir el acceso a cámara y micrófono');
+                }, 2000);
+            }
+        }
+
+        // Add to calendar
+        function addToCalendar() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            showNotification('📅 Generando evento de calendario...');
+            
+            // En producción aquí se generaría un archivo .ics o se usaría la API de Google Calendar
+            setTimeout(() => {
+                showNotification('✓ Evento agregado a tu calendario');
+            }, 1500);
+        }
+
+        // Show rescheduling
+        function showRescheduling() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            // Reset to not_scheduled to show calendar again
+            ms.status = 'not_scheduled';
+            ms.scheduledDate = null;
+            ms.scheduledTime = null;
+            ms.meetingLink = null;
+            
+            // Clear selected slot
+            selectedSlotData = null;
+            
+            // Reset checklist to only first item done
+            stepContent.videocall.checklist[0].done = true; // Agenda sincronizada (keep)
+            stepContent.videocall.checklist[1].done = false; // Llamada agendada
+            stepContent.videocall.checklist[2].done = false; // Recordatorio enviado
+            
+            updateContent();
+            showNotification('📅 Puedes seleccionar un nuevo horario');
+        }
+
+        // Download recording (for completed meetings)
+        function downloadRecording() {
+            const ms = stepContent.videocall.meetingStatus;
+            
+            showNotification('⬇️ Descargando grabación de la videollamada...');
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Grabación descargada correctamente');
+            }, 1500);
+        }
+
+        // Simulate meeting completion (for demo)
+        function simulateMeetingCompletion() {
+            if (selectedStep !== 'videocall') {
+                showNotification('⚠️ Primero selecciona el paso Video Call');
+                return;
+            }
+            
+            const ms = stepContent.videocall.meetingStatus;
+            
+            if (ms.status !== 'scheduled') {
+                showNotification('⚠️ Primero agenda una videollamada y espera el link del administrador');
+                return;
+            }
+            
+            // Mark as completed
+            ms.status = 'completed';
+            ms.recordingUrl = 'https://example.com/recording.mp4'; // Dummy URL
+            
+            updateContent();
+            showNotification('✅ Videollamada marcada como completada');
+        }
+
+        // ===== FINAL DOCUMENTS FUNCTIONS (CERRADO) =====
+        
+        // Preview final document
+        function previewFinalDocument(index) {
+            const doc = stepContent.cerrado.finalDocuments[index];
+            showNotification(`📄 Abriendo vista previa: ${doc.name}`);
+            
+            // En producción aquí se abriría el PDF en un modal o nueva ventana
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción se mostraría el PDF completo.');
+            }, 1500);
+        }
+
+        // Download final document
+        function downloadFinalDocument(index) {
+            const doc = stepContent.cerrado.finalDocuments[index];
+            showNotification(`⬇️ Descargando: ${doc.name}`);
+            
+            // En producción aquí se descargaría el archivo real
+            setTimeout(() => {
+                showNotification('✓ Documento descargado correctamente');
+            }, 1000);
+        }
+
+        // Simulate making final documents available (for demo)
+        function simulateFinalDocsAvailable() {
+            if (selectedStep !== 'cerrado') {
+                showNotification('⚠️ Primero selecciona el paso Cerrado');
+                return;
+            }
+            
+            const docs = stepContent.cerrado.finalDocuments;
+            
+            // Make all documents available
+            docs.forEach(doc => {
+                doc.status = 'available';
+            });
+            
+            // Update checklist
+            stepContent.cerrado.checklist[0].done = true; // Resumen final entregado
+            stepContent.cerrado.checklist[1].done = true; // Plan de acción definido
+            
+            updateContent();
+            showNotification('✅ Documentos finales ahora disponibles para descargar');
+        }
+
+        // Load notes from localStorage
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('userDashboardNotes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+            }
+        }
+
+        // Render timeline
+        function renderTimeline() {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            steps.forEach(step => {
+                const status = getStepStatus(step);
+                const accessible = isStepAccessible(step);
+                
+                const button = document.createElement('button');
+                button.className = 'step-btn';
+                if (selectedStep === step.id) button.classList.add('active');
+                if (!accessible) button.disabled = true;
+                button.onclick = () => selectStep(step.id);
+
+                const iconClass = status === 'completed' ? 'completed' : 
+                                 status === 'current' ? 'current' : 'pending';
+                
+                const iconName = status === 'completed' ? 'check-circle' :
+                                status === 'pending' && !accessible ? 'lock' : step.icon;
+
+                button.innerHTML = `
+                    <div class="step-icon ${iconClass} ${selectedStep === step.id ? 'active' : ''}">
+                        <i data-lucide="${iconName}" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div class="step-info">
+                        <div class="step-name">${step.name}</div>
+                        <div class="step-status">${status === 'completed' ? 'Completado' : status === 'current' ? 'En progreso' : 'Pendiente'}</div>
+                    </div>
+                    ${selectedStep === step.id ? '<i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>' : ''}
+                `;
+
+                timeline.appendChild(button);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Check if step is accessible
+        function isStepAccessible(step) {
+            const currentStepIndex = steps.findIndex(s => s.id === currentStep);
+            const stepIndex = steps.findIndex(s => s.id === step.id);
+            return stepIndex <= currentStepIndex;
+        }
+
+        // Get step status
+        function getStepStatus(step) {
+            const currentStepIndex = steps.findIndex(s => s.id === currentStep);
+            const stepIndex = steps.findIndex(s => s.id === step.id);
+            
+            if (stepIndex < currentStepIndex) return 'completed';
+            if (stepIndex === currentStepIndex) return 'current';
+            return 'pending';
+        }
+
+        // Select step
+        function selectStep(stepId) {
+            if (!isStepAccessible(steps.find(s => s.id === stepId))) return;
+            
+            selectedStep = stepId;
+            renderTimeline();
+            updateContent();
+            
+            // Update note textarea
+            document.getElementById('notesTextarea').value = notes[selectedStep] || '';
+        }
+
+        // Update progress
+        function updateProgress() {
+            const completedSteps = steps.filter(s => getStepStatus(s) === 'completed').length;
+            const progressPercent = (completedSteps / steps.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `${completedSteps}/${steps.length}`;
+        }
+
+        // Update content
+        function updateContent() {
+            const content = stepContent[selectedStep];
+            const stepName = steps.find(s => s.id === selectedStep).name;
+            
+            document.getElementById('currentStepName').textContent = steps.find(s => s.id === currentStep).name;
+            document.getElementById('videoText').textContent = `Video explicativo - ${content.title}`;
+            document.getElementById('contentTitle').textContent = content.title;
+            document.getElementById('contentDescription').textContent = content.description;
+            document.getElementById('notesStepName').textContent = stepName;
+            
+            // Render checklist
+            const checklist = document.getElementById('checklist');
+            checklist.innerHTML = '';
+            content.checklist.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'checklist-item';
+                div.innerHTML = `
+                    <div class="checklist-icon ${item.done ? 'done' : 'pending'}">
+                        <i data-lucide="${item.done ? 'check-circle' : 'circle'}" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <span class="checklist-text ${item.done ? 'done' : 'pending'}">${item.item}</span>
+                `;
+                checklist.appendChild(div);
+            });
+            
+            // Render documents section for contract step
+            let documentsHTML = '';
+            if (selectedStep === 'contrato' && content.documents) {
+                documentsHTML = `
+                    <div class="documents-section">
+                        <h3 class="checklist-title">Documentos para firmar</h3>
+                        <div class="documents-grid">
+                            ${content.documents.map((doc, index) => `
+                                <div class="document-card ${doc.status === 'signed' ? 'signed' : ''}" id="doc-${index}">
+                                    <div class="document-header">
+                                        <div class="document-icon">
+                                            <i data-lucide="${doc.status === 'signed' ? 'check-circle' : 'file-text'}" 
+                                               style="width: 24px; height: 24px; color: ${doc.status === 'signed' ? 'white' : '#5B4CE2'};">
+                                            </i>
+                                        </div>
+                                        <div class="document-info">
+                                            <div class="document-name">${doc.name}</div>
+                                            <div class="document-meta">
+                                                <span>📄 ${doc.pages} páginas</span>
+                                                <span>💾 ${doc.size}</span>
+                                                <span class="document-status-badge ${doc.status}">
+                                                    ${doc.status === 'signed' ? '✓ Firmado' : '⏳ Pendiente'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="document-actions">
+                                        <button class="btn-document" onclick="previewDocument(${index})">
+                                            <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
+                                            Vista previa
+                                        </button>
+                                        ${doc.status === 'signed' ? `
+                                            <button class="btn-document success" onclick="downloadDocument(${index})">
+                                                <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+                                                Descargar copia
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="signature-section" id="signatureSection">
+                            <div class="signature-header">
+                                <h3 class="signature-title">Firma Electrónica</h3>
+                                <p class="signature-subtitle">Dibuja tu firma en el recuadro o escribe tu nombre completo</p>
+                            </div>
+                            <div class="signature-canvas-wrapper">
+                                <canvas id="signatureCanvas" class="signature-canvas"></canvas>
+                            </div>
+                            <div class="signature-actions">
+                                <button class="btn-signature clear" onclick="clearSignature()">
+                                    <i data-lucide="eraser" style="width: 16px; height: 16px;"></i>
+                                    Limpiar
+                                </button>
+                                <button class="btn-signature sign" onclick="signDocuments()">
+                                    <i data-lucide="pen-tool" style="width: 16px; height: 16px;"></i>
+                                    Firmar documentos
+                                </button>
+                            </div>
+                            <div class="signature-info">
+                                <i data-lucide="info" style="width: 16px; height: 16px;"></i>
+                                <span>Al firmar, aceptas los términos y condiciones de todos los documentos listados arriba</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Render discovery status panel
+            let discoveryHTML = '';
+            if (selectedStep === 'discovery' && content.discoveryStatus) {
+                const ds = content.discoveryStatus;
+                const statusText = {
+                    not_started: '⏳ No iniciado',
+                    in_progress: '📝 En progreso',
+                    completed: '✅ Completado'
+                };
+                const statusClass = ds.status.replace('_', '-');
+                
+                discoveryHTML = `
+                    <div class="discovery-status-section">
+                        <div class="discovery-status-header">
+                            <h3 class="discovery-status-title">
+                                <i data-lucide="clipboard-list" style="width: 24px; height: 24px;"></i>
+                                Estado del Discovery
+                            </h3>
+                            <span class="discovery-status-badge ${statusClass}">
+                                ${statusText[ds.status]}
+                            </span>
+                        </div>
+                        
+                        ${ds.status !== 'not_started' ? `
+                            <div class="discovery-progress-container">
+                                <div class="discovery-progress-header">
+                                    <span class="discovery-progress-label">Progreso del formulario</span>
+                                    <span class="discovery-progress-percent">${ds.progress}%</span>
+                                </div>
+                                <div class="discovery-progress-bar-bg">
+                                    <div class="discovery-progress-bar-fill" style="width: ${ds.progress}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="discovery-info-grid">
+                                <div class="discovery-info-item">
+                                    <div class="discovery-info-label">Última actualización</div>
+                                    <div class="discovery-info-value">${ds.lastUpdated || 'N/A'}</div>
+                                </div>
+                                <div class="discovery-info-item">
+                                    <div class="discovery-info-label">Estado del formulario</div>
+                                    <div class="discovery-info-value">${ds.status === 'completed' ? 'Enviado para revisión' : 'Borrador guardado'}</div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${ds.status === 'completed' ? `
+                            <div class="discovery-summary-section">
+                                <h4 class="discovery-summary-title">📊 Resumen de respuestas clave</h4>
+                                <div class="discovery-summary-grid">
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Nombre del negocio</div>
+                                        <div class="discovery-summary-value">${ds.summary.businessName || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Industria</div>
+                                        <div class="discovery-summary-value">${ds.summary.industry || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Ingresos actuales</div>
+                                        <div class="discovery-summary-value">${ds.summary.currentRevenue || 'No especificado'}</div>
+                                    </div>
+                                    <div class="discovery-summary-item">
+                                        <div class="discovery-summary-label">Objetivos principales</div>
+                                        <div class="discovery-summary-value">${ds.summary.goals || 'No especificado'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="discovery-actions">
+                            ${ds.status === 'not_started' || ds.status === 'in_progress' ? `
+                                <button class="btn-discovery primary" onclick="openDiscoveryForm()">
+                                    <i data-lucide="external-link" style="width: 18px; height: 18px;"></i>
+                                    ${ds.status === 'not_started' ? 'Iniciar Discovery' : 'Continuar formulario'}
+                                </button>
+                            ` : ''}
+                            
+                            ${ds.status === 'completed' ? `
+                                <button class="btn-discovery secondary" onclick="openDiscoveryForm()">
+                                    <i data-lucide="edit" style="width: 18px; height: 18px;"></i>
+                                    Ver/Editar respuestas
+                                </button>
+                            ` : ''}
+                            
+                            ${ds.status === 'in_progress' ? `
+                                <button class="btn-discovery secondary" onclick="simulateDiscoveryCompletion()">
+                                    <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+                                    Marcar como completado (Demo)
+                                </button>
+                            ` : ''}
+                        </div>
+                        
+                        ${ds.status === 'not_started' ? `
+                            <div class="discovery-alert">
+                                <i data-lucide="alert-circle" class="discovery-alert-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="discovery-alert-content">
+                                    <div class="discovery-alert-title">Importante</div>
+                                    <div class="discovery-alert-text">
+                                        El formulario se abrirá en una nueva pestaña. Puedes guardar tu progreso y volver en cualquier momento. 
+                                        La información se sincronizará automáticamente con este tablero.
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Render videocall scheduling section
+            let videocallHTML = '';
+            if (selectedStep === 'videocall' && content.meetingStatus) {
+                const ms = content.meetingStatus;
+                const statusText = {
+                    not_scheduled: '⏳ No agendada',
+                    pending_confirmation: '⏳ Esperando confirmación',
+                    scheduled: '📅 Agendada',
+                    completed: '✅ Completada'
+                };
+                const statusClass = ms.status === 'pending_confirmation' ? 'not-scheduled' : ms.status.replace('_', '-');
+                
+                videocallHTML = `
+                    <div class="videocall-section">
+                        <div class="videocall-header">
+                            <h3 class="videocall-title">
+                                <i data-lucide="video" style="width: 24px; height: 24px;"></i>
+                                Video Llamada de Presentación
+                            </h3>
+                            <span class="videocall-status-badge ${statusClass}">
+                                ${statusText[ms.status]}
+                            </span>
+                        </div>
+                        
+                        ${ms.status === 'pending_confirmation' ? `
+                            <div class="meeting-details-card">
+                                <div class="meeting-details-header">
+                                    <div class="meeting-icon-wrapper">
+                                        <i data-lucide="clock" style="width: 32px; height: 32px; color: white;"></i>
+                                    </div>
+                                    <div class="meeting-details-info">
+                                        <div class="meeting-date-time">
+                                            Cita solicitada: ${ms.scheduledDate} a las ${ms.scheduledTime}
+                                        </div>
+                                        <div class="meeting-platform">
+                                            <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+                                            Esperando confirmación del administrador
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="videocall-info-alert">
+                                    <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                    <div class="videocall-info-content">
+                                        <div class="videocall-info-title">Solicitud enviada</div>
+                                        <div class="videocall-info-text">
+                                            Tu solicitud de videollamada ha sido enviada. <strong>Recibirás el link de la videollamada aquí y confirmado por email</strong> 
+                                            una vez que el administrador confirme tu horario. Te notificaremos cuando esté listo.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="meeting-actions">
+                                    <button class="btn-meeting reschedule" onclick="showRescheduling()">
+                                        <i data-lucide="calendar-range" style="width: 18px; height: 18px;"></i>
+                                        Cambiar horario
+                                    </button>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${ms.status === 'scheduled' || ms.status === 'completed' ? `
+                            <div class="meeting-details-card">
+                                <div class="meeting-details-header">
+                                    <div class="meeting-icon-wrapper">
+                                        <i data-lucide="calendar-check" style="width: 32px; height: 32px; color: white;"></i>
+                                    </div>
+                                    <div class="meeting-details-info">
+                                        <div class="meeting-date-time">
+                                            ${ms.scheduledDate} a las ${ms.scheduledTime}
+                                        </div>
+                                        <div class="meeting-platform">
+                                            <i data-lucide="${ms.meetingPlatform === 'Zoom' ? 'video' : ms.meetingPlatform === 'Google Meet' ? 'chrome' : 'monitor'}" style="width: 16px; height: 16px;"></i>
+                                            ${ms.meetingPlatform} • Duración: ${ms.duration}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                ${ms.status === 'scheduled' && ms.meetingLink ? `
+                                    <div class="meeting-link-section">
+                                        <div class="meeting-link-label">🎉 Link de la videollamada confirmado</div>
+                                        <div class="meeting-link-value">
+                                            <span>${ms.meetingLink}</span>
+                                            <button class="btn-copy-link" onclick="copyMeetingLink()">
+                                                <i data-lucide="copy" style="width: 12px; height: 12px;"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="meeting-actions">
+                                        <button class="btn-meeting join" onclick="joinMeeting()">
+                                            <i data-lucide="video" style="width: 18px; height: 18px;"></i>
+                                            Unirse a la llamada
+                                        </button>
+                                        <button class="btn-meeting calendar" onclick="addToCalendar()">
+                                            <i data-lucide="calendar-plus" style="width: 18px; height: 18px;"></i>
+                                            Agregar a calendario
+                                        </button>
+                                        <button class="btn-meeting reschedule" onclick="showRescheduling()">
+                                            <i data-lucide="calendar-range" style="width: 18px; height: 18px;"></i>
+                                            Re-agendar
+                                        </button>
+                                    </div>
+                                ` : ''}
+                                
+                                ${ms.status === 'completed' ? `
+                                    <div class="videocall-info-alert">
+                                        <i data-lucide="check-circle" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                        <div class="videocall-info-content">
+                                            <div class="videocall-info-title">Llamada completada</div>
+                                            <div class="videocall-info-text">
+                                                Tu llamada de presentación fue completada exitosamente. 
+                                                ${ms.recordingUrl ? 'La grabación está disponible para descarga.' : 'Pronto recibirás el resumen y próximos pasos.'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    ${ms.recordingUrl ? `
+                                        <div class="meeting-actions">
+                                            <button class="btn-meeting reschedule" onclick="downloadRecording()">
+                                                <i data-lucide="download" style="width: 18px; height: 18px;"></i>
+                                                Descargar grabación
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        ${ms.status === 'not_scheduled' ? `
+                            <div class="calendar-section">
+                                <div class="calendar-header">
+                                    📅 Selecciona fecha y hora disponible
+                                </div>
+                                <div class="calendar-grid">
+                                    ${ms.availableSlots.map((daySlot, dayIndex) => `
+                                        <div class="calendar-day">
+                                            <div class="calendar-day-header">
+                                                <div class="calendar-day-icon">
+                                                    ${new Date(daySlot.date).getDate()}
+                                                </div>
+                                                <div class="calendar-day-info">
+                                                    <div class="calendar-day-name">${daySlot.day}</div>
+                                                    <div class="calendar-day-date">${daySlot.date}</div>
+                                                </div>
+                                            </div>
+                                            <div class="calendar-slots">
+                                                ${daySlot.slots.map((slot, slotIndex) => `
+                                                    <button class="slot-button" 
+                                                            data-date="${daySlot.date}" 
+                                                            data-day="${daySlot.day}"
+                                                            data-time="${slot}"
+                                                            onclick="selectSlot(this)">
+                                                        ${slot}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                
+                                <div class="selected-slot-preview" id="selectedSlotPreview">
+                                    <div class="selected-slot-info">
+                                        <i data-lucide="check-circle" style="width: 20px; height: 20px; color: #22c55e;"></i>
+                                        <span class="selected-slot-text" id="selectedSlotText"></span>
+                                    </div>
+                                    <button class="btn-confirm-slot" onclick="confirmSchedule()">
+                                        Confirmar cita
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="videocall-info-alert">
+                                <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="videocall-info-content">
+                                    <div class="videocall-info-title">Sobre la videollamada</div>
+                                    <div class="videocall-info-text">
+                                        En esta sesión presentaremos los hallazgos del análisis, responderemos tus preguntas 
+                                        y definiremos el plan de acción. Recibirás el link de acceso aquí y por email una vez que el administrador confirme tu horario.
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Render final documents section (Cerrado)
+            let finalDocsHTML = '';
+            if (selectedStep === 'cerrado' && content.finalDocuments) {
+                const allDocsAvailable = content.finalDocuments.every(doc => doc.status === 'available');
+                
+                finalDocsHTML = `
+                    <div class="final-documents-section">
+                        ${allDocsAvailable ? `
+                            <div class="final-documents-header">
+                                <div class="final-documents-icon">
+                                    <i data-lucide="check-circle" style="width: 32px; height: 32px; color: white;"></i>
+                                </div>
+                                <div class="final-documents-title">
+                                    <h3>🎉 Proceso Completado</h3>
+                                    <p class="final-documents-subtitle">Tus documentos finales están listos para descargar</p>
+                                </div>
+                            </div>
+                            
+                            <div class="final-documents-grid">
+                                ${content.finalDocuments.map((doc, index) => `
+                                    <div class="final-document-card ${doc.status === 'pending' ? 'pending' : ''}">
+                                        <div class="final-document-header">
+                                            <div class="final-document-icon">
+                                                <i data-lucide="${doc.icon}" style="width: 24px; height: 24px; color: white;"></i>
+                                            </div>
+                                            <div class="final-document-info">
+                                                <div class="final-document-name">${doc.name}</div>
+                                                <div class="final-document-description">${doc.description}</div>
+                                                <div class="final-document-meta">
+                                                    <span>📄 ${doc.pages} páginas</span>
+                                                    <span>💾 ${doc.size}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="final-document-actions">
+                                            ${doc.status === 'available' ? `
+                                                <button class="btn-final-document preview" onclick="previewFinalDocument(${index})">
+                                                    <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+                                                    Vista previa
+                                                </button>
+                                                <button class="btn-final-document download" onclick="downloadFinalDocument(${index})">
+                                                    <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                                                    Descargar
+                                                </button>
+                                            ` : `
+                                                <button class="btn-final-document pending" disabled>
+                                                    <i data-lucide="clock" style="width: 16px; height: 16px;"></i>
+                                                    Pendiente
+                                                </button>
+                                            `}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="completion-message">
+                                <div class="completion-icon">
+                                    <i data-lucide="award" style="width: 48px; height: 48px; color: white;"></i>
+                                </div>
+                                <h4 class="completion-title">¡Felicitaciones!</h4>
+                                <p class="completion-text">
+                                    Has completado exitosamente el proceso de análisis. Los documentos arriba contienen tu 
+                                    resumen ejecutivo completo y el plan de acción estratégico para alcanzar tus objetivos. 
+                                    Si contrataste seguimiento mensual, pronto recibirás información sobre los próximos check-ins.
+                                </p>
+                            </div>
+                        ` : `
+                            <div class="final-documents-header">
+                                <div class="final-documents-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                    <i data-lucide="clock" style="width: 32px; height: 32px; color: white;"></i>
+                                </div>
+                                <div class="final-documents-title">
+                                    <h3>Documentos en preparación</h3>
+                                    <p class="final-documents-subtitle">Tus documentos finales estarán disponibles pronto</p>
+                                </div>
+                            </div>
+                            
+                            <div class="videocall-info-alert">
+                                <i data-lucide="info" class="videocall-info-icon" style="width: 20px; height: 20px;"></i>
+                                <div class="videocall-info-content">
+                                    <div class="videocall-info-title">Estamos trabajando en tus documentos</div>
+                                    <div class="videocall-info-text">
+                                        Nuestro equipo está finalizando tu resumen ejecutivo y plan de acción. 
+                                        Recibirás una notificación cuando estén listos para descargar.
+                                    </div>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                `;
+            }
+            
+            // Render CTA
+            const ctaContainer = document.getElementById('ctaContainer');
+            
+            // First, remove any previously added dynamic sections
+            const existingDynamicSections = document.querySelectorAll('.documents-section, .discovery-status-section, .videocall-section, .final-documents-section');
+            existingDynamicSections.forEach(section => section.remove());
+            
+            // Now render based on current step
+            if (selectedStep === 'contrato') {
+                // Insert documents section before CTA
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', documentsHTML);
+                ctaContainer.innerHTML = '';
+                
+                // Initialize signature canvas
+                setTimeout(initSignatureCanvas, 100);
+            } else if (selectedStep === 'discovery') {
+                // Insert discovery status panel ONLY
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', discoveryHTML);
+                ctaContainer.innerHTML = '';
+            } else if (selectedStep === 'videocall') {
+                // Insert videocall scheduling section ONLY
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', videocallHTML);
+                ctaContainer.innerHTML = '';
+            } else if (selectedStep === 'cerrado') {
+                // Insert final documents section ONLY
+                const checklistElement = document.getElementById('checklist').parentElement;
+                checklistElement.insertAdjacentHTML('afterend', finalDocsHTML);
+                ctaContainer.innerHTML = '';
+            } else if (content.cta) {
+                ctaContainer.innerHTML = `
+                    <button class="cta-button" onclick="handleCTA('${content.cta.action}')">
+                        ${content.cta.text}
+                    </button>
+                `;
+            } else {
+                ctaContainer.innerHTML = '';
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Save note
+        function saveNote() {
+            const noteText = document.getElementById('notesTextarea').value;
+            notes[selectedStep] = noteText;
+            localStorage.setItem('userDashboardNotes', JSON.stringify(notes));
+            showNotification('💾 Nota guardada correctamente');
+        }
+
+        // Handle CTA
+        function handleCTA(action) {
+            if (action === 'discovery') {
+                openDiscoveryForm();
+                return;
+            }
+            
+            if (action === 'schedule') {
+                // Scroll to calendar section
+                const videocallSection = document.querySelector('.videocall-section');
+                if (videocallSection) {
+                    videocallSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showNotification('📅 Selecciona una fecha y hora disponible');
+                }
+                return;
+            }
+            
+            const actionMessages = {
+                payment: '💳 Redirigiendo a pasarela de pago...',
+                sign: '📝 Abriendo contrato para firma...',
+                download: '📥 Descargando resumen final...'
+            };
+            
+            showNotification(actionMessages[action] || 'Procesando acción...');
+            
+            // En producción aquí iría la lógica real
+            setTimeout(() => {
+                showNotification('Esta es una demostración. En producción aquí se ejecutaría la acción real.');
+            }, 1500);
+        }
+
+        // Reload status
+        function reloadStatus() {
+            showNotification('🔄 Actualizando estado...');
+            
+            // Simulate loading
+            setTimeout(() => {
+                showNotification('✓ Estado actualizado correctamente');
+            }, 1000);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            
+            // Close modal when clicking outside
+            document.addEventListener('click', function(event) {
+                const modal = document.getElementById('editUserModal');
+                if (event.target === modal) {
+                    closeEditModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
