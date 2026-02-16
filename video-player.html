@@ -1,188 +1,357 @@
 <!doctype html>
-<html>
+<html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Vimeo Horizontal Player</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Vimeo – Videos + Shorts</title>
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#ffffff;
-  color:#111;
-}
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --stroke:#e5e7eb;
+      --accent:#3956E8;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    .wrap{
+      padding:16px;
+    }
 
-.wrap{
-  padding:16px;
-}
+    /* Player */
+    .player{
+      position:relative;
+      width:100%;
+      border:1px solid var(--stroke);
+      border-radius: 16px;
+      overflow:hidden;
+      background:#000;
+    }
+    .player::before{ content:""; display:block; padding-top:56.25%; } /* 16:9 */
+    .player iframe{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      border:0;
+    }
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      padding:10px 2px 0;
+      margin-bottom: 14px;
+    }
+    .meta .txt{min-width:0}
+    .meta .title{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .meta .sub{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      color:var(--muted);
+      white-space:nowrap;
+    }
 
-/* PLAYER */
-.player{
-  position:relative;
-  width:100%;
-  border-radius:12px;
-  overflow:hidden;
-  margin-bottom:20px;
-}
-.player::before{
-  content:"";
-  display:block;
-  padding-top:56.25%;
-}
-.player iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
+    /* Rows */
+    .row{ margin-top: 14px; }
+    .rowHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      margin: 10px 2px 8px;
+      gap:10px;
+    }
+    .rowHeader h3{
+      margin:0;
+      font-size:13px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.2px;
+    }
+    .rowHeader .hint{
+      margin:0;
+      font-size:12px;
+      color:var(--muted);
+    }
 
-/* ROW */
-.row{
-  margin-bottom:24px;
-}
-.row h3{
-  margin:0 0 10px 4px;
-  font-size:14px;
-  font-weight:700;
-  text-transform:uppercase;
-}
+    /* Horizontal scroller */
+    .scroller{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      padding: 2px 2px 12px;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+    .scroller::-webkit-scrollbar{ height:8px; }
+    .scroller::-webkit-scrollbar-thumb{ background:#d1d5db; border-radius:999px; }
 
-/* horizontal scroll */
-.scroller{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding-bottom:10px;
-}
-.scroller::-webkit-scrollbar{
-  height:8px;
-}
-.scroller::-webkit-scrollbar-thumb{
-  background:#ddd;
-  border-radius:999px;
-}
+    /* Cards */
+    .card{
+      flex:0 0 auto;
+      width: 210px;
+      cursor:pointer;
+      scroll-snap-align: start;
+      border-radius: calc(var(--radius) + 2px);
+      outline: 0;
+      transition: transform .12s ease;
+    }
+    .card:hover{ transform: translateY(-2px); }
 
-/* CARD */
-.card{
-  flex:0 0 auto;
-  width:200px;
-  cursor:pointer;
-}
-.thumb{
-  position:relative;
-  width:100%;
-  border-radius:12px;
-  overflow:hidden;
-  background:#eee;
-}
-.thumb::before{
-  content:"";
-  display:block;
-  padding-top:56.25%;
-}
-.thumb img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.card p{
-  margin:6px 0 0;
-  font-size:13px;
-  font-weight:600;
-}
+    .thumb{
+      position:relative;
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid var(--stroke);
+      background:#f3f4f6;
+    }
+    .thumb::before{ content:""; display:block; padding-top:56.25%; } /* 16:9 default */
+    .thumb img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit: cover;
+    }
 
-.card.active{
-  outline:3px solid #3956E8;
-  border-radius:14px;
-}
-</style>
+    .info{
+      padding:8px 4px 0;
+    }
+    .info .t{
+      margin:0;
+      font-size:13px;
+      font-weight:800;
+      line-height:1.2;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .info .d{
+      margin:5px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .card.active .thumb{
+      border-color: rgba(57,86,232,.9);
+      box-shadow: 0 0 0 3px rgba(57,86,232,.18);
+    }
+
+    /* Shorts: formato más vertical */
+    .card.short{ width: 150px; }
+    .card.short .thumb::before{ padding-top: 177%; } /* ~9:16 */
+    @media (max-width:520px){
+      .card{ width: 190px; }
+      .card.short{ width: 135px; }
+      .meta .title{ font-size:15px; }
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-  <div class="player">
-    <iframe id="player" allow="autoplay; fullscreen" allowfullscreen></iframe>
-  </div>
+    <div class="player">
+      <iframe id="player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
 
-  <div class="row">
-    <h3>Videos</h3>
-    <div class="scroller" id="videosRow"></div>
-  </div>
-
-  <div class="row">
-    <h3>Shorts</h3>
-    <div class="scroller" id="shortsRow"></div>
-  </div>
-
-</div>
-
-<script>
-
-// ===== EDITA SOLO ESTO =====
-const VIDEOS = [
-  { id:"76979871", title:"Episodio 1" },
-  { id:"22439234", title:"Episodio 2" },
-  { id:"146022717", title:"Masterclass" }
-];
-
-const SHORTS = [
-  { id:"76979871", title:"Tip 1" },
-  { id:"22439234", title:"Tip 2" },
-  { id:"146022717", title:"Tip 3" }
-];
-// ============================
-
-function buildPlayer(id){
-  return `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0`;
-}
-
-function loadThumbnail(videoId){
-  return fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
-    .then(res => res.json())
-    .then(data => data.thumbnail_url)
-    .catch(()=> null);
-}
-
-function renderRow(container, list){
-  list.forEach(video=>{
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <div class="thumb">
-        <img src="" alt="">
+    <div class="meta">
+      <div class="txt">
+        <p class="title" id="playerTitle">Reproduciendo…</p>
+        <p class="sub" id="playerSub">Toca un video para cambiar</p>
       </div>
-      <p>${video.title}</p>
-    `;
-    container.appendChild(card);
+      <div class="pill" id="playerPill">Vimeo</div>
+    </div>
 
-    const img = card.querySelector("img");
+    <div class="row">
+      <div class="rowHeader">
+        <h3>Videos</h3>
+        <p class="hint">Desliza →</p>
+      </div>
+      <div class="scroller" id="videosRow"></div>
+    </div>
 
-    loadThumbnail(video.id).then(url=>{
-      if(url) img.src = url;
-    });
+    <div class="row">
+      <div class="rowHeader">
+        <h3>Shorts</h3>
+        <p class="hint">Desliza →</p>
+      </div>
+      <div class="scroller" id="shortsRow"></div>
+    </div>
 
-    card.addEventListener("click", ()=>{
-      document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
+  </div>
+
+  <script>
+    // ===========================
+    // TU LISTA (tal cual la pasaste)
+    // ===========================
+    const VIDEO_URLS = [
+      "https://vimeo.com/1165401559",
+      "https://vimeo.com/1164760096",
+      "https://vimeo.com/1163999799",
+      "https://vimeo.com/1163296142",
+      "https://vimeo.com/1162886903"
+    ];
+
+    const SHORT_URLS = [
+      "https://vimeo.com/1162530735",
+      "https://vimeo.com/1162531022",
+      "https://vimeo.com/1162532496",
+      "https://vimeo.com/1162533172",
+      "https://vimeo.com/1147423087/ea9d2d0d9c",
+      "https://vimeo.com/1148342173/b3e3dfe023",
+      "https://vimeo.com/1148339371/7746de841c"
+    ];
+
+    // ===========================
+    // Helpers
+    // ===========================
+    function parseVimeo(url){
+      // soporta:
+      // https://vimeo.com/123
+      // https://vimeo.com/123/hash
+      // https://vimeo.com/123?...
+      const u = new URL(url);
+      const parts = u.pathname.split("/").filter(Boolean);
+      const id = parts[0] || "";
+      const hash = parts[1] || "";
+      return { id, hash, url: u.origin + "/" + parts.join("/") };
+    }
+
+    function buildPlayerSrc({id, hash}){
+      // Vimeo player acepta hash como h=
+      // https://player.vimeo.com/video/ID?h=HASH
+      const p = new URLSearchParams({
+        autoplay: "1",
+        title: "0",
+        byline: "0",
+        portrait: "0",
+        dnt: "1"
+      });
+      if (hash) p.set("h", hash);
+      return `https://player.vimeo.com/video/${id}?${p.toString()}`;
+    }
+
+    function oembedUrl(originalVimeoUrl){
+      // Thumbnails + title automáticos desde el mismo video
+      const p = new URLSearchParams({ url: originalVimeoUrl });
+      return `https://vimeo.com/api/oembed.json?${p.toString()}`;
+    }
+
+    async function fetchOembed(vimeoFullUrl){
+      try{
+        const res = await fetch(oembedUrl(vimeoFullUrl));
+        if(!res.ok) throw new Error("oEmbed error");
+        return await res.json();
+      }catch(e){
+        return null;
+      }
+    }
+
+    function makeCard({id, hash, url}, isShort=false){
+      const card = document.createElement("div");
+      card.className = "card" + (isShort ? " short" : "");
+      card.dataset.id = id;
+      card.dataset.hash = hash;
+      card.dataset.url = url;
+
+      card.innerHTML = `
+        <div class="thumb">
+          <img alt="thumbnail" loading="lazy" />
+        </div>
+        <div class="info">
+          <p class="t">Cargando…</p>
+          <p class="d">${isShort ? "Short" : "Video"}</p>
+        </div>
+      `;
+      return card;
+    }
+
+    function setActiveCard(card){
+      document.querySelectorAll(".card.active").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
-      document.getElementById("player").src = buildPlayer(video.id);
-      window.scrollTo({top:0, behavior:"smooth"});
-    });
-  });
-}
+    }
 
-renderRow(document.getElementById("videosRow"), VIDEOS);
-renderRow(document.getElementById("shortsRow"), SHORTS);
+    function play({id, hash}, title, subtitle){
+      document.getElementById("player").src = buildPlayerSrc({id, hash});
+      document.getElementById("playerTitle").textContent = title || "Video";
+      document.getElementById("playerSub").textContent = subtitle || "";
+      document.getElementById("playerPill").textContent = hash ? `Vimeo • ${id} • privado` : `Vimeo • ${id}`;
+      document.querySelector(".player").scrollIntoView({behavior:"smooth", block:"start"});
+    }
 
-// Cargar primero automáticamente
-if(VIDEOS.length){
-  document.getElementById("player").src = buildPlayer(VIDEOS[0].id);
-}
+    async function renderRow(container, urls, isShort=false){
+      for (const raw of urls){
+        const v = parseVimeo(raw);
+        const card = makeCard(v, isShort);
+        container.appendChild(card);
 
-</script>
+        // oEmbed -> title + thumbnail_url
+        const data = await fetchOembed(v.url);
+        const img = card.querySelector("img");
+        const t = card.querySelector(".t");
+        const d = card.querySelector(".d");
+
+        if (data){
+          img.src = data.thumbnail_url || "";
+          t.textContent = data.title || (isShort ? "Short" : "Video");
+          d.textContent = (data.author_name ? `por ${data.author_name}` : (isShort ? "Short" : "Video"));
+          card.dataset.title = data.title || "";
+        } else {
+          t.textContent = v.id ? `Vimeo ${v.id}` : (isShort ? "Short" : "Video");
+          d.textContent = isShort ? "Short" : "Video";
+        }
+
+        card.addEventListener("click", () => {
+          setActiveCard(card);
+          play({id:v.id, hash:v.hash}, card.dataset.title || t.textContent, d.textContent);
+        });
+      }
+    }
+
+    // Init
+    (async function init(){
+      const videosRow = document.getElementById("videosRow");
+      const shortsRow = document.getElementById("shortsRow");
+
+      await renderRow(videosRow, VIDEO_URLS, false);
+      await renderRow(shortsRow, SHORT_URLS, true);
+
+      // autoplay el primero
+      const first = videosRow.querySelector(".card");
+      if (first){
+        first.classList.add("active");
+        const id = first.dataset.id;
+        const hash = first.dataset.hash || "";
+        const title = first.dataset.title || "Video";
+        const sub = first.querySelector(".d")?.textContent || "";
+        play({id, hash}, title, sub);
+      }
+    })();
+  </script>
 </body>
 </html>
