@@ -263,7 +263,7 @@
       document.getElementById("player").src = buildPlayerSrc(id);
       document.getElementById("playerTitle").textContent = title || "Video";
       document.getElementById("playerSub").textContent = subtitle || "";
-      document.getElementById("playerPill").textContent = `Vimeo • ${id}`;
+      document.getElementById("playerPill").textContent = "";
       document.querySelector(".player").scrollIntoView({behavior:"smooth", block:"start"});
     }
 
