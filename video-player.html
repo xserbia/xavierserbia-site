@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Vimeo – Videos + Shorts</title>
+  <title>XS – Vimeo Player</title>
 
   <style>
     :root{
       --bg:#ffffff;
-      --ink:#111827;
-      --muted:#6b7280;
+      --ink:#0f172a;
+      --muted:#64748b;
       --stroke:#e5e7eb;
       --accent:#3956E8;
       --radius:14px;
@@ -21,38 +21,33 @@
       background: var(--bg);
       color: var(--ink);
     }
-    .wrap{
-      padding:16px;
-    }
+    .wrap{ padding:16px; }
 
-    /* Player */
+    /* PLAYER */
     .player{
       position:relative;
       width:100%;
       border:1px solid var(--stroke);
-      border-radius: 16px;
+      border-radius:16px;
       overflow:hidden;
       background:#000;
     }
     .player::before{ content:""; display:block; padding-top:56.25%; } /* 16:9 */
-    .player iframe{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      border:0;
-    }
+    .player iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
     .meta{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
       gap:12px;
       padding:10px 2px 0;
-      margin-bottom: 14px;
+      margin-bottom:14px;
     }
-    .meta .txt{min-width:0}
+    .meta .txt{ min-width:0; }
     .meta .title{
       margin:0;
       font-size:16px;
-      font-weight:800;
+      font-weight:900;
       line-height:1.2;
       white-space:nowrap;
       overflow:hidden;
@@ -75,13 +70,13 @@
       white-space:nowrap;
     }
 
-    /* Rows */
-    .row{ margin-top: 14px; }
+    /* ROWS */
+    .row{ margin-top:14px; }
     .rowHeader{
       display:flex;
       justify-content:space-between;
       align-items:flex-end;
-      margin: 10px 2px 8px;
+      margin:10px 2px 8px;
       gap:10px;
     }
     .rowHeader h3{
@@ -91,32 +86,26 @@
       text-transform:uppercase;
       letter-spacing:.2px;
     }
-    .rowHeader .hint{
-      margin:0;
-      font-size:12px;
-      color:var(--muted);
-    }
+    .rowHeader .hint{ margin:0; font-size:12px; color:var(--muted); }
 
-    /* Horizontal scroller */
     .scroller{
       display:flex;
       gap:12px;
       overflow-x:auto;
-      padding: 2px 2px 12px;
+      padding:2px 2px 12px;
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
     }
     .scroller::-webkit-scrollbar{ height:8px; }
     .scroller::-webkit-scrollbar-thumb{ background:#d1d5db; border-radius:999px; }
 
-    /* Cards */
+    /* CARD */
     .card{
       flex:0 0 auto;
-      width: 210px;
+      width:210px;
       cursor:pointer;
-      scroll-snap-align: start;
+      scroll-snap-align:start;
       border-radius: calc(var(--radius) + 2px);
-      outline: 0;
       transition: transform .12s ease;
     }
     .card:hover{ transform: translateY(-2px); }
@@ -128,20 +117,26 @@
       border:1px solid var(--stroke);
       background:#f3f4f6;
     }
-    .thumb::before{ content:""; display:block; padding-top:56.25%; } /* 16:9 default */
-    .thumb img{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit: cover;
-    }
+    .thumb::before{ content:""; display:block; padding-top:56.25%; } /* 16:9 */
+    .thumb img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 
-    .info{
-      padding:8px 4px 0;
+    .playDot{
+      position:absolute;
+      right:10px; bottom:10px;
+      width:34px; height:34px;
+      border-radius:999px;
+      display:grid; place-items:center;
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(6px);
     }
+    .playDot svg{ width:16px; height:16px; fill:#fff; }
+
+    .info{ padding:8px 4px 0; }
     .info .t{
       margin:0;
       font-size:13px;
-      font-weight:800;
+      font-weight:900;
       line-height:1.2;
       white-space:nowrap;
       overflow:hidden;
@@ -157,16 +152,16 @@
     }
 
     .card.active .thumb{
-      border-color: rgba(57,86,232,.9);
+      border-color: rgba(57,86,232,.92);
       box-shadow: 0 0 0 3px rgba(57,86,232,.18);
     }
 
-    /* Shorts: formato más vertical */
-    .card.short{ width: 150px; }
+    /* Shorts: vertical look */
+    .card.short{ width:150px; }
     .card.short .thumb::before{ padding-top: 177%; } /* ~9:16 */
     @media (max-width:520px){
-      .card{ width: 190px; }
-      .card.short{ width: 135px; }
+      .card{ width:190px; }
+      .card.short{ width:135px; }
       .meta .title{ font-size:15px; }
     }
   </style>
@@ -174,7 +169,6 @@
 
 <body>
   <div class="wrap">
-
     <div class="player">
       <iframe id="player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
     </div>
@@ -202,12 +196,11 @@
       </div>
       <div class="scroller" id="shortsRow"></div>
     </div>
-
   </div>
 
   <script>
     // ===========================
-    // TU LISTA (tal cual la pasaste)
+    // SOLO LINKS (NO TITULOS MANUALES)
     // ===========================
     const VIDEO_URLS = [
       "https://vimeo.com/1165401559",
@@ -222,29 +215,20 @@
       "https://vimeo.com/1162531022",
       "https://vimeo.com/1162532496",
       "https://vimeo.com/1162533172",
-      "https://vimeo.com/1147423087/ea9d2d0d9c",
-      "https://vimeo.com/1148342173/b3e3dfe023",
-      "https://vimeo.com/1148339371/7746de841c"
+      "https://vimeo.com/1147423087",
+      "https://vimeo.com/1148342173",
+      "https://vimeo.com/1148339371"
     ];
 
-    // ===========================
-    // Helpers
-    // ===========================
+    // ===== Helpers =====
     function parseVimeo(url){
-      // soporta:
-      // https://vimeo.com/123
-      // https://vimeo.com/123/hash
-      // https://vimeo.com/123?...
       const u = new URL(url);
       const parts = u.pathname.split("/").filter(Boolean);
       const id = parts[0] || "";
-      const hash = parts[1] || "";
-      return { id, hash, url: u.origin + "/" + parts.join("/") };
+      return { id, url: `https://vimeo.com/${id}` };
     }
 
-    function buildPlayerSrc({id, hash}){
-      // Vimeo player acepta hash como h=
-      // https://player.vimeo.com/video/ID?h=HASH
+    function buildPlayerSrc(id){
       const p = new URLSearchParams({
         autoplay: "1",
         title: "0",
@@ -252,43 +236,22 @@
         portrait: "0",
         dnt: "1"
       });
-      if (hash) p.set("h", hash);
       return `https://player.vimeo.com/video/${id}?${p.toString()}`;
     }
 
-    function oembedUrl(originalVimeoUrl){
-      // Thumbnails + title automáticos desde el mismo video
-      const p = new URLSearchParams({ url: originalVimeoUrl });
+    function oembedUrl(vimeoUrl){
+      const p = new URLSearchParams({ url: vimeoUrl });
       return `https://vimeo.com/api/oembed.json?${p.toString()}`;
     }
 
-    async function fetchOembed(vimeoFullUrl){
-      try{
-        const res = await fetch(oembedUrl(vimeoFullUrl));
-        if(!res.ok) throw new Error("oEmbed error");
-        return await res.json();
-      }catch(e){
-        return null;
-      }
+    async function fetchOembed(vimeoUrl){
+      const res = await fetch(oembedUrl(vimeoUrl));
+      if(!res.ok) throw new Error("oEmbed error");
+      return await res.json();
     }
 
-    function makeCard({id, hash, url}, isShort=false){
-      const card = document.createElement("div");
-      card.className = "card" + (isShort ? " short" : "");
-      card.dataset.id = id;
-      card.dataset.hash = hash;
-      card.dataset.url = url;
-
-      card.innerHTML = `
-        <div class="thumb">
-          <img alt="thumbnail" loading="lazy" />
-        </div>
-        <div class="info">
-          <p class="t">Cargando…</p>
-          <p class="d">${isShort ? "Short" : "Video"}</p>
-        </div>
-      `;
-      return card;
+    function playIcon(){
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>`;
     }
 
     function setActiveCard(card){
@@ -296,44 +259,56 @@
       card.classList.add("active");
     }
 
-    function play({id, hash}, title, subtitle){
-      document.getElementById("player").src = buildPlayerSrc({id, hash});
+    function play(id, title, subtitle){
+      document.getElementById("player").src = buildPlayerSrc(id);
       document.getElementById("playerTitle").textContent = title || "Video";
       document.getElementById("playerSub").textContent = subtitle || "";
-      document.getElementById("playerPill").textContent = hash ? `Vimeo • ${id} • privado` : `Vimeo • ${id}`;
+      document.getElementById("playerPill").textContent = `Vimeo • ${id}`;
       document.querySelector(".player").scrollIntoView({behavior:"smooth", block:"start"});
     }
 
     async function renderRow(container, urls, isShort=false){
       for (const raw of urls){
         const v = parseVimeo(raw);
-        const card = makeCard(v, isShort);
+
+        const card = document.createElement("div");
+        card.className = "card" + (isShort ? " short" : "");
+        card.dataset.id = v.id;
+
+        card.innerHTML = `
+          <div class="thumb">
+            <img alt="thumbnail" loading="lazy" />
+            <div class="playDot">${playIcon()}</div>
+          </div>
+          <div class="info">
+            <p class="t">Cargando…</p>
+            <p class="d"></p>
+          </div>
+        `;
         container.appendChild(card);
 
-        // oEmbed -> title + thumbnail_url
-        const data = await fetchOembed(v.url);
-        const img = card.querySelector("img");
-        const t = card.querySelector(".t");
-        const d = card.querySelector(".d");
-
-        if (data){
-          img.src = data.thumbnail_url || "";
-          t.textContent = data.title || (isShort ? "Short" : "Video");
-          d.textContent = (data.author_name ? `por ${data.author_name}` : (isShort ? "Short" : "Video"));
+        try{
+          const data = await fetchOembed(v.url);
+          card.querySelector("img").src = data.thumbnail_url || "";
+          card.querySelector(".t").textContent = data.title || `Vimeo ${v.id}`;
+          card.querySelector(".d").textContent = data.author_name ? `por ${data.author_name}` : (isShort ? "Short" : "Video");
           card.dataset.title = data.title || "";
-        } else {
-          t.textContent = v.id ? `Vimeo ${v.id}` : (isShort ? "Short" : "Video");
-          d.textContent = isShort ? "Short" : "Video";
+          card.dataset.author = data.author_name || "";
+        }catch(e){
+          // fallback visual si falla oEmbed
+          card.querySelector(".t").textContent = `Vimeo ${v.id}`;
+          card.querySelector(".d").textContent = isShort ? "Short" : "Video";
         }
 
         card.addEventListener("click", () => {
           setActiveCard(card);
-          play({id:v.id, hash:v.hash}, card.dataset.title || t.textContent, d.textContent);
+          const title = card.dataset.title || card.querySelector(".t").textContent;
+          const author = card.dataset.author ? `por ${card.dataset.author}` : card.querySelector(".d").textContent;
+          play(v.id, title, author);
         });
       }
     }
 
-    // Init
     (async function init(){
       const videosRow = document.getElementById("videosRow");
       const shortsRow = document.getElementById("shortsRow");
@@ -341,15 +316,14 @@
       await renderRow(videosRow, VIDEO_URLS, false);
       await renderRow(shortsRow, SHORT_URLS, true);
 
-      // autoplay el primero
+      // auto-play first
       const first = videosRow.querySelector(".card");
-      if (first){
+      if(first){
         first.classList.add("active");
         const id = first.dataset.id;
-        const hash = first.dataset.hash || "";
         const title = first.dataset.title || "Video";
-        const sub = first.querySelector(".d")?.textContent || "";
-        play({id, hash}, title, sub);
+        const author = first.dataset.author ? `por ${first.dataset.author}` : "";
+        play(id, title, author);
       }
     })();
   </script>
