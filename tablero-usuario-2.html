@@ -2998,6 +2998,11 @@
             const currentStepIndex = steps.findIndex(s => s.id === currentStep);
             const stepIndex = steps.findIndex(s => s.id === step.id);
             
+            // Special case: mark "cerrado" as completed if next meeting is scheduled
+            if (step.id === 'cerrado' && stepContent.cerrado.nextMeeting) {
+                return 'completed';
+            }
+            
             if (stepIndex < currentStepIndex) return 'completed';
             if (stepIndex === currentStepIndex) return 'current';
             return 'pending';
