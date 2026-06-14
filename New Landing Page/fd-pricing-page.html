@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fórmula Dinero — Membresía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef2fb; --card:#ffffff; --ink:#15233f; --ink-soft:#5d6b85;
+    --blue:#2557e6; --blue-dark:#1b46c2; --blue-soft:#e9f0ff;
+    --green:#17a35a; --green-soft:#e7f6ee; --green-ink:#0f7a42;
+    --line:#e6e9f2; --shadow:0 16px 44px rgba(21,35,63,.08);
+    --display:'Poppins',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .display{font-family:var(--display)}
+  button{font-family:inherit;cursor:pointer;border:none}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+
+  .wrap{max-width:1160px;margin:0 auto;padding:48px 22px 40px}
+  .head{text-align:center;max-width:760px;margin:0 auto 12px}
+  h1{font-family:var(--display);font-weight:800;letter-spacing:-.025em;line-height:1.02;font-size:clamp(32px,5.4vw,56px)}
+  .head .sub{color:var(--ink-soft);font-size:clamp(16px,2vw,20px);margin-top:14px;font-weight:500}
+  .anchor{text-align:center;color:var(--ink-soft);font-size:14px;margin:20px auto 0;max-width:620px}
+  .anchor b{color:var(--ink);font-weight:700}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;margin:40px auto 0;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr;max-width:440px}}
+
+  .card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:30px 28px;border:2px solid transparent;position:relative}
+  .card.pop{border-color:var(--blue)}
+  .card.best{border-color:#cfe9da}
+  .ribbon{position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-weight:700;font-size:12.5px;padding:7px 16px;border-radius:999px;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:6px;box-shadow:0 6px 16px rgba(21,35,63,.18)}
+  .ribbon.blue{background:var(--blue)} .ribbon.green{background:var(--green)}
+
+  .icon{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-size:25px;margin-bottom:18px}
+  .ic-blue{background:var(--blue-soft)} .ic-green{background:var(--green-soft)}
+  .card h2{font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:-.01em}
+  .eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.12em;color:var(--blue);text-transform:uppercase;margin-top:6px}
+  .tagline{font-weight:600;font-size:15.5px;margin-top:7px;line-height:1.3}
+  .tagline.blue{color:var(--blue)} .tagline.green{color:var(--green)}
+
+  .price{margin-top:18px;font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1;display:flex;align-items:flex-start;gap:2px}
+  .price .cur{font-size:26px;margin-top:6px}
+  .price .big{font-size:54px}
+  .price .per{font-size:16px;color:var(--ink-soft);font-weight:600;align-self:flex-end;margin-bottom:9px;margin-left:4px}
+
+  .pdiv{position:relative;height:1px;background:var(--line);margin:18px 0}
+  .pdiv::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line);background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
+  .annual{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:24px}
+  .annual .cur{font-size:16px;margin-top:3px} .annual .per{font-size:14px;color:var(--ink-soft);font-weight:600;font-family:var(--body)}
+  .save{background:var(--green-soft);color:var(--green-ink);font-weight:700;font-size:12px;padding:4px 10px;border-radius:999px;font-family:var(--body)}
+
+  .desc{color:var(--ink-soft);font-size:14px;margin-top:16px;min-height:42px}
+  .single-note{color:var(--ink-soft);font-size:14px;margin-top:8px}
+
+  .infobox{display:flex;gap:12px;align-items:center;border-radius:14px;padding:15px 16px;margin:22px 0;font-size:14px;font-weight:600;line-height:1.35}
+  .infobox.blue{background:var(--blue-soft);color:var(--ink)} .infobox.green{background:var(--green-soft);color:var(--ink)}
+  .infobox .bi{width:38px;height:38px;border-radius:11px;background:#fff;display:grid;place-items:center;font-size:19px;flex:none}
+
+  .feat{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:6px}
+  .feat li{display:flex;gap:11px;font-size:14.5px;align-items:flex-start}
+  .feat li .ck{font-weight:800;flex:none}
+  .card.pop .feat .ck,.card .feat .ck{color:var(--blue)}
+  .card.best .feat .ck{color:var(--green)}
+
+  .cta{width:100%;margin-top:26px;padding:15px;border-radius:14px;font-weight:600;font-size:16px;transition:.18s}
+  .cta.solid{background:var(--blue);color:#fff} .cta.solid:hover{background:var(--blue-dark)}
+  .cta.outblue{background:#fff;border:1.8px solid var(--line);color:var(--blue)} .cta.outblue:hover{border-color:var(--blue)}
+  .cta.outgreen{background:#fff;border:1.8px solid var(--line);color:var(--green)} .cta.outgreen:hover{border-color:var(--green)}
+
+  .foot{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;color:var(--ink-soft);font-size:14px;margin:38px auto 0}
+  .foot .div{width:1px;height:15px;background:#cdd5e6}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1 class="display">Tu camino hacia la libertad financiera</h1>
+    <p class="sub">Empieza con tu diagnóstico y sigue el plan diseñado para tu realidad.</p>
+  </div>
+  <p class="anchor">Una asesoría financiera tradicional cuesta <b>más de $1,000</b>. Aquí tu plan completo empieza desde <b>$14.99 al mes</b>.</p>
+
+  <div class="grid">
+
+    <!-- Mi Radiografía -->
+    <div class="card">
+      <div class="icon ic-blue">📋</div>
+      <h2 class="display">Mi Radiografía</h2>
+      <div class="eyebrow">Pago único</div>
+      <div class="price"><span class="cur">$</span><span class="big">19</span><span class="per">pago único</span></div>
+      <p class="single-note">Obtén una evaluación completa de tu situación financiera actual.</p>
+      <div class="infobox blue"><span class="bi">📊</span> Incluye crédito aplicado a tu primera membresía.</div>
+      <ul class="feat">
+        <li><span class="ck">✓</span> Score financiero completo</li>
+        <li><span class="ck">✓</span> Evaluación de ahorro, deuda, flujo e inversión</li>
+        <li><span class="ck">✓</span> Identificación de tu Estadio Económico</li>
+        <li><span class="ck">✓</span> Principales áreas de oportunidad</li>
+        <li><span class="ck">✓</span> Vista previa de tu Hoja de Ruta</li>
+        <li><span class="ck">✓</span> Acceso inicial a FD IA</li>
+      </ul>
+      <button class="cta outblue" data-plan="Mi Radiografía">Comenzar Mi Radiografía</button>
+    </div>
+
+    <!-- Estabilidad -->
+    <div class="card pop">
+      <div class="ribbon blue">★ MÁS POPULAR</div>
+      <div class="icon ic-blue">🛡️</div>
+      <h2 class="display">Estabilidad</h2>
+      <div class="tagline blue">Controla tu dinero y crea tu primer colchón financiero.</div>
+      <div class="price"><span class="cur">$</span><span class="big">14.99</span><span class="per">/ mes</span></div>
+      <div class="pdiv"></div>
+      <div class="annual"><span class="cur">$</span>135 <span class="per">/ año</span> <span class="save">AHORRA 25%</span></div>
+      <p class="desc">Ideal para construir estabilidad financiera y tomar el control de tu dinero.</p>
+      <div class="infobox blue"><span class="bi">🤖</span> Incluye FD IA ilimitado para tus finanzas diarias.</div>
+      <ul class="feat">
+        <li><span class="ck">✓</span> Hoja de Ruta completa</li>
+        <li><span class="ck">✓</span> Cada Menudo App</li>
+        <li><span class="ck">✓</span> FD IA ilimitado</li>
+        <li><span class="ck">✓</span> Seguimiento de gastos e ingresos</li>
+        <li><span class="ck">✓</span> Calculadoras financieras esenciales</li>
+        <li><span class="ck">✓</span> Biblioteca de cursos fundamentales</li>
+        <li><span class="ck">✓</span> Seguimiento de progreso financiero</li>
+        <li><span class="ck">✓</span> Coaching disponible por separado</li>
+      </ul>
+      <button class="cta solid" data-plan="Estabilidad">Comenzar Estabilidad →</button>
+    </div>
+
+    <!-- Crecimiento -->
+    <div class="card best">
+      <div class="ribbon green">🏆 MAYOR VALOR</div>
+      <div class="icon ic-green">📈</div>
+      <h2 class="display">Crecimiento</h2>
+      <div class="tagline green">Convierte tu estabilidad en patrimonio.</div>
+      <div class="price"><span class="cur">$</span><span class="big">39.99</span><span class="per">/ mes</span></div>
+      <div class="pdiv"></div>
+      <div class="annual"><span class="cur">$</span>399 <span class="per">/ año</span> <span class="save">AHORRA 17%</span></div>
+      <p class="desc">Diseñado para acelerar tu crecimiento y construir riqueza a largo plazo.</p>
+      <div class="infobox green"><span class="bi">✨</span> Todo lo incluido en Estabilidad, más herramientas avanzadas.</div>
+      <ul class="feat">
+        <li><span class="ck">✓</span> Dashboard de Patrimonio Neto</li>
+        <li><span class="ck">✓</span> Calculadoras avanzadas de inversión y retiro</li>
+        <li><span class="ck">✓</span> Cursos especializados de inversión</li>
+        <li><span class="ck">✓</span> FD IA con monitoreo proactivo</li>
+        <li><span class="ck">✓</span> Modelado de escenarios financieros</li>
+        <li><span class="ck">✓</span> Análisis de patrimonio e inversiones</li>
+        <li><span class="ck">✓</span> 4 sesiones anuales con coach certificado</li>
+      </ul>
+      <button class="cta outgreen" data-plan="Crecimiento">Comenzar Crecimiento</button>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>🛡️ Planes mensuales cancelables en cualquier momento</span>
+    <span class="div"></span>
+    <span>Pago 100% seguro</span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+  var t=document.getElementById('toast'),tm;
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-plan]'); if(!b) return;
+    t.textContent='→ Checkout: '+b.dataset.plan; t.classList.add('show');
+    clearTimeout(tm); tm=setTimeout(function(){t.classList.remove('show');},2200);
+  });
+</script>
+</body>
+</html>

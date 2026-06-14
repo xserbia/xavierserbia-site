@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fórmula Dinero — Radiografía (flujo completo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#edf1fb; --card:#ffffff; --ink:#15233f; --ink-soft:#5d6b85;
+    --blue:#2557e6; --blue-dark:#1b46c2; --blue-soft:#e9f0ff;
+    --green:#17a35a; --green-soft:#e6f6ee; --green-ink:#0f7a42;
+    --line:#e6e9f2; --lock:#aeb8cc;
+    --radius:22px; --shadow:0 14px 40px rgba(21,35,63,.07);
+    --display:'Poppins',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .display{font-family:var(--display)}
+  button{font-family:inherit;cursor:pointer;border:none}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+
+  .app{max-width:1180px;margin:0 auto;padding:18px 20px 64px;min-height:100vh}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:-.01em}
+  .brand .mark{width:30px;height:30px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:#fff;font-size:15px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+  .topbar .tag{font-size:12px;color:var(--ink-soft);font-weight:500}
+
+  .steps{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:0 auto 30px;max-width:680px;padding:0}
+  .steps li{list-style:none;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--lock);font-weight:600;padding:5px 4px}
+  .steps li .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#dfe5f3;color:#fff;font-size:12px;flex:none}
+  .steps li.done .n{background:var(--green)}
+  .steps li.active{color:var(--ink)}
+  .steps li.active .n{background:var(--blue)}
+  .steps li .bar{width:18px;height:2px;background:#dfe5f3;border-radius:2px}
+  @media(max-width:620px){.steps li span.lbl{display:none}.steps li .bar{width:14px}}
+
+  .screen{animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.screen,.screen *{animation:none!important;transition:none!important}}
+
+  .center{max-width:560px;margin:0 auto;text-align:center}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:var(--blue-soft);color:var(--blue);font-weight:600;font-size:12.5px;padding:7px 13px;border-radius:999px;margin-bottom:18px}
+  h1{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.08;font-size:clamp(30px,5vw,46px)}
+  .sub{color:var(--ink-soft);font-size:17px;margin-top:14px}
+  .cta{background:var(--blue);color:#fff;font-weight:600;font-size:16px;padding:15px 26px;border-radius:14px;transition:background .18s,transform .18s}
+  .cta:hover{background:var(--blue-dark);transform:translateY(-1px)}
+  .cta.block{width:100%}
+  .micro{font-size:12.5px;color:var(--ink-soft);margin-top:16px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .micro b{color:var(--ink)}
+
+  .ladder{display:flex;align-items:flex-end;gap:10px;justify-content:center;margin:34px auto 0;max-width:420px}
+  .ladder .rung{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px 14px 8px 8px;padding:12px 8px 14px;text-align:center;box-shadow:var(--shadow)}
+  .ladder .rung .dot{width:11px;height:11px;border-radius:50%;background:#cfd8ea;margin:0 auto 8px}
+  .ladder .rung small{font-size:11px;color:var(--ink-soft);font-weight:600;display:block;line-height:1.2}
+  .ladder .rung:nth-child(1){height:84px} .ladder .rung:nth-child(2){height:104px}
+  .ladder .rung:nth-child(3){height:128px} .ladder .rung:nth-child(4){height:152px}
+  .ladder .rung:nth-child(1) .dot{background:#7d8db0}
+  .ladder .rung:nth-child(2) .dot{background:var(--blue)}
+  .ladder .rung:nth-child(3) .dot{background:var(--green)}
+  .ladder .rung:nth-child(4) .dot{background:#caa23a}
+
+  .panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px;max-width:520px;margin:0 auto;text-align:left}
+  .panel h2{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.01em}
+  .panel .lead{color:var(--ink-soft);margin-top:8px;font-size:15px}
+  .field{margin-top:20px}
+  .field label{display:block;font-weight:600;font-size:14px;margin-bottom:7px}
+  .field label .opt{color:var(--ink-soft);font-weight:500}
+  .field input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;color:var(--ink);background:#fbfcff}
+  .field input:focus{border-color:var(--blue);outline:none}
+  .consent{display:flex;gap:11px;align-items:flex-start;margin-top:22px;font-size:13px;color:var(--ink-soft)}
+  .consent input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:var(--blue)}
+  .privacy{font-size:12px;color:var(--lock);margin-top:16px;text-align:center}
+
+  .quiz-head{max-width:620px;margin:0 auto 8px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-soft);font-weight:600}
+  .progress{max-width:620px;margin:0 auto 26px;height:7px;background:#dde4f3;border-radius:99px;overflow:hidden}
+  .progress span{display:block;height:100%;background:var(--blue);border-radius:99px;transition:width .35s ease}
+  .qcard{max-width:620px;margin:0 auto}
+  .qcard .qtext{font-family:var(--display);font-weight:600;font-size:23px;letter-spacing:-.01em;text-align:center;margin-bottom:26px;line-height:1.25}
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15.5px;color:var(--ink);text-align:left;transition:border-color .15s,background .15s;width:100%}
+  .opt:hover{border-color:var(--blue);background:var(--blue-soft)}
+  .opt .tick{width:22px;height:22px;border-radius:50%;border:2px solid #cdd6e8;flex:none}
+  .opt.sel{border-color:var(--blue);background:var(--blue-soft)}
+  .opt.sel .tick{border-color:var(--blue);background:var(--blue);position:relative}
+  .opt.sel .tick::after{content:"\2713";color:#fff;font-size:13px;position:absolute;inset:0;display:grid;place-items:center}
+  .qnav{display:flex;justify-content:space-between;align-items:center;max-width:620px;margin:24px auto 0}
+  .qback{background:none;color:var(--ink-soft);font-weight:600;font-size:14px;padding:10px 4px}
+  .qback[disabled]{opacity:0;pointer-events:none}
+
+  .res{max-width:680px;margin:0 auto}
+  .scorebox{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:34px;text-align:center}
+  .scorebox .lab{font-size:13px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em}
+  .scorebox .num{font-family:var(--display);font-weight:800;font-size:72px;line-height:1;margin:6px 0 2px;letter-spacing:-.02em}
+  .estadio-name{font-family:var(--display);font-weight:700;font-size:24px;margin-top:6px}
+  .estadio-name.c-surv{color:#5e6e90}.estadio-name.c-esta{color:var(--blue)}
+  .estadio-name.c-crec{color:var(--green)}.estadio-name.c-lib{color:#b08818}
+  .gap{background:var(--blue-soft);color:var(--blue-dark);border-radius:14px;padding:14px 18px;margin-top:20px;font-size:15px;font-weight:500}
+  .gap b{font-weight:700}
+  .rladder{display:flex;gap:8px;margin:24px 0 6px}
+  .rladder .r{flex:1;border-radius:12px;padding:12px 6px;text-align:center;background:#f2f5fc;border:1.5px solid transparent;transition:.2s}
+  .rladder .r small{display:block;font-size:11px;color:var(--ink-soft);font-weight:600;margin-top:6px;line-height:1.15}
+  .rladder .r .d{width:12px;height:12px;border-radius:50%;background:#cfd8ea;margin:0 auto}
+  .rladder .r.here{background:#fff;border-color:var(--blue);box-shadow:var(--shadow)}
+  .rladder .r.here small{color:var(--ink)}
+  .rladder .r.here .d{background:var(--blue)}
+  .youhere{font-size:11px;color:var(--blue);font-weight:700;margin-top:5px;height:13px}
+
+  .locked-h{font-family:var(--display);font-weight:700;font-size:18px;margin:34px 0 14px;display:flex;align-items:center;gap:9px}
+  .locked-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.locked-grid{grid-template-columns:1fr}}
+  .locked{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px;position:relative;overflow:hidden}
+  .locked h4{font-size:14.5px;font-weight:700;margin-bottom:10px}
+  .locked .blur{filter:blur(5px);user-select:none;pointer-events:none;opacity:.8}
+  .locked .blur p{font-size:13.5px;color:var(--ink-soft);margin-bottom:7px}
+  .locked .lockbadge{position:absolute;top:16px;right:16px;color:var(--lock);font-size:16px}
+  .anchor{text-align:center;color:var(--ink-soft);font-size:13.5px;margin-top:26px}
+  .anchor b{color:var(--ink)}
+
+  .rec-banner{max-width:980px;margin:0 auto 26px;background:#fff;border:1.5px solid var(--blue);border-radius:16px;padding:18px 22px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
+  .rec-banner .ic{width:42px;height:42px;border-radius:12px;background:var(--blue-soft);display:grid;place-items:center;font-size:20px;flex:none}
+  .rec-banner p{font-size:14.5px;color:var(--ink-soft)}
+  .rec-banner p b{color:var(--ink);font-weight:700}
+  .ptitle{text-align:center;margin-bottom:6px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1080px;margin:24px auto 0;align-items:start}
+  @media(max-width:880px){.grid{grid-template-columns:1fr;max-width:460px}}
+  .plan{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 24px;border:2px solid transparent;position:relative;transition:.2s}
+  .plan.dim{opacity:.72}
+  .plan.rec{border-color:var(--blue);transform:translateY(-4px)}
+  .plan.rec.crec{border-color:var(--green)}
+  .badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-weight:700;font-size:12px;padding:6px 14px;border-radius:999px;color:#fff;white-space:nowrap}
+  .badge.b-blue{background:var(--blue)} .badge.b-green{background:var(--green)}
+  .plan .picon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;margin-bottom:14px}
+  .pi-blue{background:var(--blue-soft)} .pi-green{background:var(--green-soft)} .pi-grey{background:#eef1f8}
+  .plan h3{font-family:var(--display);font-weight:700;font-size:21px}
+  .plan .tagline{font-size:13.5px;color:var(--ink-soft);margin-top:4px;min-height:38px}
+  .price{font-family:var(--display);font-weight:800;font-size:38px;letter-spacing:-.02em;margin-top:10px}
+  .price small{font-size:15px;color:var(--ink-soft);font-weight:600}
+  .price .cur{font-size:22px;vertical-align:top;margin-right:1px}
+  .yr{font-size:13.5px;color:var(--ink-soft);margin-top:4px}
+  .yr .save{background:var(--green-soft);color:var(--green-ink);font-weight:700;font-size:11.5px;padding:2px 8px;border-radius:999px;margin-left:6px}
+  .feat{list-style:none;margin:18px 0 0;display:flex;flex-direction:column;gap:9px}
+  .feat li{display:flex;gap:9px;font-size:13.5px;color:var(--ink);align-items:flex-start}
+  .feat li .ck{color:var(--blue);font-weight:800;flex:none}
+  .plan.crec .feat li .ck{color:var(--green)}
+  .pbtn{width:100%;margin-top:22px;padding:13px;border-radius:13px;font-weight:600;font-size:15px;transition:.18s}
+  .pbtn.solid{background:var(--blue);color:#fff} .pbtn.solid:hover{background:var(--blue-dark)}
+  .pbtn.solid.green{background:var(--green)} .pbtn.solid.green:hover{filter:brightness(.94)}
+  .pbtn.out{background:#fff;border:1.5px solid var(--line);color:var(--ink)} .pbtn.out:hover{border-color:var(--blue)}
+  .pfoot{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:26px}
+  .restart{display:block;margin:40px auto 0;background:none;color:var(--lock);font-size:12.5px;text-decoration:underline}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="mark">FD</span> Fórmula Dinero</div>
+    <span class="tag">Coaching · IA · Educación Financiera</span>
+  </div>
+  <ul class="steps" id="steps"></ul>
+  <div id="root"></div>
+  <button class="restart" id="restart" data-act="reset" style="display:none">↺ Reiniciar el flujo</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const QUESTIONS = [
+ {q:"A fin de mes, ¿qué pasa con tu dinero?", dim:"flujo", a:[["Me quedo sin dinero antes de que acabe",0],["Llego justo, sin sobrante",1],["Me sobra un poco",2],["Me sobra de forma constante",3]]},
+ {q:"Si tuvieras una emergencia de $500 hoy, ¿cómo la pagarías?", dim:"ahorro", a:[["No podría cubrirla",0],["Con tarjeta o un préstamo",1],["Con parte de mis ahorros",2],["Con mi fondo de emergencia, sin problema",3]]},
+ {q:"¿Cuántos meses de gastos tienes ahorrados?", dim:"ahorro", a:[["Ninguno",0],["Menos de uno",1],["Entre 1 y 3",2],["Más de 3",3]]},
+ {q:"¿Tienes deudas de tarjeta u otras de alto interés?", dim:"deudas", a:[["Sí, y me cuesta pagarlas",0],["Sí, pero las voy manejando",1],["Muy poca",2],["Ninguna",3]]},
+ {q:"¿Sabes la tasa de interés que pagas por tus deudas?", dim:"deudas", a:[["No tengo idea",0],["Más o menos",1],["Sí, de casi todas",2],["Sí, de todas — o no tengo deudas",3]]},
+ {q:"¿Llevas un registro de tus gastos?", dim:"flujo", a:[["Nunca",0],["A veces",1],["Casi siempre",2],["Siempre, con un sistema",3]]},
+ {q:"¿Tienes un presupuesto mensual?", dim:"flujo", a:[["No",0],["Lo intento pero no lo sigo",1],["Sí, uno informal",2],["Sí, y lo cumplo",3]]},
+ {q:"¿Ahorras de forma automática cada mes?", dim:"ahorro", a:[["No ahorro",0],["Solo cuando puedo",1],["Sí, un poco",2],["Sí, está automatizado",3]]},
+ {q:"¿Tienes inversiones (fondos, acciones, negocio)?", dim:"inversion", a:[["No sé bien qué es eso",0],["No, pero me interesa",1],["Estoy empezando",2],["Sí, invierto con regularidad",3]]},
+ {q:"¿Estás ahorrando para tu retiro?", dim:"inversion", a:[["No",0],["Todavía no",1],["Apenas empiezo",2],["Sí, de forma constante",3]]},
+ {q:"¿Qué tan estable es tu ingreso?", dim:"flujo", a:[["Muy inestable",0],["Variable",1],["Estable",2],["Estable y creciendo",3]]},
+ {q:"¿Conoces tu patrimonio neto (lo que tienes menos lo que debes)?", dim:"inversion", a:[["No",0],["Vagamente",1],["Un aproximado",2],["Sí, lo monitoreo",3]]},
+ {q:"¿Tienes metas financieras claras?", dim:"meta", a:[["No",0],["Algunas ideas sueltas",1],["Sí, generales",2],["Sí, específicas y con plazo",3]]},
+ {q:"¿Cómo te sientes con tu situación financiera?", dim:"meta", a:[["Sin control y con estrés",0],["Preocupado",1],["Más o menos tranquilo",2],["En control y optimista",3]]},
+];
+const ESTADIOS = {
+  surv:{name:"Supervivencia",cls:"c-surv",line:"Cubres lo básico, pero sin margen.",rec:"Estabilidad"},
+  esta:{name:"Estabilidad",cls:"c-esta",line:"Tienes algo de control y estás construyendo tu colchón.",rec:"Estabilidad"},
+  crec:{name:"Crecimiento",cls:"c-crec",line:"Ahorras con constancia y empiezas a invertir.",rec:"Crecimiento"},
+  lib:{name:"Libertad",cls:"c-lib",line:"Tu dinero ya trabaja para ti.",rec:"Crecimiento"},
+};
+const LADDER=[["Supervivencia","surv"],["Estabilidad","esta"],["Crecimiento","crec"],["Libertad","lib"]];
+const GAP={flujo:"tomar el control de tu flujo mensual",ahorro:"construir tu fondo de emergencia",deudas:"reducir tus deudas de alto interés",inversion:"empezar a hacer crecer tu dinero"};
+const GAPMAX={flujo:12,ahorro:9,deudas:6,inversion:9};
+
+let S={screen:"start", q:0, answers:Array(QUESTIONS.length).fill(null), user:{}};
+const root=document.getElementById('root');
+const FLOW=[["start","Inicio"],["signup","Tus datos"],["quiz","Radiografía"],["results","Resultado"],["pricing","Tu plan"]];
+
+function reset(){S={screen:"start",q:0,answers:Array(QUESTIONS.length).fill(null),user:{}};render();}
+function go(s){S.screen=s;window.scrollTo(0,0);render();}
+function stepIndex(){return FLOW.findIndex(f=>f[0]===S.screen);}
+function renderSteps(){
+  const cur=stepIndex();
+  document.getElementById('steps').innerHTML=FLOW.map((f,i)=>{
+    const st=i<cur?'done':i===cur?'active':'';
+    const bar=i<FLOW.length-1?'<span class="bar"></span>':'';
+    return '<li class="'+st+'"><span class="n">'+(i<cur?'\u2713':i+1)+'</span><span class="lbl">'+f[1]+'</span></li>'+bar;
+  }).join('');
+  document.getElementById('restart').style.display = cur>0 ? 'block':'none';
+}
+function score(){
+  let total=0; const dim={flujo:0,ahorro:0,deudas:0,inversion:0,meta:0};
+  QUESTIONS.forEach((Q,i)=>{const v=S.answers[i]==null?0:S.answers[i];total+=v;dim[Q.dim]+=v;});
+  let key = total<=13?'surv':total<=23?'esta':total<=33?'crec':'lib';
+  let gapDim='flujo',worst=2;
+  ['flujo','ahorro','deudas','inversion'].forEach(d=>{const pct=dim[d]/GAPMAX[d];if(pct<worst){worst=pct;gapDim=d;}});
+  return {total,max:QUESTIONS.length*3,key,gapDim};
+}
+
+function viewStart(){
+  return '<div class="screen center">'
+    +'<span class="pill">● Gratis · 2 minutos · 14 preguntas</span>'
+    +'<h1 class="display">¿En qué etapa está<br>tu vida financiera?</h1>'
+    +'<p class="sub">Haz tu Radiografía Financiera y descubre tu Estadio Económico — dónde estás hoy y cuál es tu siguiente paso.</p>'
+    +'<div style="margin-top:26px"><button class="cta" data-act="go" data-arg="signup">Comenzar mi Radiografía →</button></div>'
+    +'<div class="micro"><span>🔒 <b>Sin tarjeta</b> para empezar</span><span>📊 Resultado <b>al instante</b></span></div>'
+    +'<div class="ladder" aria-hidden="true">'+LADDER.map(l=>'<div class="rung"><div class="dot"></div><small>'+l[0]+'</small></div>').join('')+'</div>'
+    +'</div>';
+}
+function viewSignup(){
+  const u=S.user;
+  return '<div class="screen"><div class="panel">'
+    +'<h2 class="display">Antes de empezar</h2>'
+    +'<p class="lead">Guardamos tu Radiografía para que puedas volver a ella cuando quieras.</p>'
+    +'<div class="field"><label for="n">Nombre</label><input id="n" data-field="name" value="'+(u.name||'')+'" placeholder="Tu nombre"></div>'
+    +'<div class="field"><label for="e">Email</label><input id="e" type="email" data-field="email" value="'+(u.email||'')+'" placeholder="tu@email.com"></div>'
+    +'<div class="field"><label for="p">Teléfono <span class="opt">· opcional</span></label><input id="p" data-field="phone" value="'+(u.phone||'')+'" placeholder="Para recordatorios de tus sesiones"></div>'
+    +'<label class="consent"><input type="checkbox"> Quiero recibir mi resultado y consejos de Fórmula Dinero por email. Puedo darme de baja cuando quiera.</label>'
+    +'<button class="cta block" style="margin-top:24px" data-act="go" data-arg="quiz">Continuar a mis 14 preguntas →</button>'
+    +'<p class="privacy">Tus datos están protegidos. No compartimos tu información.</p>'
+    +'</div></div>';
+}
+function viewQuiz(){
+  const i=S.q, Q=QUESTIONS[i], sel=S.answers[i];
+  const pct=Math.round((i/QUESTIONS.length)*100);
+  return '<div class="screen">'
+    +'<div class="quiz-head"><span>Pregunta '+(i+1)+' de '+QUESTIONS.length+'</span><span>'+pct+'% completado</span></div>'
+    +'<div class="progress"><span style="width:'+pct+'%"></span></div>'
+    +'<div class="qcard"><div class="qtext display">'+Q.q+'</div><div class="opts">'
+    +Q.a.map((o,j)=>'<button class="opt '+(sel===j?'sel':'')+'" data-act="pick" data-arg="'+j+'"><span class="tick"></span>'+o[0]+'</button>').join('')
+    +'</div><div class="qnav"><button class="qback" data-act="back" '+(i===0?'disabled':'')+'>← Atrás</button></div></div></div>';
+}
+function viewResults(){
+  const r=score(), E=ESTADIOS[r.key];
+  return '<div class="screen res"><div class="scorebox">'
+    +'<div class="lab">Tu score financiero</div>'
+    +'<div class="num display">'+r.total+'<span style="font-size:26px;color:var(--ink-soft)">/'+r.max+'</span></div>'
+    +'<div class="lab" style="margin-top:14px">Tu Estadio Económico</div>'
+    +'<div class="estadio-name display '+E.cls+'">'+E.name+'</div>'
+    +'<div class="rladder" aria-hidden="true">'
+    +LADDER.map(l=>{const here=l[1]===r.key;return '<div class="r '+(here?'here':'')+'"><div class="d"></div><small>'+l[0]+'</small><div class="youhere">'+(here?'estás aquí':'')+'</div></div>';}).join('')
+    +'</div>'
+    +'<div class="gap">📍 '+E.line+' <b>Tu mayor oportunidad ahora está en '+GAP[r.gapDim]+'.</b></div>'
+    +'</div>'
+    +'<div class="locked-h"><span>🔒</span> Tu análisis completo está listo</div>'
+    +'<div class="locked-grid">'
+    +'<div class="locked"><span class="lockbadge">🔒</span><h4>Áreas de oportunidad</h4><div class="blur"><p>Deudas — prioridad alta: consolidar para reducir intereses hasta 40%</p><p>Ahorro — automatizar $250/mes</p><p>Flujo — gasto recurrente detectado: $45/mes</p></div></div>'
+    +'<div class="locked"><span class="lockbadge">🔒</span><h4>Tu Hoja de Ruta</h4><div class="blur"><p>1 · Crear fondo de emergencia de $1,500</p><p>2 · Consolidar deudas de tarjeta</p><p>3 · Automatizar tu ahorro mensual</p></div></div>'
+    +'</div>'
+    +'<p class="anchor">Una asesoría financiera tradicional cuesta <b>más de $1,000</b>. Tu Radiografía ya está hecha — solo falta desbloquear el plan.</p>'
+    +'<div style="text-align:center;margin-top:18px"><button class="cta" data-act="go" data-arg="pricing">Ver mi plan completo →</button></div>'
+    +'</div>';
+}
+function viewPricing(){
+  const r=score(), E=ESTADIOS[r.key], rec=E.rec;
+  const recEsta = rec==="Estabilidad", recCrec = rec==="Crecimiento";
+  const radio='<div class="plan dim"><div class="picon pi-grey">📋</div><h3 class="display">Mi Radiografía</h3>'
+    +'<div class="tagline">Tu diagnóstico completo, una sola vez.</div>'
+    +'<div class="price"><span class="cur">$</span>19 <small>pago único</small></div>'
+    +'<div class="yr">Crédito aplicado a tu primera membresía</div>'
+    +'<ul class="feat"><li><span class="ck">✓</span>Score y evaluación completa</li><li><span class="ck">✓</span>Tus áreas de oportunidad</li><li><span class="ck">✓</span>Vista previa de tu Hoja de Ruta</li><li><span class="ck">✓</span>Acceso inicial a FD IA</li></ul>'
+    +'<button class="pbtn out" data-act="checkout" data-arg="Mi Radiografía ($19)">Solo el diagnóstico</button></div>';
+  const esta='<div class="plan '+(recEsta?'rec':'dim')+'">'+(recEsta?'<span class="badge b-blue">✓ Recomendado para ti</span>':'')
+    +'<div class="picon pi-blue">🛡️</div><h3 class="display">Estabilidad</h3>'
+    +'<div class="tagline">Controla tu dinero y crea tu primer colchón.</div>'
+    +'<div class="price"><span class="cur">$</span>14<small>.99 / mes</small></div>'
+    +'<div class="yr">o $135 / año <span class="save">AHORRA 25%</span></div>'
+    +'<ul class="feat"><li><span class="ck">✓</span>Hoja de Ruta completa</li><li><span class="ck">✓</span>Cada Menudo App</li><li><span class="ck">✓</span>FD IA ilimitado para tu día a día</li><li><span class="ck">✓</span>Calculadoras y cursos esenciales</li><li><span class="ck">✓</span>Seguimiento de tu progreso</li><li><span class="ck">✓</span>Coaching disponible por separado</li></ul>'
+    +'<button class="pbtn solid" data-act="checkout" data-arg="Estabilidad">Comenzar Estabilidad →</button></div>';
+  const crec='<div class="plan crec '+(recCrec?'rec crec':'dim')+'">'+(recCrec?'<span class="badge b-green">✓ Recomendado para ti</span>':'')
+    +'<div class="picon pi-green">📈</div><h3 class="display">Crecimiento</h3>'
+    +'<div class="tagline">Convierte tu estabilidad en patrimonio.</div>'
+    +'<div class="price"><span class="cur">$</span>39<small>.99 / mes</small></div>'
+    +'<div class="yr">o $399 / año <span class="save">AHORRA 17%</span></div>'
+    +'<ul class="feat"><li><span class="ck">✓</span>Todo lo de Estabilidad</li><li><span class="ck">✓</span>Dashboard de Patrimonio Neto</li><li><span class="ck">✓</span>Calculadoras y cursos de inversión</li><li><span class="ck">✓</span>FD IA con monitoreo proactivo</li><li><span class="ck">✓</span>4 sesiones al año con coach certificado</li></ul>'
+    +'<button class="pbtn solid green" data-act="checkout" data-arg="Crecimiento">Comenzar Crecimiento →</button></div>';
+  return '<div class="screen"><div class="rec-banner"><div class="ic">'+(recCrec?'📈':'🛡️')+'</div>'
+    +'<p>Según tu Radiografía estás en <b>'+E.name+'</b>. Tu plan recomendado es <b>'+rec+'</b> — diseñado justo para tu siguiente paso.</p></div>'
+    +'<h1 class="ptitle display" style="font-size:30px">Tu plan, según tu realidad</h1>'
+    +'<p class="center sub" style="font-size:15px;margin-top:6px">Empieza por donde estás. Sube de nivel cuando estés listo.</p>'
+    +'<div class="grid">'+radio+esta+crec+'</div>'
+    +'<p class="pfoot">🛡️ Planes mensuales cancelables en cualquier momento &nbsp;·&nbsp; Pago 100% seguro</p></div>';
+}
+
+function render(){
+  renderSteps();
+  const map={start:viewStart,signup:viewSignup,quiz:viewQuiz,results:viewResults,pricing:viewPricing};
+  root.innerHTML=map[S.screen]();
+}
+let toastTimer;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+
+document.addEventListener('click',function(e){
+  const el=e.target.closest('[data-act]');
+  if(!el) return;
+  const act=el.dataset.act, arg=el.dataset.arg;
+  if(act==='go') go(arg);
+  else if(act==='reset') reset();
+  else if(act==='back'){ if(S.q>0){S.q--;render();} }
+  else if(act==='checkout') toast('→ Checkout: '+arg);
+  else if(act==='pick'){
+    S.answers[S.q]=parseInt(arg,10);
+    render();
+    setTimeout(function(){ if(S.q<QUESTIONS.length-1){S.q++;render();} else {go('results');} },180);
+  }
+});
+document.addEventListener('input',function(e){
+  const f=e.target.dataset.field; if(f) S.user[f]=e.target.value;
+});
+
+render();
+</script>
+</body>
+</html>
