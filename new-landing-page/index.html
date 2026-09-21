@@ -252,6 +252,44 @@ footer{background:#061224;color:#fff;padding:50px 0}
     border-radius:18px;
   }
 }
+  /* EL MENUDO CUENTA — FINAL BANNER */
+
+.emc-banner-world{
+  background:none;
+  border:none;
+  overflow:hidden;
+  line-height:0;
+}
+
+.emc-banner-link{
+  display:block;
+  width:100%;
+}
+
+.emc-banner-image{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  transition:transform .35s ease;
+}
+
+.emc-banner-link:hover .emc-banner-image{
+  transform:scale(1.006);
+}
+
+@media(max-width:900px){
+  .emc-banner-world{
+    width:calc(100% - 30px);
+  }
+}
+
+@media(max-width:560px){
+  .emc-banner-world{
+    width:calc(100% - 22px);
+    border-radius:18px;
+  }
+}
   
 </style>
 </head>
@@ -332,24 +370,20 @@ footer{background:#061224;color:#fff;padding:50px 0}
   </a>
 </section>
 
-<section class="world emcworld">
-  <div class="worldgrid">
-    <div class="worldcopy">
-      <div class="eyebrow">03 / INVIERTE</div>
-      <img class="emclogo" src="assets/emc-logo.png" alt="El Menudo Cuenta">
-      <h3>Una moneda no es una moneda, <span>es un inicio.</span></h3>
-      <p>Haz que cada pequeño paso contribuya a construir tu futuro financiero. Una forma simple de comenzar a invertir, mantenerte invertido y seguir la evolución de tu portafolio.</p>
-      <div class="features">
-        <span>✓ Portafolios diversificados</span><span>✓ Inversión automatizada</span><span>✓ Seguimiento del portafolio</span><span>✓ Inversiones + Futuro</span>
-      </div>
-      <a class="btn" style="margin-top:28px;background:#ffc400;color:#351067" href="https://elmenudocuenta.com" target="_blank" rel="noopener">CONOCE EL MENUDO CUENTA →</a>
-    </div>
-    <div class="emcvisual">
-      <img class="emcphone1" src="assets/emc-phone-home.png" alt="El Menudo Cuenta inversiones">
-      <img class="emcphone2" src="assets/emc-phone-portfolio.png" alt="El Menudo Cuenta portafolio">
-      <div class="investcard"><small>INVERSIONES</small><strong>$2,392.42</strong></div>
-    </div>
-  </div>
+<section class="world emc-banner-world">
+  <a
+    class="emc-banner-link"
+    href="https://elmenudocuenta.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Conoce El Menudo Cuenta"
+  >
+    <img
+      class="emc-banner-image"
+      src="https://xserbia.github.io/xavierserbia-site/new-landing-page/graphics/EMC-banner.png"
+      alt="El Menudo Cuenta — Una moneda no es una moneda, es un inicio."
+    >
+  </a>
 </section>
 
 <section class="businex" id="enbusinex">
