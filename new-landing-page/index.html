@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Xavier Serbia | Economía, Finanzas, Inversión y Negocios</title>
+<style>
+:root{
+  --white:#fff;--ink:#0c1830;--navy:#08162b;--navy2:#0d2446;
+  --blue:#1769ff;--blue2:#5a9cff;--sky:#eef6ff;--muted:#65748a;--line:#dbe6f0;
+  --cm:#5a49e8;--emc:#46009a;--yellow:#ffc400;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+.wrap{width:min(1180px,calc(100% - 48px));margin:auto}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(8,22,43,.08)}
+.nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{font-weight:900;letter-spacing:.17em;color:var(--navy);font-size:18px}
+.navlinks{display:flex;gap:28px;align-items:center;font-size:13px;font-weight:700}
+.navlinks a:hover{opacity:.58}
+
+/* SHARED */
+.eyebrow{font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:9px;font-size:12px;font-weight:900;letter-spacing:.035em;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 15px 32px rgba(23,105,255,.22)}
+.btn-outline{border:1px solid #b9c9da;background:#fff;color:var(--navy)}
+.btn-white{background:#fff;color:var(--navy)}
+
+/* HERO */
+.hero{background:radial-gradient(circle at 82% 30%,rgba(91,156,255,.20),transparent 29%),linear-gradient(180deg,#fff,#f5f9ff)}
+.herogrid{min-height:660px;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:54px}
+.hero h1{font-size:clamp(52px,6.5vw,84px);line-height:.98;letter-spacing:-.055em;color:var(--navy);max-width:700px}
+.hero h1 span{color:var(--blue)}
+.hero p{max-width:600px;margin-top:25px;font-size:19px;line-height:1.7;color:var(--muted)}
+.heroactions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.herovis{position:relative;align-self:end;min-height:580px}
+.herovis img{position:absolute;bottom:0;right:0;width:min(590px,100%);max-height:610px;object-fit:contain;object-position:bottom}
+.herocard{position:absolute;right:-8px;bottom:95px;background:rgba(255,255,255,.96);border:1px solid #dbe7f2;box-shadow:0 20px 45px rgba(8,22,43,.13);padding:18px 22px;border-radius:14px;font-size:13px;line-height:2}
+.herocard strong{color:var(--blue);margin-right:8px}
+
+/* ECOSYSTEM INTRO */
+.ecointro{padding:88px 0 48px;text-align:center;background:#fff}
+.ecointro .eyebrow{text-align:center}
+.ecointro h2{font-size:clamp(40px,5vw,62px);line-height:1.03;letter-spacing:-.045em;color:var(--navy)}
+.ecointro h2 span{color:var(--blue)}
+.ecointro p{max-width:650px;margin:18px auto 0;color:var(--muted);font-size:16px;line-height:1.7}
+
+/* WORLD BASE */
+.world{width:min(1180px,calc(100% - 48px));margin:22px auto;border-radius:24px;overflow:hidden;position:relative}
+.worldgrid{min-height:560px;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:56px;padding:62px}
+.worldcopy h3{font-size:clamp(40px,4.6vw,64px);line-height:1.02;letter-spacing:-.045em;margin-top:18px}
+.worldcopy p{margin-top:20px;font-size:17px;line-height:1.7;max-width:470px}
+.features{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:24px;font-size:13px;font-weight:700}
+
+/* FORMULA DINERO */
+.fdworld{background:radial-gradient(circle at 82% 32%,rgba(23,105,255,.28),transparent 28%),linear-gradient(135deg,#071224,#0c1b34 58%,#0a2a52);color:#fff}
+.fdworld:after{content:"";position:absolute;width:620px;height:620px;border:1px solid rgba(91,156,255,.14);border-radius:50%;right:-240px;top:-260px}
+.fdworld .worldgrid{position:relative;z-index:2}
+.fdworld .eyebrow{color:#73a8ff}
+.fdlogo{width:230px;filter:brightness(0) invert(1)}
+.fdworld h3 span{color:#77adff}
+.fdworld p{color:#afbed2}
+.fdworld .features{color:#dce6f3}
+.fdproduct{position:relative}
+.browser{overflow:hidden;border-radius:18px;border:1px solid rgba(135,175,220,.28);box-shadow:0 35px 75px rgba(0,0,0,.34);background:#fff;transform:perspective(1400px) rotateY(-3deg)}
+.browserbar{height:40px;background:#fff;border-bottom:1px solid #dfe7ef;display:flex;align-items:center;padding:0 14px;gap:7px}
+.dot{width:7px;height:7px;border-radius:50%;background:#cbd4dd}
+.url{margin-left:auto;margin-right:auto;background:#f2f5f8;color:#8c99a9;font-size:9px;border-radius:20px;padding:4px 25px}
+.browser img{width:100%}
+.floattag{position:absolute;left:-32px;bottom:-28px;background:#fff;color:var(--navy);border-radius:14px;padding:16px 20px;box-shadow:0 20px 45px rgba(0,0,0,.25);font-size:15px;line-height:1.35}
+.floattag small{display:block;color:var(--blue);font-size:9px;font-weight:900;letter-spacing:.13em;margin-bottom:5px}
+
+/* CADA MENUDO */
+.cmworld{background:radial-gradient(circle at 15% 70%,rgba(90,73,232,.11),transparent 30%),linear-gradient(135deg,#fff,#f7f9ff);border:1px solid #dce5f3}
+.cmworld .worldgrid{grid-template-columns:1.15fr .85fr}
+.cmvisual{position:relative;min-height:470px}
+.cmlaptop{position:absolute;width:92%;left:-4%;bottom:6%;filter:drop-shadow(0 28px 34px rgba(29,44,88,.18))}
+.cmphone{position:absolute;width:31%;left:8%;bottom:-1%;filter:drop-shadow(0 24px 24px rgba(17,27,58,.25))}
+.cmstat{position:absolute;right:3%;top:18%;background:#fff;border:1px solid #e5e9f3;box-shadow:0 18px 36px rgba(48,61,100,.12);padding:13px 16px;border-radius:12px;font-size:12px}
+.cmstat b{color:var(--cm);font-size:18px}
+.cmlogo{width:220px}
+.cmworld h3{color:#0d1831}
+.cmworld h3 span{color:#4f69ff}
+.cmworld p{color:var(--muted)}
+.cmworld .features{color:#53637a}
+
+/* EMC */
+.emcworld{background:radial-gradient(circle at 85% 16%,rgba(255,196,0,.12),transparent 23%),linear-gradient(135deg,#2e0070,#4b009e 58%,#290061);color:#fff}
+.emcworld .eyebrow{color:#ffd448}
+.emclogo{width:250px}
+.emcworld h3{color:#fff}
+.emcworld h3 span{color:var(--yellow)}
+.emcworld p{color:#e0d4f1}
+.emcworld .features{color:#f5edff}
+.emcvisual{position:relative;min-height:500px}
+.emcphone1,.emcphone2{position:absolute;bottom:-25px;filter:drop-shadow(0 28px 30px rgba(0,0,0,.28))}
+.emcphone1{height:500px;left:2%;z-index:2}
+.emcphone2{height:465px;right:1%;bottom:-5px;z-index:1;transform:rotate(2deg)}
+.investcard{position:absolute;right:-4%;top:13%;z-index:3;background:#fff;color:#29135d;border-radius:16px;padding:17px 20px;box-shadow:0 20px 42px rgba(0,0,0,.22)}
+.investcard small{display:block;color:#7354a8;font-size:10px;margin-bottom:4px}
+.investcard strong{font-size:22px}
+
+/* ENBUSINEX */
+.businex{margin-top:96px;background:#eef6ff;padding:100px 0}
+.busgrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
+.busart{min-height:420px;background:linear-gradient(145deg,#07162b,#0a3b68);color:#fff;padding:36px;display:flex;flex-direction:column;justify-content:space-between;border-radius:22px;box-shadow:0 25px 60px rgba(6,27,53,.18)}
+.busart small{font-size:10px;letter-spacing:.16em;color:#94bfe0;text-transform:uppercase}
+.busbrand span:first-child{font-size:24px;color:#87c7ef;display:block;margin-bottom:-8px}
+.busbrand strong{font-size:clamp(55px,6vw,80px);letter-spacing:-.055em}
+.buscopy h2{font-size:clamp(42px,5vw,66px);line-height:1;letter-spacing:-.045em}
+.buscopy p{margin-top:24px;color:var(--muted);font-size:18px;line-height:1.7;max-width:580px}
+
+/* BIO */
+.bio{padding:110px 0;background:#fff}
+.biogrid{display:grid;grid-template-columns:.88fr 1.12fr;gap:70px;align-items:center}
+.biophoto{min-height:480px;background:linear-gradient(145deg,#e5f0fb,#f8fbff);border-radius:20px;overflow:hidden;position:relative}
+.biophoto img{width:100%;height:100%;position:absolute;bottom:0;object-fit:contain;object-position:bottom}
+.biocopy h2{font-size:clamp(42px,5vw,66px);line-height:1;letter-spacing:-.045em}
+.biocopy p{margin-top:24px;color:var(--muted);font-size:18px;line-height:1.75;max-width:650px}
+
+/* SPEAKING */
+.speaking{background:var(--navy2);color:#fff;padding:92px 0}
+.speakgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:end}
+.speaking h2{font-size:clamp(48px,6vw,76px);line-height:1;letter-spacing:-.05em}
+.speaking p{color:#bed0e2;font-size:17px;line-height:1.75;max-width:510px;margin-bottom:28px}
+
+/* FOOTER */
+footer{background:#061224;color:#fff;padding:50px 0}
+.foot{display:flex;justify-content:space-between;gap:40px;align-items:flex-end}
+.footbrand{font-size:20px;font-weight:900;letter-spacing:.14em}
+.footsub{color:#809ab4;font-size:12px;margin-top:8px}
+.footlinks{display:flex;gap:22px;flex-wrap:wrap;color:#a8bdd2;font-size:12px}
+
+/* MOBILE */
+@media(max-width:900px){
+  .navlinks{display:none}
+  .wrap,.world{width:min(100% - 30px,1180px)}
+  .herogrid{grid-template-columns:1fr;min-height:auto;padding:60px 0 0;gap:28px}
+  .herovis{min-height:470px}
+  .herocard{right:4%;bottom:48px}
+  .ecointro{padding-top:72px}
+  .worldgrid,.cmworld .worldgrid,.busgrid,.biogrid,.speakgrid{grid-template-columns:1fr;gap:44px}
+  .worldgrid{padding:48px 34px}
+  .cmvisual{order:2;min-height:390px}
+  .fdproduct{margin-top:10px}
+  .emcvisual{min-height:480px}
+  .businex,.bio{padding:78px 0}
+}
+@media(max-width:560px){
+  .wrap,.world{width:calc(100% - 22px)}
+  .hero h1{font-size:47px}
+  .hero p{font-size:17px}
+  .heroactions{display:grid}
+  .btn{width:100%}
+  .herovis{min-height:390px}
+  .herocard{font-size:11px;padding:13px 15px}
+  .ecointro h2,.worldcopy h3,.buscopy h2,.biocopy h2,.speaking h2{font-size:39px}
+  .world{border-radius:18px}
+  .worldgrid{padding:40px 22px}
+  .fdlogo,.cmlogo,.emclogo{width:190px}
+  .floattag{position:relative;left:auto;bottom:auto;margin:-10px 12px 0;display:inline-block}
+  .cmvisual{min-height:320px}
+  .cmlaptop{width:108%;left:-10%}
+  .cmphone{width:35%;left:5%}
+  .cmstat{top:4%;right:0}
+  .emcvisual{min-height:390px}
+  .emcphone1{height:395px;left:-4%}
+  .emcphone2{height:350px;right:-8%}
+  .investcard{top:5%;right:-2%;padding:12px 14px}
+  .investcard strong{font-size:18px}
+  .busart{min-height:340px}
+  .foot{display:block}
+  .footlinks{margin-top:24px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">XAVIER SERBIA</a>
+    <nav class="navlinks">
+      <a href="#ecosistema">Ecosistema</a>
+      <a href="#enbusinex">enBUSINEX</a>
+      <a href="#conferencias">Conferencias</a>
+      <a href="#bio">Bio</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap herogrid">
+    <div>
+      <div class="eyebrow">Xavier Serbia</div>
+      <h1>Entender el dinero para tomar mejores <span>decisiones.</span></h1>
+      <p>Economía, finanzas personales, inversión y negocios explicados con contexto, criterio y herramientas para llevarlos a la práctica.</p>
+      <div class="heroactions">
+        <a class="btn btn-blue" href="#ecosistema">CONOCE EL ECOSISTEMA</a>
+        <a class="btn btn-outline" href="#bio">SOBRE XAVIER</a>
+      </div>
+    </div>
+    <div class="herovis">
+      <img src="assets/xavier-hero.png" alt="Xavier Serbia">
+      <div class="herocard">
+        <div><strong>↗</strong> Economía.</div>
+        <div><strong>◯</strong> Finanzas.</div>
+        <div><strong>↗</strong> Inversión.</div>
+        <div><strong>▣</strong> Negocios.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ecointro" id="ecosistema">
+  <div class="wrap">
+    <div class="eyebrow">El ecosistema</div>
+    <h2>Un ecosistema. Tres funciones.<br><span>Dirige. Controla. Invierte.</span></h2>
+    <p>Diferentes herramientas para diferentes decisiones. Cada proyecto cumple una función específica dentro de tu economía.</p>
+  </div>
+</section>
+
+<section class="world fdworld">
+  <div class="worldgrid">
+    <div class="worldcopy">
+      <div class="eyebrow">01 / DIRIGE</div>
+      <img class="fdlogo" src="assets/formula-dinero-logo.png" alt="Fórmula Dinero">
+      <h3>Sé el <span>CFO de tu economía.</span></h3>
+      <p>Organiza tu economía, entiende dónde estás y define qué decisiones debes tomar para avanzar con una metodología, herramientas y acompañamiento.</p>
+      <div class="features">
+        <span>✓ Radiografía financiera</span><span>✓ Hoja de ruta</span><span>✓ Herramientas</span><span>✓ Acompañamiento</span>
+      </div>
+      <a class="btn btn-blue" style="margin-top:28px" href="https://formuladinero.com" target="_blank" rel="noopener">CONOCE FÓRMULA DINERO →</a>
+    </div>
+    <div class="fdproduct">
+      <div class="browser">
+        <div class="browserbar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="url">formuladinero.com</span></div>
+        <img src="assets/formula-radiografia.png" alt="Radiografía financiera de Fórmula Dinero">
+      </div>
+      <div class="floattag"><small>TU ECONOMÍA</small><strong>De la radiografía<br>a la acción.</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="world cmworld">
+  <div class="worldgrid">
+    <div class="cmvisual">
+      <img class="cmlaptop" src="assets/cada-menudo-laptop.png" alt="Cada Menudo en computadora">
+      <img class="cmphone" src="assets/cada-menudo-phone.png" alt="Cada Menudo en móvil">
+      <div class="cmstat">Meta vacaciones<br><b>68%</b></div>
+    </div>
+    <div class="worldcopy">
+      <div class="eyebrow">02 / CONTROLA</div>
+      <img class="cmlogo" src="assets/cada-menudo-logo.png" alt="Cada Menudo">
+      <h3>Tu dinero. <span>Claro.</span><br>Sin excusas.</h3>
+      <p>Entiende exactamente en qué se va tu dinero, organiza tus gastos, monitorea tus ahorros y toma control real de tus finanzas.</p>
+      <div class="features">
+        <span>✓ Gastos</span><span>✓ Ahorro</span><span>✓ Metas</span><span>✓ Categorías</span>
+      </div>
+      <a class="btn btn-blue" style="margin-top:28px" href="https://cadamenudo.com" target="_blank" rel="noopener">CONOCE CADA MENUDO →</a>
+    </div>
+  </div>
+</section>
+
+<section class="world emcworld">
+  <div class="worldgrid">
+    <div class="worldcopy">
+      <div class="eyebrow">03 / INVIERTE</div>
+      <img class="emclogo" src="assets/emc-logo.png" alt="El Menudo Cuenta">
+      <h3>Una moneda no es una moneda, <span>es un inicio.</span></h3>
+      <p>Haz que cada pequeño paso contribuya a construir tu futuro financiero. Una forma simple de comenzar a invertir, mantenerte invertido y seguir la evolución de tu portafolio.</p>
+      <div class="features">
+        <span>✓ Portafolios diversificados</span><span>✓ Inversión automatizada</span><span>✓ Seguimiento del portafolio</span><span>✓ Inversiones + Futuro</span>
+      </div>
+      <a class="btn" style="margin-top:28px;background:#ffc400;color:#351067" href="https://elmenudocuenta.com" target="_blank" rel="noopener">CONOCE EL MENUDO CUENTA →</a>
+    </div>
+    <div class="emcvisual">
+      <img class="emcphone1" src="assets/emc-phone-home.png" alt="El Menudo Cuenta inversiones">
+      <img class="emcphone2" src="assets/emc-phone-portfolio.png" alt="El Menudo Cuenta portafolio">
+      <div class="investcard"><small>INVERSIONES</small><strong>$2,392.42</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="businex" id="enbusinex">
+  <div class="wrap busgrid">
+    <div class="busart">
+      <small>Próximamente</small>
+      <div class="busbrand"><span>en</span><strong>BUSINEX</strong></div>
+      <small>BUSINESS · IDEAS · DECISIONES</small>
+    </div>
+    <div class="buscopy">
+      <div class="eyebrow">Nuevo Podcast</div>
+      <h2>Business más allá de los titulares.</h2>
+      <p>Conversaciones sobre negocios, empresas, liderazgo, estrategia y las decisiones detrás de quienes construyen, transforman y hacen crecer un negocio.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bio" id="bio">
+  <div class="wrap biogrid">
+    <div class="biophoto"><img src="assets/xavier-hero.png" alt="Xavier Serbia"></div>
+    <div class="biocopy">
+      <div class="eyebrow">Sobre Xavier</div>
+      <h2>Xavier Serbia</h2>
+      <p>Economista, comunicador, autor y emprendedor enfocado en hacer que la economía y las finanzas sean comprensibles, relevantes y útiles para la toma de decisiones.</p>
+      <p>Su trabajo conecta el análisis económico con las decisiones que enfrentan las personas todos los días: cómo organizar sus recursos, administrar riesgos, invertir y construir patrimonio.</p>
+      <a class="btn btn-outline" style="margin-top:28px" href="/bio">CONOCE SU HISTORIA →</a>
+    </div>
+  </div>
+</section>
+
+<section class="speaking" id="conferencias">
+  <div class="wrap speakgrid">
+    <div>
+      <div class="eyebrow" style="color:#8bbaff">Conferencias</div>
+      <h2>Xavier<br>en vivo.</h2>
+    </div>
+    <div>
+      <p>Conferencias, eventos corporativos y conversaciones sobre economía, finanzas, inversión, negocios y toma de decisiones.</p>
+      <a class="btn btn-white" href="#">CONFERENCIAS Y EVENTOS</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div><div class="footbrand">XAVIER SERBIA</div><div class="footsub">Economía · Finanzas · Inversión · Negocios</div></div>
+    <div class="footlinks">
+      <a href="#ecosistema">Ecosistema</a><a href="#enbusinex">enBUSINEX</a><a href="#conferencias">Conferencias</a><a href="/bio">Bio</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
