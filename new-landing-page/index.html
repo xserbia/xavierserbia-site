@@ -178,6 +178,43 @@ footer{background:#061224;color:#fff;padding:50px 0}
   .foot{display:block}
   .footlinks{margin-top:24px}
 }
+
+  /* FORMULA DINERO — FINAL BANNER */
+.fd-banner-world{
+  background:none;
+  overflow:hidden;
+  line-height:0;
+}
+
+.fd-banner-link{
+  display:block;
+  width:100%;
+}
+
+.fd-banner-image{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  transition:transform .35s ease;
+}
+
+.fd-banner-link:hover .fd-banner-image{
+  transform:scale(1.006);
+}
+
+@media(max-width:900px){
+  .fd-banner-world{
+    width:calc(100% - 30px);
+  }
+}
+
+@media(max-width:560px){
+  .fd-banner-world{
+    width:calc(100% - 22px);
+    border-radius:18px;
+  }
+}
 </style>
 </head>
 <body>
@@ -225,26 +262,20 @@ footer{background:#061224;color:#fff;padding:50px 0}
   </div>
 </section>
 
-<section class="world fdworld">
-  <div class="worldgrid">
-    <div class="worldcopy">
-      <div class="eyebrow">01 / DIRIGE</div>
-      <img class="fdlogo" src="assets/formula-dinero-logo.png" alt="Fórmula Dinero">
-      <h3>Sé el <span>CFO de tu economía.</span></h3>
-      <p>Organiza tu economía, entiende dónde estás y define qué decisiones debes tomar para avanzar con una metodología, herramientas y acompañamiento.</p>
-      <div class="features">
-        <span>✓ Radiografía financiera</span><span>✓ Hoja de ruta</span><span>✓ Herramientas</span><span>✓ Acompañamiento</span>
-      </div>
-      <a class="btn btn-blue" style="margin-top:28px" href="https://formuladinero.com" target="_blank" rel="noopener">CONOCE FÓRMULA DINERO →</a>
-    </div>
-    <div class="fdproduct">
-      <div class="browser">
-        <div class="browserbar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="url">formuladinero.com</span></div>
-        <img src="assets/formula-radiografia.png" alt="Radiografía financiera de Fórmula Dinero">
-      </div>
-      <div class="floattag"><small>TU ECONOMÍA</small><strong>De la radiografía<br>a la acción.</strong></div>
-    </div>
-  </div>
+<section class="world fdworld fd-banner-world">
+  <a
+    class="fd-banner-link"
+    href="https://formuladinero.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Conoce Fórmula Dinero"
+  >
+    <img
+      class="fd-banner-image"
+      src="https://xserbia.github.io/xavierserbia-site/new-landing-page/graphics/FD-banner.png"
+      alt="Fórmula Dinero — Sé el CFO de tu economía"
+    >
+  </a>
 </section>
 
 <section class="world cmworld">
