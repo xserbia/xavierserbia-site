@@ -215,6 +215,44 @@ footer{background:#061224;color:#fff;padding:50px 0}
     border-radius:18px;
   }
 }
+/* CADA MENUDO — FINAL BANNER */
+.cm-banner-world{
+  background:none;
+  border:none;
+  overflow:hidden;
+  line-height:0;
+}
+
+.cm-banner-link{
+  display:block;
+  width:100%;
+}
+
+.cm-banner-image{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  transition:transform .35s ease;
+}
+
+.cm-banner-link:hover .cm-banner-image{
+  transform:scale(1.006);
+}
+
+@media(max-width:900px){
+  .cm-banner-world{
+    width:calc(100% - 30px);
+  }
+}
+
+@media(max-width:560px){
+  .cm-banner-world{
+    width:calc(100% - 22px);
+    border-radius:18px;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -278,24 +316,20 @@ footer{background:#061224;color:#fff;padding:50px 0}
   </a>
 </section>
 
-<section class="world cmworld">
-  <div class="worldgrid">
-    <div class="cmvisual">
-      <img class="cmlaptop" src="assets/cada-menudo-laptop.png" alt="Cada Menudo en computadora">
-      <img class="cmphone" src="assets/cada-menudo-phone.png" alt="Cada Menudo en móvil">
-      <div class="cmstat">Meta vacaciones<br><b>68%</b></div>
-    </div>
-    <div class="worldcopy">
-      <div class="eyebrow">02 / CONTROLA</div>
-      <img class="cmlogo" src="assets/cada-menudo-logo.png" alt="Cada Menudo">
-      <h3>Tu dinero. <span>Claro.</span><br>Sin excusas.</h3>
-      <p>Entiende exactamente en qué se va tu dinero, organiza tus gastos, monitorea tus ahorros y toma control real de tus finanzas.</p>
-      <div class="features">
-        <span>✓ Gastos</span><span>✓ Ahorro</span><span>✓ Metas</span><span>✓ Categorías</span>
-      </div>
-      <a class="btn btn-blue" style="margin-top:28px" href="https://cadamenudo.com" target="_blank" rel="noopener">CONOCE CADA MENUDO →</a>
-    </div>
-  </div>
+<section class="world cm-banner-world">
+  <a
+    class="cm-banner-link"
+    href="https://cadamenudo.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Conoce Cada Menudo"
+  >
+    <img
+      class="cm-banner-image"
+      src="https://xserbia.github.io/xavierserbia-site/new-landing-page/graphics/CM-banner.png"
+      alt="Cada Menudo — Tu dinero. Claro. Sin excusas."
+    >
+  </a>
 </section>
 
 <section class="world emcworld">
