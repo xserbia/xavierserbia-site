@@ -63,3 +63,5 @@ html{-webkit-text-size-adjust:100%;scroll-padding-top:90px}body{min-width:0}main
  .money-page .featured .fd-assessment{width:100%;font-size:15px!important;padding:15px 17px;gap:12px}
  .fd-actions{width:100%;gap:10px}.fd-assessment-note{font-size:11px}.fd-learn{font-size:13px}
 }
+
+@media(max-width:750px){.money-page .strip,.money-page #programas>.sectionhead{display:none!important}.money-page #programas{padding-top:20px!important}}
