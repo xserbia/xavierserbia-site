@@ -65,3 +65,16 @@ html{-webkit-text-size-adjust:100%;scroll-padding-top:90px}body{min-width:0}main
 }
 
 @media(max-width:750px){.money-page .strip,.money-page #programas>.sectionhead{display:none!important}.money-page #programas{padding-top:20px!important}}
+
+/* Footer móvil centrado: redes, enlaces y firma. */
+@media(max-width:750px){
+ .xs-socials{text-align:center!important}
+ .xs-socials .social-links{justify-content:center!important;width:100%}
+ .xs-legal-links{justify-content:center!important;text-align:center!important;width:100%}
+ .xs-legal-links a{text-align:center}
+ footer.foot,footer.footer,.money-page footer{text-align:center!important}
+ .footTop,.footer-top{justify-content:center!important}
+ .footBottom,.copyright{justify-content:center!important;text-align:center!important;flex-direction:column!important;align-items:center!important;gap:4px!important}
+ .money-page footer{justify-content:center!important;gap:12px!important}
+ .money-page footer>span{width:100%;text-align:center}
+}
