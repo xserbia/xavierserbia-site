@@ -57,3 +57,11 @@ Edita los archivos dentro de `xs-2026/` y vuelve a publicarlos en GitHub. Wix ca
 - https://docs.github.com/en/rest/pages/pages#request-a-github-pages-build
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
 - https://support.wix.com/en/article/wix-editor-embedding-a-site-or-a-widget
+
+## Versión móvil actualizada
+
+Menú en acordeón, header fijo, fotografía antes de la biografía, bio breve y formación académica desplegable, redes con iconos y enlaces legales compactos. El reproductor se adapta al ancho del móvil. Revisado en anchos de 320, 375 y 430 px dentro de un iframe de prueba. La integración final debe comprobarse en Wix publicado.
+
+## Ajuste de Tu Dinero
+
+Se eliminó el bloque inicial «TU DINERO · TU SIGUIENTE PASO». Fórmula Dinero incluye el botón principal «Comienza tu evaluación» y el gráfico aparece antes del texto en móvil. El header permanece fijo también en escritorio.
