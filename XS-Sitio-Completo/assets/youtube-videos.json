@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "aZlvatyu_YA",
+      "title": "Un veterano de Wall Street explica los riesgos",
+      "published": "2026-11-14T02:22:24+00:00"
+    },
+    {
       "id": "PNX-9v5JNbg",
       "title": "Aumentó el nivel de deuda personal",
       "published": "2026-11-11T17:36:09+00:00"
@@ -69,13 +74,8 @@
       "id": "Kf6Yebcthpo",
       "title": "Banco por internet vs Banco tradicional",
       "published": "2026-08-05T13:54:11+00:00"
-    },
-    {
-      "id": "qnibeedNhCI",
-      "title": "¿Culpa de las tarjetas o del consumo?",
-      "published": "2026-07-29T11:51:48+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-12T12:38:00+00:00"
+  "fetchedAt": "2026-11-14T13:43:39.755405+00:00"
 }
