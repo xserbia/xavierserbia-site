@@ -1,0 +1,63 @@
+name: Actualizar videos de YouTube
+
+on:
+  schedule:
+    - cron: '13 * * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/xs-youtube.yml'
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: xs-youtube-sync
+  cancel-in-progress: false
+
+jobs:
+  actualizar-videos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Obtener el sitio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Consultar publicaciones recientes de YouTube
+        run: |
+          python3 XS-Sitio-Completo/scripts/update_youtube.py
+          python3 XS-Sitio-Completo/xs-2026/scripts/update_youtube.py
+
+      - name: Detectar novedades
+        id: cambios
+        shell: bash
+        run: |
+          if git diff --quiet -- XS-Sitio-Completo/assets/youtube-videos.json XS-Sitio-Completo/xs-2026/assets/youtube-videos.json; then
+            echo "hay_cambios=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "hay_cambios=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Guardar videos nuevos en GitHub
+        if: steps.cambios.outputs.hay_cambios == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add XS-Sitio-Completo/assets/youtube-videos.json XS-Sitio-Completo/xs-2026/assets/youtube-videos.json
+          git commit -m "Actualizar ultimos videos del canal de YouTube"
+          git push
+
+      - name: Publicar los cambios en GitHub Pages
+        if: steps.cambios.outputs.hay_cambios == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail-with-body --retry 3 --retry-delay 5 \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
