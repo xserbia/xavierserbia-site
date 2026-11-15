@@ -1,0 +1,31 @@
+/* XS 2026 typography: use Contacto's Plus Jakarta Sans across the website.
+   Preserve Fraunces as the intentional editorial italic accent. */
+html,body,button,input,textarea,select{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif}
+h1,h2,h3,h4,h5,h6,
+.money-page .money-intro h1,
+.money-page .featured h3,
+.money-page .card h3,
+.money-page .start h2,
+.money-page .closing h2,
+header.site-header .mobile-menu a{
+ font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif!important;
+ font-style:normal;
+}
+h1,.money-page .money-intro h1{font-weight:800;letter-spacing:-.045em}
+h2,.money-page .start h2,.money-page .closing h2{font-weight:700;letter-spacing:-.035em}
+h3,.money-page .featured h3,.money-page .card h3{font-weight:700;letter-spacing:-.025em}
+header.site-header .mobile-menu a{font-weight:700}
+.media-inner>p,.experience strong{font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif!important}
+em,i,
+h1 em,h2 em,h3 em,h4 em,
+.money-page .money-intro h1 em,
+.about-grid blockquote{
+ font-family:'Fraunces',Georgia,serif!important;
+ font-style:italic!important;
+ font-weight:500;
+}
+.about-grid blockquote{font-weight:400}
+@media(max-width:700px){
+ h1,.money-page .money-intro h1{letter-spacing:-.04em}
+ h2,h3{letter-spacing:-.025em}
+}
