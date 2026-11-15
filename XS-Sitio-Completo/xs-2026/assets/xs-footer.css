@@ -35,3 +35,58 @@
  .site-footer .legal-links{order:1}
 }
 @media(max-width:360px){.site-footer .social-list{gap:6px}.site-footer .social-list a{width:39px;height:39px}}
+
+
+/* Footer refinement 2026-11-15: clean three-column rhythm, with navigation
+   vertically aligned to the social buttons, not their heading. */
+.site-footer .footer-main{
+ display:grid!important;
+ grid-template-columns:220px minmax(0,1fr) 350px!important;
+ align-items:start!important;
+ justify-content:stretch!important;
+ gap:28px!important;
+ padding-top:48px!important;
+ padding-bottom:48px!important;
+}
+.site-footer .footer-brand{width:220px;max-width:100%;padding-top:29px}
+.site-footer .footer-brand p{display:none!important}
+.site-footer nav.footer-nav{
+ display:flex!important;
+ flex-direction:row!important;
+ flex-wrap:nowrap!important;
+ justify-content:center!important;
+ align-items:center!important;
+ align-self:start!important;
+ gap:22px!important;
+ margin:29px 0 0!important;
+ white-space:nowrap;
+}
+.site-footer nav.footer-nav a{font-size:15px!important;line-height:1.4!important;white-space:nowrap}
+.site-footer .footer-socials{width:350px!important;max-width:100%;min-width:0;justify-self:end}
+.site-footer .footer-socials .eyebrow{margin:0 0 16px!important;line-height:1!important}
+.site-footer .social-list{display:flex!important;justify-content:flex-end!important;flex-wrap:nowrap!important;gap:8px!important;margin:0!important}
+@media(max-width:1120px){
+ .site-footer .footer-main{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-areas:"brand socials" "nav nav";
+  gap:26px 20px!important;
+ }
+ .site-footer .footer-brand{grid-area:brand;padding-top:29px}
+ .site-footer .footer-socials{grid-area:socials}
+ .site-footer nav.footer-nav{grid-area:nav;margin:0!important;justify-content:center!important}
+}
+@media(max-width:700px){
+ .site-footer .footer-main{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:28px!important;
+  padding-top:40px!important;
+  padding-bottom:40px!important;
+ }
+ .site-footer .footer-brand{width:auto;padding:0}
+ .site-footer nav.footer-nav{flex-wrap:wrap!important;justify-content:center!important;gap:14px 22px!important;margin:0!important;white-space:normal}
+ .site-footer .footer-socials{width:100%!important;justify-self:auto}
+ .site-footer .footer-socials .eyebrow{text-align:center}
+ .site-footer .social-list{justify-content:center!important;flex-wrap:wrap!important;gap:8px!important}
+}
