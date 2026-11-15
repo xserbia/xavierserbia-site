@@ -1,0 +1,56 @@
+/* Tu Dinero: editorial layout aligned with the new Xavier Serbia home. */
+.money-page{background:#f7f8fa;color:#1a263a}
+.money-page .wrap{max-width:1216px}
+.money-page .money-intro{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,.65fr);align-items:end;gap:30px;padding:62px 0 34px;border-bottom:1px solid #e1e4e9}
+.money-page .money-intro .money-kicker{display:inline-flex;align-items:center;gap:10px;margin:0 0 18px;color:#25499c;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.money-page .money-intro .money-kicker:before{content:"";display:block;width:9px;height:9px;background:#25499c;border-radius:50%}
+.money-page .money-intro h1{max-width:720px;margin:0;color:#1a263a;font-family:'Fraunces',Georgia,serif;font-size:clamp(40px,5.1vw,66px);font-weight:600;letter-spacing:-1.8px;line-height:1.08}
+.money-page .money-intro h1 em{font:inherit;font-style:italic;color:#25499c}
+.money-page .money-intro .money-subtitle{max-width:400px;margin:0 0 4px;color:#637080;font-size:17px;line-height:1.7}
+.money-page #programas{padding-top:32px;padding-bottom:32px}
+.money-page .featured{grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);background:#fff;border:1px solid #e1e4e9;border-top:0;border-radius:22px;box-shadow:0 16px 50px #152a4b0b;overflow:hidden}
+.money-page .featured .featurecopy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:clamp(30px,4.2vw,62px)}
+.money-page .featured .tag{color:#25499c;font-size:12px;letter-spacing:.1em}
+.money-page .featured h3{max-width:570px;margin:22px 0 18px;font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,3.6vw,47px);font-weight:600;line-height:1.13;letter-spacing:-.8px;color:#1a263a}
+.money-page .featured p{max-width:510px;color:#637080;font-size:16px;line-height:1.75}
+.money-page .pills{gap:9px;flex-wrap:wrap;margin:24px 0}
+.money-page .pills span{background:#edf2fc;color:#25499c;border:1px solid #dce5f5;font-size:12px;padding:9px 13px}
+.money-page .featured .fd-assessment{background:#25499c;border-color:#25499c;border-radius:100px;box-shadow:0 12px 24px #25499c25;font-size:16px!important;min-height:56px}
+.money-page .featured .fd-assessment:hover{background:#1a397e;border-color:#1a397e}
+.money-page .fd-learn{color:#25499c}
+.money-page .featured .fd-platform-visual{background:#062753}
+.money-page .grid{gap:24px;margin-top:26px}
+.money-page .card{display:flex;flex-direction:column;overflow:hidden;border:1px solid #e1e4e9;border-top:0!important;border-radius:20px;box-shadow:0 12px 30px #152a4b08;transition:transform .2s,box-shadow .2s}
+.money-page .card:hover{transform:translateY(-3px);box-shadow:0 18px 36px #152a4b12}
+.money-page .card .visual{height:300px}
+.money-page .card .cardbody{display:flex;flex-direction:column;flex:1;padding:32px}
+.money-page .card .tag{font-size:12px;letter-spacing:.09em}
+.money-page .card h3{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(25px,2.4vw,32px);letter-spacing:-.5px;line-height:1.2}
+.money-page .card p{flex:1;min-height:0;margin:8px 0 0;font-size:16px;line-height:1.7}
+.money-page .card .cardbody>a{margin-top:24px;border-radius:100px;min-height:50px;font-size:15px!important;font-weight:700}
+.money-page .card:first-child .cardbody>a{background:#5a49e8}
+.money-page .card:nth-child(2) .cardbody>a{background:#ffc400;color:#46009a}
+.money-page .start{background:#edf2fc;border:1px solid #dce5f5;border-radius:22px;padding:clamp(30px,4vw,52px);gap:44px}
+.money-page .start h2,.money-page .closing h2{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.5px}
+.money-page .start .btn{border-radius:100px;background:#25499c}
+.money-page .closing{padding-top:22px;padding-bottom:65px}
+.money-page .closing .signature{color:#25499c}
+.money-page .xs-socials{display:none}
+@media(max-width:750px){
+ .money-page .money-intro{display:block;padding:33px 5px 24px}
+ .money-page .money-intro h1{font-size:clamp(35px,9vw,46px);letter-spacing:-1.2px}
+ .money-page .money-intro .money-subtitle{margin-top:17px;font-size:15px}
+ .money-page #programas{padding-top:22px!important}
+ .money-page .featured{border-radius:17px}
+ .money-page .featured .featurecopy{padding:25px!important}
+ .money-page .featured h3{font-size:30px!important;line-height:1.18}
+ .money-page .featured p{font-size:15px}
+ .money-page .featured .fd-assessment{font-size:15px!important;width:100%}
+ .money-page .grid{gap:18px;margin-top:18px}
+ .money-page .card .visual{height:275px}
+ .money-page .card .cardbody{padding:25px}
+ .money-page .card p{font-size:15px}
+ .money-page .card .cardbody>a{font-size:14px!important}
+ .money-page .start{padding:27px}
+ .money-page .closing{padding-bottom:46px}
+}
