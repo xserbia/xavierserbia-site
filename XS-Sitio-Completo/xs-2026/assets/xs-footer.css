@@ -1,0 +1,37 @@
+/* Shared footer from the new Xavier Serbia home. Applied to all internal pages. */
+.site-footer{display:block!important;position:relative;width:100%;max-width:none!important;margin:0!important;padding:0!important;border:0!important;border-top:1px solid #e1e4e9!important;border-radius:0!important;background:#f7f8fa!important;color:#1a263a!important;font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;font-size:15px!important;text-align:left;box-shadow:none!important}
+.site-footer *{box-sizing:border-box}
+.site-footer a{color:inherit;text-decoration:none}
+.site-footer .container{width:100%;max-width:1216px;margin:0 auto;padding:0 20px}
+.site-footer .footer-main{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:nowrap;gap:36px;padding-top:56px;padding-bottom:56px}
+.site-footer .footer-brand{max-width:320px;flex-shrink:0}
+.site-footer .footer-brand img{display:block;width:auto!important;height:28px!important;max-width:205px!important;object-fit:contain}
+.site-footer .footer-brand p{margin:16px 0 0;color:#637080;font-size:15px;line-height:1.7}
+.site-footer nav.footer-nav{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:16px 30px!important;width:auto!important;max-width:none!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#1a263a;font-size:15px;font-weight:600}
+.site-footer .footer-nav a:hover,.site-footer .legal-links a:hover{color:#25499c}
+.site-footer .footer-socials{min-width:0}
+.site-footer .footer-socials .eyebrow{margin:0;color:#637080;font-size:13px!important;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.site-footer .social-list{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;list-style:none;margin:16px 0 0;padding:0}
+.site-footer .social-list li{list-style:none;margin:0;padding:0}
+.site-footer .social-list a{display:grid;place-items:center;width:43px;height:43px;border-radius:50%;border:1px solid #dfe2e7;background:#fff;color:#1a263a;transition:background .2s,color .2s,border .2s}
+.site-footer .social-list a:hover{background:#25499c;border-color:#25499c;color:white}
+.site-footer .social-list svg{display:block;width:18px;height:18px}
+.site-footer .footer-bottom{border-top:1px solid #e1e4e9}
+.site-footer .footer-bottom-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:24px;padding-bottom:24px;color:#637080;font-size:14px}
+.site-footer .footer-bottom-inner p{margin:0;color:#637080;font-size:14px;line-height:1.6}
+.site-footer .legal-links{display:flex;flex-wrap:wrap;gap:10px 24px}
+.site-footer .legal-links a{font-size:14px}
+@media(max-width:1100px){.site-footer .footer-main{flex-wrap:wrap}.site-footer .footer-socials{width:100%}}
+@media(max-width:700px){
+ .site-footer{padding:0!important;text-align:center!important}
+ .site-footer .footer-main{flex-direction:column;align-items:center;gap:28px;padding-top:45px;padding-bottom:45px}
+ .site-footer .footer-brand img{margin:0 auto}
+ .site-footer nav.footer-nav{justify-content:center!important;gap:12px 22px!important}
+ .site-footer .footer-socials{width:100%}
+ .site-footer .social-list{justify-content:center;gap:8px}
+ .site-footer .footer-bottom-inner{flex-direction:column;text-align:center;gap:12px}
+ .site-footer .legal-links{justify-content:center;gap:9px 18px}
+ .site-footer .footer-bottom-inner p{order:2}
+ .site-footer .legal-links{order:1}
+}
+@media(max-width:360px){.site-footer .social-list{gap:6px}.site-footer .social-list a{width:39px;height:39px}}
