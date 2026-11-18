@@ -126,4 +126,22 @@ body .video-card{border-radius:22px!important;overflow:hidden}
 <dialog id="modal"><button class="close" aria-label="Cerrar">×</button><div class="eyebrow" id="modalTag"></div><h2 id="modalTitle"></h2><p id="modalText"></p><div class="modalActions" id="modalActions"></div><small class="prototype">Vista de demostración del recorrido propuesto.</small></dialog>
 <script>
 const info={assessment:['TU PUNTO DE PARTIDA','Aquí comienzan las 14 preguntas.','En la versión final, este botón abrirá el cuestionario de Fórmula Dinero. Después de responderlo, la persona conocerá su punto de partida y podrá explorar los siguientes pasos.'],fd:['FÓRMULA DINERO','Un plan. Dos formas de avanzar.','Digital: herramientas y planificación para avanzar a tu ritmo. Con Coaching: la plataforma más acompañamiento humano. Las condiciones y el precio se definirán en la página del programa.'],app:['ADMINISTRA TU DINERO','Cada Menudo, en tu día a día.','Este acceso llevará a la presentación de la app para organizar ingresos, gastos y presupuesto.'],invest:['EL MENUDO CUENTA','Explora las posibilidades de invertir.','Este acceso llevará a la página de El Menudo Cuenta, con la información de su servicio, disponibilidad, condiciones y riesgos.'],learn:['EDUCACIÓN FINANCIERA','Ideas para llevar a tu vida.','Aquí se abrirá la biblioteca de videos, artículos y recursos de Xavier, organizada por temas como deudas, ahorro, presupuesto y retiro.'],events:['ENCUENTROS Y TALLERES','Aprende junto a otras personas.','Esta sección mostrará los eventos disponibles, sus fechas, formatos y opciones de inscripción cuando se confirme la programación.'],press:['PRENSA','La trayectoria de Xavier.','Acceso previsto a la biografía, entrevistas, apariciones en medios y materiales de prensa.'],contact:['CONTACTO','Conversemos.','Acceso previsto al formulario de consultas, colaboraciones y contratación de conferencias de Xavier Serbia.']};const modal=document.querySelector('dialog');document.querySelectorAll('[data-modal]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();const v=info[el.dataset.modal];document.querySelector('#modalTag').textContent=v[0];document.querySelector('#modalTitle').textContent=v[1];document.querySelector('#modalText').textContent=v[2];document.querySelector('#modalActions').innerHTML='<button class="btn" onclick="modal.close()">Seguir explorando <span>→</span></button>';modal.showModal()}));document.querySelector('.close').onclick=()=>modal.close();modal.onclick=e=>{if(e.target===modal)modal.close()};
-</script><script src="assets/mobile.js" defer></script></body></html>
+</script><script src="assets/mobile.js" defer></script><script>
+/* XS navigation: force the document to its start for explicit #top links. */
+(function(){
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  function goTop(){
+    if(location.hash !== '#top') return;
+    document.documentElement.style.scrollBehavior='auto';
+    document.body.style.scrollBehavior='auto';
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    requestAnimationFrame(function(){window.scrollTo(0,0);});
+  }
+  window.addEventListener('pageshow',goTop);
+  window.addEventListener('load',goTop);
+  window.addEventListener('hashchange',goTop);
+  document.addEventListener('DOMContentLoaded',goTop);
+})();
+</script></body></html>
