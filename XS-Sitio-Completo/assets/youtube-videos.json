@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "CT1Qb4Uyn94",
+      "title": "Mi dinero, ¿está seguro en el banco?",
+      "published": "2026-11-18T13:22:59+00:00"
+    },
+    {
       "id": "aZlvatyu_YA",
       "title": "Un veterano de Wall Street explica los riesgos",
       "published": "2026-11-14T02:22:24+00:00"
@@ -69,13 +74,8 @@
       "id": "1RFBhPBSBl0",
       "title": "“Las matemáticas no sigue a este influencer”",
       "published": "2026-08-13T15:25:57+00:00"
-    },
-    {
-      "id": "Kf6Yebcthpo",
-      "title": "Banco por internet vs Banco tradicional",
-      "published": "2026-08-05T13:54:11+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-14T13:43:39.755405+00:00"
+  "fetchedAt": "2026-11-18T13:53:30.601860+00:00"
 }
