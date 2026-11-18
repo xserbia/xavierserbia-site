@@ -1,0 +1,35 @@
+/* XS iPad/tablet responsive layout — keep desktop and phone designs intact. */
+html,body{max-width:100%;overflow-x:clip}
+.hero-grid,.hero-content,.portrait-wrap,.hero-actions,.xs-event-promo-copy{min-width:0}
+@media (min-width:701px) and (max-width:1100px){
+  .container{width:100%;max-width:100%;padding-inline:clamp(18px,3vw,30px)}
+  .hero-grid{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(12px,2vw,24px);padding-top:clamp(28px,5vw,54px);padding-bottom:26px}
+  .hero-content{padding-bottom:clamp(30px,5vw,60px)}
+  .hero h1{font-size:clamp(35px,4.8vw,53px);line-height:1.12;overflow-wrap:normal}
+  .hero h1 em{white-space:normal}
+  .hero-pill{max-width:100%;font-size:clamp(9px,1.1vw,11px);letter-spacing:.07em;white-space:normal}
+  .hero-content>p.description{font-size:clamp(14px,1.7vw,17px);line-height:1.55}
+  .hero-actions{gap:10px;margin-top:24px}
+  .hero-actions .btn{font-size:clamp(12px,1.35vw,15px);padding:10px 16px;min-height:46px;white-space:normal;text-align:center}
+  .portrait-wrap{max-width:100%}
+  .portrait-arch{inset:clamp(28px,5vw,55px) 8% 0}
+  .experience{left:0;bottom:18px;padding:12px 15px;max-width:58%}
+  .experience strong{font-size:clamp(25px,3vw,34px)}
+  .experience p{font-size:clamp(10px,1.1vw,12px)}
+  .xs-event-promo-copy{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px 18px}
+  .xs-event-promo-logo{max-width:100%}
+  .xs-event-promo-button{grid-column:1/-1;justify-self:center}
+  .path-grid,.videos-layout,.about-grid,.whatsapp-grid{min-width:0}
+  .path-card{padding:clamp(22px,3vw,32px)}
+}
+@media (min-width:701px) and (max-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.82fr)}
+  .hero h1{font-size:clamp(34px,4.9vw,44px)}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .hero-actions .btn{max-width:100%}
+  .experience{max-width:65%}
+}
+@media (max-width:700px){
+  .hero-grid,.hero-content,.portrait-wrap{max-width:100%}
+  .hero h1{overflow-wrap:break-word}
+}
