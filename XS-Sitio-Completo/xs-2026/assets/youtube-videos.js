@@ -24,7 +24,7 @@
   if(player)a.addEventListener('click',event=>{event.preventDefault();play(video.id,video.title,true);history.replaceState(null,'','videos.html?v='+video.id);player.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'center'});});
   return a;
  }
- fetch('assets/youtube-videos.json', {cache:'no-store'}).then(r=>{if(!r.ok)throw Error('unavailable');return r.json()}).then(data=>{
+ fetch('assets/youtube-videos.json?t='+Date.now(), {cache:'no-store'}).then(r=>{if(!r.ok)throw Error('unavailable');return r.json()}).then(data=>{
   if(!Array.isArray(data.videos)||!data.videos.length)throw Error('empty');
   document.querySelectorAll('[data-youtube-videos]').forEach(grid=>grid.replaceChildren(...data.videos.slice(0,Number(grid.dataset.limit)||15).map(card)));
   if(player){const active=data.videos.find(v=>v.id===current);if(active)document.getElementById('youtube-now-title').textContent=active.title;else if(!current)play(data.videos[0].id,data.videos[0].title);}
