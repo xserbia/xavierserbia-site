@@ -102,8 +102,13 @@ body .video-card{border-radius:22px!important;overflow:hidden}
 </style>
 
 <style id="xs-money-intro-size-20261118">
-/* Preserve original two-column composition; reduce type to fit its column. */
-@media(min-width:761px){body.money-page .money-intro h1{font-size:clamp(32px,3.15vw,54px)!important;line-height:1.12!important;letter-spacing:-.035em!important}body.money-page .money-intro .money-subtitle{font-size:clamp(15px,1.1vw,18px)!important;line-height:1.65!important}}
+/* Balanced two-column intro; keep original width and all surrounding blocks. */
+@media(min-width:761px){
+ body.money-page .money-intro{align-items:center!important}
+ body.money-page .money-intro>div{align-self:center!important}
+ body.money-page .money-intro h1{font-size:clamp(36px,3.4vw,59px)!important;line-height:1.12!important;letter-spacing:-.04em!important}
+ body.money-page .money-intro .money-subtitle{font-size:clamp(15px,1.1vw,18px)!important;line-height:1.65!important;align-self:center!important}
+}
 </style>
 </head><body class="money-page">
 <script src="assets/xs-header.js?v=20261118-shared"></script>
