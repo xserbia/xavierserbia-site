@@ -1,0 +1,11 @@
+/* Shared mobile type scale — text only, no desktop/tablet changes. */
+@media(max-width:700px){
+ body main h1,body .wrap main h1{font-size:clamp(31px,8.3vw,38px)!important;line-height:1.14!important}
+ body main h2,body .wrap main h2{font-size:clamp(24px,6.5vw,30px)!important;line-height:1.2!important}
+ body main h3,body .wrap main h3{font-size:clamp(19px,5.3vw,23px)!important;line-height:1.25!important}
+ body main p,body main li,body main blockquote,body .wrap main p,body .wrap main li{font-size:15px!important;line-height:1.6!important}
+ body main .eyebrow,body main .hero-pill,body main small,body main .caption{font-size:11px!important}
+ body main .btn,body main button,body main a.btn{font-size:13px!important}
+ body .site-footer nav.footer-nav a{font-size:12px!important}
+ body .site-footer .legal-links a,body .site-footer .footer-bottom-inner p{font-size:10.5px!important}
+}
