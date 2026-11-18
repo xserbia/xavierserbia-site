@@ -90,3 +90,24 @@
  .site-footer .footer-socials .eyebrow{text-align:center}
  .site-footer .social-list{justify-content:center!important;flex-wrap:wrap!important;gap:8px!important}
 }
+
+/* Unified footer geometry for every XS page — desktop, tablet, mobile. */
+@media(min-width:1121px){
+ body .site-footer{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;border-radius:0!important}
+ body .site-footer .footer-main{width:100%!important;max-width:1440px!important;margin-inline:auto!important;display:grid!important;grid-template-columns:260px minmax(0,1fr) 465px!important;gap:24px!important;align-items:start!important;padding:62px 20px 72px!important}
+ body .site-footer .footer-brand{width:260px!important;padding-top:29px!important}
+ body .site-footer nav.footer-nav{justify-content:center!important;gap:22px!important;margin-top:29px!important}
+ body .site-footer .footer-socials{width:465px!important;justify-self:end!important}
+ body .site-footer .social-list{justify-content:flex-start!important}
+ body .site-footer .footer-bottom-inner{width:100%!important;max-width:1440px!important;margin-inline:auto!important;padding:22px 20px 48px!important}
+}
+@media(min-width:701px) and (max-width:1120px){
+ body .site-footer{width:100%!important;max-width:none!important;margin:0!important;border-radius:0!important}
+ body .site-footer .footer-main{max-width:100%!important;padding:44px 24px!important}
+ body .site-footer .footer-bottom-inner{max-width:100%!important;padding:20px 24px 34px!important}
+}
+@media(max-width:700px){
+ body .site-footer{width:100%!important;max-width:none!important;margin:0!important;border-radius:0!important}
+ body .site-footer .footer-main{padding:36px 20px 28px!important}
+ body .site-footer .footer-bottom-inner{padding:18px 20px 30px!important}
+}
