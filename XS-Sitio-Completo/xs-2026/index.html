@@ -314,7 +314,7 @@ fetch('assets/youtube-videos.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if
  const tab=document.querySelector('.xs-story-tab'), modal=document.getElementById('xsStoryModal');
  if(!tab||!modal)return;
  const preview=tab.querySelector('.xs-story-preview iframe'),player=modal.querySelector('iframe'),close=modal.querySelector('.xs-story-close');
- const base='https://player.vimeo.com/video/1248307941';
+ const base='https://player.vimeo.com/video/1248307941?';
  let hoverTimer;
  function previewStop(){clearTimeout(hoverTimer);preview.removeAttribute('src')}
  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
