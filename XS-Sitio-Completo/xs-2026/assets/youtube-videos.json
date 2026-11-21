@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "W8e2CrKpWsE",
+      "title": "November 21, 2026",
+      "published": "2026-11-21T17:00:22+00:00"
+    },
+    {
       "id": "mYnFoJgF41w",
       "title": "¿Qué necesita para volver a prosperar?",
       "published": "2026-11-20T20:32:18+00:00"
@@ -69,13 +74,8 @@
       "id": "qosVbT3Fot4",
       "title": "Compra ahora, paga después...¿buena idea?",
       "published": "2026-08-26T12:17:18+00:00"
-    },
-    {
-      "id": "eH-5m-O1ALQ",
-      "title": "¿El que no arriesga no gana? Pregúntale al que perdió.",
-      "published": "2026-08-19T17:20:42+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-21T16:58:01.657970+00:00"
+  "fetchedAt": "2026-11-21T22:12:18.416357+00:00"
 }
