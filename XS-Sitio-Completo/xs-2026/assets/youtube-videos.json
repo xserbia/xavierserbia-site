@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "mYnFoJgF41w",
+      "title": "¿Qué necesita para volver a prosperar?",
+      "published": "2026-11-20T20:32:18+00:00"
+    },
+    {
       "id": "CT1Qb4Uyn94",
       "title": "Mi dinero, ¿está seguro en el banco?",
       "published": "2026-11-18T13:22:59+00:00"
@@ -69,13 +74,8 @@
       "id": "eH-5m-O1ALQ",
       "title": "¿El que no arriesga no gana? Pregúntale al que perdió.",
       "published": "2026-08-19T17:20:42+00:00"
-    },
-    {
-      "id": "1RFBhPBSBl0",
-      "title": "“Las matemáticas no sigue a este influencer”",
-      "published": "2026-08-13T15:25:57+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-18T13:53:30.774160+00:00"
+  "fetchedAt": "2026-11-21T16:58:01.657970+00:00"
 }
