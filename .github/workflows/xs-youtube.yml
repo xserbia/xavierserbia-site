@@ -1,0 +1,23 @@
+name: Actualizar videos de YouTube
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Obtener publicaciones recientes
+        run: python3 XS-Sitio-Completo/xs-2026/scripts/update_youtube.py
+      - name: Guardar nuevos videos
+        run: |
+          if ! git diff --quiet -- XS-Sitio-Completo/xs-2026/assets/youtube-videos.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add XS-Sitio-Completo/xs-2026/assets/youtube-videos.json
+            git commit -m "Actualizar videos recientes de YouTube"
+            git push
+          fi
