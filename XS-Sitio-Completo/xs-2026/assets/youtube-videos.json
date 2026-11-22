@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "EIdAeKjQ-s0",
+      "title": "¿Sobrevivirán las empresas venezolanas?",
+      "published": "2026-11-22T13:30:59+00:00"
+    },
+    {
       "id": "W8e2CrKpWsE",
       "title": "November 21, 2026",
       "published": "2026-11-21T17:00:22+00:00"
@@ -69,13 +74,8 @@
       "id": "ydT9IsDpw2k",
       "title": "Tengo buen puntaje, ¿razón para comprar?",
       "published": "2026-09-23T13:13:30+00:00"
-    },
-    {
-      "id": "qosVbT3Fot4",
-      "title": "Compra ahora, paga después...¿buena idea?",
-      "published": "2026-08-26T12:17:18+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-21T22:12:18.416357+00:00"
+  "fetchedAt": "2026-11-22T19:45:30.686660+00:00"
 }
