@@ -1,6 +1,11 @@
 {
   "videos": [
     {
+      "id": "3uoc5Bow0_0",
+      "title": "Rosario, ¿por qué no separar el ahorro, el seguro y la inversión?",
+      "published": "2026-11-24T16:02:53+00:00"
+    },
+    {
       "id": "EIdAeKjQ-s0",
       "title": "¿Sobrevivirán las empresas venezolanas?",
       "published": "2026-11-22T13:30:59+00:00"
@@ -69,13 +74,8 @@
       "id": "KtLW76mQJLU",
       "title": "Inflación en EE.UU.: ¿Irán es realmente el culpable?",
       "published": "2026-09-24T13:07:21+00:00"
-    },
-    {
-      "id": "ydT9IsDpw2k",
-      "title": "Tengo buen puntaje, ¿razón para comprar?",
-      "published": "2026-09-23T13:13:30+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-22T19:45:30.686660+00:00"
+  "fetchedAt": "2026-11-24T17:52:26.265615+00:00"
 }
