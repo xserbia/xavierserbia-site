@@ -1,6 +1,16 @@
 {
   "videos": [
     {
+      "id": "2KHJKNu8syE",
+      "title": "Los trucos que te hacen gastar más.",
+      "published": "2026-11-27T13:16:33+00:00"
+    },
+    {
+      "id": "STBocbBVeiI",
+      "title": "¿Por qué los jóvenes miran a la izquierda?",
+      "published": "2026-11-27T11:00:58+00:00"
+    },
+    {
       "id": "3uoc5Bow0_0",
       "title": "Rosario, ¿por qué no separar el ahorro, el seguro y la inversión?",
       "published": "2026-11-24T16:02:53+00:00"
@@ -64,18 +74,8 @@
       "id": "0H0oYLdDc-s",
       "title": "¿Sabes qué es \"snake oil salesman\"?",
       "published": "2026-10-06T12:35:08+00:00"
-    },
-    {
-      "id": "0EQN04vRLzE",
-      "title": "¿Bancarrota: solución o problema?",
-      "published": "2026-09-30T12:53:52+00:00"
-    },
-    {
-      "id": "KtLW76mQJLU",
-      "title": "Inflación en EE.UU.: ¿Irán es realmente el culpable?",
-      "published": "2026-09-24T13:07:21+00:00"
     }
   ],
   "source": "youtube",
-  "fetchedAt": "2026-11-24T17:52:26.265615+00:00"
+  "fetchedAt": "2026-11-27T19:30:29.945662+00:00"
 }
